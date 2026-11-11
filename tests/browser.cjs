@@ -110,6 +110,13 @@ const path = require("node:path");
           engine.perceive(p);
           render();
         });
+        // Reused actor elements must target the current inhabitant after the world changes.
+        await page.locator('[data-tool="tree"]').click();
+        await page.locator(".actor").first().click();
+        assert.equal(await page.evaluate(() => s.tiles[10]), "tree");
+        await page.locator('[data-tool="grass"]').click();
+        await page.locator(".actor").first().click();
+        assert.equal(await page.evaluate(() => s.tiles[10]), "grass");
         await page.locator('[data-tool="grass"]').click();
         await page.locator(".tile").nth(2).click();
         assert.equal(await page.evaluate(() => s.tiles[2]), "grass");

@@ -246,11 +246,10 @@ function render() {
       el = document.createElement("div");
       el.className = "actor";
       el.dataset.id = p.id;
-      el.onclick = () =>
-        active === "inspect" ? selectPerson(p.id) : tap(p.pos);
       el.innerHTML = "<b></b>";
       layer.appendChild(el);
     }
+    el.onclick = () => (active === "inspect" ? selectPerson(p.id) : tap(p.pos));
     el.style.transitionDuration = 520 / rate + "ms";
     el.style.setProperty("--color", colors[(p.id - 1) % colors.length]);
     el.style.setProperty("--x", (p.pos % W) * 100 + "%");

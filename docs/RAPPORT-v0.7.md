@@ -7,7 +7,7 @@ Base : `9308cea531399283f36fd6a4445fb4bbc2767f8c` (v0.6 fusionnée). Branche : `
 - Décision pure dans `cognition.js`, indépendante de la carte réelle ; moteur et interface conservent leurs responsabilités.
 - Perception locale de tous les terrains, mémoire datée et révisable, intentions persistantes, anticipation limitée de fatigue et apprentissage par résultats.
 - Migration v02/v03/v0.6 sans création de connaissances cachées ; conservation des identités et relations. Validation du nouveau schéma et mêmes protections de récupération.
-- Inspecteur lisible par lignes et journal individuel limité, alimentés par les décisions réelles. Outil Prairie pour reproduire la disparition manuelle d’un champ.
+- Inspecteur lisible par lignes et journal individuel limité, alimentés par les décisions réelles. Clics des acteurs reliés à l’habitant courant même après réinitialisation. Outil Prairie pour reproduire la disparition manuelle d’un champ.
 - Règles détaillées : [DECISIONS-v0.7.md](DECISIONS-v0.7.md). Contrôle sur appareil : [VERIFICATION-IPAD-v0.7.md](VERIFICATION-IPAD-v0.7.md).
 
 ## Vérifications
