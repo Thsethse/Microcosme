@@ -3,7 +3,7 @@
   <meta charset="utf-8" /><meta
     name="viewport"
     content="width=device-width,initial-scale=1"
-  /><meta name="theme-color" content="#14291f" /><title>Microcosme v0.8</title
+  /><meta name="theme-color" content="#14291f" /><title>Microcosme v0.9</title
   ><style>
     body {
       background: #14291f;
@@ -138,9 +138,9 @@
   <main>
 <p id="saveStatus" role="status"></p>
 <nav aria-label="Scènes"><button onclick="navigate('menu')">Menu</button><button onclick="navigate('village')">Village</button><button onclick="navigate('people')">Habitants</button><button onclick="navigate('chronicles')">Chroniques</button><button onclick="navigate('laws')">Lois du monde</button></nav>
-<section data-scene="menu" class="panel hero"><p>UN PETIT MONDE, MILLE HISTOIRES</p><h1>Microcosme</h1><p>Un village vivant au creux de la forêt. Observe les chemins et les souvenirs de ses habitants.</p><button onclick="restart()">Nouvelle partie</button><button id="continue" onclick="navigate('village')">Continuer</button><button onclick="settings()">Paramètres</button><p>Le temps s’arrête lorsque tu quittes le village.</p></section>
+<section data-scene="menu" class="panel hero"><p>UN PETIT MONDE, MILLE HISTOIRES</p><h1>Microcosme</h1><p>Un village vivant au creux de la forêt. Observe les chemins et les souvenirs de ses habitants.</p><button onclick="restart()">Nouvelle partie</button><button id="continue" onclick="navigate('village')">Continuer</button><button onclick="settings()">Paramètres</button><button onclick="MicrocosmeRenderer.openDemo()">Démonstration graphique</button><p>Le temps s’arrête lorsque tu quittes le village.</p></section>
 <section data-scene="village" hidden tabindex="-1">
-    <h1>🌱 Microcosme <small>v0.8</small></h1>
+    <h1>🌱 Microcosme <small>v0.9</small></h1>
     <p>
       Observe un monde autonome. Modifie ses lois ou touche une case pour
       intervenir.
@@ -153,7 +153,7 @@
       ><button onclick="speed()">Vitesse ×<span id="speed">1</span></button>
     </div>
     <div class="panel">
-      <h3>🌍 Le monde</h3>
+      <div class="world-heading"><h3>Le village · Clairière des souvenirs</h3><span id="lightPhase"></span></div><button onclick="MicrocosmeRenderer.openDemo()">Démonstration graphique</button>
       <div>
         Outil :
         <button class="selected" data-tool="inspect" onclick="tool('inspect')">
@@ -166,7 +166,7 @@
         </button>
       </div>
       <div class="camera-tools"><button onclick="zoomBy(1.25)" aria-label="Zoom avant">＋</button><button onclick="zoomBy(.8)" aria-label="Zoom arrière">−</button><button onclick="resetCamera()">Recentrer</button><output id="zoomValue">100 %</output></div><p>Glisse pour déplacer la carte, pince pour zoomer, touche pour utiliser l’outil.</p><div id="viewport"><div class="world">
-        <div class="grid" id="map"></div>
+        <canvas id="terrain" width="384" height="288" aria-hidden="true"></canvas><canvas id="atmosphere" width="384" height="288" aria-hidden="true"></canvas><div class="grid" id="map"></div>
         <div class="actors" id="actors"></div>
       </div>
       </div><button onclick="personWindow()">Fiche de l’habitant sélectionné</button><div id="roster"></div>
@@ -214,5 +214,5 @@
   <script src="cognition.js"></script>
   <script src="engine.js"></script>
   <script src="storage.js"></script>
-  <script src="ui.js"></script><script src="interface.js"></script>
+  <script src="graphics.js"></script><script src="atmosphere.js"></script><script src="renderer.js"></script><script src="ui.js"></script><script src="interface.js"></script>
 </html>

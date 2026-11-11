@@ -37,3 +37,31 @@ section { animation:appear .18s ease-out; }
 button:disabled { opacity:.45; cursor:default; }
 .tile:active { filter:brightness(1.2); }
 input[type=range] { min-height:44px; }
+
+/* v0.9: a fixed 384 × 288 pixel world, independent of the touch targets. */
+body { background:radial-gradient(ellipse at top,#354837,#141f1c 80%); color:#eee7cf; }
+nav button { background:#2c4036; color:#d7ddbf; border:1px solid #536047; }
+nav button[aria-current=page] { color:#28392c; }
+.panel { border-color:#536349; background:#23392f; }
+.world-heading { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px; padding:8px 0; }
+#lightPhase { font-size:13px; color:#d9c38c; }
+#viewport { border:4px solid #8a8463; border-radius:3px; box-shadow:0 0 0 1px #354331,0 12px 28px #101c1966; }
+.world { aspect-ratio:4/3; isolation:isolate; }
+#terrain,#atmosphere { width:100%; height:100%; position:absolute; inset:0; pointer-events:none; image-rendering:pixelated; }
+#terrain { z-index:0; }
+#atmosphere { z-index:1; }
+#map { position:absolute; inset:0; z-index:2; grid-template-rows:repeat(9,1fr); }
+#map .tile { background:transparent; border:0; }
+#map .tile span { display:none; }
+#map .tile:focus-visible { outline:1px solid #f6da8a; outline-offset:-2px; }
+#map .tile:active { background:#ffdfa522; }
+#actors { z-index:3; }
+.actor b { display:block; width:50%; height:75%; aspect-ratio:2/3; background-color:transparent; background-size:300% 400%; background-repeat:no-repeat; image-rendering:pixelated; clip-path:none; box-shadow:none; overflow:visible; position:relative; filter:none; }
+.actor.chosen { background:transparent; }
+.actor.chosen b { filter:none; outline:0; }
+.actor.chosen::after { content:''; position:absolute; width:60%; height:18%; bottom:1%; border:2px solid #ffe09a; border-radius:50%; box-shadow:0 1px #4c4736; pointer-events:none; }
+.actor:focus-visible { outline:2px solid #ffe09a; outline-offset:-2px; }
+.demo-window { width:min(780px,calc(100% - 24px)); }
+.demo-canvas { width:100%; height:auto; background:#59794b; image-rendering:pixelated; border:2px solid #8a8463; }
+.demo-window input[type=checkbox] { width:auto; min-width:24px; min-height:24px; vertical-align:middle; }
+@media (prefers-reduced-motion:reduce) { .actor b { translate:0 0!important; } }

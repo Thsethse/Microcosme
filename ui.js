@@ -297,6 +297,7 @@ function render() {
     document.getElementById(k).value = s.laws[k];
     document.getElementById(k + "Value").textContent = s.laws[k];
   }
+  MicrocosmeRenderer.sync(s);
   if (selected) {
     let p = s.people.find((p) => p.id === selected);
     if (p) document.getElementById("inspect").textContent = details(p);
