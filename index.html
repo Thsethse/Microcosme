@@ -1,38 +1,209 @@
-<!doctype html><html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#14291f"><title>Microcosme v0.5</title><style>body{background:#14291f;color:#f0f5e9;font:15px system-ui;margin:0;padding:14px}main{max-width:820px;margin:auto}h1{margin:6px 0}p,small{color:#c5d7c5}.panel{background:#213b2d;border:1px solid #476c4d;border-radius:13px;padding:12px;margin:12px 0}button,select{border:0;border-radius:9px;padding:10px;background:#c6e19c;color:#18301e;font-weight:650;margin:3px}button.selected{background:#f7cc75}input{width:100%}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:2px;touch-action:manipulation}.world{position:relative}.actors{position:absolute;inset:0;pointer-events:none}.actor{position:absolute;left:0;top:0;width:8.333333%;height:11.111111%;display:flex;justify-content:center;align-items:center;transform:translate(var(--x),var(--y));transition:transform 520ms linear;pointer-events:auto;cursor:pointer;z-index:3}.actor b{border:2px solid #fff;color:#fff;background:var(--color);border-radius:50%;width:70%;aspect-ratio:1;display:grid;place-items:center;font-size:clamp(9px,2.3vw,16px);box-shadow:0 2px 5px #0009}.actor.chosen b{outline:3px solid #ffdc73}.tile{position:relative;aspect-ratio:1;background:#527b4c;border-radius:3px;display:grid;place-items:center;font-size:clamp(12px,3.1vw,25px);user-select:none}.person{position:absolute;right:-2px;bottom:-4px;font-size:clamp(12px,3.2vw,23px);filter:drop-shadow(0 1px 2px #000)}.stats{display:flex;flex-wrap:wrap;gap:12px}.stats span{background:#34533b;padding:8px;border-radius:8px}.log{max-height:130px;overflow:auto}label{display:block;margin:12px 0}#inspect{min-height:30px}h3{margin:4px 0 10px}</style><main><h1>🌱 Microcosme <small>v0.5</small></h1><p>Observe un monde autonome. Modifie ses lois ou touche une case pour intervenir.</p><div class="panel"><div class="stats" id="stats"></div><button onclick="step()">+ 1 heure</button><button id="auto" onclick="toggle()">▶ Temps</button><button onclick="speed()">Vitesse ×<span id="speed">1</span></button></div><div class="panel"><h3>🌍 Le monde</h3><div>Outil : <button class="selected" data-tool="inspect" onclick="tool('inspect')">🔎 Observer</button><button data-tool="tree" onclick="tool('tree')">🌲 Arbre</button><button data-tool="food" onclick="tool('food')">🌾 Nourriture</button><button data-tool="person" onclick="tool('person')">🧑 Habitant</button></div><div class="world"><div class="grid" id="map"></div><div class="actors" id="actors"></div></div><div id="roster"></div><p id="inspect">Sélectionne un habitant coloré ou son nom pour suivre son parcours.</p></div><div class="panel"><h3>⚙️ Lois du monde</h3><label>Faim : <b id="hungerValue"></b><input id="hunger" type="range" min="0" max="4" step="1" oninput="law('hunger',this.value)"></label><label>Production : <b id="productivityValue"></b><input id="productivity" type="range" min="1" max="5" step="1" oninput="law('productivity',this.value)"></label><label>Sociabilité : <b id="socialValue"></b><input id="social" type="range" min="0" max="100" step="10" oninput="law('social',this.value)"></label></div><div class="panel"><h3>📜 Événements</h3><div class="log" id="log"></div><button onclick="restart()">Recommencer cette expérience</button></div></main><script>
-const W=12,H=9,K='microcosme-v03';let s,clock=null,rate=1,active='inspect',selected=null;
-const names=['Alix','Basile','Céleste','Dorian','Éloïse','Félix','Gaëlle','Hugo','Iris','Jules','Lina','Milo'];
-const idx=(x,y)=>y*W+x;const xy=i=>[i%W,Math.floor(i/W)];const rand=n=>Math.floor(Math.random()*n);
-function initial(){let tiles=Array.from({length:W*H},(_,i)=>Math.random()<.20?'tree':Math.random()<.13?'field':'grass');[39,40,41,51,52,53].forEach(i=>tiles[i]='grass');tiles[40]='home';tiles[52]='home';return{hour:8,day:1,food:20,wood:3,tiles,people:names.slice(0,5).map((name,i)=>({id:i+1,name,pos:39+i*3,energy:75,hunger:15,task:'observe',target:null,reason:'Découvre le village',social:40+rand(50)})),laws:{hunger:2,productivity:2,social:30},events:['Le village s’éveille.']}}
-try{s=JSON.parse(localStorage.getItem(K))||JSON.parse(localStorage.getItem('microcosme-v02'))||initial();if(!s.tiles||!s.people)throw 0}catch(e){s=initial()}
-function save(){try{localStorage.setItem(K,JSON.stringify(s))}catch(e){}}
-function log(t){s.events.unshift('Jour '+s.day+' : '+t);s.events=s.events.slice(0,35)}
-function nearest(pos,kind){let [x,y]=xy(pos),best=null,d=1e9;s.tiles.forEach((t,i)=>{if(t!==kind)return;let [a,b]=xy(i),v=Math.abs(a-x)+Math.abs(b-y);if(v<d){d=v;best=i}});return best}
-function move(p,t){if(t===null||t===undefined)return false;if(p.pos===t)return true;let [x,y]=xy(p.pos),[a,b]=xy(t);if(x!==a)x+=Math.sign(a-x);else if(y!==b)y+=Math.sign(b-y);p.pos=idx(x,y);return p.pos===t}
-function distance(a,b){let [x,y]=xy(a),[u,v]=xy(b);return Math.abs(x-u)+Math.abs(y-v)}
-function prepare(p){if(!p.memory)p.memory={places:[],people:{},events:[]};if(p.food===undefined)p.food=rand(3);if(p.personality===undefined)p.personality={kindness:20+rand(80),curiosity:20+rand(80)};if(!p.goal)p.goal='Explorer';if(!p.memory.visited)p.memory.visited=[];if(!p.memory.visited.includes(p.pos))p.memory.visited.push(p.pos);}
-function remember(p,message){p.memory.events.unshift(message);p.memory.events=p.memory.events.slice(0,5)}
-function perceive(p){if(!p.memory.visited.includes(p.pos))p.memory.visited.push(p.pos);for(let i=0;i<s.tiles.length;i++){if(distance(p.pos,i)<=2&&['tree','field','home'].includes(s.tiles[i])&&!p.memory.places.includes(i))p.memory.places.push(i)}for(let q of s.people){if(q.id!==p.id&&distance(p.pos,q.pos)<=2){if(!p.memory.people[q.id])p.memory.people[q.id]={name:q.name,trust:0,meetings:0};}}}
-function known(p,kind){let opts=p.memory.places.filter(i=>s.tiles[i]===kind);opts.sort((a,b)=>distance(p.pos,a)-distance(p.pos,b));return opts.length?opts[0]:null}
-function encounter(p){for(let q of s.people){if(p.id===q.id||p.pos!==q.pos)continue;prepare(q);let rel=p.memory.people[q.id]||(p.memory.people[q.id]={name:q.name,trust:0,meetings:0});let back=q.memory.people[p.id]||(q.memory.people[p.id]={name:p.name,trust:0,meetings:0});if(p.hunger>45&&p.food===0&&q.food>1&&q.personality.kindness>30){q.food--;p.food++;rel.trust+=3;back.trust+=3;remember(p,q.name+' lui a donné de la nourriture');remember(q,'A partagé avec '+p.name);log(q.name+' partage sa nourriture avec '+p.name);return true}if(rand(100)<s.laws.social/8){rel.meetings++;back.meetings++;rel.trust=Math.min(100,rel.trust+1);back.trust=Math.min(100,back.trust+1);if(rel.meetings%4===0){remember(p,'A discuté avec '+q.name);log(p.name+' et '+q.name+' se retrouvent.')}return true}}return false}
-function chooseExploration(p){let unexplored=[];for(let i=0;i<W*H;i++){if(!p.memory.visited.includes(i))unexplored.push(i)}if(!unexplored.length){p.memory.visited=[];unexplored=Array.from({length:W*H},(_,i)=>i)}unexplored.sort((a,b)=>distance(p.pos,a)-distance(p.pos,b));let nearby=unexplored.slice(0,Math.min(12,unexplored.length));p.target=nearby[rand(nearby.length)];p.task='explore';p.goal='Découvrir une région';p.reason='Se rend vers une case qu’il n’a pas encore visitée';}
-function travel(p,target){if(target===null||target===undefined)return false;let arrived=move(p,target);if(!p.memory.visited.includes(p.pos))p.memory.visited.push(p.pos);return arrived}
-function step(){s.hour++;if(s.hour>=24){s.hour=0;s.day++;log('Un nouveau jour commence.')}for(let p of s.people){prepare(p);p.hunger=Math.min(130,p.hunger+Number(s.laws.hunger));p.energy=Math.max(0,p.energy-1);perceive(p);
-if(p.hunger>=45&&p.food>0){p.food--;p.hunger=Math.max(0,p.hunger-38);p.task='eat';p.target=null;p.goal='Se nourrir';p.reason='Mange sa réserve personnelle';continue}
-if(p.energy<25){p.task='rest';p.goal='Récupérer';p.reason='Cherche une maison pour se reposer';p.target=known(p,'home');if(p.target===null){p.energy=Math.min(100,p.energy+6);p.reason='Se repose sur place'}else if(travel(p,p.target))p.energy=Math.min(100,p.energy+18);continue}
-if(p.task==='farm'&&p.target!==null&&s.tiles[p.target]==='field'&&p.food<5){p.reason='Poursuit son trajet vers le champ choisi';if(travel(p,p.target)){p.food+=Number(s.laws.productivity);p.energy=Math.max(0,p.energy-3);remember(p,'A récolté au champ');p.target=null;p.task='done'}encounter(p);continue}
-if(p.hunger>=40&&p.food===0||p.food<2){let field=known(p,'field');if(field!==null){p.task='farm';p.goal='Récolter de la nourriture';p.target=field;p.reason='A choisi un champ connu pour se nourrir';if(travel(p,field)){p.food+=Number(s.laws.productivity);p.energy=Math.max(0,p.energy-3);p.target=null;p.task='done'}encounter(p);continue}}
-if(p.task==='wood'&&p.target!==null&&s.tiles[p.target]==='tree'&&s.wood<12){p.reason='Poursuit son trajet vers la forêt';if(travel(p,p.target)){s.wood+=Number(s.laws.productivity);p.energy=Math.max(0,p.energy-3);p.target=null;p.task='done'}encounter(p);continue}
-if(s.wood<12){let forest=known(p,'tree');if(forest!==null){p.task='wood';p.goal='Récolter du bois';p.target=forest;p.reason='Va vers une forêt connue';if(travel(p,forest)){s.wood+=Number(s.laws.productivity);p.energy=Math.max(0,p.energy-3);p.target=null;p.task='done'}encounter(p);continue}}
-if(p.task!=='explore'||p.target===null||p.target===undefined||p.pos===p.target)chooseExploration(p);
-if(travel(p,p.target)){remember(p,'A exploré une nouvelle zone');p.target=null}
-encounter(p)}save();render()}
-function tool(v){active=v;document.querySelectorAll('[data-tool]').forEach(b=>b.classList.toggle('selected',b.dataset.tool===v))}
-function selectPerson(id){selected=id;let p=s.people.find(q=>q.id===id);if(p)document.getElementById('inspect').textContent=details(p);render()}
-function tap(i){let p=s.people.find(p=>p.pos===i);if(active==='inspect'){selected=p?.id||null;document.getElementById('inspect').textContent=p?details(p): 'Case '+s.tiles[i]+' : '+(s.tiles[i]==='field'?'culture':s.tiles[i]==='tree'?'forêt':'terrain');return}if(active==='person'){if(!confirm('Faire apparaître un nouvel habitant ? La population augmentera de 1.'))return;if(s.people.length>=30){alert('Limite de 30 habitants atteinte.');return}let id=Math.max(0,...s.people.map(p=>p.id))+1;let name=names.find(n=>!s.people.some(p=>p.name===n))||'Habitant '+id;s.people.push({id,name,pos:i,energy:85,hunger:10,task:'new',target:null,reason:'Vient d’arriver',social:50});log(name+' arrive au village.')}else{s.tiles[i]=active==='tree'?'tree':'field';log(active==='tree'?'Un arbre apparaît.':'Une culture apparaît.')}save();render()}
-function details(p){prepare(p);let friends=Object.values(p.memory.people).sort((a,b)=>b.trust-a.trust).slice(0,3).map(r=>r.name+' (confiance '+r.trust+')').join(', ')||'Personne';return p.name+' — Objectif : '+p.goal+'. Raison : '+p.reason+'. Destination '+(p.target===null||p.target===undefined?'aucune':('colonne '+(p.target%W+1)+', ligne '+(Math.floor(p.target/W)+1)))+'. Faim '+p.hunger+' / énergie '+p.energy+' / nourriture personnelle '+p.food+'. Lieux mémorisés : '+p.memory.places.length+'. Relations : '+friends+'. Souvenirs : '+(p.memory.events.join(' ; ')||'Aucun encore')}
-function law(k,v){s.laws[k]=Number(v);save();document.getElementById(k+'Value').textContent=v}
-function toggle(){if(clock){clearInterval(clock);clock=null}else clock=setInterval(step,600/rate);render()}
-function speed(){rate=rate===1?2:rate===2?4:1;if(clock){clearInterval(clock);clock=setInterval(step,600/rate)}render()}
-function restart(){if(confirm('Effacer cette simulation et recommencer ?')){s=initial();selected=null;save();render()}}
-function render(){document.getElementById('stats').innerHTML='<span>📅 J'+s.day+' · '+s.hour+'h</span><span>👥 '+s.people.length+'</span><span>🍞 '+s.food+'</span><span>🪵 '+s.wood+'</span>';document.getElementById('auto').textContent=clock?'⏸ Pause':'▶ Temps';document.getElementById('speed').textContent=rate;let emoji={tree:'🌲',field:'🌾',home:'🏠',grass:'·'};document.getElementById('map').innerHTML=s.tiles.map((t,i)=>'<div class="tile" onclick="tap('+i+')">'+emoji[t]+'</div>').join('');let layer=document.getElementById('actors');let ids=new Set(s.people.map(p=>String(p.id)));layer.querySelectorAll('.actor').forEach(el=>{if(!ids.has(el.dataset.id))el.remove()});const colors=['#b84a49','#377cc1','#9a52bd','#c47b25','#288b72','#b44f89','#627c25','#6464ba'];s.people.forEach((p,i)=>{let el=layer.querySelector('[data-id="'+p.id+'"]');if(!el){el=document.createElement('div');el.className='actor';el.dataset.id=p.id;el.onclick=()=>selectPerson(p.id);el.innerHTML='<b></b>';layer.appendChild(el)}el.style.setProperty('--color',colors[(p.id-1)%colors.length]);el.style.setProperty('--x',(p.pos%W*100)+'%');el.style.setProperty('--y',(Math.floor(p.pos/W)*100)+'%');el.querySelector('b').textContent=p.name.charAt(0);el.title=p.name+' : '+p.reason;el.classList.toggle('chosen',selected===p.id)});let oldTarget=document.getElementById('targetMarker');if(oldTarget)oldTarget.remove();let chosen=s.people.find(p=>p.id===selected);if(chosen&&chosen.target!==null&&chosen.target!==undefined){let mark=document.createElement('div');mark.id='targetMarker';mark.style.cssText='position:absolute;pointer-events:none;border:3px solid #ffe071;border-radius:6px;box-sizing:border-box;width:8.333333%;height:11.111111%;left:'+(chosen.target%W/W*100)+'%;top:'+(Math.floor(chosen.target/W)/H*100)+'%;z-index:2';layer.appendChild(mark)}document.getElementById('roster').innerHTML='<p>Habitants présents : '+s.people.length+' (aucune naissance automatique)</p>'+s.people.map((p,i)=>'<button style="background:'+colors[(p.id-1)%colors.length]+';color:white" onclick="selectPerson('+p.id+')">'+p.name+'</button>').join('');document.getElementById('log').innerHTML=s.events.map(e=>'<p>'+e+'</p>').join('');for(let k of ['hunger','productivity','social']){document.getElementById(k).value=s.laws[k];document.getElementById(k+'Value').textContent=s.laws[k]}if(selected){let p=s.people.find(p=>p.id===selected);if(p)document.getElementById('inspect').textContent=details(p)}}render();
-</script></html>
+<!doctype html>
+<html lang="fr">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta name="theme-color" content="#14291f" /><title>Microcosme v0.6</title
+  ><style>
+    body {
+      background: #14291f;
+      color: #f0f5e9;
+      font: 15px system-ui;
+      margin: 0;
+      padding: 14px;
+    }
+    main {
+      max-width: 820px;
+      margin: auto;
+    }
+    h1 {
+      margin: 6px 0;
+    }
+    p,
+    small {
+      color: #c5d7c5;
+    }
+    .panel {
+      background: #213b2d;
+      border: 1px solid #476c4d;
+      border-radius: 13px;
+      padding: 12px;
+      margin: 12px 0;
+    }
+    button,
+    select {
+      border: 0;
+      border-radius: 9px;
+      padding: 10px;
+      background: #c6e19c;
+      color: #18301e;
+      font-weight: 650;
+      margin: 3px;
+    }
+    button.selected {
+      background: #f7cc75;
+    }
+    input {
+      width: 100%;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 2px;
+      touch-action: manipulation;
+    }
+    .world {
+      position: relative;
+    }
+    .actors {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .actor {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 8.333333%;
+      height: 11.111111%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: translate(var(--x), var(--y));
+      transition: transform 520ms linear;
+      pointer-events: auto;
+      cursor: pointer;
+      z-index: 3;
+    }
+    .actor b {
+      border: 2px solid #fff;
+      color: #fff;
+      background: var(--color);
+      border-radius: 50%;
+      width: 70%;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      font-size: clamp(9px, 2.3vw, 16px);
+      box-shadow: 0 2px 5px #0009;
+    }
+    .actor.chosen b {
+      outline: 3px solid #ffdc73;
+    }
+    .tile {
+      position: relative;
+      aspect-ratio: 1;
+      background: #527b4c;
+      border-radius: 3px;
+      display: grid;
+      place-items: center;
+      font-size: clamp(12px, 3.1vw, 25px);
+      user-select: none;
+    }
+    .person {
+      position: absolute;
+      right: -2px;
+      bottom: -4px;
+      font-size: clamp(12px, 3.2vw, 23px);
+      filter: drop-shadow(0 1px 2px #000);
+    }
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .stats span {
+      background: #34533b;
+      padding: 8px;
+      border-radius: 8px;
+    }
+    .log {
+      max-height: 130px;
+      overflow: auto;
+    }
+    label {
+      display: block;
+      margin: 12px 0;
+    }
+    #inspect {
+      min-height: 30px;
+    }
+    h3 {
+      margin: 4px 0 10px;
+    }
+  </style>
+  <main>
+    <h1>🌱 Microcosme <small>v0.6</small></h1>
+    <p>
+      Observe un monde autonome. Modifie ses lois ou touche une case pour
+      intervenir.
+    </p>
+    <div class="panel">
+      <div class="stats" id="stats"></div>
+      <p id="saveStatus" role="status"></p>
+      <button onclick="step()">+ 1 heure</button
+      ><button id="auto" onclick="toggle()">▶ Temps</button
+      ><button onclick="speed()">Vitesse ×<span id="speed">1</span></button>
+    </div>
+    <div class="panel">
+      <h3>🌍 Le monde</h3>
+      <div>
+        Outil :
+        <button class="selected" data-tool="inspect" onclick="tool('inspect')">
+          🔎 Observer</button
+        ><button data-tool="tree" onclick="tool('tree')">🌲 Arbre</button
+        ><button data-tool="food" onclick="tool('food')">🌾 Nourriture</button
+        ><button data-tool="person" onclick="tool('person')">
+          🧑 Habitant
+        </button>
+      </div>
+      <div class="world">
+        <div class="grid" id="map"></div>
+        <div class="actors" id="actors"></div>
+      </div>
+      <div id="roster"></div>
+      <p id="inspect">
+        Sélectionne un habitant coloré ou son nom pour suivre son parcours.
+      </p>
+    </div>
+    <div class="panel">
+      <h3>⚙️ Lois du monde</h3>
+      <label
+        >Faim : <b id="hungerValue"></b
+        ><input
+          id="hunger"
+          type="range"
+          min="0"
+          max="4"
+          step="1"
+          oninput="law('hunger',this.value)" /></label
+      ><label
+        >Production : <b id="productivityValue"></b
+        ><input
+          id="productivity"
+          type="range"
+          min="1"
+          max="5"
+          step="1"
+          oninput="law('productivity',this.value)" /></label
+      ><label
+        >Sociabilité : <b id="socialValue"></b
+        ><input
+          id="social"
+          type="range"
+          min="0"
+          max="100"
+          step="10"
+          oninput="law('social',this.value)"
+      /></label>
+    </div>
+    <div class="panel">
+      <h3>📜 Événements</h3>
+      <div class="log" id="log"></div>
+      <button onclick="restart()">Recommencer cette expérience</button>
+    </div>
+  </main>
+  <script src="engine.js"></script>
+  <script src="storage.js"></script>
+  <script src="ui.js"></script>
+</html>
