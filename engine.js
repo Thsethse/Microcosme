@@ -1,7 +1,8 @@
 (function (root, factory) {
-  if (typeof module === "object" && module.exports) module.exports = factory();
-  else root.MicrocosmeEngine = factory();
-})(typeof globalThis !== "undefined" ? globalThis : this, function () {
+  if (typeof module === "object" && module.exports)
+    module.exports = factory(require("./cognition"));
+  else root.MicrocosmeEngine = factory(root.MicrocosmeCognition);
+})(typeof globalThis !== "undefined" ? globalThis : this, function (cognition) {
   "use strict";
   const W = 12,
     H = 9;
@@ -66,45 +67,97 @@
       p.pos = idx(x, y);
       return p.pos === t;
     }
-    function distance(a, b) {
-      let [x, y] = xy(a),
-        [u, v] = xy(b);
-      return Math.abs(x - u) + Math.abs(y - v);
-    }
+    const distance = cognition.distance;
+    const now = () => (s.day - 1) * 24 + s.hour;
     function prepare(p) {
       if (!p.memory) p.memory = { places: [], people: {}, events: [] };
+      const m = p.memory;
+      if (!m.visited) m.visited = [];
+      if (!m.terrain) {
+        // v0.6 stored indices, not terrain types. Never reconstruct them from the hidden map.
+        m.terrain = cognition.legacyTerrain(m, p.task, p.target);
+      }
+      if (!m.experiences) m.experiences = {};
+      if (!m.journal) m.journal = [];
+      if (!m.stock) m.stock = { wood: 12 };
       if (p.food === undefined) p.food = rand(3);
       if (p.personality === undefined)
         p.personality = { kindness: 20 + rand(80), curiosity: 20 + rand(80) };
       if (!p.goal) p.goal = "Explorer";
-      if (!p.memory.visited) p.memory.visited = [];
-      if (!p.memory.visited.includes(p.pos)) p.memory.visited.push(p.pos);
+      if (!m.visited.includes(p.pos)) m.visited.push(p.pos);
+      if (p.intention === undefined) {
+        p.intention =
+          cognition.cell(p.target) &&
+          ["farm", "wood", "rest", "explore"].includes(p.task)
+            ? {
+                task: p.task,
+                target: p.target,
+                need: p.task,
+                reason: p.reason || "Poursuit son intention précédente",
+                chosenAt: now(),
+                status: "active",
+              }
+            : null;
+      }
     }
     function remember(p, message) {
       p.memory.events.unshift(message);
       p.memory.events = p.memory.events.slice(0, 5);
     }
+    function note(p, type, message) {
+      p.memory.journal.unshift({ at: now(), type, message });
+      p.memory.journal = p.memory.journal.slice(0, 12);
+    }
     function perceive(p) {
+      prepare(p);
+      // The communal wood counter is public accounting, already visible in v0.6; no terrain is disclosed by it.
+      p.memory.stock.wood = s.wood;
       if (!p.memory.visited.includes(p.pos)) p.memory.visited.push(p.pos);
-      for (let i = 0; i < s.tiles.length; i++) {
-        if (
-          distance(p.pos, i) <= 2 &&
-          ["tree", "field", "home"].includes(s.tiles[i]) &&
-          !p.memory.places.includes(i)
-        )
-          p.memory.places.push(i);
+      let discoveries = 0;
+      for (let i = 0; i < W * H; i++) {
+        if (distance(p.pos, i) > 2) continue;
+        const previous = p.memory.terrain[i],
+          kind = s.tiles[i];
+        if (previous && previous.kind !== null && previous.kind !== kind)
+          note(
+            p,
+            "revision",
+            "Case " +
+              i +
+              " : souvenir " +
+              previous.kind +
+              " remplacé par " +
+              kind,
+          );
+        if (!previous || previous.kind === null) discoveries++;
+        p.memory.terrain[i] = {
+          kind,
+          observedAt: now(),
+          revision:
+            (previous?.revision || 0) + (previous?.kind === kind ? 0 : 1),
+        };
+        if (!p.memory.places.includes(i)) p.memory.places.push(i);
       }
-      for (let q of s.people) {
-        if (q.id !== p.id && distance(p.pos, q.pos) <= 2) {
-          if (!p.memory.people[q.id])
-            p.memory.people[q.id] = { name: q.name, trust: 0, meetings: 0 };
-        }
+      if (discoveries)
+        note(
+          p,
+          "discovery",
+          discoveries + " case(s) observée(s) pour la première fois",
+        );
+      for (const q of s.people) {
+        if (
+          q.id !== p.id &&
+          distance(p.pos, q.pos) <= 2 &&
+          !p.memory.people[q.id]
+        )
+          p.memory.people[q.id] = { name: q.name, trust: 0, meetings: 0 };
       }
     }
     function known(p, kind) {
-      let opts = p.memory.places.filter((i) => s.tiles[i] === kind);
-      opts.sort((a, b) => distance(p.pos, a) - distance(p.pos, b));
-      return opts.length ? opts[0] : null;
+      const task = Object.keys(cognition.kinds).find(
+        (key) => cognition.kinds[key] === kind,
+      );
+      return task ? (cognition.solutions(p, task)[0]?.target ?? null) : null;
     }
     function encounter(p) {
       for (let q of s.people) {
@@ -145,31 +198,131 @@
       }
       return false;
     }
-    function chooseExploration(p) {
-      let unexplored = [];
-      for (let i = 0; i < W * H; i++) {
-        if (!p.memory.visited.includes(i)) unexplored.push(i);
-      }
-      if (!unexplored.length) {
-        unexplored = Array.from({ length: W * H }, (_, i) => i).filter(
-          (i) => i !== p.pos,
-        );
-      }
-      unexplored.sort((a, b) => distance(p.pos, a) - distance(p.pos, b));
-      let nearby = unexplored.slice(0, Math.min(12, unexplored.length));
-      p.target = nearby[rand(nearby.length)];
-      p.task = "explore";
-      p.goal = "Découvrir une région";
-      p.reason =
-        p.memory.visited.length === W * H
-          ? "Revisite une région déjà découverte"
-          : "Se rend vers une case qu’il n’a pas encore visitée";
-    }
     function travel(p, target) {
-      if (target === null || target === undefined) return false;
-      let arrived = move(p, target);
+      if (!cognition.cell(target)) return false;
+      const arrived = move(p, target);
       if (!p.memory.visited.includes(p.pos)) p.memory.visited.push(p.pos);
       return arrived;
+    }
+    function result(p, intention, outcome, cause) {
+      if (intention.target === null) return;
+      const key = intention.task + ":" + intention.target;
+      const old = p.memory.experiences[key] || { successes: 0, failures: 0 };
+      p.memory.experiences[key] = {
+        successes: old.successes + (outcome === "success" ? 1 : 0),
+        failures: old.failures + (outcome === "failure" ? 1 : 0),
+        lastOutcome: outcome,
+        lastAt: now(),
+        revision: p.memory.terrain[intention.target]?.revision || 0,
+        cause,
+      };
+      if (outcome === "failure") note(p, "failure", cause);
+    }
+    function reconsiderInvalid(p) {
+      const current = p.intention;
+      if (
+        current?.status !== "active" ||
+        current.target === null ||
+        current.task === "explore"
+      )
+        return;
+      // A remote change is not visible here: eligibility uses only the observer's memory.
+      if (!cognition.eligible(p, current.task, current.target)) {
+        result(
+          p,
+          current,
+          "failure",
+          "Destination " +
+            current.target +
+            " inadéquate : terrain observé " +
+            (p.memory.terrain[current.target]?.kind || "inconnu"),
+        );
+        current.status = "failed";
+      }
+    }
+    function decide(p) {
+      reconsiderInvalid(p);
+      const choice = cognition.choose(p, random);
+      p.need = choice.need;
+      if (!choice.retained) {
+        const old = p.intention;
+        p.intention = { ...choice, chosenAt: now(), status: "active" };
+        if (
+          !old ||
+          old.task !== choice.task ||
+          old.target !== choice.target ||
+          old.status === "failed"
+        )
+          note(
+            p,
+            "decision",
+            cognition.labels[choice.task] +
+              " → " +
+              (choice.target === null ? "sur place" : "case " + choice.target) +
+              " : " +
+              choice.reason,
+          );
+      }
+      p.task = p.intention.task;
+      p.target = p.intention.target;
+      p.goal = cognition.labels[p.task];
+      p.reason = p.intention.reason;
+      return p.intention;
+    }
+    function act(p) {
+      const intent = p.intention,
+        task = intent.task;
+      if (task === "eat") {
+        p.food--;
+        p.hunger = Math.max(0, p.hunger - 38);
+        intent.status = "completed";
+        return;
+      }
+      if (task === "rest" && intent.target === null) {
+        p.energy = Math.min(100, p.energy + 6);
+        intent.status = "completed";
+        return;
+      }
+      const arrived = travel(p, intent.target);
+      // Update local knowledge on arrival/movement, then validate consequences against reality.
+      perceive(p);
+      reconsiderInvalid(p);
+      if (intent.status === "failed") {
+        decide(p);
+        return;
+      }
+      if (arrived) {
+        if (
+          cognition.kinds[task] &&
+          s.tiles[intent.target] !== cognition.kinds[task]
+        ) {
+          result(p, intent, "failure", "Terrain inadéquat à arrivée");
+          intent.status = "failed";
+          p.target = null;
+          return;
+        }
+        if (task === "farm") {
+          p.food += Number(s.laws.productivity);
+          p.energy = Math.max(0, p.energy - 3);
+          remember(p, "A récolté au champ");
+        } else if (task === "wood") {
+          s.wood += Number(s.laws.productivity);
+          p.energy = Math.max(0, p.energy - 3);
+        } else if (task === "rest") p.energy = Math.min(100, p.energy + 18);
+        else remember(p, "A exploré une nouvelle zone");
+        result(
+          p,
+          intent,
+          "success",
+          task === "explore" ? "Destination explorée" : "Action réussie",
+        );
+        intent.status = "completed";
+        if (task !== "rest") {
+          p.target = null;
+          p.task = task === "explore" ? "explore" : "done";
+        }
+      }
+      if (task !== "rest") encounter(p);
     }
     function step() {
       s.hour++;
@@ -178,117 +331,13 @@
         s.day++;
         log("Un nouveau jour commence.");
       }
-      for (let p of s.people) {
+      for (const p of s.people) {
         prepare(p);
         p.hunger = Math.min(130, p.hunger + Number(s.laws.hunger));
         p.energy = Math.max(0, p.energy - 1);
         perceive(p);
-        if (p.hunger >= 45 && p.food > 0) {
-          p.food--;
-          p.hunger = Math.max(0, p.hunger - 38);
-          p.task = "eat";
-          p.target = null;
-          p.goal = "Se nourrir";
-          p.reason = "Mange sa réserve personnelle";
-          continue;
-        }
-        if (p.energy < 25) {
-          p.task = "rest";
-          p.goal = "Récupérer";
-          p.reason = "Cherche une maison pour se reposer";
-          if (
-            p.target === null ||
-            p.target === undefined ||
-            s.tiles[p.target] !== "home"
-          )
-            p.target = known(p, "home");
-          if (p.target === null) {
-            p.energy = Math.min(100, p.energy + 6);
-            p.reason = "Se repose sur place";
-          } else if (travel(p, p.target))
-            p.energy = Math.min(100, p.energy + 18);
-          continue;
-        }
-        if (
-          p.task === "farm" &&
-          p.target !== null &&
-          s.tiles[p.target] === "field" &&
-          p.food < 5
-        ) {
-          p.reason = "Poursuit son trajet vers le champ choisi";
-          if (travel(p, p.target)) {
-            p.food += Number(s.laws.productivity);
-            p.energy = Math.max(0, p.energy - 3);
-            remember(p, "A récolté au champ");
-            p.target = null;
-            p.task = "done";
-          }
-          encounter(p);
-          continue;
-        }
-        if ((p.hunger >= 40 && p.food === 0) || p.food < 2) {
-          let field = known(p, "field");
-          if (field !== null) {
-            p.task = "farm";
-            p.goal = "Récolter de la nourriture";
-            p.target = field;
-            p.reason = "A choisi un champ connu pour se nourrir";
-            if (travel(p, field)) {
-              remember(p, "A récolté au champ");
-              p.food += Number(s.laws.productivity);
-              p.energy = Math.max(0, p.energy - 3);
-              p.target = null;
-              p.task = "done";
-            }
-            encounter(p);
-            continue;
-          }
-        }
-        if (
-          p.task === "wood" &&
-          p.target !== null &&
-          s.tiles[p.target] === "tree" &&
-          s.wood < 12
-        ) {
-          p.reason = "Poursuit son trajet vers la forêt";
-          if (travel(p, p.target)) {
-            s.wood += Number(s.laws.productivity);
-            p.energy = Math.max(0, p.energy - 3);
-            p.target = null;
-            p.task = "done";
-          }
-          encounter(p);
-          continue;
-        }
-        if (s.wood < 12) {
-          let forest = known(p, "tree");
-          if (forest !== null) {
-            p.task = "wood";
-            p.goal = "Récolter du bois";
-            p.target = forest;
-            p.reason = "Va vers une forêt connue";
-            if (travel(p, forest)) {
-              s.wood += Number(s.laws.productivity);
-              p.energy = Math.max(0, p.energy - 3);
-              p.target = null;
-              p.task = "done";
-            }
-            encounter(p);
-            continue;
-          }
-        }
-        if (
-          p.task !== "explore" ||
-          p.target === null ||
-          p.target === undefined ||
-          p.pos === p.target
-        )
-          chooseExploration(p);
-        if (travel(p, p.target)) {
-          remember(p, "A exploré une nouvelle zone");
-          p.target = null;
-        }
-        encounter(p);
+        decide(p);
+        act(p);
       }
     }
 
@@ -304,6 +353,7 @@
       travel,
       remember,
       known,
+      decide,
       log,
       initial,
       names,

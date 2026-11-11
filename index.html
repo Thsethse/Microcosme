@@ -3,7 +3,7 @@
   <meta charset="utf-8" /><meta
     name="viewport"
     content="width=device-width,initial-scale=1"
-  /><meta name="theme-color" content="#14291f" /><title>Microcosme v0.6</title
+  /><meta name="theme-color" content="#14291f" /><title>Microcosme v0.7</title
   ><style>
     body {
       background: #14291f;
@@ -126,6 +126,8 @@
       margin: 12px 0;
     }
     #inspect {
+      white-space: pre-line;
+      line-height: 1.5;
       min-height: 30px;
     }
     h3 {
@@ -133,7 +135,7 @@
     }
   </style>
   <main>
-    <h1>🌱 Microcosme <small>v0.6</small></h1>
+    <h1>🌱 Microcosme <small>v0.7</small></h1>
     <p>
       Observe un monde autonome. Modifie ses lois ou touche une case pour
       intervenir.
@@ -153,6 +155,7 @@
           🔎 Observer</button
         ><button data-tool="tree" onclick="tool('tree')">🌲 Arbre</button
         ><button data-tool="food" onclick="tool('food')">🌾 Nourriture</button
+        ><button data-tool="grass" onclick="tool('grass')">🌿 Prairie</button
         ><button data-tool="person" onclick="tool('person')">
           🧑 Habitant
         </button>
@@ -203,6 +206,7 @@
       <button onclick="restart()">Recommencer cette expérience</button>
     </div>
   </main>
+  <script src="cognition.js"></script>
   <script src="engine.js"></script>
   <script src="storage.js"></script>
   <script src="ui.js"></script>

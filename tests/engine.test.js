@@ -17,10 +17,18 @@ function world() {
     hunger: 0,
     energy: 100,
     task: "observe",
+    intention: undefined,
     target: null,
     memory: { places: [], visited: [0], people: {}, events: [] },
   });
   return { e, s, p };
+}
+// Explicit local observations replace the v0.6 fixtures' bare indices (which had no terrain type).
+function observe(e, p, position) {
+  const before = p.pos;
+  p.pos = position;
+  e.perceive(p);
+  p.pos = before;
 }
 test("la population et les identités restent stables pendant 2000 heures", () => {
   const e = create(null, () => 0.5);
@@ -42,12 +50,12 @@ test("un trajet agricole conserve sa destination et récolte seulement à arriv�
   const { e, s, p } = world();
   s.tiles[4] = "field";
   p.food = 0;
-  p.memory.places = [4];
+  observe(e, p, 4);
   e.step();
   assert.equal(p.target, 4);
   assert.equal(p.pos, 1);
   s.tiles[12] = "field";
-  p.memory.places.push(12);
+  observe(e, p, 12);
   for (let i = 0; i < 2; i++) {
     e.step();
     assert.equal(p.target, 4);
@@ -63,7 +71,7 @@ test("un trajet vers le bois reste cohérent et une faim urgente le préempte", 
   const { e, s, p } = world();
   s.wood = 0;
   s.tiles[5] = "tree";
-  p.memory.places = [5];
+  observe(e, p, 5);
   e.step();
   assert.equal(p.target, 5);
   e.step();
@@ -79,9 +87,11 @@ test("une destination transformée est abandonnée sans récolte fantôme", () =
   const { e, s, p } = world();
   s.tiles[5] = "field";
   p.food = 0;
-  p.memory.places = [5];
+  observe(e, p, 5);
   e.step();
   s.tiles[5] = "tree";
+  e.step();
+  assert.equal(p.task, "farm"); // Still out of sight: no remote knowledge.
   e.step();
   assert.equal(p.food, 0);
   assert.equal(p.task, "explore");
@@ -89,7 +99,7 @@ test("une destination transformée est abandonnée sans récolte fantôme", () =
 test("le repos conserve sa maison et récupère seulement à arrivée", () => {
   const { e, s, p } = world();
   s.tiles[4] = "home";
-  p.memory.places = [4];
+  observe(e, p, 4);
   p.energy = 24;
   for (let i = 0; i < 4; i++) e.step();
   assert.equal(p.pos, 4);

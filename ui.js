@@ -96,45 +96,83 @@ function tap(i) {
     engine.prepare(s.people[s.people.length - 1]);
     log(name + " arrive au village.");
   } else {
-    s.tiles[i] = active === "tree" ? "tree" : "field";
-    log(active === "tree" ? "Un arbre apparaît." : "Une culture apparaît.");
+    s.tiles[i] =
+      active === "tree" ? "tree" : active === "grass" ? "grass" : "field";
+    log(
+      active === "tree"
+        ? "Un arbre apparaît."
+        : active === "grass"
+          ? "Le terrain devient une prairie."
+          : "Une culture apparaît.",
+    );
   }
   save();
   render();
 }
 function details(p) {
-  let friends =
+  const friends =
     Object.values(p.memory.people)
       .sort((a, b) => b.trust - a.trust)
       .slice(0, 3)
       .map((r) => r.name + " (confiance " + r.trust + ")")
       .join(", ") || "Personne";
-  return (
+  const target = p.intention?.target,
+    seen = p.memory.terrain[target];
+  const date = (at) =>
+    at === null
+      ? "date inconnue (ancienne partie)"
+      : "J" + (Math.floor(at / 24) + 1) + " " + (at % 24) + "h";
+  const location = (value) =>
+    "colonne " + ((value % W) + 1) + ", ligne " + (Math.floor(value / W) + 1);
+  const experience = p.memory.experiences[p.intention?.task + ":" + target];
+  return [
     p.name +
-    " — Objectif : " +
-    p.goal +
-    ". Raison : " +
-    p.reason +
-    ". Destination " +
-    (p.target === null || p.target === undefined
-      ? "aucune"
-      : "colonne " +
-        ((p.target % W) + 1) +
-        ", ligne " +
-        (Math.floor(p.target / W) + 1)) +
-    ". Faim " +
-    p.hunger +
-    " / énergie " +
-    p.energy +
-    " / nourriture personnelle " +
-    p.food +
-    ". Lieux mémorisés : " +
-    p.memory.places.length +
-    ". Relations : " +
-    friends +
-    ". Souvenirs : " +
-    (p.memory.events.join(" ; ") || "Aucun encore")
-  );
+      " — Besoin dominant : " +
+      (MicrocosmeCognition.needs[p.need] || "À évaluer"),
+    "Intention : " +
+      p.goal +
+      (p.intention
+        ? " (" +
+          { active: "en cours", completed: "achevée", failed: "échec" }[
+            p.intention.status
+          ] +
+          ")"
+        : "") +
+      ". Destination : " +
+      (p.target === null || p.target === undefined
+        ? "aucune"
+        : location(p.target)),
+    "Raison : " + p.reason,
+    "Faim " +
+      p.hunger +
+      " / énergie " +
+      p.energy +
+      " / nourriture personnelle " +
+      p.food,
+    "Connaissance de la destination : " +
+      (seen
+        ? (seen.kind || "nature inconnue") +
+          ", dernière observation : " +
+          date(seen.observedAt)
+        : "terrain inconnu"),
+    "Expérience de cette destination : " +
+      (experience
+        ? experience.successes +
+          " réussite(s), " +
+          experience.failures +
+          " échec(s) — " +
+          experience.cause
+        : "aucune"),
+    "Cases mémorisées : " +
+      Object.keys(p.memory.terrain).length +
+      " / visitées : " +
+      p.memory.visited.length +
+      ". Relations : " +
+      friends,
+    "Souvenirs : " + (p.memory.events.join(" ; ") || "Aucun encore"),
+    "Décisions et observations récentes :",
+    ...p.memory.journal.slice(0, 5).map((e) => date(e.at) + " — " + e.message),
+  ].join("\n");
 }
 function law(k, v) {
   s.laws[k] = Number(v);
