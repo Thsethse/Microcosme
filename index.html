@@ -3,7 +3,7 @@
   <meta charset="utf-8" /><meta
     name="viewport"
     content="width=device-width,initial-scale=1"
-  /><meta name="theme-color" content="#14291f" /><title>Microcosme v0.7</title
+  /><meta name="theme-color" content="#14291f" /><title>Microcosme v0.8</title
   ><style>
     body {
       background: #14291f;
@@ -134,15 +134,20 @@
       margin: 4px 0 10px;
     }
   </style>
+  <link rel="stylesheet" href="interface.css">
   <main>
-    <h1>🌱 Microcosme <small>v0.7</small></h1>
+<p id="saveStatus" role="status"></p>
+<nav aria-label="Scènes"><button onclick="navigate('menu')">Menu</button><button onclick="navigate('village')">Village</button><button onclick="navigate('people')">Habitants</button><button onclick="navigate('chronicles')">Chroniques</button><button onclick="navigate('laws')">Lois du monde</button></nav>
+<section data-scene="menu" class="panel hero"><p>UN PETIT MONDE, MILLE HISTOIRES</p><h1>Microcosme</h1><p>Un village vivant au creux de la forêt. Observe les chemins et les souvenirs de ses habitants.</p><button onclick="restart()">Nouvelle partie</button><button id="continue" onclick="navigate('village')">Continuer</button><button onclick="settings()">Paramètres</button><p>Le temps s’arrête lorsque tu quittes le village.</p></section>
+<section data-scene="village" hidden tabindex="-1">
+    <h1>🌱 Microcosme <small>v0.8</small></h1>
     <p>
       Observe un monde autonome. Modifie ses lois ou touche une case pour
       intervenir.
     </p>
     <div class="panel">
       <div class="stats" id="stats"></div>
-      <p id="saveStatus" role="status"></p>
+
       <button onclick="step()">+ 1 heure</button
       ><button id="auto" onclick="toggle()">▶ Temps</button
       ><button onclick="speed()">Vitesse ×<span id="speed">1</span></button>
@@ -160,17 +165,17 @@
           🧑 Habitant
         </button>
       </div>
-      <div class="world">
+      <div class="camera-tools"><button onclick="zoomBy(1.25)" aria-label="Zoom avant">＋</button><button onclick="zoomBy(.8)" aria-label="Zoom arrière">−</button><button onclick="resetCamera()">Recentrer</button><output id="zoomValue">100 %</output></div><p>Glisse pour déplacer la carte, pince pour zoomer, touche pour utiliser l’outil.</p><div id="viewport"><div class="world">
         <div class="grid" id="map"></div>
         <div class="actors" id="actors"></div>
       </div>
-      <div id="roster"></div>
+      </div><button onclick="personWindow()">Fiche de l’habitant sélectionné</button><div id="roster"></div>
       <p id="inspect">
         Sélectionne un habitant coloré ou son nom pour suivre son parcours.
       </p>
     </div>
-    <div class="panel">
-      <h3>⚙️ Lois du monde</h3>
+</section><section data-scene="people" hidden tabindex="-1" class="panel"><h2>Habitants</h2><div id="peopleList"></div><pre id="personDetails"></pre><button onclick="personWindow()">Ouvrir la fiche</button><button onclick="navigate('village')">Retour au village</button></section>
+<section data-scene="laws" hidden tabindex="-1"><div class="panel"><h2>Lois du monde</h2>
       <label
         >Faim : <b id="hungerValue"></b
         ><input
@@ -200,14 +205,14 @@
           oninput="law('social',this.value)"
       /></label>
     </div>
-    <div class="panel">
-      <h3>📜 Événements</h3>
+<button onclick="navigate('village')">Retour au village</button></section><section data-scene="chronicles" hidden tabindex="-1"><div class="panel"><h2>Chroniques</h2>
       <div class="log" id="log"></div>
       <button onclick="restart()">Recommencer cette expérience</button>
     </div>
+    <button onclick="navigate('village')">Retour au village</button></section>
   </main>
   <script src="cognition.js"></script>
   <script src="engine.js"></script>
   <script src="storage.js"></script>
-  <script src="ui.js"></script>
+  <script src="ui.js"></script><script src="interface.js"></script>
 </html>
