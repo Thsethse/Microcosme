@@ -32,3 +32,12 @@ Cinq scènes, fenêtres modales et caméra tactile sans modifier les règles v0.
 - [Architecture UI](docs/ARCHITECTURE-UI-v0.8.md)
 - [Rapport et limites](docs/RAPPORT-v0.8.md)
 - [Validation Safari iPad physique à réaliser](docs/VERIFICATION-IPAD-v0.8.md)
+
+## Expérimentation graphique v0.9
+
+Pixel art original généré en Canvas 2D, personnages animés, lumière liée à l’heure du moteur et atelier de démonstration indépendant (bouton « Démonstration graphique »). Aucun changement du moteur ou du format de sauvegarde.
+
+- [Direction artistique et aperçus](docs/DIRECTION-ARTISTIQUE-v0.9.md)
+- [Architecture graphique](docs/ARCHITECTURE-GRAPHIQUE-v0.9.md)
+- [Rapport de validation](docs/RAPPORT-v0.9.md)
+- [Vérification Safari iPad](docs/VERIFICATION-IPAD-v0.9.md)

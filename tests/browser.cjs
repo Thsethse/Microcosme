@@ -18,6 +18,7 @@ const path = require("node:path");
         "ui.js",
         "interface.js",
         "interface.css",
+        "graphics.js", "atmosphere.js", "renderer.js",
       ].includes(name)
     ) {
       res.writeHead(404).end();
@@ -203,6 +204,7 @@ const path = require("node:path");
         await page.getByRole("button", {name:"Confirmer la nouvelle partie",exact:true}).click();
         assert.equal(await page.locator(".actor").count(), 5);
         await verifyV08(page);
+        await verifyV09(page, type.name());
         assert.deepEqual(errors, []);
         console.log(
           type.name() +
@@ -301,4 +303,64 @@ async function verifyV08(page) {
   await page.getByRole('button',{name:'Lois du monde',exact:true}).click();
   await page.getByRole('button',{name:'Chroniques',exact:true}).click();
   await page.context().setOffline(false);
+}
+
+async function verifyV09(page,browser) {
+  await page.context().setOffline(false);
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  await page.getByRole('button',{name:'Village',exact:true}).click();
+  const initial=await page.evaluate(()=>JSON.stringify(s));
+  const save=await page.evaluate(()=>localStorage.getItem('microcosme-v03'));
+  await page.waitForTimeout(200);
+  assert.equal(await page.evaluate(()=>JSON.stringify(s)),initial);
+  assert.equal(await page.locator('#lightPhase').textContent(),await page.evaluate(()=>MicrocosmeGraphics.light(s.hour).phase+' · lumière du moteur'));
+  await page.getByRole('button',{name:'Démonstration graphique',exact:true}).filter({visible:true}).click();
+  const demo=page.locator('.demo-canvas');
+  await page.getByRole('button',{name:'Jour',exact:true}).click();
+  await page.emulateMedia({reducedMotion:'reduce'});
+  const day=await demo.evaluate(c=>c.toDataURL());
+  await page.getByRole('button',{name:'Crépuscule',exact:true}).click();
+  const dusk=await demo.evaluate(c=>c.toDataURL());
+  await page.getByRole('button',{name:'Nuit',exact:true}).click();
+  const night=await demo.evaluate(c=>c.toDataURL());
+  assert.notEqual(day,dusk);assert.notEqual(dusk,night);
+  await page.waitForTimeout(150);
+  assert.equal(await demo.evaluate(c=>c.toDataURL()),night);
+  assert.equal(await page.evaluate(()=>JSON.stringify(s)),initial);
+  assert.equal(await page.evaluate(()=>localStorage.getItem('microcosme-v03')),save);
+  await page.getByRole('button',{name:'Fermer la fenêtre',exact:true}).click();
+  await page.waitForTimeout(50);
+  const frozen=await page.locator('#atmosphere').evaluate(c=>c.toDataURL());
+  await page.waitForTimeout(120);
+  assert.equal(await page.locator('#atmosphere').evaluate(c=>c.toDataURL()),frozen);
+  const report=await page.evaluate(async()=>{
+    const old=s;const results=[];
+    for(const count of [5,30]) {
+      s=MicrocosmeEngine.create().state;
+      while(s.people.length<count) { const p=JSON.parse(JSON.stringify(s.people[0]));p.id=s.people.length+1;p.name='Test '+p.id;p.pos=p.id*3%108;s.people.push(p); }
+      render();const durations=[];
+      for(let i=0;i<60;i++) {const start=performance.now();render();durations.push(performance.now()-start);}
+      durations.sort((a,b)=>a-b);results.push({population:count,renderMedianMs:durations[30],renderP95Ms:durations[57]});
+    }
+    s=old;render();return results;
+  });
+  console.log(browser+' v0.9 render benchmark: '+JSON.stringify(report));
+  for(let i=0;i<8;i++) {
+    await page.getByRole('button',{name:'Menu',exact:true}).click();
+    await page.getByRole('button',{name:'Démonstration graphique',exact:true}).filter({visible:true}).click();
+    await page.getByRole('button',{name:'Fermer la fenêtre',exact:true}).click();
+    await page.getByRole('button',{name:'Village',exact:true}).click();
+  }
+  assert.equal(await page.locator('canvas').count(),2);
+  assert.equal(await page.locator('.actor').count(),5);
+  const metrics=await page.evaluate(()=>MicrocosmeRenderer.metrics());
+  assert.ok(metrics.atlases<=30);assert.equal(metrics.actors,5);
+  await page.getByRole('button',{name:'Menu',exact:true}).click();await page.waitForTimeout(80);
+  assert.equal(await page.evaluate(()=>MicrocosmeRenderer.metrics().scheduled),false);
+  await page.context().setOffline(true);
+  await page.getByRole('button',{name:'Démonstration graphique',exact:true}).click();
+  await page.getByRole('button',{name:'Nuit',exact:true}).click();
+  await page.getByRole('button',{name:'Fermer la fenêtre',exact:true}).click();
+  await page.context().setOffline(false);
+  console.log(browser+': v0.9 lumière, démonstration isolée, ressources bornées, mouvement réduit et hors ligne OK');
 }
