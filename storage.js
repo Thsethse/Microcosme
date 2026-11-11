@@ -1,7 +1,8 @@
 (function (root, factory) {
-  if (typeof module === "object" && module.exports) module.exports = factory();
-  else root.MicrocosmeStorage = factory();
-})(typeof globalThis !== "undefined" ? globalThis : this, function () {
+  if (typeof module === "object" && module.exports)
+    module.exports = factory(require("./cognition"));
+  else root.MicrocosmeStorage = factory(root.MicrocosmeCognition);
+})(typeof globalThis !== "undefined" ? globalThis : this, function (cognition) {
   "use strict";
   const KEY = "microcosme-v03",
     LEGACY = "microcosme-v02";
@@ -9,6 +10,82 @@
   const cell = (v) => Number.isInteger(v) && v >= 0 && v < 108;
   const number = (v, fallback, min, max) =>
     Number.isFinite(v) ? Math.min(max, Math.max(min, v)) : fallback;
+  function terrainMemory(m, task, target) {
+    if (!m.terrain || typeof m.terrain !== "object")
+      return cognition.legacyTerrain(m, task, target);
+    const result = {};
+    for (const [id, value] of Object.entries(m.terrain)) {
+      if (
+        !cell(Number(id)) ||
+        !value ||
+        !(value.kind === null || tileTypes.includes(value.kind))
+      )
+        continue;
+      result[id] = {
+        kind: value.kind,
+        observedAt: Number.isFinite(value.observedAt)
+          ? Math.max(0, value.observedAt)
+          : null,
+        revision: Math.floor(
+          number(value.revision, 0, 0, Number.MAX_SAFE_INTEGER),
+        ),
+      };
+    }
+    return result;
+  }
+  function experienceMemory(m) {
+    const result = {};
+    for (const [key, value] of Object.entries(m.experiences || {})) {
+      const [task, id] = key.split(":");
+      if (
+        !["farm", "wood", "rest", "explore"].includes(task) ||
+        !cell(Number(id)) ||
+        !value ||
+        !["success", "failure"].includes(value.lastOutcome)
+      )
+        continue;
+      result[key] = {
+        successes: Math.floor(
+          number(value.successes, 0, 0, Number.MAX_SAFE_INTEGER),
+        ),
+        failures: Math.floor(
+          number(value.failures, 0, 0, Number.MAX_SAFE_INTEGER),
+        ),
+        lastOutcome: value.lastOutcome,
+        lastAt: number(value.lastAt, 0, 0, Number.MAX_SAFE_INTEGER),
+        revision: Math.floor(
+          number(value.revision, 0, 0, Number.MAX_SAFE_INTEGER),
+        ),
+        cause: typeof value.cause === "string" ? value.cause : "",
+      };
+    }
+    return result;
+  }
+  function intentionMemory(p) {
+    const value = p.intention;
+    if (
+      !value ||
+      !["farm", "wood", "rest", "eat", "explore"].includes(value.task) ||
+      !(value.target === null || cell(value.target)) ||
+      !["active", "completed", "failed"].includes(value.status)
+    )
+      return null;
+    if (value.target === null && !["rest", "eat"].includes(value.task))
+      return null;
+    return {
+      task: value.task,
+      target: value.target,
+      need: ["farm", "wood", "rest", "eat", "explore"].includes(value.need)
+        ? value.need
+        : value.task,
+      reason:
+        typeof value.reason === "string"
+          ? value.reason
+          : "Intention sauvegardée",
+      chosenAt: number(value.chosenAt, 0, 0, Number.MAX_SAFE_INTEGER),
+      status: value.status,
+    };
+  }
   function normalize(raw) {
     if (
       !raw ||
@@ -54,7 +131,43 @@
           kindness: number(p.personality?.kindness, 50, 0, 100),
           curiosity: number(p.personality?.curiosity, 50, 0, 100),
         },
+        intention:
+          p.intention === undefined &&
+          cell(p.target) &&
+          ["farm", "wood", "rest", "explore"].includes(p.task)
+            ? {
+                task: p.task,
+                target: p.target,
+                need: p.task,
+                reason:
+                  typeof p.reason === "string"
+                    ? p.reason
+                    : "Intention précédente",
+                chosenAt: 0,
+                status: "active",
+              }
+            : intentionMemory(p),
+        need: ["farm", "wood", "rest", "eat", "explore"].includes(p.need)
+          ? p.need
+          : "explore",
         memory: {
+          terrain: terrainMemory(m, p.task, p.target),
+          experiences: experienceMemory(m),
+          stock: {
+            wood: number(m.stock?.wood, 12, 0, Number.MAX_SAFE_INTEGER),
+          },
+          journal: Array.isArray(m.journal)
+            ? m.journal
+                .filter(
+                  (e) =>
+                    e &&
+                    typeof e.type === "string" &&
+                    typeof e.message === "string" &&
+                    Number.isFinite(e.at),
+                )
+                .slice(0, 12)
+                .map((e) => ({ at: e.at, type: e.type, message: e.message }))
+            : [],
           places: [
             ...new Set(Array.isArray(m.places) ? m.places.filter(cell) : []),
           ],
@@ -71,7 +184,7 @@
     const laws = raw.laws || {};
     return {
       ...raw,
-      version: 6,
+      version: 7,
       tiles: raw.tiles.slice(),
       people,
       hour: Math.floor(number(raw.hour, 8, 0, 23)),
