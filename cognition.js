@@ -108,7 +108,8 @@
       (need === "farm" &&
         p.food === 0 &&
         p.hunger >= 40 &&
-        current?.task !== "farm");
+        current?.task !== "farm" &&
+        !(current?.task === "explore" && current.need === "farm"));
     const discovery =
       current?.task === "explore" &&
       need !== "explore" &&

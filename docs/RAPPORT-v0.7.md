@@ -12,7 +12,7 @@ Base : `9308cea531399283f36fd6a4445fb4bbc2767f8c` (v0.6 fusionnée). Branche : `
 
 ## Vérifications
 
-- **30 tests Node réussis** : les 15 cas v0.6 sont conservés et 15 cas v0.7 ajoutés. Les anciennes préparations de trajet fournissent désormais une observation explicite, au lieu d’indices dépourvus de nature. Le test d’une destination transformée attend sa visibilité avant d’exiger son abandon : l’attente d’un abandon omniscient serait contraire à la mission.
+- **31 tests Node réussis** : les 15 cas v0.6 sont conservés et 16 cas v0.7 ajoutés. Les anciennes préparations de trajet fournissent désormais une observation explicite, au lieu d’indices dépourvus de nature. Le test d’une destination transformée attend sa visibilité avant d’exiger son abandon : l’attente d’un abandon omniscient serait contraire à la mission.
 - Champ disparu : connaissance initiale d’un champ, éloignement, transformation en prairie hors de vue, retour vers le souvenir, aucun changement de connaissance avant portée locale, puis révision, échec et exploration.
 - Autres preuves : décideur testé avec carte réelle dont toute lecture lève une exception ; plusieurs solutions plausibles et hasard reproductible ; stabilité devant une meilleure alternative ; découverte pertinente, urgences, anticipation ; réussite et échec ; aller-retour complet des mémoires et intentions ; migrations ; population sur 2 000 heures et quatre autres mondes déterministes.
 - **Parcours Chromium tactile local réussi** sous `/Microcosme/` : fonctions v0.6, expérience du champ disparu avec l’outil Prairie, inspecteur sans mutation, explications du moteur, reprise des nouvelles mémoires, jeu hors ligne après chargement.

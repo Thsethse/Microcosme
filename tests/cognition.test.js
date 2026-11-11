@@ -343,3 +343,20 @@ test("les mémoires restent bornées, la population et les identités restent st
     );
   }
 });
+
+test("une exploration pour faim urgente reste stable tant qu’aucune solution n’est découverte", () => {
+  const { e, p } = world(() => 0.99);
+  p.food = 0;
+  p.hunger = 60;
+  e.perceive(p);
+  e.decide(p);
+  assert.equal(p.task, "explore");
+  assert.equal(p.intention.need, "farm");
+  const chosen = clone(p.intention);
+  for (let i = 0; i < 5; i++) {
+    e.decide(p);
+    assert.deepEqual(p.intention, chosen);
+  }
+  e.step();
+  assert.equal(p.intention.chosenAt, chosen.chosenAt);
+});
