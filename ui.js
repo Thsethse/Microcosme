@@ -25,6 +25,7 @@ function log(message) {
   engine.log(message);
 }
 function step() {
+  if (typeof scene !== "undefined" && scene !== "village") return;
   engine.step();
   save();
   render();
@@ -49,6 +50,7 @@ function selectPerson(id) {
   let p = s.people.find((q) => q.id === id);
   if (p) document.getElementById("inspect").textContent = details(p);
   render();
+  if (typeof refreshPeople === "function") refreshPeople();
 }
 function tap(i) {
   let p = s.people.find((p) => p.pos === i);
@@ -180,6 +182,7 @@ function law(k, v) {
   document.getElementById(k + "Value").textContent = v;
 }
 function toggle() {
+  if (typeof scene !== "undefined" && scene !== "village") return;
   if (clock) {
     clearInterval(clock);
     clock = null;
@@ -193,15 +196,6 @@ function speed() {
     clock = setInterval(step, 600 / rate);
   }
   render();
-}
-function restart() {
-  if (confirm("Effacer cette simulation et recommencer ?")) {
-    engine = MicrocosmeEngine.create();
-    s = engine.state;
-    selected = null;
-    save();
-    render();
-  }
 }
 function render() {
   document.getElementById("stats").innerHTML =
@@ -218,13 +212,20 @@ function render() {
     "</span>";
   document.getElementById("auto").textContent = clock ? "⏸ Pause" : "▶ Temps";
   document.getElementById("speed").textContent = rate;
-  let emoji = { tree: "🌲", field: "🌾", home: "🏠", grass: "·" };
-  document.getElementById("map").innerHTML = s.tiles
-    .map(
-      (t, i) =>
-        '<div class="tile" onclick="tap(' + i + ')">' + emoji[t] + "</div>",
-    )
-    .join("");
+  const map = document.getElementById("map");
+  if (!map.children.length) {
+    s.tiles.forEach((_, i) => {
+      const tile = document.createElement("button");
+      tile.innerHTML = '<span aria-hidden="true"></span>';
+      tile.onclick = () => tap(i);
+      map.append(tile);
+    });
+  }
+  s.tiles.forEach((type, i) => {
+    const tile = map.children[i];
+    tile.className = 'tile ' + type;
+    tile.setAttribute('aria-label', 'Case ' + (i + 1) + ' : ' + ({tree:'forêt',field:'culture',home:'maison',grass:'prairie'}[type]));
+  });
   let layer = document.getElementById("actors");
   let ids = new Set(s.people.map((p) => String(p.id)));
   layer.querySelectorAll(".actor").forEach((el) => {
@@ -243,7 +244,7 @@ function render() {
   s.people.forEach((p, i) => {
     let el = layer.querySelector('[data-id="' + p.id + '"]');
     if (!el) {
-      el = document.createElement("div");
+      el = document.createElement("button");
       el.className = "actor";
       el.dataset.id = p.id;
       el.innerHTML = "<b></b>";
@@ -255,6 +256,7 @@ function render() {
     el.style.setProperty("--x", (p.pos % W) * 100 + "%");
     el.style.setProperty("--y", Math.floor(p.pos / W) * 100 + "%");
     el.querySelector("b").textContent = p.name.charAt(0);
+    el.setAttribute("aria-label", p.name);
     el.title = p.name + " : " + p.reason;
     el.classList.toggle("chosen", selected === p.id);
   });
