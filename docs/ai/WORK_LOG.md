@@ -13,3 +13,10 @@
 - Contradictions initiales : énergie sans matière ; réserves épuisées et survie ; croissance sans matériaux ; réparation/croissance concurrentes ; masse identique et constitutions différentes ; cycles artificiels de gain d'énergie.
 - Test conceptuel recommandé : organisme vivant après épuisement des réserves, en tentant de réfuter M2.
 - Aucune simulation exécutée ; aucun modèle validé.
+
+## 2026-11-14 — Consolidation des huit snapshots de passation
+- Autorisation utilisateur : « Prochaine étape validée », après proposition de consolider la mémoire GitHub.
+- Création de SNAPSHOT_TRANSMISSION_2026-11-13.md : index fidèle aux statuts et décisions des huit snapshots reçus, **pas archive intégrale**.
+- Mise à jour des points d'entrée, état directeur et décisions ; aucun code moteur modifié.
+- État directeur : C1–C4 clos conceptuellement ; C5 ouvert ; DIR-1–DIR-6 validées ; audit phase 1 à engager après vérification du dépôt.
+- À faire : import verbatim des originaux via une source fiable, puis audit technique en lecture seule. Ne pas prétendre que les textes complets sont déjà archivés.
