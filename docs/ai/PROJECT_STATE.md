@@ -17,3 +17,8 @@ Omniscience divine sur les constituants, inspection exhaustive et intelligible, 
 
 ## Protocole
 Chaque nouvelle étape doit produire une spécification prête pour programmation, avec statut clair des inconnues ; l'ancien volet effort/récupération doit recevoir un complément technique sans réouverture conceptuelle. Chaque étape alimente un catalogue cumulatif des exigences C5, à transmettre au chat directeur et à C5 sans valider leur implémentation.
+
+## Actualisation par DIRECTEUR-SNAPSHOT v1.0 (13 novembre 2026)
+Cette section fait autorité pour le statut **global** des chantiers C1–C5 par rapport aux mentions historiques ci-dessus. C1, C2, C3 et C4 sont **conceptuellement validés et clôturés** ; C4.1 et C4.2 ont été régularisés lors de la clôture globale (décisions P1–P6 validées). C5 reste ouvert et son architecture non validée. C6–C10 sont à concevoir. Les travaux détaillés B1 sont des formalismes ultérieurs ouverts et ne révoquent pas la clôture conceptuelle C1.
+
+DIR-1–DIR-6 sont explicitement validées. G+ est accepté localement avec R-G1/R-G2, sans validation de la grille ni du rendu. L'audit transversal doit reprendre en lecture seule, vérifier la révision GitHub et distinguer VÉRIFIÉ, INFÉRÉ et INCONNU ; aucun F1–F4 n'est attribué. Voir [registre des snapshots](SNAPSHOT_TRANSMISSION_2026-11-13.md).
