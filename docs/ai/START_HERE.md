@@ -18,3 +18,6 @@ Statut : documentation de continuité, créée le 14 novembre 2026. Ne vaut pas 
 - Les modifications documentaires ne valent pas autorisation de modifier le moteur.
 - Travail sur branche dédiée, avec revue avant intégration dans main.
 - Toute étape B1 future vise un dossier prêt à coder : règles, données, algorithmes, interfaces, tests, inspection divine ; faisabilité réelle à vérifier.
+
+## Transmission du directeur (13 novembre 2026)
+Lire également [SNAPSHOT_TRANSMISSION_2026-11-13.md](SNAPSHOT_TRANSMISSION_2026-11-13.md) : index de huit snapshots, non verbatim. Le dernier DIRECTEUR-SNAPSHOT v1.0 établit C1–C4 clos, C5 ouvert et DIR-1–DIR-6 validées. Aucun F1–F4 sans audit réel.
