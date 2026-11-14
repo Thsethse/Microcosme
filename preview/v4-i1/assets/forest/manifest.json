@@ -1,0 +1,310 @@
+{
+  "license": "CC0-1.0",
+  "generator": "tools/build-forest-assets.cjs",
+  "assets": [
+    {
+      "key": "bush",
+      "path": "assets/forest/bush.svg",
+      "width": 40,
+      "height": 32,
+      "bytes": 3010,
+      "sha256": "fbdfbb2e5933aed48b12f36692ea2ece06a7a418644852272cfc3020f38ac972"
+    },
+    {
+      "key": "cave",
+      "path": "assets/forest/cave.svg",
+      "width": 160,
+      "height": 128,
+      "bytes": 56423,
+      "sha256": "ee6b0203debcf2228ad8287204f95e35b3891b23e8a41c0e67a16e5c3356098d"
+    },
+    {
+      "key": "flowers",
+      "path": "assets/forest/flowers.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 864,
+      "sha256": "74bf94d8f9d5e4c59193a2d9f4a62102917364fc102013ebf2b1dd3553d7dc21"
+    },
+    {
+      "key": "forest-0",
+      "path": "assets/forest/forest-0.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 1249,
+      "sha256": "e244f5293b4307c2413cf59a8bea49d47ef58028533aab310d34fb62dbe8a682"
+    },
+    {
+      "key": "forest-1",
+      "path": "assets/forest/forest-1.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 1251,
+      "sha256": "e603f02eace36c538516a191d3b03022c6a61f1cb7cc161dc0b23e80259760cc"
+    },
+    {
+      "key": "forest-2",
+      "path": "assets/forest/forest-2.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 1240,
+      "sha256": "b9b789f26eb1b11fc6806049d2a2fddfd6ee7ed36e1d44280c37aded7ca9161b"
+    },
+    {
+      "key": "forest-3",
+      "path": "assets/forest/forest-3.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 1229,
+      "sha256": "6f3756cfc3dd746f1f2d0bd62e29fe5c510839984512f5eb0e24a85a09c11b19"
+    },
+    {
+      "key": "grass-0",
+      "path": "assets/forest/grass-0.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 1257,
+      "sha256": "dedb7c2ac1342b08f857501f56011143a790cf40bf81c38759ad9109b68844e5"
+    },
+    {
+      "key": "grass-1",
+      "path": "assets/forest/grass-1.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 1242,
+      "sha256": "b18e92d70b40b671eacf54758f161c84d5983df1e46ca92898635fe7f17440f4"
+    },
+    {
+      "key": "grass-2",
+      "path": "assets/forest/grass-2.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 1246,
+      "sha256": "20f809e6e83441100c7575ac9c877836fa4a96b9636a7bfd01d6218f8b2ebc5c"
+    },
+    {
+      "key": "grass-3",
+      "path": "assets/forest/grass-3.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 1254,
+      "sha256": "aac7d48f58d933d494b4d0344dcce77671953e009009eed931e600cdd5f3f430"
+    },
+    {
+      "key": "log",
+      "path": "assets/forest/log.svg",
+      "width": 64,
+      "height": 32,
+      "bytes": 496,
+      "sha256": "4fcb8de1da2fb4e98ec111f1a7de6de449198c67788fcc37d82869e57a666f0c"
+    },
+    {
+      "key": "oak-0-crown",
+      "path": "assets/forest/oak-0-crown.svg",
+      "width": 96,
+      "height": 112,
+      "bytes": 21168,
+      "sha256": "5b0ef55d12e0d5053db0c605ee1118c52a933ae8f05e777ba028754cda0a4522"
+    },
+    {
+      "key": "oak-0-trunk",
+      "path": "assets/forest/oak-0-trunk.svg",
+      "width": 96,
+      "height": 112,
+      "bytes": 1118,
+      "sha256": "ffbd64dc264955eac7e092401f4c6a045c7c02a0c3627f0ea778129c98de8398"
+    },
+    {
+      "key": "oak-1-crown",
+      "path": "assets/forest/oak-1-crown.svg",
+      "width": 96,
+      "height": 112,
+      "bytes": 21264,
+      "sha256": "bf76c32888a4c04625817ffbe1de7e095f9156411a6350ec77dc5ab06277b4d0"
+    },
+    {
+      "key": "oak-1-trunk",
+      "path": "assets/forest/oak-1-trunk.svg",
+      "width": 96,
+      "height": 112,
+      "bytes": 1118,
+      "sha256": "31fd43fc00917b39a0b8f368420880fae49968d2385d4f71c19824d187c2cc0a"
+    },
+    {
+      "key": "oak-2-crown",
+      "path": "assets/forest/oak-2-crown.svg",
+      "width": 96,
+      "height": 112,
+      "bytes": 21495,
+      "sha256": "09d19f36cfc0aaf5a8b315479781cc75d272330624fdcc246158f0440a13ee6d"
+    },
+    {
+      "key": "oak-2-trunk",
+      "path": "assets/forest/oak-2-trunk.svg",
+      "width": 96,
+      "height": 112,
+      "bytes": 1118,
+      "sha256": "f02af66d8c1f17924b0c664152987231a4dc82e8b225f2f7c265d4b7853e5454"
+    },
+    {
+      "key": "pine-crown",
+      "path": "assets/forest/pine-crown.svg",
+      "width": 80,
+      "height": 128,
+      "bytes": 16078,
+      "sha256": "1da0a61af50195c64c6419dad74e390a66af1cdfa4d3a97cfc81927bde7b1024"
+    },
+    {
+      "key": "pine-trunk",
+      "path": "assets/forest/pine-trunk.svg",
+      "width": 80,
+      "height": 128,
+      "bytes": 249,
+      "sha256": "b9776842d1dfd69d02faf747db88c416651e1e500cfc06b9ca7120e658fe0c60"
+    },
+    {
+      "key": "reeds",
+      "path": "assets/forest/reeds.svg",
+      "width": 32,
+      "height": 48,
+      "bytes": 726,
+      "sha256": "28259040983945c8edd39cbe93e4582c6204e57e7bbd1cae7d94632b56f48264"
+    },
+    {
+      "key": "rock",
+      "path": "assets/forest/rock.svg",
+      "width": 64,
+      "height": 48,
+      "bytes": 6616,
+      "sha256": "bcf3f077b160fc375f1db3069dc8c47566f7e9134d80ac04b4a1a224c4e75a92"
+    },
+    {
+      "key": "snow-0",
+      "path": "assets/forest/snow-0.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 1033,
+      "sha256": "de86704cc7b553fb90061c045a362f97c2270b0a9efbab36cbf4c8f41aad5df3"
+    },
+    {
+      "key": "snow-1",
+      "path": "assets/forest/snow-1.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 1027,
+      "sha256": "80fc622acb2f9bc3d2d92da686202ddae5aeecb21e47556d7d2f6751f15f865d"
+    },
+    {
+      "key": "snow-2",
+      "path": "assets/forest/snow-2.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 1034,
+      "sha256": "26ea4e2b623f1a8788fc724bca219cd7f33f6549217f57fa159de580ae15abde"
+    },
+    {
+      "key": "snow-3",
+      "path": "assets/forest/snow-3.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 1030,
+      "sha256": "5bf00e8a8d69c532365be2868b2e64071277f00c32193c0e0f72dea40fa236dc"
+    },
+    {
+      "key": "soil-0",
+      "path": "assets/forest/soil-0.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 1033,
+      "sha256": "88fb43dc19b501c101ad520c10403957601efcc05c6db5260e6124b3fba024eb"
+    },
+    {
+      "key": "soil-1",
+      "path": "assets/forest/soil-1.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 1027,
+      "sha256": "f2a95f63b2742f9537617d1bb61a323681d5ceaaa64c2c7955f40e94f55c66ea"
+    },
+    {
+      "key": "soil-2",
+      "path": "assets/forest/soil-2.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 1034,
+      "sha256": "c6ea5d2b7f065c5ac6b6ca46f0fda3d6538b1de1fbbd34a2b7f230547eb0a069"
+    },
+    {
+      "key": "soil-3",
+      "path": "assets/forest/soil-3.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 1030,
+      "sha256": "e2a1365c785ffbe75a3f79751898630ba9017221c724a17ac2492640abb12479"
+    },
+    {
+      "key": "stone-0",
+      "path": "assets/forest/stone-0.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 1039,
+      "sha256": "34b5eaf04163330187baa525447fd1acb1c1594fa9a3e925e26df64cf3204bb3"
+    },
+    {
+      "key": "stone-1",
+      "path": "assets/forest/stone-1.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 1026,
+      "sha256": "166215b611f3ebe7c21b13fd38540beff5200947af720788211c1480f4b93bdd"
+    },
+    {
+      "key": "stone-2",
+      "path": "assets/forest/stone-2.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 1033,
+      "sha256": "175aa00c1ce6cb4ea69800654ff51be6d8f52417e0b6901618cae1184fb86f33"
+    },
+    {
+      "key": "stone-3",
+      "path": "assets/forest/stone-3.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 1033,
+      "sha256": "c3cc51e5dd7b8f4138afb2d75ee78b2cd37496b9dceb67181536ca00ea2c0c3e"
+    },
+    {
+      "key": "water-0",
+      "path": "assets/forest/water-0.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 1504,
+      "sha256": "e1aa6101081d08faddc238d4b10b3cb7fff204deca11dd98f45ab2d6c5317558"
+    },
+    {
+      "key": "water-1",
+      "path": "assets/forest/water-1.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 1490,
+      "sha256": "5a9c3e5b7829c2a15993e6a888d274fffd7f5a88acae156a2b0adefc84bde4e3"
+    },
+    {
+      "key": "water-2",
+      "path": "assets/forest/water-2.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 1505,
+      "sha256": "f730a6272f6e35bcc1231f460796ec3dd17e9e48bc0695a9a2a495985dc5ee3a"
+    },
+    {
+      "key": "water-3",
+      "path": "assets/forest/water-3.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 1496,
+      "sha256": "b99917d8bbd391c99b6962c5048272a9ea31f9af71dcaaa832f021dc0e817dd5"
+    }
+  ]
+}
