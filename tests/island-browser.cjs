@@ -281,8 +281,9 @@ const files = [
             { steps: 30 },
           );
           await page.mouse.up();
-          assert.notEqual(
-            await page.locator("#mini-position").textContent(),
+          await page.waitForFunction(
+            (before) =>
+              document.getElementById("mini-position").textContent !== before,
             miniBefore,
           );
           await page.locator("#mini-toggle").tap();
