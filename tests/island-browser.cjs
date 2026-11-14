@@ -10,6 +10,8 @@ const files = [
   "island.js",
   "island-world.js",
   "graphics.js",
+  "island-camera.js",
+  "island-art.js",
 ];
 (async () => {
   const server = http.createServer((req, res) => {
@@ -136,8 +138,48 @@ const files = [
             touchPoints: [],
           });
           assert.notDeepEqual((await snap()).camera, beforeTouch);
+          for (let cycle = 0; cycle < 4; cycle++) {
+            const b = await page.locator("#viewport").boundingBox(),
+              cx = b.x + b.width * 0.5,
+              cy = b.y + b.height * 0.5;
+            const gesture = async (from, to) => {
+              await cdp.send("Input.dispatchTouchEvent", {
+                type: "touchStart",
+                touchPoints: [
+                  { id: 1, x: cx - from, y: cy },
+                  { id: 2, x: cx + from, y: cy },
+                ],
+              });
+              for (let j = 1; j <= 6; j++) {
+                const d = from + ((to - from) * j) / 6;
+                await cdp.send("Input.dispatchTouchEvent", {
+                  type: "touchMove",
+                  touchPoints: [
+                    { id: 1, x: cx - d, y: cy },
+                    { id: 2, x: cx + d, y: cy },
+                  ],
+                });
+              }
+              await cdp.send("Input.dispatchTouchEvent", {
+                type: "touchEnd",
+                touchPoints: [],
+              });
+            };
+            const z = (await snap()).camera.zoom;
+            await gesture(50, 80);
+            assert.ok((await snap()).camera.zoom > z);
+            await gesture(80, 50);
+            assert.ok(Math.abs((await snap()).camera.zoom - z) < 0.001);
+          }
+          assert.equal((await snap()).pointers, 0);
           await cdp.detach();
         }
+        for (let i = 0; i < 4; i++) {
+          await page.locator("#zoom-in").tap();
+          await page.locator("#zoom-out").tap();
+        }
+        assert.ok(Math.abs((await snap()).camera.zoom - 1) < 0.001);
+        await page.locator("#zoom-reset").tap();
         await page.locator("#global").tap();
         const start = (await snap()).world;
         await tick(2);
@@ -192,14 +234,17 @@ const files = [
           .getByRole("button", { name: "Observer Les sommets", exact: true })
           .tap();
         const frozen = JSON.stringify((await snap()).world);
+        const exteriorCamera = (await snap()).camera;
         assert.ok(await page.locator("#portal").isVisible());
         await page.locator("#portal").tap();
         assert.equal((await snap()).scene.kind, "interior");
         await page.locator("#portal").tap();
         assert.equal((await snap()).scene.region, 2);
+        assert.deepEqual((await snap()).camera, exteriorCamera);
         await page.locator("#portal").tap();
         await page.locator("#outside").tap();
         assert.equal((await snap()).scene.region, 2);
+        assert.deepEqual((await snap()).camera, exteriorCamera);
         await page.locator("#global").tap();
         await tick(5);
         assert.equal(JSON.stringify((await snap()).world), frozen);

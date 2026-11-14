@@ -6,14 +6,14 @@
       name="viewport"
       content="width=device-width,initial-scale=1,viewport-fit=cover"
     />
-    <title>Microcosme — Île V2</title>
+    <title>Microcosme — Île V3</title>
     <link rel="stylesheet" href="island.css" />
   </head>
   <body>
     <main>
       <header>
         <div>
-          <p class="eyebrow">MICROCOSME · PROTOTYPE ÎLE V2</p>
+          <p class="eyebrow">MICROCOSME · PROTOTYPE ÎLE V3</p>
           <h1>Un petit monde vivant</h1>
         </div>
         <a href="index.html">Village historique ↗</a>
@@ -21,7 +21,12 @@
       <nav aria-label="Navigation de l’île">
         <button id="global">Carte de l’île</button
         ><button id="outside" hidden>Sortir de la grotte</button
-        ><button id="pause">Mettre en pause</button><span id="clock"></span>
+        ><button id="pause">Mettre en pause</button
+        ><span id="zoom-controls" hidden
+          ><button id="zoom-out" aria-label="Dézoomer">−</button
+          ><button id="zoom-reset" aria-label="Échelle initiale">100%</button
+          ><button id="zoom-in" aria-label="Zoomer">+</button></span
+        ><span id="clock"></span>
       </nav>
       <section class="observation" aria-labelledby="scene-title">
         <div class="caption">
@@ -85,6 +90,8 @@
     </main>
     <script src="graphics.js"></script>
     <script src="island-world.js"></script>
+    <script src="island-camera.js"></script>
+    <script src="island-art.js"></script>
     <script src="island.js"></script>
   </body>
 </html>

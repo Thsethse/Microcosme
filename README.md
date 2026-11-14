@@ -52,3 +52,7 @@ Ouvrir [island.html](island.html) sur le même serveur statique : monde indépen
 ## Île V2
 
 La branche V2 agrandit les régions, ajoute une caméra tactile et 14 biotopes. [Guide V2, atlas et procédure iPad](docs/ISLAND-V2.md). La prévisualisation V1 demeure figée et accessible à son URL précédente.
+
+## Île V3
+
+Caméra locale continue, pincement et ressources procédurales pour les 14 biotopes : [inventaire, architecture et procédure iPad](docs/ISLAND-V3.md). Les prévisualisations V1/V2 restent indépendantes.

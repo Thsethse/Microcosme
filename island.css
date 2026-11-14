@@ -280,3 +280,30 @@ details {
 #regions button:hover {
   border-color: #eee4a855;
 }
+
+#portal {
+  width: 64px;
+  height: 64px;
+  min-height: 64px;
+  white-space: normal;
+  z-index: 3;
+  border: 2px solid #ead4a0;
+  background: #17343be8;
+}
+#viewport.local {
+  user-select: none;
+  -webkit-user-select: none;
+}
+#viewport.local button {
+  touch-action: none;
+}
+#zoom-controls {
+  display: inline-flex;
+  gap: 4px;
+}
+#zoom-controls button {
+  padding: 8px;
+}
+#region-toast {
+  z-index: 4;
+}

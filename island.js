@@ -2,6 +2,8 @@
   "use strict";
   const I = MicrocosmeIsland,
     G = MicrocosmeGraphics,
+    C = IslandCamera,
+    A = IslandArt,
     world = I.create(),
     view = I.createView(world);
   const $ = (id) => document.getElementById(id),
@@ -16,7 +18,7 @@
   let camera = null,
     previousScene = "",
     toastTimer = null,
-    drag = null,
+    exteriorCamera = null,
     suppressClick = false;
   function displayScene() {
     return view.scene.kind === "local" ? { ...view.scene, camera } : view.scene;
@@ -47,113 +49,30 @@
     ctx.fillStyle = color;
     ctx.fillRect(x, y, w, h);
   }
+  const tiles = new Map();
   function background() {
     const b = I.bounds(displayScene()),
       size = canvas.width / b.width;
     ctx.imageSmoothingEnabled = false;
-    for (let y = 0; y < b.height; y++)
-      for (let x = 0; x < b.width; x++) {
-        const wx = b.x + x,
-          wy = b.y + y,
-          kind = I.terrain(wx, wy, b.space),
-          n = G.hash(wx + wy * I.W),
-          px = x * size,
-          py = y * size;
-        rect(px, py, size, size, colors[kind]);
-        for (let j = 0; j < (view.scene.kind === "global" ? 1 : 4); j++) {
-          const a = G.hash(n, j);
-          rect(
-            px + (a % (size - 3)),
-            py + ((a >>> 8) % (size - 3)),
-            2,
-            1,
-            kind === "ocean" || kind === "river" ? "#79b9be55" : "#d7dba42d",
-          );
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let y = Math.floor(b.y); y < Math.ceil(b.y + b.height); y++)
+      for (let x = Math.floor(b.x); x < Math.ceil(b.x + b.width); x++) {
+        const kind = I.terrain(x, y, b.space),
+          key = kind + ":" + (G.hash(x + y * 96) % 8);
+        let tile = tiles.get(key);
+        if (!tile) {
+          tile = document.createElement("canvas");
+          tile.width = tile.height = 32;
+          A.tile(tile.getContext("2d"), kind, x, y);
+          tiles.set(key, tile);
         }
-        if (
-          view.scene.kind !== "global" &&
-          ["forest", "jungle", "mangrove"].includes(kind) &&
-          n % 3 !== 0
-        ) {
-          // Reuse the original pixel tree at local scale, miniaturized on the island.
-          ctx.save();
-          ctx.translate(px, py);
-          ctx.scale(size / 32, size / 32);
-          G.tile(ctx, "tree", 0);
-          ctx.restore();
-        }
-        if (
-          [
-            "desert",
-            "canyon",
-            "heath",
-            "swamp",
-            "mangrove",
-            "volcano",
-            "snow",
-            "jungle",
-          ].includes(kind)
-        ) {
-          const u = size / 8;
-          if (kind === "desert") {
-            rect(px + u, py + u * 3, u * 6, u, "#e9c88c");
-            rect(px + u * 3, py + u * 4, u * 4, u, "#aa895a");
-          }
-          if (kind === "canyon") {
-            rect(px, py + u * 3, size, u * 2, "#734c46");
-            rect(px, py + u * 2, size, u, "#e5ab78");
-          }
-          if (kind === "volcano") {
-            rect(px + u, py + u * 2, u * 6, u * 5, "#4a4246");
-            rect(px + u * 3, py + u, u * 2, u * 3, "#e88145");
-          }
-          if (kind === "snow") {
-            rect(px + u, py + u * 3, u * 6, u, "#aad0d6");
-            rect(px + u * 2, py + u * 2, u * 3, u, "#f2f4df");
-          }
-          if (["heath", "swamp", "mangrove", "jungle"].includes(kind)) {
-            rect(px + u * 2, py + u * 3, u, u * 3, "#345b49");
-            rect(
-              px + u * 4,
-              py + u * 2,
-              u * 2,
-              u * 2,
-              kind === "heath" ? "#bea1c4" : "#7da776",
-            );
-          }
-        }
-        if (kind === "plain" && n % 4 === 0) {
-          rect(px + size * 0.4, py + size * 0.5, 2, 3, "#48774d");
-          rect(px + size * 0.4, py + size * 0.5, 2, 1, "#eee2a3");
-        }
-        if (
-          ["mountain", "snow", "tundra", "cliff"].includes(kind) &&
-          (view.scene.kind !== "global" || n % 4 === 0)
-        ) {
-          const u = size / 8;
-          rect(px + u, py + u * 2, u * 6, u * 5, "#555f60");
-          rect(px + u * 2, py + u, u * 4, u * 5, "#9fa490");
-          rect(px + u * 3, py, u * 2, u * 3, "#d8d6b6");
-          rect(px + u * 5, py + u * 3, u * 2, u * 4, "#747d76");
-        }
-        if (kind === "wall" && n % 3 === 0)
-          rect(px + 3, py + 3, size - 6, 3, "#69747b");
-        if (kind === "floor" && wx === 8 && wy === 3) {
-          rect(
-            px + size * 0.3,
-            py + size * 0.2,
-            size * 0.3,
-            size * 0.6,
-            "#88d6cf",
-          );
-          rect(
-            px + size * 0.5,
-            py + size * 0.1,
-            size * 0.2,
-            size * 0.7,
-            "#c7f2db",
-          );
-        }
+        ctx.drawImage(
+          tile,
+          (x - b.x) * size,
+          (y - b.y) * size,
+          size + 0.2,
+          size + 0.2,
+        );
       }
     // Detailed objects only in the camera window; no island-wide object Canvas/cache.
     if (view.scene.kind === "local")
@@ -267,7 +186,8 @@
   function render() {
     view.sync();
     const sceneKey = JSON.stringify(view.scene);
-    if (sceneKey !== previousScene) {
+    const sceneChanged = sceneKey !== previousScene;
+    if (sceneChanged) {
       previousScene = sceneKey;
       if (view.scene.kind === "local") {
         const r = I.regions[view.scene.region],
@@ -275,7 +195,11 @@
             view.scene.region === I.regionAt(I.cave.outside)
               ? I.cave.outside
               : { x: r.x + 16, y: r.y + 12 };
-        camera = I.cameraFor(r.id, p.x, p.y);
+        camera = C.center(r, p.x, p.y, camera?.zoom || 1);
+        if (exteriorCamera && sceneKey === exteriorCamera.scene) {
+          camera = { ...exteriorCamera.camera };
+          exteriorCamera = null;
+        }
         $("region-toast").textContent = r.name;
         $("region-toast").hidden = false;
         clearTimeout(toastTimer);
@@ -286,7 +210,12 @@
     }
     if (view.followed && view.scene.kind === "local") {
       const p = world.state.people.find((p) => p.id === view.followed);
-      camera = I.cameraFor(view.scene.region, p.pos.x, p.pos.y);
+      camera = C.center(
+        I.regions[view.scene.region],
+        p.pos.x,
+        p.pos.y,
+        camera?.zoom || 1,
+      );
     }
     const scene = displayScene(),
       key = JSON.stringify(scene),
@@ -294,11 +223,15 @@
     if (backgroundKey !== key) {
       backgroundKey = key;
       background();
-      $("viewport").classList.remove("transition");
-      void $("viewport").offsetWidth;
-      $("viewport").classList.add("transition");
+      if (sceneChanged) {
+        $("viewport").classList.remove("transition");
+        void $("viewport").offsetWidth;
+        $("viewport").classList.add("transition");
+      }
     }
     $("viewport").classList.toggle("local", local);
+    $("zoom-controls").hidden = !local;
+    $("zoom-reset").textContent = Math.round((camera?.zoom || 1) * 100) + "%";
     $("regions").hidden = scene.kind !== "global";
     $("outside").hidden = scene.kind !== "interior";
     $("scene-title").textContent =
@@ -338,6 +271,10 @@
       node.hidden = !projected;
       if (!projected) continue;
       at(node, projected);
+      node.firstChild.style.width =
+        (scene.kind === "global" ? 9 : 32 * (scene.camera?.zoom || 1)) + "px";
+      node.firstChild.style.height =
+        (scene.kind === "global" ? 14 : 48 * (scene.camera?.zoom || 1)) + "px";
       node.classList.toggle("mini", scene.kind === "global");
       node.classList.toggle("selected", view.selected?.id === p.id);
       node.setAttribute("aria-label", p.name + " · ouvrir la fiche");
@@ -365,9 +302,13 @@
           : null;
     $("portal").hidden = !portal;
     if (portal) {
-      at($("portal"), portal);
+      const box = $("viewport").getBoundingClientRect();
+      at($("portal"), {
+        x: Math.max(34 / box.width, Math.min(1 - 34 / box.width, portal.x)),
+        y: Math.max(34 / box.height, Math.min(1 - 34 / box.height, portal.y)),
+      });
       $("portal").textContent =
-        scene.kind === "interior" ? "↥ Sortir" : "↓ Entrer dans la grotte";
+        scene.kind === "interior" ? "↥ Sortir" : "↓ Entrer";
     }
     const p = world.state.people[0];
     $("activity").textContent = p.name + " · " + p.activity;
@@ -394,66 +335,146 @@
         world.state.tick;
     }
   }
-  $("viewport").addEventListener("pointerdown", (e) => {
-    suppressClick = false;
-    if (view.scene.kind !== "local" || e.button !== 0) return;
-    drag = {
-      id: e.pointerId,
-      x: e.clientX,
-      y: e.clientY,
-      camera: { ...camera },
-      moved: false,
+  const pointers = new Map();
+  let gesture = null,
+    frame = 0;
+  function scheduleRender() {
+    if (!frame)
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        render();
+      });
+  }
+  function point(e) {
+    const b = $("viewport").getBoundingClientRect();
+    return { x: (e.clientX - b.x) / b.width, y: (e.clientY - b.y) / b.height };
+  }
+  function rebase() {
+    const a = [...pointers.values()];
+    if (!a.length) {
+      gesture = null;
+      return;
+    }
+    const mid =
+      a.length > 1
+        ? { x: (a[0].x + a[1].x) / 2, y: (a[0].y + a[1].y) / 2 }
+        : a[0];
+    gesture = {
+      start: { ...camera },
+      mid,
+      anchor: {
+        x: camera.x + mid.x * camera.width,
+        y: camera.y + mid.y * camera.height,
+      },
+      distance:
+        a.length > 1
+          ? Math.hypot(a[0].x - a[1].x, (a[0].y - a[1].y) * 0.75)
+          : 0,
     };
-    suppressClick = false;
+  }
+  function capture(id) {
+    try {
+      $("viewport").setPointerCapture(id);
+    } catch {
+      /* pointer was cancelled */
+    }
+  }
+  $("viewport").addEventListener("pointerdown", (e) => {
+    if (!pointers.size) suppressClick = false;
+    if (view.scene.kind !== "local" || e.button > 0) return;
+    pointers.set(e.pointerId, point(e));
+    rebase();
+    if (pointers.size > 1) {
+      suppressClick = true;
+      view.follow(null);
+      for (const id of pointers.keys()) capture(id);
+    }
   });
   $("viewport").addEventListener("pointermove", (e) => {
-    if (!drag || e.pointerId !== drag.id) return;
-    const dx = e.clientX - drag.x,
-      dy = e.clientY - drag.y;
-    if (!drag.moved && Math.hypot(dx, dy) < 8) return;
-    drag.moved = true;
+    if (!pointers.has(e.pointerId) || !gesture) return;
+    pointers.set(e.pointerId, point(e));
+    const a = [...pointers.values()],
+      r = I.regions[view.scene.region];
+    if (a.length > 1) {
+      const mid = { x: (a[0].x + a[1].x) / 2, y: (a[0].y + a[1].y) / 2 },
+        distance = Math.hypot(a[0].x - a[1].x, (a[0].y - a[1].y) * 0.75);
+      camera = C.pinch(
+        r,
+        gesture.start,
+        gesture.anchor,
+        mid,
+        distance / Math.max(0.001, gesture.distance),
+      );
+    } else {
+      const dx = a[0].x - gesture.mid.x,
+        dy = a[0].y - gesture.mid.y,
+        box = $("viewport").getBoundingClientRect();
+      if (!suppressClick && Math.hypot(dx * box.width, dy * box.height) < 8)
+        return;
+      camera = C.pan(r, gesture.start, dx, dy);
+    }
+    e.preventDefault();
     suppressClick = true;
     view.follow(null);
-    $("viewport").setPointerCapture(e.pointerId);
-    const box = $("viewport").getBoundingClientRect();
-    camera = I.cameraFor(
-      view.scene.region,
-      drag.camera.x + 8 - (dx / box.width) * 16,
-      drag.camera.y + 6 - (dy / box.height) * 12,
-    );
-    render();
+    capture(e.pointerId);
+    scheduleRender();
   });
-  for (const event of ["pointerup", "pointercancel"])
-    $("viewport").addEventListener(event, (e) => {
-      if (drag?.id === e.pointerId) drag = null;
-    });
+  function end(e) {
+    if (suppressClick && pointers.has(e.pointerId)) e.preventDefault();
+    if (!pointers.has(e.pointerId)) return;
+    if (e.type !== "pointerup") suppressClick = true;
+    pointers.delete(e.pointerId);
+    rebase();
+  }
+  for (const name of ["pointerup", "pointercancel", "lostpointercapture"])
+    $("viewport").addEventListener(name, end);
   $("viewport").addEventListener(
     "click",
     (e) => {
       if (suppressClick) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        suppressClick = false;
       }
     },
     true,
   );
+  function zoomBy(factor) {
+    if (view.scene.kind !== "local") return;
+    const start = camera;
+    camera = C.pinch(
+      I.regions[view.scene.region],
+      start,
+      { x: start.x + start.width / 2, y: start.y + start.height / 2 },
+      { x: 0.5, y: 0.5 },
+      factor,
+    );
+    render();
+  }
+  $("zoom-in").onclick = () => zoomBy(1.25);
+  $("zoom-out").onclick = () => zoomBy(0.8);
+  $("zoom-reset").onclick = () => {
+    if (view.scene.kind === "local") {
+      const c = camera;
+      camera = C.center(
+        I.regions[view.scene.region],
+        c.x + c.width / 2,
+        c.y + c.height / 2,
+      );
+      render();
+    }
+  };
   document.addEventListener("keydown", (e) => {
     if (sheet.open || view.scene.kind !== "local") return;
     const d = {
-      ArrowLeft: [-2, 0],
-      ArrowRight: [2, 0],
-      ArrowUp: [0, -2],
-      ArrowDown: [0, 2],
+      ArrowLeft: [-0.1, 0],
+      ArrowRight: [0.1, 0],
+      ArrowUp: [0, -0.1],
+      ArrowDown: [0, 0.1],
     }[e.key];
     if (!d) return;
     e.preventDefault();
     view.follow(null);
-    camera = I.cameraFor(
-      view.scene.region,
-      camera.x + 8 + d[0],
-      camera.y + 6 + d[1],
-    );
+    camera = C.pan(I.regions[view.scene.region], camera, -d[0], -d[1]);
     render();
   });
   for (const f of I.features) {
@@ -462,7 +483,12 @@
     b.onclick = () => {
       view.local(I.regionAt(f));
       render();
-      camera = I.cameraFor(view.scene.region, f.x, f.y);
+      camera = C.center(
+        I.regions[view.scene.region],
+        f.x,
+        f.y,
+        camera?.zoom || 1,
+      );
       render();
     };
     $("atlas").append(b);
@@ -478,7 +504,13 @@
   };
   $("portal").onclick = () => {
     if (view.scene.kind === "interior") view.exit();
-    else view.enter();
+    else {
+      exteriorCamera = {
+        scene: JSON.stringify(view.scene),
+        camera: { ...camera },
+      };
+      view.enter();
+    }
     render();
   };
   $("resident").onclick = () => openPerson(1, $("resident"));
@@ -510,6 +542,50 @@
       first.focus();
     }
   });
+  // Activate a short touch on pointerup; swallow its compatibility click only.
+  // This avoids the lost/delayed compatibility click after a captured Safari pan.
+  let touchTarget = null,
+    lastTouch = null;
+  document.addEventListener("pointerdown", (e) => {
+    lastTouch = null;
+    if (e.pointerType !== "touch") return;
+    const button = e.target.closest("button");
+    touchTarget = button
+      ? { button, id: e.pointerId, x: e.clientX, y: e.clientY }
+      : null;
+  });
+  document.addEventListener("pointerup", (e) => {
+    const t = touchTarget;
+    if (!t || t.id !== e.pointerId) return;
+    touchTarget = null;
+    if (
+      e.pointerType !== "touch" ||
+      Math.hypot(e.clientX - t.x, e.clientY - t.y) >= 8 ||
+      !t.button.contains(e.target)
+    )
+      return;
+    if ($("viewport").contains(t.button) && suppressClick) return;
+    e.preventDefault();
+    lastTouch = { button: t.button, time: performance.now() };
+    t.button.click();
+  });
+  document.addEventListener("pointercancel", () => {
+    touchTarget = null;
+  });
+  document.addEventListener(
+    "click",
+    (e) => {
+      if (
+        e.isTrusted &&
+        lastTouch &&
+        performance.now() - lastTouch.time < 700
+      ) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+    },
+    true,
+  );
   function schedule() {
     clearInterval(timer);
     timer = null;
@@ -545,6 +621,8 @@
       followed: view.followed,
       camera: camera ? { ...camera } : null,
       viewport: I.bounds(displayScene()),
+      tileCache: tiles.size,
+      pointers: pointers.size,
     }),
   };
 })();
