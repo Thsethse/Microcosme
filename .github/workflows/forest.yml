@@ -24,3 +24,5 @@ jobs:
       - run: npm test
       - run: npx playwright install --with-deps chromium webkit
       - run: node tests/forest-browser.cjs
+      - name: Parcours de la prévisualisation HTTPS indépendante
+        run: FOREST_URL="https://thsethse.github.io/Microcosme/preview/v4-i1/forest.html?v=v4-i1-1" node tests/forest-browser.cjs

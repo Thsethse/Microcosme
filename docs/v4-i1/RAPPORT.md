@@ -2,9 +2,9 @@
 
 Prototype pour audit et essai utilisateur. **Ne pas fusionner ni généraliser V4.**
 
-Page source : `forest.html`. Prévisualisation indépendante prévue :
+Page source : `forest.html`. Prévisualisation indépendante publiée :
 <https://thsethse.github.io/Microcosme/preview/v4-i1/forest.html?v=v4-i1-1>.
-Le statut effectif de publication et les contrôles HTTPS sont consignés dans `PUBLICATION.md`.
+Le déploiement Pages et les 50 contrôles HTTPS réussis sont consignés dans `PUBLICATION.md`.
 
 ## A — Audit et références
 
@@ -120,7 +120,10 @@ désigne ici sa continuité entre vues, pas une nouvelle persistance de session.
 
 Les résultats navigateur et les mesures de cinq minutes sont archivés dans les
 fichiers JSON de ce dossier. Le workflow `.github/workflows/forest.yml` ajoute
-un contrôle V4 distinct. Le statut de la CI distante est à consulter sur la PR.
+un contrôle V4 distinct, local puis sur l'URL publique. WebKit a également passé
+le parcours public depuis cette VM ; Chromium public local rencontre une
+autorité de proxy absente de son magasin NSS, sans désactivation TLS. Le statut
+des tests publics rejoués par la CI distante est à consulter sur la PR.
 
 ### Matrice du contrat
 
