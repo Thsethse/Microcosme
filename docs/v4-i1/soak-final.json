@@ -1,0 +1,307 @@
+[
+  {
+    "browser": "chromium",
+    "version": "151.0.7922.34",
+    "url": "http://127.0.0.1:8765/forest.html",
+    "elapsedMs": 300202.3999999999,
+    "navigationCycles": 461,
+    "bins": [
+      {
+        "frames": 1744,
+        "medianMs": 16.699999999999818,
+        "p95Ms": 16.799999999999272,
+        "meanFps": 58.13565875968372
+      },
+      {
+        "frames": 1795,
+        "medianMs": 16.69999999999709,
+        "p95Ms": 16.700000000004366,
+        "meanFps": 59.83572676240382
+      },
+      {
+        "frames": 1792,
+        "medianMs": 16.69999999999709,
+        "p95Ms": 16.70000000001164,
+        "meanFps": 59.73572276224383
+      },
+      {
+        "frames": 1786,
+        "medianMs": 16.69999999999709,
+        "p95Ms": 16.79999999998836,
+        "meanFps": 59.53571476192381
+      },
+      {
+        "frames": 1798,
+        "medianMs": 16.699999999982538,
+        "p95Ms": 16.79999999998836,
+        "meanFps": 59.935730762563836
+      },
+      {
+        "frames": 1789,
+        "medianMs": 16.699999999982538,
+        "p95Ms": 16.70000000001164,
+        "meanFps": 59.63571876208383
+      },
+      {
+        "frames": 1796,
+        "medianMs": 16.699999999982538,
+        "p95Ms": 16.79999999998836,
+        "meanFps": 59.86906142912379
+      },
+      {
+        "frames": 1789,
+        "medianMs": 16.699999999982538,
+        "p95Ms": 16.70000000001164,
+        "meanFps": 59.63571876208383
+      },
+      {
+        "frames": 1780,
+        "medianMs": 16.699999999982538,
+        "p95Ms": 16.79999999998836,
+        "meanFps": 59.33570676160376
+      },
+      {
+        "frames": 1789,
+        "medianMs": 16.70000000001164,
+        "p95Ms": 16.79999999998836,
+        "meanFps": 59.63571876208383
+      },
+      {
+        "frames": 12,
+        "medianMs": 16.70000000001164,
+        "p95Ms": 16.70000000001164,
+        "meanFps": 59.99999999999999
+      }
+    ],
+    "checkpoints": [
+      {
+        "elapsed": 116,
+        "tick": 0,
+        "objects": 117,
+        "assets": 38,
+        "groundBytes": 5925888,
+        "tracks": 1,
+        "domNodes": 69,
+        "actorNodes": 1,
+        "heapBytes": 1612488
+      },
+      {
+        "elapsed": 60301,
+        "tick": 100,
+        "objects": 117,
+        "assets": 38,
+        "groundBytes": 5925888,
+        "tracks": 1,
+        "domNodes": 69,
+        "actorNodes": 1,
+        "heapBytes": 2116524
+      },
+      {
+        "elapsed": 120449,
+        "tick": 201,
+        "objects": 117,
+        "assets": 38,
+        "groundBytes": 5925888,
+        "tracks": 1,
+        "domNodes": 69,
+        "actorNodes": 1,
+        "heapBytes": 1994652
+      },
+      {
+        "elapsed": 180678,
+        "tick": 301,
+        "objects": 117,
+        "assets": 38,
+        "groundBytes": 5925888,
+        "tracks": 1,
+        "domNodes": 69,
+        "actorNodes": 1,
+        "heapBytes": 2039400
+      },
+      {
+        "elapsed": 240907,
+        "tick": 401,
+        "objects": 117,
+        "assets": 38,
+        "groundBytes": 5925888,
+        "tracks": 1,
+        "domNodes": 69,
+        "actorNodes": 1,
+        "heapBytes": 2072036
+      },
+      {
+        "elapsed": 300138,
+        "tick": 500,
+        "objects": 117,
+        "assets": 38,
+        "groundBytes": 5925888,
+        "tracks": 1,
+        "domNodes": 69,
+        "actorNodes": 1,
+        "heapBytes": 2066492
+      },
+      {
+        "elapsed": 300159,
+        "tick": 500,
+        "objects": 117,
+        "assets": 38,
+        "groundBytes": 5925888,
+        "tracks": 1,
+        "domNodes": 69,
+        "actorNodes": 1,
+        "heapBytes": 2042200
+      }
+    ],
+    "errors": [],
+    "note": "Linux VM, two headless engines may contend for CPU; frame intervals are observational, not certified iPad performance. JS heap excludes native image/GPU memory; WebKit heap unavailable."
+  },
+  {
+    "browser": "webkit",
+    "version": "26.5",
+    "url": "http://127.0.0.1:8765/forest.html",
+    "elapsedMs": 300829,
+    "navigationCycles": 458,
+    "bins": [
+      {
+        "frames": 1049,
+        "medianMs": 24,
+        "p95Ms": 43,
+        "meanFps": 34.981825457698335
+      },
+      {
+        "frames": 1193,
+        "medianMs": 23,
+        "p95Ms": 39,
+        "meanFps": 39.762690397626905
+      },
+      {
+        "frames": 1010,
+        "medianMs": 27,
+        "p95Ms": 51,
+        "meanFps": 33.683508420877104
+      },
+      {
+        "frames": 1083,
+        "medianMs": 25,
+        "p95Ms": 45,
+        "meanFps": 36.074747676626366
+      },
+      {
+        "frames": 1020,
+        "medianMs": 28,
+        "p95Ms": 45,
+        "meanFps": 34.041985114975134
+      },
+      {
+        "frames": 974,
+        "medianMs": 29,
+        "p95Ms": 48,
+        "meanFps": 32.462338354886015
+      },
+      {
+        "frames": 1025,
+        "medianMs": 26,
+        "p95Ms": 49,
+        "meanFps": 34.150729659492235
+      },
+      {
+        "frames": 998,
+        "medianMs": 27,
+        "p95Ms": 48,
+        "meanFps": 33.24339628926418
+      },
+      {
+        "frames": 1038,
+        "medianMs": 27,
+        "p95Ms": 44,
+        "meanFps": 34.61153717905969
+      },
+      {
+        "frames": 1087,
+        "medianMs": 26,
+        "p95Ms": 43,
+        "meanFps": 36.229710362297105
+      },
+      {
+        "frames": 42,
+        "medianMs": 19,
+        "p95Ms": 25,
+        "meanFps": 50.847457627118644
+      }
+    ],
+    "checkpoints": [
+      {
+        "elapsed": 17,
+        "tick": 0,
+        "objects": 117,
+        "assets": 38,
+        "groundBytes": 5925888,
+        "tracks": 1,
+        "domNodes": 69,
+        "actorNodes": 1
+      },
+      {
+        "elapsed": 60156,
+        "tick": 99,
+        "objects": 117,
+        "assets": 38,
+        "groundBytes": 5925888,
+        "tracks": 1,
+        "domNodes": 69,
+        "actorNodes": 1
+      },
+      {
+        "elapsed": 120321,
+        "tick": 199,
+        "objects": 117,
+        "assets": 38,
+        "groundBytes": 5925888,
+        "tracks": 1,
+        "domNodes": 69,
+        "actorNodes": 1
+      },
+      {
+        "elapsed": 180463,
+        "tick": 298,
+        "objects": 117,
+        "assets": 38,
+        "groundBytes": 5925888,
+        "tracks": 1,
+        "domNodes": 69,
+        "actorNodes": 1
+      },
+      {
+        "elapsed": 240615,
+        "tick": 397,
+        "objects": 117,
+        "assets": 38,
+        "groundBytes": 5925888,
+        "tracks": 1,
+        "domNodes": 69,
+        "actorNodes": 1
+      },
+      {
+        "elapsed": 300815,
+        "tick": 497,
+        "objects": 117,
+        "assets": 38,
+        "groundBytes": 5925888,
+        "tracks": 1,
+        "domNodes": 69,
+        "actorNodes": 1
+      },
+      {
+        "elapsed": 300823,
+        "tick": 497,
+        "objects": 117,
+        "assets": 38,
+        "groundBytes": 5925888,
+        "tracks": 1,
+        "domNodes": 69,
+        "actorNodes": 1
+      }
+    ],
+    "errors": [],
+    "note": "Linux VM, two headless engines may contend for CPU; frame intervals are observational, not certified iPad performance. JS heap excludes native image/GPU memory; WebKit heap unavailable."
+  }
+]

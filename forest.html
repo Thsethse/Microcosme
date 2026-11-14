@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Microcosme — La Forêt des Sources</title>
+    <link rel="stylesheet" href="forest.css?v=v4-i1-1" />
+  </head>
+  <body>
+    <a class="skip" href="#observation">Aller à la scène</a>
+    <button id="global" class="world-button">Carte du monde</button>
+    <main>
+      <header>
+        <p class="eyebrow">MICROCOSME <span>ÉTUDE GRAPHIQUE · V4-I1</span></p>
+        <h1>La Forêt des Sources</h1>
+        <p class="intro">
+          Une clairière, le murmure de l’eau, une vie qui suit son cours.
+        </p>
+      </header>
+      <nav class="toolbar" aria-label="Explorer la forêt">
+        <div class="places">
+          <button id="clearing" aria-pressed="true">La clairière</button
+          ><button id="river">La rivière</button
+          ><button id="cave">La grotte</button>
+        </div>
+        <div class="tools">
+          <button id="pause">Mettre en pause</button
+          ><span id="zoom-controls"
+            ><button id="zoom-out" aria-label="Dézoomer">−</button
+            ><button id="zoom-reset" aria-label="Échelle initiale">75 %</button
+            ><button id="zoom-in" aria-label="Zoomer">+</button></span
+          >
+        </div>
+      </nav>
+      <section id="observation" aria-labelledby="scene-title">
+        <div class="caption">
+          <h2 id="scene-title">La clairière</h2>
+          <span id="following" role="status">Vue libre</span>
+        </div>
+        <div
+          id="viewport"
+          tabindex="0"
+          aria-label="Scène interactive : glisser pour explorer, pincer pour zoomer, flèches au clavier"
+        >
+          <canvas
+            id="land"
+            width="1024"
+            height="768"
+            role="img"
+            aria-label="Forêt, clairière et cours d’eau assemblés, avec les habitants du monde"
+          ></canvas>
+          <div id="actors"></div>
+          <button id="portal" hidden>Entrer</button>
+          <div id="map-panel">
+            <canvas
+              id="mini-map"
+              width="192"
+              height="120"
+              aria-label="Minicarte : fenêtre observée et position d’Alix"
+            ></canvas
+            ><span id="mini-caption">LA FORÊT DES SOURCES</span>
+          </div>
+          <div id="loading" role="status">Les feuillages prennent place…</div>
+        </div>
+        <div class="scene-bottom">
+          <p id="help">
+            Glissez pour explorer · pincez pour vous rapprocher · touchez Alix
+            pour la suivre.
+          </p>
+          <button
+            id="mini-toggle"
+            aria-controls="map-panel"
+            aria-expanded="true"
+          >
+            Masquer la minicarte</button
+          ><button id="outside" hidden>Sortir de la grotte</button>
+        </div>
+      </section>
+      <section class="resident-panel" aria-label="Habitants du monde">
+        <div>
+          <p class="eyebrow">UNE VIE DANS LA CLAIRIÈRE</p>
+          <p id="activity">Alix poursuit sa route.</p>
+        </div>
+        <div>
+          <button id="resident">Alix · ouvrir la fiche</button
+          ><button id="locate">Retrouver Alix</button>
+        </div>
+        <p id="clock"></p>
+      </section>
+      <footer>
+        <p>
+          Prototype en cours d’évaluation · Une nouvelle visite recommence ce
+          monde d’essai.
+        </p>
+        <a
+          href="https://thsethse.github.io/Microcosme/preview/island-v3/island.html"
+          >Ouvrir le prototype Île V3 ↗</a
+        >
+      </footer>
+    </main>
+    <dialog id="sheet" aria-labelledby="person-title">
+      <form method="dialog">
+        <button class="close" aria-label="Fermer la fiche">Fermer ×</button>
+      </form>
+      <p class="eyebrow" id="person-identity"></p>
+      <h2 id="person-title">Alix</h2>
+      <p id="details"></p>
+      <button id="follow">Suivre Alix</button
+      ><button id="sheet-world">Carte du monde</button>
+    </dialog>
+    <script src="graphics.js?v=v4-i1-1"></script>
+    <script src="island-world.js?v=v4-i1-1"></script>
+    <script src="island-camera.js?v=v4-i1-1"></script>
+    <script src="island-motion.js?v=v4-i1-1"></script>
+    <script src="forest-model.js?v=v4-i1-1"></script>
+    <script src="forest-renderer.js?v=v4-i1-1"></script>
+    <script src="forest.js?v=v4-i1-1"></script>
+  </body>
+</html>

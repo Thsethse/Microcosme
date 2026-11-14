@@ -1,0 +1,26 @@
+name: V4-I1 — Forêt des Sources
+on:
+  pull_request:
+    paths:
+      - "forest*"
+      - "assets/forest/**"
+      - "tests/forest*"
+      - "tools/build-forest-assets.cjs"
+      - ".github/workflows/forest.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  graphics:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: node tools/build-forest-assets.cjs && git diff --exit-code -- assets/forest
+      - run: npm test
+      - run: npx playwright install --with-deps chromium webkit
+      - run: node tests/forest-browser.cjs
