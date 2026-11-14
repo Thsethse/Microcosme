@@ -16,9 +16,9 @@ La demande explicite de développement V1 autorise cette tranche isolée et sa p
 
 ## Accès direct et manipulation
 
-Prévisualisation prévue sur le système GitHub Pages déjà utilisé par Microcosme :
+Prévisualisation déployée et vérifiée sur le système GitHub Pages déjà utilisé par Microcosme :
 
-**https://thsethse.github.io/Microcosme/preview/v1/v1.html?v=1**
+**https://thsethse.github.io/Microcosme/preview/v1/v1.html?v=2**
 
 Publication sous un nouveau dossier `preview/v1/` de `main`, par copie statique des sept ressources de production, sans fusion de la PR. Le moteur historique, ses sauvegardes et les previews existantes ne sont pas modifiés. Le manifeste de publication dans ce dossier indique le commit source et les SHA-256. Cette copie reste figée, elle ne suit pas automatiquement la branche V1.
 
@@ -96,7 +96,7 @@ npm run test:browser
 node tests/material-browser.cjs
 node tests/v1-browser.cjs
 # Même parcours sur la copie publique :
-V1_URL='https://thsethse.github.io/Microcosme/preview/v1/v1.html?v=1' node tests/v1-browser.cjs
+V1_URL='https://thsethse.github.io/Microcosme/preview/v1/v1.html?v=2' node tests/v1-browser.cjs
 ```
 
 Résultats constatés : **67/67 Node** (35 historiques + 24 I1 + 8 V1). Parcours historiques et I1 réussis dans Chromium **151.0.7922.34** et WebKit **26.5** Linux. Validation V1 locale/publique et intégrité des ressources : voir le relevé de livraison ci-dessous.
@@ -104,6 +104,10 @@ Résultats constatés : **67/67 Node** (35 historiques + 24 I1 + 8 V1). Parcours
 La suite V1 navigateur vérifie le vrai parcours autonome, le scénario d'apprentissage jusqu'au tick 33, l'inspection sans mutation, le téléchargement exact du JSON, import invalide/valide, rechargement, isolation des clés, formats 820×1180 / 1180×820 / 390×844, confinement de la grille, visibilité synthétique, reprise manuelle, hors ligne après chargement et stockage bloqué/corrompu. Aucun script/CSS/document requis ne doit répondre en erreur. Un nouveau workflow V1 lance les suites V1/I1 sans modifier le workflow historique ni les dépendances.
 
 Environnement de test : Node 24.22.1, Playwright 1.62.1. Les navigateurs sont téléchargés dans `/workspace/work/browsers`. Bibliothèques Debian WebKit extraites sous `/workspace/work/webkit-libs` et liées dans le bundle de test ; aucun changement système ou code produit. `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=1` contourne uniquement le contrôle ldconfig qui ignore ces bibliothèques locales ; les assertions sont réellement exécutées. Les essais initiaux WebKit sans ces liens échouaient au lancement, puis ont été repris après correction de l'environnement.
+
+La première CI a révélé un débordement du sélecteur de scénario avec les polices Ubuntu, absent de la première vérification locale. Correction : largeur bornée du label et du select, parcours renforcé avec une autre police et diagnostic des éléments débordants. Les ressources HTML/CSS/JS sont versionnées `?v=2` contre les anciens caches Safari. Les suites locales Chromium/WebKit ont été reprises avec succès après cette correction.
+
+Le Chromium Cloud a refusé le certificat présenté par le proxy HTTPS de l'environnement lors du premier essai public. La vérification TLS n'a pas été désactivée. Le contrôle HTTPS des fichiers utilise le client système configuré, et le workflow V1 exécute aussi le parcours public Chromium/WebKit depuis GitHub Actions. Les résultats sont distingués dans le relevé de livraison.
 
 ## Tableau de couverture
 
@@ -134,6 +138,8 @@ Environnement de test : Node 24.22.1, Playwright 1.62.1. Les navigateurs sont t�
 | INT-04/05/08 | Non couvert | Mensonge, transmission imparfaite, expérimentation/invention ouverte absents |
 | Safari iPad physique | Non couvert par automatisation | Protocole manuel ci-dessous ; WebKit Linux ne remplace pas Safari iPadOS |
 
+Les originaux complets C1–C4 ne sont pas tous archivés dans les documents de référence : aucune certification de compatibilité exhaustive n'est revendiquée. L'apprentissage V1 ne couvre pas l'ensemble des émotions, du tempérament, des représentations de soi/autrui, des projets et des pratiques de ces lois.
+
 ## Safari iPad physique : à exécuter séparément
 
 **NON EXÉCUTÉ ; aucune mesure certifiée de performance, batterie, mémoire ou tenue longue sur appareil Apple.**
@@ -151,4 +157,34 @@ Environnement de test : Node 24.22.1, Playwright 1.62.1. Les navigateurs sont t�
 
 ## Relevé de livraison
 
-À compléter après la vérification de la prévisualisation déployée : résultats V1 Chromium/WebKit locaux/publics, identité des sept ressources, commit de publication et statut de PR non fusionnée.
+Le code de production de la prévisualisation est celui du commit **`6863d77338e59fc6e8a1272bfd77a0dfb5c582e5`**. Publication isolée sur main : **`31b7e147a0ec937463f3de859b0e5f6ffb93005c`**. Les deux commits de publication n'ajoutent que le dossier `preview/v1/` ; le diff cumulé comporte neuf chemins ajoutés, aucun fichier préexistant modifié.
+
+La PR **[#11](https://github.com/Thsethse/Microcosme/pull/11)** est ouverte sur I1 pour revue et essais, sans fusion. Son diff ajoute neuf chemins V1 ; les fichiers I1 et historiques restent identiques à la base. Les compléments de rapport ultérieurs ne changent pas le code de production figé de la preview.
+
+| Vérification de livraison | Résultat réellement constaté |
+| --- | --- |
+| Node local, code de production final | 67/67 : 35 historiques + 24 I1 + 8 V1 |
+| V1 Chromium 151 / WebKit 26.5 en local | Réussis après correction du sélecteur, y compris l'autre police |
+| I1 et application historique, Chromium / WebKit locaux | Réussis ; suites antérieures inchangées |
+| [CI V1/I1 de la PR, commit de code 6863d77](https://github.com/Thsethse/Microcosme/actions/runs/43644764718) | Succès : Node V1/I1, navigateurs I1, V1 locale **et V1 publique Chromium/WebKit** |
+| [CI historique de la PR, même commit](https://github.com/Thsethse/Microcosme/actions/runs/43644764676) | Succès |
+| [Déploiement Pages, publication 31b7e14](https://github.com/Thsethse/Microcosme/actions/runs/43644793202) | Succès |
+| [CI historique de main après publication](https://github.com/Thsethse/Microcosme/actions/runs/43644793328) | Succès |
+| WebKit Cloud sur l'URL publique finale `?v=2` | Parcours intégral réussi avec TLS actif |
+| Chromium Cloud public | Transport refusé par sa confiance CA du proxy ; parcours public Chromium effectué avec succès dans GitHub Actions, TLS actif |
+| Identité des ressources publiques | Sept HTTP 200, types HTML/CSS/JavaScript corrects, sept SHA-256 identiques aux fichiers du commit source |
+| Safari iPad physique | Non exécuté ; protocole manuel séparé ci-dessus |
+
+Inventaire contrôlé en HTTPS sous `preview/v1/` :
+
+| Ressource | HTTP | Octets | Empreinte identique à la source |
+| --- | --- | --- | --- |
+| v1.html | 200 | 4830 | Oui |
+| v1.css | 200 | 3630 | Oui |
+| v1-page.js | 200 | 10342 | Oui |
+| v1-storage.js | 200 | 1578 | Oui |
+| v1-engines.js | 200 | 22393 | Oui |
+| material-world.js | 200 | 21542 | Oui |
+| material-actions.js | 200 | 7471 | Oui |
+
+Les SHA-256 complets sont consignés dans le [manifeste de prévisualisation](https://github.com/Thsethse/Microcosme/blob/31b7e147a0ec937463f3de859b0e5f6ffb93005c/preview/v1/README.md). La page et ses ressources utilisent `?v=2`. Les compléments de ce rapport sont documentaires : le code de production publié et vérifié reste inchangé. Aucun point J4/C5/C6/C9 n'est déclaré techniquement clos.
