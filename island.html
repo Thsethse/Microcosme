@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <title>Microcosme — Île V1</title>
+    <link rel="stylesheet" href="island.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <p class="eyebrow">MICROCOSME · PROTOTYPE ÎLE V1</p>
+          <h1>Un petit monde vivant</h1>
+        </div>
+        <a href="index.html">Village historique ↗</a>
+      </header>
+      <nav aria-label="Navigation de l’île">
+        <button id="global">Carte de l’île</button
+        ><button id="outside" hidden>Sortir de la grotte</button
+        ><button id="pause">Mettre en pause</button><span id="clock"></span>
+      </nav>
+      <section class="observation" aria-labelledby="scene-title">
+        <div class="caption">
+          <h2 id="scene-title">L’île entière</h2>
+          <span id="scene-help">Touchez une région pour l’observer.</span>
+        </div>
+        <div id="viewport">
+          <canvas
+            id="land"
+            width="768"
+            height="576"
+            aria-hidden="true"
+          ></canvas>
+          <div id="regions" aria-label="Régions de l’île"></div>
+          <div id="actors"></div>
+          <button id="portal" hidden></button>
+        </div>
+      </section>
+      <div class="below">
+        <section>
+          <p class="eyebrow">HABITANT AUTONOME</p>
+          <button id="resident">Alix · ouvrir la fiche</button
+          ><button id="locate">Observer sa région</button>
+          <p id="activity"></p>
+          <p id="following" role="status"></p>
+        </section>
+        <aside>
+          <p>Forêt · plaine · sommets · rivière · littoral</p>
+          <p>
+            Un seul monde continue de vivre dans toutes les vues. Entrer dans la
+            grotte déplace votre regard ; Alix poursuit son propre parcours.
+          </p>
+          <p id="status" role="status">
+            Prototype sans sauvegarde : une nouvelle visite recommence le monde.
+          </p>
+        </aside>
+      </div>
+      <dialog id="sheet" aria-labelledby="person-title">
+        <form method="dialog">
+          <button class="close" aria-label="Fermer la fiche">Fermer ×</button>
+        </form>
+        <p class="eyebrow">HABITANT · IDENTITÉ #1</p>
+        <h2 id="person-title">Alix</h2>
+        <p id="details"></p>
+        <button id="follow">Suivre Alix</button>
+      </dialog>
+      <footer>
+        Graphismes procéduraux provisoires · Vue 2D orthographique · Aucune
+        modification des parties historiques.
+      </footer>
+    </main>
+    <script src="graphics.js"></script>
+    <script src="island-world.js"></script>
+    <script src="island.js"></script>
+  </body>
+</html>
