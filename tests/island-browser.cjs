@@ -15,7 +15,7 @@ const files = [
 ];
 (async () => {
   const server = http.createServer((req, res) => {
-    const file = req.url.replace(/^\/Microcosme\//, "");
+    const file = req.url.split("?")[0].replace(/^\/Microcosme\//, "");
     if (!files.includes(file)) {
       res.writeHead(404).end();
       return;
