@@ -1,0 +1,628 @@
+(function () {
+  "use strict";
+  const I = MicrocosmeIsland,
+    G = MicrocosmeGraphics,
+    C = IslandCamera,
+    A = IslandArt,
+    world = I.create(),
+    view = I.createView(world);
+  const $ = (id) => document.getElementById(id),
+    canvas = $("land"),
+    ctx = canvas.getContext("2d");
+  const sheet = $("sheet"),
+    actorNodes = new Map();
+  let backgroundKey = "",
+    running = true,
+    timer = null,
+    opener = null;
+  let camera = null,
+    previousScene = "",
+    toastTimer = null,
+    exteriorCamera = null,
+    suppressClick = false;
+  function displayScene() {
+    return view.scene.kind === "local" ? { ...view.scene, camera } : view.scene;
+  }
+  const colors = {
+    jungle: "#256647",
+    swamp: "#637e65",
+    cliff: "#858e91",
+    snow: "#dbe9de",
+    volcano: "#654948",
+    desert: "#c7a269",
+    canyon: "#b67352",
+    heath: "#92936b",
+    tundra: "#a7b6a0",
+    mangrove: "#447e70",
+    water: "#438da2",
+
+    ocean: "#24566e",
+    sand: "#d2bf85",
+    river: "#65b6c5",
+    mountain: "#84897c",
+    forest: "#56804b",
+    plain: "#82a85a",
+    wall: "#3c4249",
+    floor: "#76756b",
+  };
+  function rect(x, y, w, h, color) {
+    ctx.fillStyle = color;
+    ctx.fillRect(x, y, w, h);
+  }
+  const tiles = new Map();
+  function background() {
+    const b = I.bounds(displayScene()),
+      size = canvas.width / b.width;
+    ctx.imageSmoothingEnabled = false;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let y = Math.floor(b.y); y < Math.ceil(b.y + b.height); y++)
+      for (let x = Math.floor(b.x); x < Math.ceil(b.x + b.width); x++) {
+        const kind = I.terrain(x, y, b.space),
+          key = kind + ":" + (G.hash(x + y * 96) % 8);
+        let tile = tiles.get(key);
+        if (!tile) {
+          tile = document.createElement("canvas");
+          tile.width = tile.height = 32;
+          A.tile(tile.getContext("2d"), kind, x, y);
+          tiles.set(key, tile);
+        }
+        ctx.drawImage(
+          tile,
+          (x - b.x) * size,
+          (y - b.y) * size,
+          size + 0.2,
+          size + 0.2,
+        );
+      }
+    // Detailed objects only in the camera window; no island-wide object Canvas/cache.
+    if (view.scene.kind === "local")
+      for (const f of I.features) {
+        const p = I.project(f, displayScene());
+        if (!p) continue;
+        const x = p.x * canvas.width,
+          y = p.y * canvas.height,
+          u = size / 16;
+        const box = (a, b, w, h, c) =>
+          rect(x + a * u, y + b * u, w * u, h * u, c);
+        if (f.category === "water") {
+          box(-7, -4, 14, 8, "#3f91b0");
+          box(-5, -3, 9, 2, "#a1dce0");
+          if (f.name === "Cascade")
+            for (let j = 0; j < (view.scene.kind === "global" ? 1 : 4); j++)
+              box(-3, -8 + j * 3, 5, 2, "#d1f4ed");
+          if (f.name === "Source chaude")
+            for (let j = 0; j < 3; j++) box(-4 + j * 3, -8, 1, 3, "#ece6d8");
+        } else if (f.category === "relief") {
+          box(-7, -5, 14, 11, "#626f70");
+          box(-4, -3, 8, 8, "#273943");
+          if (f.name === "Arche naturelle") {
+            box(-3, -6, 6, 7, colors.plain);
+            box(-6, -8, 12, 3, "#b7aa83");
+          }
+          if (f.name === "Champ de lave") {
+            box(-6, -3, 12, 7, "#cf613b");
+            box(-4, -1, 7, 2, "#ffba66");
+          }
+          if (f.name === "Grotte de glace") box(-6, -7, 12, 3, "#c6ece8");
+          if (f.name === "Crête" || f.name === "Plateau")
+            box(-6, -7, 12, 3, "#c3bea0");
+        } else if (f.category === "plants") {
+          if (f.name.includes("Arbre")) {
+            ctx.save();
+            ctx.translate(x - size / 2, y - size / 2);
+            ctx.scale(size / 32, size / 32);
+            G.tile(ctx, "tree", 0);
+            ctx.restore();
+            if (f.name === "Arbre fruitier") box(-3, -3, 3, 3, "#ed9470");
+          } else {
+            const stone = ["Roche", "Gisement", "Bois mort"].includes(f.name);
+            box(-5, -1, 11, 5, stone ? "#9b9b86" : "#4b7648");
+            for (let j = 0; j < 3; j++)
+              box(
+                -4 + j * 4,
+                -4,
+                2,
+                4,
+                stone
+                  ? "#ccb688"
+                  : f.name === "Fleurs" || f.name === "Plante rare"
+                    ? "#ebadd1"
+                    : "#c2cc83",
+              );
+          }
+        } else {
+          box(-6, 3, 13, 3, "#5b6256");
+          box(-5, -5, 4, 8, "#c3b58c");
+          box(3, -8, 3, 12, "#a0a28b");
+          if (f.name === "Épave") box(-7, 0, 14, 4, "#9d714f");
+          if (f.name === "Arbre monumental") {
+            box(-2, -8, 4, 12, "#8a6449");
+            box(-8, -12, 16, 9, "#38765a");
+          }
+          if (f.name === "Cratère ancien") {
+            box(-8, -5, 16, 10, "#ab8f72");
+            box(-5, -3, 10, 6, "#67574e");
+          }
+        }
+      }
+    const entrance = I.project(I.cave.outside, displayScene());
+    if (entrance) {
+      const x = entrance.x * canvas.width,
+        y = entrance.y * canvas.height;
+      rect(x - size * 0.5, y - size * 0.5, size, size, "#b5ad8a");
+      rect(x - size * 0.3, y - size * 0.3, size * 0.6, size * 0.8, "#202f36");
+    }
+    if (view.scene.kind === "interior") {
+      const p = I.project(I.cave.inside, view.scene);
+      rect(
+        p.x * canvas.width - size * 0.4,
+        p.y * canvas.height - size * 0.4,
+        size * 0.8,
+        size * 0.8,
+        "#e8d79b",
+      );
+    }
+  }
+  function at(el, p) {
+    el.style.left = p.x * 100 + "%";
+    el.style.top = p.y * 100 + "%";
+  }
+  function openPerson(id, source) {
+    view.select(id);
+    opener = source;
+    render();
+    if (!sheet.open) sheet.showModal();
+  }
+  I.regions.forEach((region) => {
+    const button = document.createElement("button");
+    button.textContent = "";
+    button.setAttribute("aria-label", "Observer " + region.name);
+    button.onclick = () => {
+      view.local(region.id);
+      render();
+    };
+    $("regions").append(button);
+  });
+  function render() {
+    view.sync();
+    const sceneKey = JSON.stringify(view.scene);
+    const sceneChanged = sceneKey !== previousScene;
+    if (sceneChanged) {
+      previousScene = sceneKey;
+      if (view.scene.kind === "local") {
+        const r = I.regions[view.scene.region],
+          p =
+            view.scene.region === I.regionAt(I.cave.outside)
+              ? I.cave.outside
+              : { x: r.x + 16, y: r.y + 12 };
+        camera = C.center(r, p.x, p.y, camera?.zoom || 1);
+        if (exteriorCamera && sceneKey === exteriorCamera.scene) {
+          camera = { ...exteriorCamera.camera };
+          exteriorCamera = null;
+        }
+        $("region-toast").textContent = r.name;
+        $("region-toast").hidden = false;
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          $("region-toast").hidden = true;
+        }, 2200);
+      } else $("region-toast").hidden = true;
+    }
+    if (view.followed && view.scene.kind === "local") {
+      const p = world.state.people.find((p) => p.id === view.followed);
+      camera = C.center(
+        I.regions[view.scene.region],
+        p.pos.x,
+        p.pos.y,
+        camera?.zoom || 1,
+      );
+    }
+    const scene = displayScene(),
+      key = JSON.stringify(scene),
+      local = scene.kind === "local";
+    if (backgroundKey !== key) {
+      backgroundKey = key;
+      background();
+      if (sceneChanged) {
+        $("viewport").classList.remove("transition");
+        void $("viewport").offsetWidth;
+        $("viewport").classList.add("transition");
+      }
+    }
+    $("viewport").classList.toggle("local", local);
+    $("zoom-controls").hidden = !local;
+    $("zoom-reset").textContent = Math.round((camera?.zoom || 1) * 100) + "%";
+    $("regions").hidden = scene.kind !== "global";
+    $("outside").hidden = scene.kind !== "interior";
+    $("scene-title").textContent =
+      scene.kind === "global"
+        ? "L’île entière"
+        : local
+          ? "Observation locale"
+          : "La grotte des sources";
+    $("scene-help").textContent =
+      scene.kind === "global"
+        ? "Touchez une région pour l’observer."
+        : local
+          ? "Touchez un habitant ou l’entrée de la grotte."
+          : "Un plan intérieur, dans le même monde.";
+    $("clock").textContent = "Temps du monde · " + world.state.tick;
+    const ids = new Set(world.state.people.map((p) => p.id));
+    for (const [id, node] of actorNodes)
+      if (!ids.has(id)) {
+        node.remove();
+        actorNodes.delete(id);
+      }
+    for (const p of world.state.people) {
+      let node = actorNodes.get(p.id);
+      if (!node) {
+        node = document.createElement("button");
+        node.className = "actor";
+        node.dataset.id = p.id;
+        const c = document.createElement("canvas");
+        c.width = 16;
+        c.height = 24;
+        node.append(c);
+        node.onclick = () => openPerson(p.id, node);
+        $("actors").append(node);
+        actorNodes.set(p.id, node);
+      }
+      const projected = I.project(p.pos, scene);
+      node.hidden = !projected;
+      if (!projected) continue;
+      at(node, projected);
+      node.firstChild.style.width =
+        (scene.kind === "global" ? 9 : 32 * (scene.camera?.zoom || 1)) + "px";
+      node.firstChild.style.height =
+        (scene.kind === "global" ? 14 : 48 * (scene.camera?.zoom || 1)) + "px";
+      node.classList.toggle("mini", scene.kind === "global");
+      node.classList.toggle("selected", view.selected?.id === p.id);
+      node.setAttribute("aria-label", p.name + " · ouvrir la fiche");
+      const c = node.firstChild,
+        cctx = c.getContext("2d");
+      cctx.clearRect(0, 0, 16, 24);
+      G.person(
+        cctx,
+        p.id,
+        0,
+        0,
+        0,
+        matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? 0
+          : world.state.tick % 2
+            ? 1
+            : 2,
+      );
+    }
+    const portal =
+      scene.kind === "interior"
+        ? I.project(I.cave.inside, scene)
+        : local
+          ? I.project(I.cave.outside, scene)
+          : null;
+    $("portal").hidden = !portal;
+    if (portal) {
+      const box = $("viewport").getBoundingClientRect();
+      at($("portal"), {
+        x: Math.max(34 / box.width, Math.min(1 - 34 / box.width, portal.x)),
+        y: Math.max(34 / box.height, Math.min(1 - 34 / box.height, portal.y)),
+      });
+      $("portal").textContent =
+        scene.kind === "interior" ? "↥ Sortir" : "↓ Entrer";
+    }
+    const p = world.state.people[0];
+    $("activity").textContent = p.name + " · " + p.activity;
+    $("following").textContent = view.followed
+      ? "Suivi d’Alix actif · la vue accompagne ses déplacements."
+      : "Observation libre · Alix continue son activité hors écran.";
+    $("pause").textContent = running ? "Mettre en pause" : "Reprendre";
+    $("follow").textContent = view.followed
+      ? "Arrêter le suivi"
+      : "Suivre Alix";
+    if (view.selected) {
+      const a = view.selected;
+      $("details").textContent =
+        a.activity +
+        " · " +
+        (a.pos.space === "cave"
+          ? "Grotte"
+          : I.regions[I.regionAt(a.pos)].name) +
+        " · position (" +
+        a.pos.x +
+        ", " +
+        a.pos.y +
+        ") · temps " +
+        world.state.tick;
+    }
+  }
+  const pointers = new Map();
+  let gesture = null,
+    frame = 0;
+  function scheduleRender() {
+    if (!frame)
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        render();
+      });
+  }
+  function point(e) {
+    const b = $("viewport").getBoundingClientRect();
+    return { x: (e.clientX - b.x) / b.width, y: (e.clientY - b.y) / b.height };
+  }
+  function rebase() {
+    const a = [...pointers.values()];
+    if (!a.length) {
+      gesture = null;
+      return;
+    }
+    const mid =
+      a.length > 1
+        ? { x: (a[0].x + a[1].x) / 2, y: (a[0].y + a[1].y) / 2 }
+        : a[0];
+    gesture = {
+      start: { ...camera },
+      mid,
+      anchor: {
+        x: camera.x + mid.x * camera.width,
+        y: camera.y + mid.y * camera.height,
+      },
+      distance:
+        a.length > 1
+          ? Math.hypot(a[0].x - a[1].x, (a[0].y - a[1].y) * 0.75)
+          : 0,
+    };
+  }
+  function capture(id) {
+    try {
+      $("viewport").setPointerCapture(id);
+    } catch {
+      /* pointer was cancelled */
+    }
+  }
+  $("viewport").addEventListener("pointerdown", (e) => {
+    if (!pointers.size) suppressClick = false;
+    if (view.scene.kind !== "local" || e.button > 0) return;
+    pointers.set(e.pointerId, point(e));
+    rebase();
+    if (pointers.size > 1) {
+      suppressClick = true;
+      view.follow(null);
+      for (const id of pointers.keys()) capture(id);
+    }
+  });
+  $("viewport").addEventListener("pointermove", (e) => {
+    if (!pointers.has(e.pointerId) || !gesture) return;
+    pointers.set(e.pointerId, point(e));
+    const a = [...pointers.values()],
+      r = I.regions[view.scene.region];
+    if (a.length > 1) {
+      const mid = { x: (a[0].x + a[1].x) / 2, y: (a[0].y + a[1].y) / 2 },
+        distance = Math.hypot(a[0].x - a[1].x, (a[0].y - a[1].y) * 0.75);
+      camera = C.pinch(
+        r,
+        gesture.start,
+        gesture.anchor,
+        mid,
+        distance / Math.max(0.001, gesture.distance),
+      );
+    } else {
+      const dx = a[0].x - gesture.mid.x,
+        dy = a[0].y - gesture.mid.y,
+        box = $("viewport").getBoundingClientRect();
+      if (!suppressClick && Math.hypot(dx * box.width, dy * box.height) < 8)
+        return;
+      camera = C.pan(r, gesture.start, dx, dy);
+    }
+    e.preventDefault();
+    suppressClick = true;
+    view.follow(null);
+    capture(e.pointerId);
+    scheduleRender();
+  });
+  function end(e) {
+    if (suppressClick && pointers.has(e.pointerId)) e.preventDefault();
+    if (!pointers.has(e.pointerId)) return;
+    if (e.type !== "pointerup") suppressClick = true;
+    pointers.delete(e.pointerId);
+    rebase();
+  }
+  for (const name of ["pointerup", "pointercancel", "lostpointercapture"])
+    $("viewport").addEventListener(name, end);
+  $("viewport").addEventListener(
+    "click",
+    (e) => {
+      if (suppressClick) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+    },
+    true,
+  );
+  function zoomBy(factor) {
+    if (view.scene.kind !== "local") return;
+    const start = camera;
+    camera = C.pinch(
+      I.regions[view.scene.region],
+      start,
+      { x: start.x + start.width / 2, y: start.y + start.height / 2 },
+      { x: 0.5, y: 0.5 },
+      factor,
+    );
+    render();
+  }
+  $("zoom-in").onclick = () => zoomBy(1.25);
+  $("zoom-out").onclick = () => zoomBy(0.8);
+  $("zoom-reset").onclick = () => {
+    if (view.scene.kind === "local") {
+      const c = camera;
+      camera = C.center(
+        I.regions[view.scene.region],
+        c.x + c.width / 2,
+        c.y + c.height / 2,
+      );
+      render();
+    }
+  };
+  document.addEventListener("keydown", (e) => {
+    if (sheet.open || view.scene.kind !== "local") return;
+    const d = {
+      ArrowLeft: [-0.1, 0],
+      ArrowRight: [0.1, 0],
+      ArrowUp: [0, -0.1],
+      ArrowDown: [0, 0.1],
+    }[e.key];
+    if (!d) return;
+    e.preventDefault();
+    view.follow(null);
+    camera = C.pan(I.regions[view.scene.region], camera, -d[0], -d[1]);
+    render();
+  });
+  for (const f of I.features) {
+    const b = document.createElement("button");
+    b.textContent = f.name;
+    b.onclick = () => {
+      view.local(I.regionAt(f));
+      render();
+      camera = C.center(
+        I.regions[view.scene.region],
+        f.x,
+        f.y,
+        camera?.zoom || 1,
+      );
+      render();
+    };
+    $("atlas").append(b);
+  }
+  $("biomes").textContent = I.biomes.map((b) => b.name).join(" · ");
+  $("global").onclick = () => {
+    view.global();
+    render();
+  };
+  $("outside").onclick = () => {
+    view.exit();
+    render();
+  };
+  $("portal").onclick = () => {
+    if (view.scene.kind === "interior") view.exit();
+    else {
+      exteriorCamera = {
+        scene: JSON.stringify(view.scene),
+        camera: { ...camera },
+      };
+      view.enter();
+    }
+    render();
+  };
+  $("resident").onclick = () => openPerson(1, $("resident"));
+  $("locate").onclick = () => {
+    const p = world.state.people[0];
+    view.follow(p.id);
+    view.follow(null);
+    render();
+  };
+  $("follow").onclick = () => {
+    view.follow(view.followed ? null : 1);
+    sheet.close();
+    render();
+  };
+  sheet.addEventListener("close", () => {
+    if (opener && !opener.hidden) opener.focus();
+    else $("resident").focus();
+  });
+  sheet.addEventListener("keydown", (e) => {
+    if (e.key !== "Tab") return;
+    const buttons = [...sheet.querySelectorAll("button")],
+      first = buttons[0],
+      last = buttons.at(-1);
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  });
+  // Activate a short touch on pointerup; swallow its compatibility click only.
+  // This avoids the lost/delayed compatibility click after a captured Safari pan.
+  let touchTarget = null,
+    lastTouch = null;
+  document.addEventListener("pointerdown", (e) => {
+    lastTouch = null;
+    if (e.pointerType !== "touch") return;
+    const button = e.target.closest("button");
+    touchTarget = button
+      ? { button, id: e.pointerId, x: e.clientX, y: e.clientY }
+      : null;
+  });
+  document.addEventListener("pointerup", (e) => {
+    const t = touchTarget;
+    if (!t || t.id !== e.pointerId) return;
+    touchTarget = null;
+    if (
+      e.pointerType !== "touch" ||
+      Math.hypot(e.clientX - t.x, e.clientY - t.y) >= 8 ||
+      !t.button.contains(e.target)
+    )
+      return;
+    if ($("viewport").contains(t.button) && suppressClick) return;
+    e.preventDefault();
+    lastTouch = { button: t.button, time: performance.now() };
+    t.button.click();
+  });
+  document.addEventListener("pointercancel", () => {
+    touchTarget = null;
+  });
+  document.addEventListener(
+    "click",
+    (e) => {
+      if (
+        e.isTrusted &&
+        lastTouch &&
+        performance.now() - lastTouch.time < 700
+      ) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+    },
+    true,
+  );
+  function schedule() {
+    clearInterval(timer);
+    timer = null;
+    if (running && !document.hidden)
+      timer = setInterval(() => {
+        world.step();
+        render();
+      }, 600);
+  }
+  $("pause").onclick = () => {
+    running = !running;
+    schedule();
+    render();
+  };
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      running = false;
+      $("status").textContent =
+        "Onglet masqué : simulation arrêtée. Touchez Reprendre au retour ; aucun rattrapage.";
+    }
+    schedule();
+    render();
+  });
+  window.addEventListener("pagehide", () => clearInterval(timer));
+  window.addEventListener("pageshow", () => schedule());
+  render();
+  schedule();
+  // Read-only diagnostics: detached snapshots, never the authoritative object.
+  window.IslandDiagnostics = {
+    snapshot: () => ({
+      world: JSON.parse(JSON.stringify(world.state)),
+      scene: { ...view.scene },
+      followed: view.followed,
+      camera: camera ? { ...camera } : null,
+      viewport: I.bounds(displayScene()),
+      tileCache: tiles.size,
+      pointers: pointers.size,
+    }),
+  };
+})();
