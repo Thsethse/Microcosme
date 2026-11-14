@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Microcosme · Laboratoire matériel I1</title>
+    <link rel="stylesheet" href="material-lab.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <a href="index.html">← Revenir à Microcosme</a>
+        <p class="eyebrow">EXPÉRIENCE ISOLÉE · I1</p>
+        <h1>Une ration ne se mange qu’une fois.</h1>
+        <p>
+          Deux habitants observent, approchent, prélèvent et mangent seuls. Le
+          stock est fini ; chaque transformation reste inspectable.
+        </p>
+        <p class="notice">
+          Adaptateur biologique provisoire : faim et énergie sont des paramètres
+          d’essai. Ce laboratoire n’implémente pas la biologie C1–C4 et ne
+          modifie aucune partie du village.
+        </p>
+      </header>
+      <section class="panel" aria-label="Temps du laboratoire">
+        <div class="toolbar">
+          <strong id="time"></strong><button id="step">+ 1 tick</button
+          ><button id="run" aria-pressed="false">Démarrer</button
+          ><button id="reset">Nouvelle expérience</button>
+        </div>
+        <p id="status" role="status" aria-live="polite"></p>
+        <p id="storageStatus" role="status"></p>
+      </section>
+      <section class="panel">
+        <h2>Bilan matériel</h2>
+        <p id="balance"></p>
+        <div id="places"></div>
+      </section>
+      <div class="columns">
+        <section class="panel">
+          <h2>Le terrain réel</h2>
+          <p>
+            R : rations au sol · A / B : habitants. Touche une case pour
+            l’inspecter.
+          </p>
+          <div id="labMap" aria-label="Carte du laboratoire"></div>
+          <p id="cellDetails"></p>
+        </section>
+        <section class="panel">
+          <h2>Vue personnelle</h2>
+          <label
+            >Habitant
+            <select id="agent">
+              <option value="1">A</option>
+              <option value="2">B</option>
+            </select></label
+          >
+          <div id="agentDetails"></div>
+          <details>
+            <summary>Connaissances, intention et plan</summary>
+            <pre id="beliefs"></pre>
+          </details>
+        </section>
+      </div>
+      <section class="panel">
+        <h2>Choix et résultats</h2>
+        <p>
+          La raison est enregistrée au choix. L’issue décrit le commit ; elle ne
+          réécrit pas cette raison.
+        </p>
+        <div id="results"></div>
+        <details>
+          <summary>Journal causal récent (256 événements maximum)</summary>
+          <pre id="events"></pre>
+        </details>
+      </section>
+      <section class="panel">
+        <h2>Sauvegarder et reprendre</h2>
+        <p>
+          Une clé locale propre au labo. L’import exige une pause et un snapshot
+          valide ; un import refusé laisse la session intacte.
+        </p>
+        <button id="export">Exporter JSON</button
+        ><a id="download" hidden>Télécharger le JSON</a
+        ><button id="import">Importer le JSON</button
+        ><label for="snapshot">Snapshot à exporter / importer</label
+        ><textarea id="snapshot" rows="7" spellcheck="false"></textarea>
+      </section>
+      <section class="panel">
+        <h2>Inspection divine en lecture</h2>
+        <p>
+          État réel intégral, paramètres expérimentaux et bilan. Les parents
+          purgés du journal : détail historique non conservé.
+        </p>
+        <details>
+          <summary>Paramètres et constituants actuels</summary>
+          <pre id="worldDetails"></pre>
+        </details>
+      </section>
+    </main>
+    <script src="material-world.js"></script>
+    <script src="material-actions.js"></script>
+    <script src="material-cognition.js"></script>
+    <script src="material-storage.js"></script>
+    <script src="material-lab.js"></script>
+  </body>
+</html>
