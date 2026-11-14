@@ -80,6 +80,65 @@ const files = [
         });
         assert.equal((await snap()).scene.kind, "global");
         assert.equal(await page.locator("#regions button").count(), 9);
+        assert.equal(
+          await page
+            .locator("#regions button")
+            .allTextContents()
+            .then((a) => a.join("")),
+          "",
+        );
+        await page
+          .getByRole("button", { name: "Observer La plaine", exact: true })
+          .tap();
+        assert.ok(await page.locator("#region-toast").isVisible());
+        await page.waitForTimeout(2300);
+        assert.equal(await page.locator("#region-toast").isVisible(), false);
+        const camBefore = (await snap()).camera,
+          box = await page.locator("#viewport").boundingBox();
+        await page.mouse.move(
+          box.x + box.width * 0.7,
+          box.y + box.height * 0.7,
+        );
+        await page.mouse.down();
+        await page.mouse.move(
+          box.x + box.width * 0.2,
+          box.y + box.height * 0.2,
+          { steps: 8 },
+        );
+        await page.mouse.up();
+        const camAfter = (await snap()).camera;
+        assert.notDeepEqual(camAfter, camBefore);
+        assert.equal(camAfter.width, 16);
+        assert.equal(camAfter.height, 12);
+        const region = (await snap()).scene.region;
+        assert.ok(
+          camAfter.x >= (region % 3) * 32 &&
+            camAfter.x + 16 <= (region % 3) * 32 + 32,
+        );
+        if (type === chromium) {
+          const cdp = await context.newCDPSession(page),
+            beforeTouch = (await snap()).camera;
+          const x = box.x + box.width * 0.2,
+            y = box.y + box.height * 0.2;
+          await cdp.send("Input.dispatchTouchEvent", {
+            type: "touchStart",
+            touchPoints: [{ x, y }],
+          });
+          for (let i = 1; i <= 5; i++)
+            await cdp.send("Input.dispatchTouchEvent", {
+              type: "touchMove",
+              touchPoints: [
+                { x: x + box.width * 0.1 * i, y: y + box.height * 0.1 * i },
+              ],
+            });
+          await cdp.send("Input.dispatchTouchEvent", {
+            type: "touchEnd",
+            touchPoints: [],
+          });
+          assert.notDeepEqual((await snap()).camera, beforeTouch);
+          await cdp.detach();
+        }
+        await page.locator("#global").tap();
         const start = (await snap()).world;
         await tick(2);
         assert.notDeepEqual(
@@ -109,6 +168,13 @@ const files = [
         for (let i = 0; i < 250; i++) {
           await tick(1);
           const s = await snap();
+          if (s.scene.kind === "local") {
+            const p = s.world.people[0].pos,
+              c = s.camera;
+            assert.ok(
+              p.x >= c.x && p.x < c.x + 16 && p.y >= c.y && p.y < c.y + 12,
+            );
+          }
           if (s.scene.kind === "interior") entered = true;
           else if (entered) {
             exited = true;

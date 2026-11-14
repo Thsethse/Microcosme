@@ -1,16 +1,16 @@
-/* Île V1: one authoritative world; no DOM, renderer, clock or storage. */
+/* Île V2: one authoritative world; no DOM, renderer, clock or storage. */
 (function (root, factory) {
   if (typeof module === "object" && module.exports) module.exports = factory();
   else root.MicrocosmeIsland = factory();
 })(globalThis, function () {
   "use strict";
-  const W = 48,
-    H = 36,
-    RW = 16,
-    RH = 12;
+  const W = 96,
+    H = 72,
+    RW = 32,
+    RH = 24;
   const cave = {
     id: "cave",
-    outside: { space: "surface", x: 33, y: 10 },
+    outside: { space: "surface", x: 66, y: 20 },
     inside: { space: "cave", x: 8, y: 10 },
     width: 16,
     height: 12,
@@ -34,33 +34,178 @@
     width: RW,
     height: RH,
   }));
-  const riverX = (y) => 25 + Math.round(Math.sin(y / 5) * 2);
+  const biomes = [
+    ["forest", "Forêt tempérée", 29, 23],
+    ["jungle", "Jungle tropicale", 27, 49],
+    ["swamp", "Marécages", 41, 51],
+    ["plain", "Plaines et prairies", 46, 34],
+    ["sand", "Plages", 45, 65],
+    ["cliff", "Falaises côtières", 79, 42],
+    ["mountain", "Montagnes", 65, 24],
+    ["snow", "Sommets enneigés et glaciers", 64, 12],
+    ["volcano", "Volcan", 76, 28],
+    ["desert", "Désert et dunes", 67, 49],
+    ["canyon", "Canyons", 76, 52],
+    ["heath", "Landes et collines", 44, 19],
+    ["tundra", "Toundra alpine", 55, 15],
+    ["mangrove", "Mangroves", 35, 60],
+  ].map(([id, name, x, y]) => ({ id, name, x, y }));
+  const interiors = [cave];
+  const featureGroups = {
+    water: [
+      "Rivière",
+      "Ruisseau",
+      "Lac",
+      "Étang",
+      "Mare",
+      "Cascade",
+      "Lagune",
+      "Source",
+      "Source chaude",
+      "Mer côtière explorable",
+    ],
+    relief: [
+      "Grotte",
+      "Grande caverne",
+      "Arche naturelle",
+      "Gorge",
+      "Plateau",
+      "Crête",
+      "Îlot secondaire",
+      "Baie",
+      "Crique",
+      "Champ de lave",
+      "Gouffre",
+      "Grotte de glace",
+    ],
+    plants: [
+      "Arbre individuel",
+      "Buisson",
+      "Herbes",
+      "Fleurs",
+      "Arbre fruitier",
+      "Champignons",
+      "Roseaux",
+      "Bois mort",
+      "Roche",
+      "Gisement",
+      "Sol fertile",
+      "Plante rare",
+    ],
+    landmark: [
+      "Ruines",
+      "Monolithe",
+      "Sanctuaire naturel",
+      "Fossiles",
+      "Épave",
+      "Arbre monumental",
+      "Cratère ancien",
+    ],
+  };
+  const spots = [
+    [50, 35],
+    [53, 28],
+    [46, 24],
+    [40, 44],
+    [35, 37],
+    [56, 22],
+    [40, 60],
+    [54, 20],
+    [73, 29],
+    [88, 34],
+    [66, 20],
+    [64, 25],
+    [72, 48],
+    [68, 44],
+    [63, 31],
+    [63, 17],
+    [86, 56],
+    [73, 59],
+    [22, 56],
+    [77, 31],
+    [70, 51],
+    [64, 13],
+    [27, 25],
+    [39, 32],
+    [43, 38],
+    [42, 34],
+    [28, 47],
+    [31, 30],
+    [40, 50],
+    [26, 28],
+    [61, 28],
+    [65, 26],
+    [44, 36],
+    [32, 51],
+    [57, 43],
+    [43, 20],
+    [29, 48],
+    [73, 50],
+    [21, 56],
+    [28, 23],
+    [75, 33],
+  ];
+  let spotIndex = 0;
+  const features = Object.entries(featureGroups).flatMap(([category, names]) =>
+    names.map((name) => {
+      const [x, y] = spots[spotIndex++];
+      return { name, category, x, y, space: "surface" };
+    }),
+  );
   function terrain(x, y, space = "surface") {
     if (!Number.isInteger(x) || !Number.isInteger(y)) return "void";
-    if (space === "cave") {
-      if (
-        x < 1 ||
+    if (space === "cave")
+      return x < 1 ||
         y < 1 ||
         x >= 15 ||
         y >= 11 ||
         (x === 4 && y > 2 && y < 8) ||
         (x === 11 && y > 4 && y < 9)
-      )
-        return "wall";
-      return "floor";
-    }
+        ? "wall"
+        : "floor";
     if (space !== "surface" || x < 0 || y < 0 || x >= W || y >= H)
       return "void";
-    const radius = ((x - 23) / 22) ** 2 + ((y - 17) / 16) ** 2;
-    if (radius > 1 + Math.sin(y * 1.7) * 0.035) return "ocean";
-    if (radius > 0.83) return "sand";
-    // A ford preserves a connected walking route across the decorative river.
-    if (Math.abs(x - riverX(y)) <= 0 && y !== 18) return "river";
-    if (x > 29 && y < 16) return "mountain";
-    return x < 20 && y < 26 ? "forest" : "plain";
+    const r = ((x - 46) / 43) ** 2 + ((y - 34) / 31) ** 2;
+    // Secondary islands, bays and a continuous irregular coast.
+    if (((x - 86) / 5) ** 2 + ((y - 56) / 4) ** 2 < 1) return "sand";
+    if (((x - 14) / 4) ** 2 + ((y - 47) / 3) ** 2 < 1) return "cliff";
+    if (r > 1 + Math.sin(y * 0.55) * 0.035) return "ocean";
+    if (r > 0.87) return x > 73 && y < 46 ? "cliff" : "sand";
+    if (
+      ((x - 46) / 5) ** 2 + ((y - 24) / 3) ** 2 < 1 ||
+      ((x - 40) / 3) ** 2 + ((y - 60) / 2) ** 2 < 1
+    )
+      return "water";
+    // A ford at y=36 keeps east/west paths connected.
+    if (x === 50 + Math.round(Math.sin(y / 9) * 3) && y !== 36) return "river";
+    let best = Infinity,
+      kind = "plain";
+    for (const b of biomes) {
+      if (b.id === "sand" || b.id === "cliff") continue;
+      const d =
+        ((x - b.x) / 1.15) ** 2 +
+        (y - b.y) ** 2 +
+        Math.sin(x * 0.28 + b.x) * Math.cos(y * 0.33 + b.y) * 35;
+      if (d < best) {
+        best = d;
+        kind = b.id;
+      }
+    }
+    return kind;
+  }
+  function cameraFor(region, x, y) {
+    const r = regions[region];
+    return {
+      x: Math.max(r.x, Math.min(r.x + r.width - 16, Math.round(x - 8))),
+      y: Math.max(r.y, Math.min(r.y + r.height - 12, Math.round(y - 6))),
+      width: 16,
+      height: 12,
+    };
   }
   const passable = (p) =>
-    !["void", "wall", "ocean", "river"].includes(terrain(p.x, p.y, p.space));
+    !["void", "wall", "ocean", "river", "water"].includes(
+      terrain(p.x, p.y, p.space),
+    );
   const regionAt = (p) =>
     p.space === "surface"
       ? Math.floor(p.y / RH) * 3 + Math.floor(p.x / RW)
@@ -77,7 +222,7 @@
         space: "cave",
       };
     if (scene.kind === "local")
-      return { ...regions[scene.region], space: "surface" };
+      return { ...(scene.camera || regions[scene.region]), space: "surface" };
     return { x: 0, y: 0, width: W, height: H, space: "surface" };
   }
   function project(p, scene) {
@@ -119,13 +264,13 @@
     return { ...from };
   }
   const route = [
-    { pos: { space: "surface", x: 20, y: 17 }, task: "Observe la plaine" },
-    { pos: { space: "surface", x: 15, y: 18 }, task: "Explore la forêt" },
+    { pos: { space: "surface", x: 40, y: 34 }, task: "Observe la plaine" },
+    { pos: { space: "surface", x: 30, y: 36 }, task: "Explore la forêt" },
     { pos: cave.outside, task: "Rejoint la grotte" },
     { pos: { space: "cave", x: 8, y: 4 }, task: "Examine les cristaux" },
     { pos: cave.inside, task: "Revient vers la lumière" },
     {
-      pos: { space: "surface", x: 32, y: 18 },
+      pos: { space: "surface", x: 64, y: 36 },
       task: "Observe les contreforts",
     },
   ];
@@ -136,7 +281,7 @@
         {
           id: 1,
           name: "Alix",
-          pos: { space: "surface", x: 22, y: 17 },
+          pos: { space: "surface", x: 44, y: 34 },
           activity: "Observe la plaine",
           routeIndex: 0,
           wait: 0,
@@ -232,6 +377,11 @@
     };
   }
   return {
+    biomes,
+    features,
+    featureGroups,
+    interiors,
+    cameraFor,
     W,
     H,
     regions,

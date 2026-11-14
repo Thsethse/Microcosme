@@ -48,3 +48,7 @@ Ouvrir [island.html](island.html) sur le même serveur statique : monde indépen
 
 - [Lancement, parcours iPad, architecture, tests et limites](docs/ISLAND-V1.md)
 - Tests : `npm test` puis `npm run test:island:browser` (Chromium et WebKit).
+
+## Île V2
+
+La branche V2 agrandit les régions, ajoute une caméra tactile et 14 biotopes. [Guide V2, atlas et procédure iPad](docs/ISLAND-V2.md). La prévisualisation V1 demeure figée et accessible à son URL précédente.

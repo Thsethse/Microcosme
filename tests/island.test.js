@@ -109,3 +109,42 @@ test("follow crosses region and interior boundaries with the original identity a
   assert.equal(v.followed, null);
   assert.equal(v.scene.kind, "global");
 });
+
+test("V2: all 14 biomes occupy cells and geography contains every placed category", () => {
+  const kinds = new Set();
+  for (let y = 0; y < I.H; y++)
+    for (let x = 0; x < I.W; x++) kinds.add(I.terrain(x, y));
+  assert.equal(I.biomes.length, 14);
+  for (const b of I.biomes) assert.ok(kinds.has(b.id), b.name);
+  assert.equal(I.features.length, 41);
+  for (const [category, names] of Object.entries(I.featureGroups))
+    for (const name of names) {
+      const f = I.features.find(
+        (f) => f.name === name && f.category === category,
+      );
+      assert.ok(f, name);
+      assert.ok(f.x >= 0 && f.x < I.W && f.y >= 0 && f.y < I.H);
+    }
+  assert.equal(I.interiors[0], I.cave);
+});
+test("V2: enlarged regions, fixed viewport scale, clamped camera and world projection", () => {
+  for (const r of I.regions) {
+    assert.equal(r.width, 32);
+    assert.equal(r.height, 24);
+    for (const [x, y] of [
+      [-100, -100],
+      [999, 999],
+      [r.x + 12, r.y + 8],
+    ]) {
+      const c = I.cameraFor(r.id, x, y);
+      assert.equal(c.width, 16);
+      assert.equal(c.height, 12);
+      assert.ok(c.x >= r.x && c.x + 16 <= r.x + 32);
+      assert.ok(c.y >= r.y && c.y + 12 <= r.y + 24);
+      const p = { space: "surface", x: c.x + 5, y: c.y + 5 },
+        projection = I.project(p, { kind: "local", region: r.id, camera: c });
+      assert.equal(projection.x * 16 + c.x - 0.5, p.x);
+      assert.equal(projection.y * 12 + c.y - 0.5, p.y);
+    }
+  }
+});

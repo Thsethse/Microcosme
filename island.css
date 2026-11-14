@@ -248,3 +248,35 @@ footer {
     margin-bottom: 12px;
   }
 }
+
+#viewport.local {
+  touch-action: none;
+}
+#region-toast {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 18px;
+  background: #142d36d9;
+  border-radius: 8px;
+  pointer-events: none;
+  font-size: 14px;
+}
+#atlas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 16px 0;
+}
+details {
+  font-size: 13px;
+  margin: 12px 0;
+  color: #bbcdbb;
+}
+#regions button {
+  border-color: transparent;
+}
+#regions button:hover {
+  border-color: #eee4a855;
+}
