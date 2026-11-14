@@ -1,0 +1,27 @@
+name: Laboratoire V1 et I1
+on:
+  pull_request:
+    paths:
+      - "v1*"
+      - "material-*.js"
+      - "tests/v1*"
+      - "tests/material*"
+      - ".github/workflows/v1.yml"
+  push:
+    branches: [codex/microcosme-v1-six-engines]
+permissions:
+  contents: read
+jobs:
+  laboratory:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: node --test tests/v1.test.js tests/material.test.js
+      - run: npx playwright install --with-deps chromium webkit
+      - run: node tests/material-browser.cjs
+      - run: node tests/v1-browser.cjs
