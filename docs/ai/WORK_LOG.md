@@ -29,3 +29,13 @@
 - Livrables : [dossier d’intégration](integration-audit-2026-11-14/README.md), audit factuel, comparaison, contrat, dépendances/tests, prompt dormant Codex I1.
 - Recommandation NON VALIDÉE : interactions transactionnelles + pratiques ; premier laboratoire alimentaire isolé. Textes conceptuels complets encore manquants, pas de certification exhaustive C1–C4.
 - Prochaine étape : revue des propositions P-A à P-E par François ; une revue documentaire ne vaut pas autorisation de programmer.
+
+## 2026-11-14 — Corrections bloquantes I1 et réaudit documentaire PR6
+- Autorisation explicite de François : corriger énergie TRANSFER et cycle de vie des lots, mettre à jour la PR6, réauditer ; aucune programmation, aucun lancement de Codex et aucune fusion.
+- Tête contrôlée : 7bc1edbaa50abe2ef7d8ecfaac189f4681e41fad, identique à la dernière révision auditée ; base docs/llm-project-memory, tête docs/integration-architecture-audit-2026-11-14 ; aucun AGENTS.md dans l’arborescence complète inspectée.
+- Contrat v0.2 : energy≥1 sinon NO_CAPACITY sans effet d’action, faim indépendante ; seuls lots positifs comptés, retrait atomique à épuisement, transfert total sans création, split contrôlé, nextId persistant non réutilisé.
+- Séparation lot/lieu observé/souvenir vide ; références épistémiques périmées admises, révision locale seulement ; observation, plan et événements bornés, aucun historique de lots supprimés.
+- Tests candidats : T10 renforcé + T10-a ; T22-a/b énergie0/1 ; T23-a à e cycles, reprise, ancien ID et bornes. Identifiants antérieurs conservés. Prompt Codex et points d’entrée alignés.
+- Vérification : relecture croisée des contrats, invariants, erreurs, oracles et prompt ; contrôle documentaire des IDs, liens et du diff Markdown. Raisonnement manuel sur vingt cycles, pas exécution du laboratoire. Aucun test moteur/navigateur relancé ; les 35/35 du précédent audit restent un résultat historique.
+- Verdict : prêt pour soumission à Codex, sans autorisation implicite de programmation. Aucun blocage documentaire restant identifié pour I1 isolé ; textes conceptuels incomplets et performances/Safari non démontrés demeurent réservés.
+- C1–C4 clos conceptuellement, C5 ouvert, paramètres biologiques expérimentaux, aucun F1–F4. Prochaine action : autorisation explicite de programmer I1, si souhaitée, avant activation du prompt.

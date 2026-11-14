@@ -30,3 +30,7 @@ C1–C4 sont clos **conceptuellement** ; B1 reste une formalisation détaillée 
 - P-D : première tranche alimentaire, adaptateurs biologiques provisoires et exclusions détaillées.
 - P-E : ordre des incréments et critères d’arrêt ; aucun passage automatique à la programmation.
 La validation documentaire ne vaut ni validation exhaustive C5 ni permission de lancer Codex.
+
+## Réaudit des deux blocages I1 — contrat v0.2
+Le [contrat](03_CONTRAT.md) précise l’énergie requise pour TRANSFER et le retrait atomique des lots épuisés. [T22 et T23](04_VALIDATION.md) ajoutent énergie0/1, vingt cycles sans saturation artificielle, sauvegarde/reprise et mémoire d’un lot disparu ; T10 conserve la saturation réelle (T10-a couvre le transfert total).
+**Prêt pour soumission à Codex**, au sens documentaire seulement : les blocages signalés sont levés dans le contrat, pas prouvés par une implémentation. Aucun test candidat exécuté ; aucun lancement de Codex ni fusion. Le [prompt final dormant](05_CODEX.md) exige toujours l’autorisation explicite de programmer I1 et n’autorise pas I2.
