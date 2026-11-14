@@ -120,6 +120,11 @@ textarea:focus-visible {
 }
 label {
   display: inline-block;
+  max-width: 100%;
+}
+select {
+  max-width: 100%;
+  min-width: 0;
 }
 textarea {
   display: block;

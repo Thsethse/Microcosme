@@ -25,3 +25,7 @@ jobs:
       - run: npx playwright install --with-deps chromium webkit
       - run: node tests/material-browser.cjs
       - run: node tests/v1-browser.cjs
+      - name: Vérifier la prévisualisation publique
+        run: node tests/v1-browser.cjs
+        env:
+          V1_URL: https://thsethse.github.io/Microcosme/preview/v1/v1.html?v=2

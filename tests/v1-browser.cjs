@@ -105,23 +105,32 @@ const server = http.createServer((req, res) => {
           V1Lab.render();
         });
         assert.equal(await snapshot(), beforeInspection);
+        // Font metrics differ between the Cloud desktop and Ubuntu CI.
+        const fontSweep = await page.addStyleTag({
+          content: ':root { font-family: "DejaVu Sans", sans-serif; }',
+        });
         for (const viewport of [
           { width: 1180, height: 820 },
           { width: 390, height: 844 },
           { width: 820, height: 1180 },
         ]) {
           await page.setViewportSize(viewport);
-          assert.ok(
-            await page.evaluate(
-              () => document.documentElement.scrollWidth <= innerWidth,
-            ),
-          );
+          const layout = await page.evaluate(() => ({
+            document: document.documentElement.scrollWidth,
+            viewport: innerWidth,
+            overflowing: [...document.querySelectorAll("main *")]
+              .filter((el) => el.getBoundingClientRect().right > innerWidth)
+              .map((el) => el.tagName + "#" + el.id)
+              .slice(0, 8),
+          }));
+          assert.ok(layout.document <= layout.viewport, JSON.stringify(layout));
           assert.ok(
             await page
               .locator("#map")
               .evaluate((el) => el.scrollWidth <= el.clientWidth),
           );
         }
+        await fontSweep.evaluate((el) => el.remove());
         await page.locator("#export").click();
         const exported = await page.locator("#snapshot").inputValue();
         assert.equal(exported, beforeInspection);
