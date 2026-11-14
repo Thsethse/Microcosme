@@ -321,13 +321,14 @@
       selected = null,
       followed = null;
     const person = (id) => world.state.people.find((p) => p.id === id);
-    function sync() {
+    function sync(observedPosition) {
       const p = person(followed);
       if (!p) return;
+      const pos = observedPosition || p.pos;
       scene =
-        p.pos.space === "cave"
+        pos.space === "cave"
           ? { kind: "interior" }
-          : { kind: "local", region: regionAt(p.pos) };
+          : { kind: "local", region: regionAt(pos) };
     }
     return {
       get scene() {
