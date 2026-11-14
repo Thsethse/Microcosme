@@ -5,7 +5,8 @@
   "scripts": {
     "test": "node --test tests/*.test.js",
     "test:browser": "node tests/browser.cjs",
-    "test:island:browser": "node tests/island-browser.cjs"
+    "test:island:browser": "node tests/island-browser.cjs",
+    "test:island:motion": "node tests/island-motion-browser.cjs"
   },
   "devDependencies": {
     "playwright": "1.62.1"

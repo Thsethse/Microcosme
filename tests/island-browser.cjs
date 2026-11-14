@@ -12,6 +12,7 @@ const files = [
   "graphics.js",
   "island-camera.js",
   "island-art.js",
+  "island-motion.js",
 ];
 (async () => {
   const server = http.createServer((req, res) => {
@@ -50,6 +51,8 @@ const files = [
         });
         // Deterministic clock: the production timer still drives every step.
         await context.addInitScript(() => {
+          window.__visualTime = 1000;
+          performance.now = () => window.__visualTime;
           window.__intervals = [];
           window.setInterval = (fn) => {
             window.__intervals.push(fn);
@@ -70,8 +73,10 @@ const files = [
         const snap = () => page.evaluate(() => IslandDiagnostics.snapshot());
         const tick = (n) =>
           page.evaluate((n) => {
-            for (let i = 0; i < n; i++)
+            for (let i = 0; i < n; i++) {
+              window.__visualTime += 600;
               window.__intervals.filter(Boolean).forEach((fn) => fn());
+            }
           }, n);
         await page.evaluate(() => {
           localStorage.setItem("microcosme-v03", "historical sentinel");
@@ -211,7 +216,7 @@ const files = [
           await tick(1);
           const s = await snap();
           if (s.scene.kind === "local") {
-            const p = s.world.people[0].pos,
+            const p = s.visuals[0].pos,
               c = s.camera;
             assert.ok(
               p.x >= c.x && p.x < c.x + 16 && p.y >= c.y && p.y < c.y + 12,

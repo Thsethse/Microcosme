@@ -4,6 +4,8 @@
     G = MicrocosmeGraphics,
     C = IslandCamera,
     A = IslandArt,
+    M = IslandMotion,
+    motion = M.create(600),
     world = I.create(),
     view = I.createView(world);
   const $ = (id) => document.getElementById(id),
@@ -20,6 +22,15 @@
     toastTimer = null,
     exteriorCamera = null,
     suppressClick = false;
+  let visualTime = 0,
+    lastVisualTime = 0,
+    cameraMoving = false,
+    lastFollow = null,
+    lastRevision = -1;
+  const motionPreference = matchMedia("(prefers-reduced-motion: reduce)");
+  function visual(id) {
+    return motion.sample(id, visualTime);
+  }
   function displayScene() {
     return view.scene.kind === "local" ? { ...view.scene, camera } : view.scene;
   }
@@ -50,30 +61,62 @@
     ctx.fillRect(x, y, w, h);
   }
   const tiles = new Map();
+  const terrainRegion = document.createElement("canvas");
+  let terrainRegionId = null;
+  function tileAt(kind, x, y) {
+    const key = kind + ":" + (G.hash(x + y * 96) % 8);
+    let tile = tiles.get(key);
+    if (!tile) {
+      tile = document.createElement("canvas");
+      tile.width = tile.height = 32;
+      A.tile(tile.getContext("2d"), kind, x, y);
+      tiles.set(key, tile);
+    }
+    return tile;
+  }
   function background() {
-    const b = I.bounds(displayScene()),
+    const scene = displayScene(),
+      b = I.bounds(scene),
       size = canvas.width / b.width;
     ctx.imageSmoothingEnabled = false;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let y = Math.floor(b.y); y < Math.ceil(b.y + b.height); y++)
-      for (let x = Math.floor(b.x); x < Math.ceil(b.x + b.width); x++) {
-        const kind = I.terrain(x, y, b.space),
-          key = kind + ":" + (G.hash(x + y * 96) % 8);
-        let tile = tiles.get(key);
-        if (!tile) {
-          tile = document.createElement("canvas");
-          tile.width = tile.height = 32;
-          A.tile(tile.getContext("2d"), kind, x, y);
-          tiles.set(key, tile);
-        }
-        ctx.drawImage(
-          tile,
-          (x - b.x) * size,
-          (y - b.y) * size,
-          size + 0.2,
-          size + 0.2,
-        );
+    if (scene.kind === "local") {
+      const r = I.regions[scene.region];
+      if (terrainRegionId !== r.id) {
+        terrainRegionId = r.id;
+        terrainRegion.width = r.width * 32;
+        terrainRegion.height = r.height * 32;
+        const g = terrainRegion.getContext("2d");
+        g.imageSmoothingEnabled = false;
+        for (let y = 0; y < r.height; y++)
+          for (let x = 0; x < r.width; x++)
+            g.drawImage(
+              tileAt(I.terrain(r.x + x, r.y + y), r.x + x, r.y + y),
+              x * 32,
+              y * 32,
+            );
       }
+      ctx.drawImage(
+        terrainRegion,
+        (b.x - r.x) * 32,
+        (b.y - r.y) * 32,
+        b.width * 32,
+        b.height * 32,
+        0,
+        0,
+        canvas.width,
+        canvas.height,
+      );
+    } else
+      for (let y = Math.floor(b.y); y < Math.ceil(b.y + b.height); y++)
+        for (let x = Math.floor(b.x); x < Math.ceil(b.x + b.width); x++)
+          ctx.drawImage(
+            tileAt(I.terrain(x, y, b.space), x, y),
+            (x - b.x) * size,
+            (y - b.y) * size,
+            size + 0.2,
+            size + 0.2,
+          );
     // Detailed objects only in the camera window; no island-wide object Canvas/cache.
     if (view.scene.kind === "local")
       for (const f of I.features) {
@@ -237,7 +280,8 @@
     c.lineTo(cx, cy + 4);
     c.stroke();
     let resident = false;
-    for (const p of world.state.people) {
+    for (const residentPerson of world.state.people) {
+      const p = { pos: visual(residentPerson.id).pos };
       if (
         p.pos.space !== r.space ||
         p.pos.x < r.x ||
@@ -277,7 +321,17 @@
     render();
   };
   function render() {
-    view.sync();
+    visualTime = performance.now();
+    const dt = lastVisualTime ? Math.min(64, visualTime - lastVisualTime) : 16;
+    lastVisualTime = visualTime;
+    motion.sync(
+      world.state.people,
+      visualTime,
+      motionPreference.matches || document.hidden,
+    );
+    const followedVisual = visual(view.followed);
+    if (view.followed && !followedVisual) view.follow(null);
+    view.sync(followedVisual?.pos);
     const sceneKey = JSON.stringify(view.scene);
     const sceneChanged = sceneKey !== previousScene;
     if (sceneChanged) {
@@ -301,15 +355,26 @@
         }, 2200);
       } else $("region-toast").hidden = true;
     }
+    cameraMoving = false;
     if (view.followed && view.scene.kind === "local") {
-      const p = world.state.people.find((p) => p.id === view.followed);
-      camera = C.center(
-        I.regions[view.scene.region],
-        p.pos.x,
-        p.pos.y,
-        camera?.zoom || 1,
-      );
+      const v = followedVisual,
+        desired = C.center(
+          I.regions[view.scene.region],
+          v.pos.x,
+          v.pos.y,
+          camera?.zoom || 1,
+        );
+      const snap =
+        sceneChanged ||
+        view.followed !== lastFollow ||
+        v.revision !== lastRevision ||
+        motionPreference.matches ||
+        document.hidden;
+      camera = snap ? desired : M.damp(camera, desired, dt);
+      cameraMoving = camera.x !== desired.x || camera.y !== desired.y;
+      lastRevision = v.revision;
     }
+    lastFollow = view.followed;
     const scene = displayScene(),
       key = JSON.stringify(scene),
       local = scene.kind === "local";
@@ -361,7 +426,8 @@
         $("actors").append(node);
         actorNodes.set(p.id, node);
       }
-      const projected = I.project(p.pos, scene);
+      const pose = visual(p.id);
+      const projected = I.project(pose.pos, scene);
       node.hidden = !projected;
       if (!projected) continue;
       at(node, projected);
@@ -373,20 +439,13 @@
       node.classList.toggle("selected", view.selected?.id === p.id);
       node.setAttribute("aria-label", p.name + " · ouvrir la fiche");
       const c = node.firstChild,
-        cctx = c.getContext("2d");
-      cctx.clearRect(0, 0, 16, 24);
-      G.person(
-        cctx,
-        p.id,
-        0,
-        0,
-        0,
-        matchMedia("(prefers-reduced-motion: reduce)").matches
-          ? 0
-          : world.state.tick % 2
-            ? 1
-            : 2,
-      );
+        key = pose.direction + ":" + pose.frame;
+      if (node.dataset.pose !== key) {
+        node.dataset.pose = key;
+        const cctx = c.getContext("2d");
+        cctx.clearRect(0, 0, 16, 24);
+        G.person(cctx, p.id, 0, 0, pose.direction, pose.frame);
+      }
     }
     const portal =
       scene.kind === "interior"
@@ -407,14 +466,18 @@
     const p = world.state.people[0];
     $("activity").textContent = p.name + " · " + p.activity;
     $("following").textContent = view.followed
-      ? "Suivi d’Alix actif · la vue accompagne ses déplacements."
+      ? "Suivi de " +
+        world.state.people.find((p) => p.id === view.followed)?.name +
+        " actif · la vue accompagne ses déplacements."
       : "Observation libre · Alix continue son activité hors écran.";
     $("pause").textContent = running ? "Mettre en pause" : "Reprendre";
     $("follow").textContent = view.followed
       ? "Arrêter le suivi"
-      : "Suivre Alix";
+      : "Suivre " + (view.selected?.name || "Alix");
     if (view.selected) {
       const a = view.selected;
+      $("person-title").textContent = a.name;
+      $("person-identity").textContent = "HABITANT · IDENTITÉ #" + a.id;
       $("details").textContent =
         a.activity +
         " · " +
@@ -428,6 +491,13 @@
         ") · temps " +
         world.state.tick;
     }
+    if (
+      !document.hidden &&
+      !motionPreference.matches &&
+      (motion.active(visualTime) || cameraMoving)
+    )
+      scheduleRender();
+    else if (!frame) lastVisualTime = 0;
   }
   const pointers = new Map();
   let gesture = null,
@@ -631,7 +701,7 @@
     render();
   };
   $("follow").onclick = () => {
-    view.follow(view.followed ? null : 1);
+    view.follow(view.followed ? null : view.selected?.id || 1);
     sheet.close();
     render();
   };
@@ -712,6 +782,10 @@
   };
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
+      cancelAnimationFrame(frame);
+      frame = 0;
+      lastVisualTime = 0;
+      motion.sync(world.state.people, performance.now(), true);
       running = false;
       $("status").textContent =
         "Onglet masqué : simulation arrêtée. Touchez Reprendre au retour ; aucun rattrapage.";
@@ -719,8 +793,18 @@
     schedule();
     render();
   });
-  window.addEventListener("pagehide", () => clearInterval(timer));
-  window.addEventListener("pageshow", () => schedule());
+  window.addEventListener("pagehide", () => {
+    clearInterval(timer);
+    cancelAnimationFrame(frame);
+    frame = 0;
+    lastVisualTime = 0;
+  });
+  window.addEventListener("pageshow", () => {
+    lastVisualTime = 0;
+    render();
+    schedule();
+  });
+  motionPreference.addEventListener("change", () => render());
   render();
   schedule();
   // Read-only diagnostics: detached snapshots, never the authoritative object.
@@ -734,6 +818,12 @@
       tileCache: tiles.size,
       pointers: pointers.size,
       minimapVisible: miniVisible,
+      visuals: world.state.people.map((p) => ({
+        id: p.id,
+        ...motion.sample(p.id, performance.now()),
+      })),
+      animationScheduled: Boolean(frame),
+      motionTracks: motion.size,
     }),
   };
 })();
