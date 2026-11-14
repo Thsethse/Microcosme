@@ -307,3 +307,84 @@ details {
 #region-toast {
   z-index: 4;
 }
+
+/* Screen navigation lives outside the camera and scrolling content. */
+#navigation-hud {
+  position: fixed;
+  top: max(10px, env(safe-area-inset-top));
+  right: max(10px, env(safe-area-inset-right));
+  z-index: 50;
+  width: 176px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #edf1dc;
+  font-size: 12px;
+  line-height: 1.35;
+}
+#navigation-hud button {
+  min-height: 48px;
+  width: 100%;
+  background: #19393ff5;
+  border: 2px solid #b4c48b;
+  box-shadow: 0 2px 8px #07171c66;
+  padding: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+#mini-panel {
+  background: #112d35f2;
+  padding: 8px;
+  border: 1px solid #7d9d8b;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px #07171c55;
+}
+#mini-panel p {
+  font-size: 11px;
+  margin: 3px 0 6px;
+  color: #d5e4cb;
+}
+#mini-map {
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+#mini-position {
+  margin-bottom: 0 !important;
+}
+header {
+  padding-right: 182px;
+}
+@media (max-width: 600px) {
+  header {
+    padding-right: 0;
+    padding-top: 62px;
+  }
+  #navigation-hud {
+    width: 156px;
+  }
+  #navigation-hud button {
+    min-height: 48px;
+  }
+  #mini-panel {
+    padding: 6px;
+  }
+}
+#navigation-hud {
+  pointer-events: none;
+}
+#navigation-hud button {
+  pointer-events: auto;
+}
+#mini-panel {
+  pointer-events: none;
+}
+nav {
+  padding-right: 182px;
+}
+@media (max-width: 600px) {
+  nav {
+    padding-right: 162px;
+  }
+}
