@@ -21,3 +21,6 @@ Statut : documentation de continuité, créée le 14 novembre 2026. Ne vaut pas 
 
 ## Transmission du directeur (13 novembre 2026)
 Lire également [SNAPSHOT_TRANSMISSION_2026-11-13.md](SNAPSHOT_TRANSMISSION_2026-11-13.md) : index de huit snapshots, non verbatim. Le dernier DIRECTEUR-SNAPSHOT v1.0 établit C1–C4 clos, C5 ouvert et DIR-1–DIR-6 validées. Aucun F1–F4 sans audit réel.
+
+## Audit d’intégration — 14 novembre 2026
+Lire [le dossier d’audit et de proposition](integration-audit-2026-11-14/README.md). Code main inspecté au SHA 3c15d88 ; 35 tests Node passés. Architecture hybride, contrat et prompt I1 **candidats non validés**. Aucun moteur modifié ni Codex lancé ; C5 reste ouvert.

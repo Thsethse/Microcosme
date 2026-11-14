@@ -1,0 +1,82 @@
+# Dépendances, tests et trajectoire
+Statut : propositions non validées ; tests candidats ci-dessous **non exécutés** puisque le nouveau noyau n’existe pas.
+
+## Registre d’autorité et inconnues
+| ID | Statut | Fait / manque / conséquence |
+|---|---|---|
+| V-01 | Validé, source mémoire | C1–C4 clos conceptuellement, DIR-1–6 validées ; aucune réouverture proposée |
+| V-02 | Validé, source DECISION_REGISTER | Effort : L/M/S distincts, pas de R générale sans nécessité, A différé, récupération ≠ réparation, biologie ≠ décision, inspection divine |
+| U-01 | INCONNU dans les fichiers reçus | Textes intégraux des cinq lois C1, tests A–G et réserves effort LIM-E/DEP-E ; pas de certification C1 exhaustive |
+| U-02 | INCONNU dans les fichiers reçus | Détails C2, tests T1–T6 ; formules d’évaluation et interfaces non récupérées |
+| U-03 | INCONNU dans les fichiers reçus | Contrat complet modèle T C3, granularité et tests T1–T3 ; bloque consolidation I4, pas l’exécuteur matériel |
+| U-04 | INCONNU dans les fichiers reçus | Décisions P1–P6 C4 global, texte C4.6 et C4.7, limites exactes ; S et G1-R à préciser avant intégration sociale |
+| U-05 | INCONNU dans les fichiers reçus | Sens détaillé G+, R-G1/R-G2 ; on préserve les noms/statuts, on n’invente pas leur contenu. Pas de grille C5 validée |
+| U-06 | Ouvert, non validé | B1.14 M1/M2/M3 et bilan interne ; candidat M2 n’est pas une décision |
+| U-07 | NON DÉMONTRÉ | Safari physique, plafonds CPU/mémoire, tenue longue et montée en population du nouveau noyau |
+| U-08 | NON DÉMONTRÉ | Créativité autonome, invention de nouveaux usages hors règles, coopération durable, normes et organisations |
+| U-09 | À développer | Migration d’une partie main vers matière finie ; rester isolé tant que conversion non spécifiée |
+
+Source : les six fichiers de docs/ai au commit mémoire fixé. Les originaux absents devront être importés verbatim depuis une source fiable avant attestation d’intégration complète ; ce dossier ne les remplace pas.
+
+## Dépendances préservées
+- D1 critique : le contrat traite exécution matérielle et enchaînement ; la conception C6 globale reste ouverte.
+- D2 : objectif vers autrui/communication S non implémenté dans I1–I3.
+- L1 critique : résultats structurés, raisons de choix et inspection ; pas de narration inventée.
+- L2 / G1-R : bornes et consolidation à spécifier, pas de journal mental exhaustif.
+- N1 et N2 : aucune obligation morale autonome ni généralisation universelle ajoutée.
+- CR-01/02/03 : invention, projets et coordination non confondus. CR-04/09 : granularité/navigation testées localement. CR-05–08 : terrain/eau/biotopes/écologie exclus. CR-10–12 : temps long, lisibilité et périmètre restent surveillés.
+
+## Catalogue C5 complémentaire candidat
+Ne remplace pas C5_REQUIREMENTS.md ; mutualiser avant validation.
+| ID | Phénomène | Interactions nécessaires | Observable | Trace persistante | Priorité / statut |
+|---|---|---|---|---|---|
+| INT-01 (ENV-01/08) | Alimentation/épuisement | transfert + ingestion, quantités et accessibilité | source baisse, porteur reçoit, faim change | lots, ledger, cause | Indispensable au labo ; candidat |
+| INT-02 | Concurrence | localisation exclusive, arbitrage, revalidation | un succès et un échec sur dernier quantum | résultat, révision, détenteur | Indispensable ; candidat |
+| INT-03 | Obstacle | passabilité + déplacement d’objet | passage ouvert/fermé, détour | position et révision | I2 ; candidat |
+| INT-04 | Construction interrompue | dépôt + travail incrémental | chantier inachevé puis reprise | matériaux et workDone | I3 ; candidat |
+| INT-05 (ENV-02–06) | Échanges biologiques | acceptIntake / coûts / flux | apports et dépenses explicables | bilan externe, état corps futur | Interface indispensable, biologie réelle différée |
+| INT-06 | Interventions divines | commande contrôlée et invalidation | différence vérité/croyance | flux ajout/retrait et cause | Inspection I1, édition étendue ultérieure |
+Eau ENV-07 et conservation biologique interne demeurent ouvertes. Quantité/location/révision/transaction sont mutualisées ; pas de nouveau sous-système par phénomène.
+
+## Tests d’acceptation candidats
+| Test | Préparation / perturbation | Oracle précis | Tranche |
+|---|---|---|---|
+| T01 conservation | ration source=3, prélever 1 puis ingérer | sol2, portée0, consumed1 ; invariant I-03 | I1 |
+| T02 épuisement | source=1, deux prélèvements | un seul quantum transféré ; second EMPTY ; jamais négatif | I1 |
+| T03 concurrence | deux intentions même tick sur dernier quantum | un seul gagnant ; cause de perdant explicite ; rotation reproduite à tick fixé | I1 |
+| T04 connaissance | deux mondes cachés différents, mêmes vues et rngState | mêmes décisions ; différence seulement après observation/commit local | I1 |
+| T05 enchaînement autonome | acteur éloigné, faim60, aucune commande joueur après départ ; source observée et accessible | MOVE puis TRANSFER puis INGEST sur ticks distincts, faim décroît après ingestion | I1 |
+| T06 absence de solution | aucune ration, toutes sources connues vides | ni ration créée ni boucle interne infinie ; exploration/repos explicités | I1 |
+| T07 échec atomique | porteur plein / source supprimée avant commit | pas de mutation de matière ou énergie d’action ; cause correcte | I1 |
+| T08 sauvegarde | interrompre après transfert, exporter/importer puis avancer 20 ticks | état final identique au parcours sans interruption à RNG identique | I1 |
+| T09 format invalide | ID dupliqué, quantité négative, lieu orphelin, ledger faux, version future | rejet avant mutation ; partie précédente intacte | I1 |
+| T10 bornes | plafond entités lors d’un split | CAPACITY, aucun quantum perdu | I1 |
+| T11 coût causal | energy initiale connue, 1 mouvement puis repos | deltas -1 puis +6 plafonné, pas de perte double ; faim +2/tick tracée | I1 |
+| T12 inspection | choix puis source prise par autrui | raison initiale inchangée ; résultat d’échec distinct, vérité/croyance consultables | I1 |
+| T13 indépendance | ouvrir labo puis revenir application | anciennes clés de sauvegarde et fichiers main inchangés ; aucun chargement automatique du labo par index | I1 |
+| T14 stockage bloqué | getItem/setItem lance exception | labo jouable en mémoire, message visible, export disponible | I1 |
+| T15 obstacle | route connue puis objet bloquant ajouté | aucun pas illégal ; perception/réévaluation/détour sans omniscience | I2 |
+| T16 ouverture | déplacer objet bloquant par deux transferts légaux | passage changé, quantités constantes, positions sauvegardées | I2 |
+| T17 projet interrompu | 2 bois déposés, 2/4 travail ; faim interrompt | bois et workDone=2 persistent après reload ; pas d’abri actif | I3 |
+| T18 reprise tierce | acteur B choisit reprendre même projet | 2 quanta supplémentaires → complete une fois ; aucun bois dupliqué | I3 |
+| T19 projet concurrent | deux WORK à 3/4 | un succès, autre ALREADY_COMPLETE, pas de travail5/coût indu | I3 |
+| T20 traces | contextes voisins et contradictoires | transfert imparfait et plafond respectés selon futur contrat C3, oracle à préciser | I4 bloqué |
+| T21 divin | ajouter/retirer matière explicitement | ledger compense exactement, cause divine visible, mémoire distante non actualisée | extension |
+
+Autonomie exigée : les fixtures donnent des conditions initiales, pas une séquence de commandes aux habitants. Les tests unitaires de primitives ne remplacent pas T05. Ne pas exiger une diversité d’histoires non spécifiée comme oracle.
+
+## Trajectoire et portes de sortie
+1. **I0 — revue documentaire** : valider P-A à P-E ; importer les originaux pertinents. Une validation partielle peut autoriser un labo mécanique sans attestation d’intégration C1–C4.
+2. **I1 — tranche alimentaire isolée** : deux habitants, matière finie, transactions, perception, chaîne autonome, sauvegarde/export, inspection minimale. Tests T01–T14. Aucun obstacle ni projet.
+3. **I2 — obstacle persistant** : passabilité, BFS personnel borné et transport d’objet. T15–T16 ; mesurer coût navigation.
+4. **I3 — chantier persistant** : un abri, dépôt et travail, interruption/reprise. T17–T19 ; bénéfice uniquement une fois complet.
+5. **I4 — raccord C1–C4** : textes complets, adaptateurs biologiques, vraie consolidation T, événements/communication S et décisions dirigées. Sous-incréments séparés après revue.
+6. **I5 — intégration application** : migration explicite, inspection divine exhaustive et stratégie stockage ; éventuel remplacement du moteur après preuve et décision distincte.
+
+Chaque tranche doit être revue avant la suivante. Arrêter/resserrer si bilan faux, perte de sauvegarde, connaissance omnisciente, mécanisme ajouté sans effet observable, ou performance mesurée dépassant le budget décidé. Aucun budget mesuré aujourd’hui ; aucune extension automatique de population.
+
+## Mesures à préparer (non réalisées)
+Sur iPad cible, consigner modèle/iPadOS/Safari, build SHA, seed, population, nombres d’entités/projets, mode énergie et durée. Séparer temps simulation, perception/planification, rendu, save/load et taille JSON ; rapporter médiane/p95/max sur protocole fixe. Tester 2 puis 5 habitants, 1000 ticks logiques, interaction tactile pendant 5 minutes, 50 ouvertures/fermetures, verrouillage/reprise et erreur stockage. Fixer ensuite un budget acceptable avec l’utilisateur. WebKit Linux ne remplace pas cette mesure.
+
+## Risques acceptables à faire valider
+Stocks sans renouvellement impliquent épuisement final, pas un écosystème durable. Faim n’entraîne pas mort dans le labo. Repos restaure énergie sans bilan biologique interne ; c’est un adaptateur explicite. Une grille et deux matériaux ne réalisent pas G+. Pas de propriété sociale, aucune morale issue de l’arbitrage. Pas de promesse d’invention. Les historiques détaillés sont bornés, l’état courant ne l’est pas par dissimulation. Conserver le code actuel en parallèle crée une duplication temporaire à supprimer seulement après migration approuvée.

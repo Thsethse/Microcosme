@@ -20,3 +20,12 @@
 - Mise à jour des points d'entrée, état directeur et décisions ; aucun code moteur modifié.
 - État directeur : C1–C4 clos conceptuellement ; C5 ouvert ; DIR-1–DIR-6 validées ; audit phase 1 à engager après vérification du dépôt.
 - À faire : import verbatim des originaux via une source fiable, puis audit technique en lecture seule. Ne pas prétendre que les textes complets sont déjà archivés.
+
+## 2026-11-14 — Mission Work : audit d’intégration et proposition d’architecture
+- Mandat explicite : lire mémoire et main, comparer trois paradigmes sur cinq situations, proposer noyau/contrat/tests, documenter en PR sans modifier moteur ni lancer Codex.
+- Références : mémoire 364c8ec0e62f54ae9ecdb16e791bfebea2ee94f5 ; main 3c15d88d1b5b2f3f0ce4d9a58207ef9b989bc479.
+- Lecture : modules moteur/cognition/stockage/interface/rendu et tests. Exécution sur copie vérifiée des blobs : 35/35 tests Node v24.22.1 ; sondes déplétion absente, arbre traversable, plafond normalisation. Préparation initiale incomplète corrigée par récupération du fichier source manquant, sans correctif au moteur.
+- Navigateur/Safari physique et performances : non exécutés/non mesurées. Aucun F1–F4 attribué.
+- Livrables : [dossier d’intégration](integration-audit-2026-11-14/README.md), audit factuel, comparaison, contrat, dépendances/tests, prompt dormant Codex I1.
+- Recommandation NON VALIDÉE : interactions transactionnelles + pratiques ; premier laboratoire alimentaire isolé. Textes conceptuels complets encore manquants, pas de certification exhaustive C1–C4.
+- Prochaine étape : revue des propositions P-A à P-E par François ; une revue documentaire ne vaut pas autorisation de programmer.
