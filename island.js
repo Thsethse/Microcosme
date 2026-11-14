@@ -183,6 +183,99 @@
     };
     $("regions").append(button);
   });
+  let miniVisible = true,
+    miniKey = "";
+  const miniGround = document.createElement("canvas");
+  miniGround.width = 192;
+  miniGround.height = 144;
+  function renderMinimap(scene) {
+    const active = scene.kind !== "global";
+    $("mini-toggle").hidden = !active;
+    $("mini-panel").hidden = !active || !miniVisible;
+    $("mini-toggle").textContent = miniVisible
+      ? "Masquer la minicarte"
+      : "Afficher la minicarte";
+    $("mini-toggle").setAttribute("aria-expanded", String(miniVisible));
+    if (!active || !miniVisible) return;
+    const interior = scene.kind === "interior",
+      r = interior
+        ? { x: 0, y: 0, width: 16, height: 12, space: "cave" }
+        : { ...I.regions[scene.region], space: "surface" },
+      key = interior ? "cave" : String(scene.region);
+    const sx = 192 / r.width,
+      sy = 144 / r.height;
+    if (key !== miniKey) {
+      miniKey = key;
+      const g = miniGround.getContext("2d");
+      for (let y = 0; y < r.height; y++)
+        for (let x = 0; x < r.width; x++) {
+          const k = I.terrain(r.x + x, r.y + y, r.space);
+          g.fillStyle = A.biomes[k]?.palette[0] || colors[k] || "#455b60";
+          g.fillRect(x * sx, y * sy, sx, sy);
+        }
+    }
+    const c = $("mini-map").getContext("2d");
+    c.imageSmoothingEnabled = false;
+    c.drawImage(miniGround, 0, 0);
+    const b = I.bounds(scene),
+      x = (b.x - r.x) * sx,
+      y = (b.y - r.y) * sy,
+      w = b.width * sx,
+      h = b.height * sy;
+    c.fillStyle = "#fff4bd22";
+    c.fillRect(x, y, w, h);
+    c.strokeStyle = "#fff4b6";
+    c.lineWidth = 2;
+    c.strokeRect(x + 1, y + 1, w - 2, h - 2);
+    const cx = x + w / 2,
+      cy = y + h / 2;
+    c.strokeStyle = "#ffffff";
+    c.beginPath();
+    c.moveTo(cx - 4, cy);
+    c.lineTo(cx + 4, cy);
+    c.moveTo(cx, cy - 4);
+    c.lineTo(cx, cy + 4);
+    c.stroke();
+    let resident = false;
+    for (const p of world.state.people) {
+      if (
+        p.pos.space !== r.space ||
+        p.pos.x < r.x ||
+        p.pos.x >= r.x + r.width ||
+        p.pos.y < r.y ||
+        p.pos.y >= r.y + r.height
+      )
+        continue;
+      resident = true;
+      c.fillStyle = "#f9aa73";
+      c.fillRect(
+        (p.pos.x - r.x + 0.5) * sx - 2,
+        (p.pos.y - r.y + 0.5) * sy - 2,
+        4,
+        4,
+      );
+    }
+    $("mini-title").textContent = interior
+      ? "Repère intérieur · Grotte"
+      : "Repère local · " + r.name;
+    $("mini-position").textContent =
+      "Vue (" +
+      (b.x + b.width / 2).toFixed(1) +
+      ", " +
+      (b.y + b.height / 2).toFixed(1) +
+      ")" +
+      (resident ? " · Alix ●" : "");
+    $("mini-map").setAttribute(
+      "aria-label",
+      $("mini-title").textContent +
+        ". Cadre : fenêtre observée ; croix : centre de la vue ; point orange : Alix si présente. " +
+        $("mini-position").textContent,
+    );
+  }
+  $("mini-toggle").onclick = () => {
+    miniVisible = !miniVisible;
+    render();
+  };
   function render() {
     view.sync();
     const sceneKey = JSON.stringify(view.scene);
@@ -246,6 +339,7 @@
         : local
           ? "Touchez un habitant ou l’entrée de la grotte."
           : "Un plan intérieur, dans le même monde.";
+    renderMinimap(scene);
     $("clock").textContent = "Temps du monde · " + world.state.tick;
     const ids = new Set(world.state.people.map((p) => p.id));
     for (const [id, node] of actorNodes)
@@ -494,10 +588,26 @@
     $("atlas").append(b);
   }
   $("biomes").textContent = I.biomes.map((b) => b.name).join(" · ");
-  $("global").onclick = () => {
+  function returnToWorld() {
+    for (const id of pointers.keys()) {
+      try {
+        $("viewport").releasePointerCapture(id);
+      } catch {}
+    }
+    pointers.clear();
+    gesture = null;
+    suppressClick = false;
+    exteriorCamera = null;
+    if (sheet.open) {
+      opener = $("global");
+      sheet.close();
+    }
     view.global();
     render();
-  };
+    $("viewport").scrollIntoView({ block: "nearest", behavior: "instant" });
+  }
+  $("global").onclick = returnToWorld;
+  $("sheet-world").onclick = returnToWorld;
   $("outside").onclick = () => {
     view.exit();
     render();
@@ -623,6 +733,7 @@
       viewport: I.bounds(displayScene()),
       tileCache: tiles.size,
       pointers: pointers.size,
+      minimapVisible: miniVisible,
     }),
   };
 })();

@@ -256,6 +256,93 @@ const files = [
           ]),
           ["historical sentinel", "material sentinel"],
         );
+        // Permanent screen navigation: no dependency on camera, zoom, scroll or minimap.
+        for (let round = 0; round < 3; round++) {
+          await page
+            .getByRole("button", { name: "Observer La plaine", exact: true })
+            .tap();
+          assert.ok(await page.locator("#mini-panel").isVisible());
+          assert.match(
+            await page.locator("#mini-title").textContent(),
+            /La plaine/,
+          );
+          const worldBefore = JSON.stringify((await snap()).world);
+          const miniBefore = await page.locator("#mini-position").textContent();
+          for (let j = 0; j < 5; j++) await page.locator("#zoom-in").tap();
+          const box = await page.locator("#viewport").boundingBox();
+          await page.mouse.move(
+            box.x + box.width * 0.65,
+            box.y + box.height * 0.6,
+          );
+          await page.mouse.down();
+          await page.mouse.move(
+            box.x + box.width * 0.25,
+            box.y + box.height * 0.25,
+            { steps: 30 },
+          );
+          await page.mouse.up();
+          assert.notEqual(
+            await page.locator("#mini-position").textContent(),
+            miniBefore,
+          );
+          await page.locator("#mini-toggle").tap();
+          assert.equal(await page.locator("#mini-panel").isVisible(), false);
+          assert.equal(
+            await page.locator("#mini-toggle").getAttribute("aria-expanded"),
+            "false",
+          );
+          const fixedBefore = await page.locator("#global").boundingBox();
+          await page.evaluate(() =>
+            scrollTo(0, document.documentElement.scrollHeight),
+          );
+          const fixedAfter = await page.locator("#global").boundingBox();
+          assert.equal(fixedBefore.y, fixedAfter.y);
+          assert.equal(fixedBefore.x, fixedAfter.x);
+          assert.ok(fixedAfter.width >= 44 && fixedAfter.height >= 48);
+          assert.ok(
+            await page.locator("#global").evaluate((el) => {
+              const b = el.getBoundingClientRect();
+              return el.contains(
+                document.elementFromPoint(
+                  b.x + b.width / 2,
+                  b.y + b.height / 2,
+                ),
+              );
+            }),
+          );
+          await page
+            .getByRole("button", { name: "Carte du monde", exact: true })
+            .tap();
+          assert.equal((await snap()).scene.kind, "global");
+          assert.equal((await snap()).pointers, 0);
+          assert.equal(JSON.stringify((await snap()).world), worldBefore);
+          await page
+            .getByRole("button", { name: "Observer Les sommets", exact: true })
+            .tap();
+          assert.equal(await page.locator("#mini-panel").isVisible(), false);
+          await page.locator("#mini-toggle").tap();
+          assert.ok(await page.locator("#mini-panel").isVisible());
+          await page.locator("#portal").tap();
+          assert.equal((await snap()).scene.kind, "interior");
+          assert.match(
+            await page.locator("#mini-title").textContent(),
+            /intérieur/,
+          );
+          await page.locator("#mini-toggle").tap();
+          await page.locator("#global").tap();
+          assert.equal((await snap()).scene.kind, "global");
+          assert.equal(JSON.stringify((await snap()).world), worldBefore);
+          await page
+            .getByRole("button", { name: "Observer La plaine", exact: true })
+            .tap();
+          await page.locator("#mini-toggle").tap();
+          await page.locator("#global").tap();
+        }
+        await page.locator("#resident").tap();
+        await page.locator("#sheet-world").tap();
+        assert.equal(await page.locator("#sheet").isVisible(), false);
+        assert.equal((await snap()).scene.kind, "global");
+        assert.equal(JSON.stringify((await snap()).world), frozen);
         // Portrait and landscape: no document overflow, entire map visible, 44px targets.
         for (const viewport of [
           { width: 820, height: 1180 },

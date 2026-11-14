@@ -10,6 +10,28 @@
     <link rel="stylesheet" href="island.css" />
   </head>
   <body>
+    <aside id="navigation-hud" aria-label="Repères et retour au monde">
+      <button id="global">Carte du monde</button>
+      <button
+        id="mini-toggle"
+        aria-controls="mini-panel"
+        aria-expanded="true"
+        hidden
+      >
+        Masquer la minicarte
+      </button>
+      <section id="mini-panel" aria-label="Minicarte de la région" hidden>
+        <p id="mini-title"></p>
+        <canvas
+          id="mini-map"
+          width="192"
+          height="144"
+          role="img"
+          aria-label="Position de la vue dans la région"
+        ></canvas>
+        <p id="mini-position"></p>
+      </section>
+    </aside>
     <main>
       <header>
         <div>
@@ -19,8 +41,7 @@
         <a href="index.html">Village historique ↗</a>
       </header>
       <nav aria-label="Navigation de l’île">
-        <button id="global">Carte de l’île</button
-        ><button id="outside" hidden>Sortir de la grotte</button
+        <button id="outside" hidden>Sortir de la grotte</button
         ><button id="pause">Mettre en pause</button
         ><span id="zoom-controls" hidden
           ><button id="zoom-out" aria-label="Dézoomer">−</button
@@ -72,7 +93,8 @@
         <p class="eyebrow">HABITANT · IDENTITÉ #1</p>
         <h2 id="person-title">Alix</h2>
         <p id="details"></p>
-        <button id="follow">Suivre Alix</button>
+        <button id="follow">Suivre Alix</button
+        ><button id="sheet-world">Carte du monde</button>
       </dialog>
       <details>
         <summary>Atlas — paysages et lieux à observer</summary>

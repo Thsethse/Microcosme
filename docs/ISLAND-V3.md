@@ -67,3 +67,13 @@ Sur iPad, ouvrir l’URL publiée sous `/preview/island-v3/island.html` :
 7. Revenir aux URL V1/V2 et au village : aucune modification de ces versions ou des parties.
 
 Prévisualisation : snapshot figé du commit de la PR sous un nouveau dossier de main, sans fusion ni changement Pages. Ressources locales : island.html/css/js, island-world.js, graphics.js, island-camera.js et island-art.js. Un fichier index de retour renvoie au village historique.
+
+## Correctif prioritaire — navigation permanente
+
+Le bouton **Carte du monde** est placé dans une interface `position:fixed` en haut à droite, hors du viewport de caméra et du contenu défilant, avec prise en compte des zones sûres iPad. Il est présent dans les scènes globale, locale et intérieure ; masquer la minicarte ne le masque jamais. Les commandes mesurent au moins 48 pixels de haut. La fiche modale offre également un retour Carte du monde, qui ferme la fiche et rend le focus au bouton fixe.
+
+La minicarte représente **la région courante**, pas l’île entière : fond simplifié, rectangle de caméra tenant compte du zoom, croix au centre de la vue, position d’Alix en orange lorsqu’elle est dans ce plan. Dans la grotte, elle représente le plan intérieur. Les coordonnées indiquent le centre de la vue (observateur), pas une nouvelle position d’habitant. Le bouton Masquer/Afficher conserve sa préférence durant les changements de scène, pour la session seulement. Le fond est mis en cache par région ; seuls le cadre et les marqueurs sont redessinés. Le panneau dessiné laisse passer les gestes, afin de ne pas intercepter la caméra ou les commandes placées en dessous.
+
+Le retour monde abandonne le suivi et les gestes en cours, ferme la fiche éventuelle, affiche la vue globale et remet la carte visible dans la page si elle avait défilé. Il ne met pas en pause, ne réinitialise pas et ne fait pas avancer la simulation. Aucune modification du moteur ou des sauvegardes.
+
+Tests ajoutés au parcours navigateur, dans Chromium et WebKit : trois cycles de cinq zooms, glissement de caméra, vérification du repère actualisé, masquage, défilement jusqu’au bas de page, stabilité des coordonnées du bouton fixe, visibilité réelle par hit-test et taille tactile, retour global avec minicarte masquée, passage par la grotte puis retour global direct, réaffichage de la minicarte et retour depuis la fiche. Comparaison exacte du monde avant/après ces navigations à pause ; les tests précédents conservent le contrôle de simulation active. Test physique iPad restant nécessaire : répéter ces cycles en portrait/paysage, notamment avec les barres Safari ouvertes puis rétractées.
