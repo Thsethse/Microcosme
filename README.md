@@ -41,3 +41,18 @@ Pixel art original généré en Canvas 2D, personnages animés, lumière liée �
 - [Architecture graphique](docs/ARCHITECTURE-GRAPHIQUE-v0.9.md)
 - [Rapport de validation](docs/RAPPORT-v0.9.md)
 - [Vérification Safari iPad](docs/VERIFICATION-IPAD-v0.9.md)
+
+## Prototype Île V1
+
+Ouvrir [island.html](island.html) sur le même serveur statique : monde indépendant, carte globale, régions, suivi d’Alix et grotte accessible. Aucune migration des parties existantes.
+
+- [Lancement, parcours iPad, architecture, tests et limites](docs/ISLAND-V1.md)
+- Tests : `npm test` puis `npm run test:island:browser` (Chromium et WebKit).
+
+## Île V2
+
+La branche V2 agrandit les régions, ajoute une caméra tactile et 14 biotopes. [Guide V2, atlas et procédure iPad](docs/ISLAND-V2.md). La prévisualisation V1 demeure figée et accessible à son URL précédente.
+
+## Île V3
+
+Caméra locale continue, pincement et ressources procédurales pour les 14 biotopes : [inventaire, architecture et procédure iPad](docs/ISLAND-V3.md). Les prévisualisations V1/V2 restent indépendantes.
