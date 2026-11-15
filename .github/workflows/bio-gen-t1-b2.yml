@@ -17,3 +17,7 @@ jobs:
       - run: node --test tests/bio-gen-t1-b2/model.test.cjs tests/bio-gen-t1/model.test.cjs
       - run: npx playwright install --with-deps chromium webkit
       - run: node tests/bio-gen-t1-b2/browser.cjs
+      - name: Parcours HTTPS GitHub Pages
+        run: node tests/bio-gen-t1-b2/browser.cjs
+        env:
+          BIO_B2_URL: https://thsethse.github.io/Microcosme/preview/bio-gen-t1-b2/

@@ -19,7 +19,7 @@ Ouvrir `experiments/bio-gen-t1-b2/index.html` ou son dossier complet localement 
 | ID | Propriété vérifiée automatiquement | Résultat / limite humaine |
 |---|---|---|
 | B2-01 | Rondeurs continues et variation des pixels de chaque contour à hauteur inchangée | Réussi ; identification rond/ovale/triangle/trapèze/carré/rectangle à évaluer humainement |
-| B2-02 | 2000 descriptions bornées, sommes des segments ; 180 masques anatomiques connexes et non coupés verticalement (60 profils dont extrêmes, 3 vues) | Réussi Chromium ; connexité n'est pas une validation anatomique artistique |
+| B2-02 | 2000 descriptions bornées, sommes des segments ; 180 masques anatomiques connexes et non coupés verticalement (60 profils dont extrêmes, 3 vues) | Réussi Chromium/WebKit ; connexité n'est pas une validation anatomique artistique |
 | B2-03 | Trois intentions de coupe dérivées de propriétés, même profil → mêmes pixels, exemples appliqués par interface | Réussi techniquement ; reconnaissance et crédibilité ouvertes |
 | B2-04 | Longueurs indépendantes du crâne, direction/densité/texture visibles, nuque en couche arrière | Réussi techniquement ; gravité et dégradés schématiques |
 | B2-05 | Poitrine, épaules/bassin, mâchoire, volumes et pilosité indépendants ; aucune catégorie inférée | Réussi ; lecture perceptive des caractères corporels ouverte |
@@ -27,13 +27,13 @@ Ouvrir `experiments/bio-gen-t1-b2/index.html` ou son dossier complet localement 
 | B2-07 | Absence du pigment de vêtement B1 dans les quatre projections B2 ; dessin sans détail génital ni mamelons | Réussi pour les propriétés programmables ; lisibilité esthétique ouverte |
 | B2-08 | Potentiel nul → cartes pileuses nulles ; densités faciale/corporelle indépendantes ; entretien ne modifie pas potentiel/distribution ; changements de pixels | Réussi ; qualité et implantation artistiques ouvertes |
 | B2-09 | Quatre rendus depuis la même géométrie/palette/description, sans hasard par vue | Réussi ; association à l'aveugle portrait/sprite à faire humainement |
-| B2-10 | Import v1 via interface, 18 champs exacts, aller-retour v2, pixels stables, export téléchargé relu, JSON invalide sans perte | Réussi Chromium et Node |
+| B2-10 | Import v1 via interface, 18 champs exacts, aller-retour v2, pixels stables, export téléchargé relu, JSON invalide sans perte | Réussi Chromium/WebKit et Node |
 | B2-11 | Suites Node historiques et B1 ; aucun fichier historique modifié | Exécutées séparément ; code B2 isolé |
 | B2-12 | 100 paires B1/B2, cinq passes de 100 sprites B2, formats 390/820/1180, toucher simulé | Mesures ci-dessous ; Safari iPad physique non testé |
 
 ## Vérification et mesures locales
 
-`node --test tests/bio-gen-t1-b2/model.test.cjs` : 4/4. `BIO_ENGINES=chromium node tests/bio-gen-t1-b2/browser.cjs` : parcours réussi Chromium 151.0.7922.34 / Playwright 1.62.1, VM Linux x86_64, 3 vCPU AMD EPYC 9V74, Node 24.22.1, viewport 820×1180, DPR2, toucher simulé. Exécution locale en file://. WebKit local reste indisponible faute de bibliothèques Linux ; son parcours est prévu en CI avec installation des dépendances. Aucun succès Safari iPad revendiqué.
+`node --test tests/bio-gen-t1-b2/model.test.cjs` : 4/4. `BIO_ENGINES=chromium node tests/bio-gen-t1-b2/browser.cjs` : parcours réussi Chromium 151.0.7922.34 / Playwright 1.62.1, VM Linux x86_64, 3 vCPU AMD EPYC 9V74, Node 24.22.1, viewport 820×1180, DPR2, toucher simulé. Exécution locale en file://. WebKit local reste indisponible faute de bibliothèques Linux ; le parcours complet est ensuite **réussi en CI dans Chromium 151 et WebKit 26.5 Linux** ([run 43709569685](https://github.com/Thsethse/Microcosme/actions/runs/43709569685)), avec dépendances installées. Aucun succès Safari iPad revendiqué.
 
 Dernière mesure locale avant livraison : génération de 100 profils **1,0 ms** ; cinq passes de 100 sprites B2 **26,1–29,0 ms**, médiane **26,4 ms**. Galerie 100 paires B1/B2 : **54,2 ms** de génération/dessin/DOM et **115,2 ms** jusqu'à deux RAF. Les valeurs sont des mesures ponctuelles VM, sans garantie d'affichage physique, mémoire/GPU/batterie ou latence tactile ; elles ne sont pas directement comparables à la galerie B1 seule (deux rendus par fiche et résolution B2 accrue). Données brutes dans `MESURES-LOCAL.jsonl`.
 
@@ -55,3 +55,7 @@ Sur Safari iPad physique : noter appareil, version iPadOS/Safari et orientation 
 Évaluer séparément : formes à taille égale, continuité des articulations aux extrêmes, distinction des visages, reconnaissance des trois coupes, crédibilité implantation/tombé/dégradés, lecture des volumes corporels et combinaisons intermédiaires sans imposer une catégorie, cohérence avant/dos/profil/portrait. Conserver les graines et JSON de chaque incohérence. Une différence de pixels ou un masque connexe ne vaut pas validation humaine de ces qualités.
 
 **PR pour audit, non fusionnée. Attendre validation utilisateur ; aucun passage automatique au lot C.**
+
+## Preuves CI finales
+
+Commit applicatif testé : `ebb11f97080c8b04dc2be8e340126ea96448404c`. CI Linux GitHub Actions `ubuntu-latest`, Playwright 1.62.1, mêmes viewport/DPR et file:// ; matériel exact non relevé. Chromium 151 et WebKit 26.5 réussissent les 180 masques, les 32 effets de paramètres, le parcours tactile simulé, les huit exemples, l’import v1 et l’export/import v2 réel. Temps pour 100 paires : Chromium **37,3 ms** travail JS/DOM et **78,4 ms** jusqu’à deux RAF ; WebKit **41,0 ms** et **86,0 ms**. Cinq rendus de 100 sprites : Chromium 18,4–20,1 ms ; WebKit 29–32 ms. Chronomètre WebKit grossier (génération seule = 0 ms, pas un coût nul). Mesures brutes dans `MESURES-CI.jsonl`. Aucune extrapolation iPad.
