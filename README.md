@@ -41,3 +41,10 @@ Pixel art original généré en Canvas 2D, personnages animés, lumière liée �
 - [Architecture graphique](docs/ARCHITECTURE-GRAPHIQUE-v0.9.md)
 - [Rapport de validation](docs/RAPPORT-v0.9.md)
 - [Vérification Safari iPad](docs/VERIFICATION-IPAD-v0.9.md)
+
+## Prototype Île V1
+
+Ouvrir [island.html](island.html) sur le même serveur statique : monde indépendant, carte globale, régions, suivi d’Alix et grotte accessible. Aucune migration des parties existantes.
+
+- [Lancement, parcours iPad, architecture, tests et limites](docs/ISLAND-V1.md)
+- Tests : `npm test` puis `npm run test:island:browser` (Chromium et WebKit).
