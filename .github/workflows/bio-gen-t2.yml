@@ -1,0 +1,37 @@
+name: BIO-GEN-T2 laboratoire geometrique
+on:
+  pull_request:
+    paths: ['experiments/bio-gen-t2/**', 'tests/bio-gen-t2/**', '.github/workflows/bio-gen-t2.yml']
+permissions:
+  contents: read
+jobs:
+  laboratory-t2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: node --test tests/bio-gen-t2/model.test.cjs
+      - run: npm test
+      - run: npx playwright install --with-deps chromium webkit
+      - run: node tests/bio-gen-t2/browser.cjs
+      - name: Parcours HTTPS GitHub Pages
+        run: node tests/bio-gen-t2/browser.cjs
+        env:
+          T2_URL: https://thsethse.github.io/Microcosme/preview/bio-gen-t2/
+      - name: B1 et B2 non fusionnes, revision auditee
+        uses: actions/checkout@v4
+        with:
+          ref: f85e5844779d1deaa598f4af74cfd2a34ea576fc
+          path: regression
+      - run: npm ci
+        working-directory: regression
+      - run: node --test tests/bio-gen-t1/model.test.cjs tests/bio-gen-t1-b2/model.test.cjs
+        working-directory: regression
+      - run: node tests/bio-gen-t1/browser.cjs
+        working-directory: regression
+      - run: node tests/bio-gen-t1-b2/browser.cjs
+        working-directory: regression
