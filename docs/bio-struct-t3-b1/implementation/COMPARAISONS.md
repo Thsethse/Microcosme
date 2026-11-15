@@ -1,6 +1,6 @@
 # Comparaisons et catalogues B1 — captures sans retouche
 
-Avant : R3 `0749e4d4d54ea55a14cf63dda82b32e544e020e8`, application `be0779b`. Après : source B1 indiquée dans PUBLICATION.md. Les captures proviennent de Chromium 151 Linux, viewport 1180×1100, DPR1, graine `t3-a-reference`, défauts corporels P2/R3. Les planches sont des résultats proposés, pas une nouvelle référence artistique validée.
+Avant : R3 `0749e4d4d54ea55a14cf63dda82b32e544e020e8`, application `be0779b`. Après : source B1 `dfee4e87c7bc7a5c6cda4d1c025bcbb078fb3f7e`, identifiée dans PUBLICATION.md. Les captures proviennent de Chromium 151 Linux, viewport 1180×1100, DPR1, graine `t3-a-reference`, défauts corporels P2/R3. Les planches sont des résultats proposés, pas une nouvelle référence artistique validée.
 
 ## Références M/F/T — T à fonction masculine
 

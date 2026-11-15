@@ -1,8 +1,8 @@
 # Résultats des douze contrôles B1
 
-Les statuts techniques ci-dessous proviennent de Node local ; la réception B1-12 reste humaine. Les résultats CI et HTTPS seront consignés après leur exécution dans PUBLICATION.md.
+Les statuts techniques ci-dessous proviennent de Node local ; la réception B1-12 reste humaine. Les résultats CI et HTTPS sont consignés dans [PUBLICATION.md](PUBLICATION.md).
 
-| ID | Contrôle | Statut |
+| ID | Contrôle | Node local / CI |
 |---|---|---|
 | B1-01 | Quatre têtes seulement, angles carrés/rectangulaires arrondis | Réussi |
 | B1-02 | Migration des têtes retirées sans perte des données R3 | Réussi |
@@ -20,3 +20,5 @@ Les statuts techniques ci-dessous proviennent de Node local ; la réception B1-1
 **11 contrôles techniques réussis, aucun échec ; B1-12 non exécuté par Codex.** Les 18 captures et les six planches sont fournies pour cette réception. Elles ne constituent pas une validation artistique automatisée.
 
 Non-régression locale : les 23 T3-A, 8 R1, 8 R2 et 10 R3 techniques restent réussis, R3-11 toujours humain ; 35 tests du jeu réussis. Total local : 95 réussis, 0 échec, 2 contrôles humains explicitement ignorés (R3-11/B1-12). Aucun ancien test ni source R3 n’est modifié. Les tests B1 vérifient aussi directement le corps v4 comparé à R3 hors tête.
+
+[CI du code final réussie](https://github.com/Thsethse/Microcosme/actions/runs/43772239847), source `dfee4e87c7bc7a5c6cda4d1c025bcbb078fb3f7e` : **101 réussis, 0 échec, 2 non exécutés humains**. B1 réussit sous Chromium/WebKit sur fichiers et HTTPS public ; les suites antérieures et T2 passent dans les deux moteurs, les workflows du jeu réussissent. B1-12 reste en attente de l’utilisateur, sans approbation esthétique revendiquée.
