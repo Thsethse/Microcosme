@@ -34,7 +34,7 @@
    // Anterior hair and navel are tangent to the profile, so remain invisible edge-on and from behind.
    if(view!=='front')continue;
    const cmd=commands.find(c=>c.id===detail.owner);if(!cmd||cmd.visible===false)continue;
-   const p=toScreen(detail.position),size=Math.max(1,detail.size*scale);
+   const p=toScreen(detail.position),size=Math.max(1,detail.kind==='navel'?Math.round(detail.size*scale):detail.size*scale);
    cmd.surfaceMarks.push({id:detail.id,kind:detail.kind==='navel'?'oval':'rectangle',x:p[0]-size/2,y:p[1]-size/2,w:size,h:size,color:detail.color||mix(body.palette.skin,.28),role:detail.kind,canonicalPosition:detail.position});
   }
  }
