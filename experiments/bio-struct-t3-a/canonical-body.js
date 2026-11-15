@@ -5,6 +5,8 @@
  const G=typeof module!=='undefined'?require('./body-geometry.js'):root.BodyGeometry;
  const H=typeof module!=='undefined'?require('./shape-grammar.js'):root.ShapeGrammar;
  const F=typeof module!=='undefined'?require('./facial-anchors.js'):root.FacialAnchors;
+ const A=typeof module!=='undefined'?require('./morphology-settings.js'):root.MorphologySettings;
+ const Finish=typeof module!=='undefined'?require('./body-finish.js'):root.BodyFinish;
  const schema='microcosme.bio-struct-t3-a';
  function validateBody(body){
   if(!body||typeof body!=='object')return {valid:false,errors:[{code:'STRUCTURE',message:'Corps canonique requis.'}]};
@@ -13,6 +15,11 @@
   if(!body.skeleton?.joints||!body.skeleton?.segments||!Array.isArray(body.volumes))return {valid:false,errors:[...errors,{code:'STRUCTURE',message:'Squelette et volumes requis.'}]};
   for(const s of P.schema){const v=body.parameters?.[s.key];if(typeof v!=='number'||!Number.isFinite(v)||v<s.min||v>s.max)fail('P1','Valeur finale hors bornes : '+s.key);}
   const sk=body.skeleton;
+  if(body.version===3){
+   try{const normalized=A.normalize(body.biologicalProfile.category,body.appearance);if(Object.keys(normalized).length!==Object.keys(body.appearance).length||Object.entries(normalized).some(([key,value])=>body.appearance[key]!==value))fail('APPEARANCE','Réglages R3 complets et normalisés requis.');}catch(e){fail('APPEARANCE',e.message);}
+   if(!body.finish||!Array.isArray(body.finish.details))fail('SURFACE','Attaches de surface R3 requises.');
+   else for(const d of body.finish.details){const owner=body.volumes.find(v=>v.id===d.owner);if(!owner||!Array.isArray(d.offsetLocal)||!Array.isArray(d.position)||d.position.some(n=>!Number.isFinite(n))||S.norm(S.sub(Finish.local(owner,d.offsetLocal),d.position))>1e-7)fail('SURFACE','Détail de surface détaché : '+d.id);}
+  }
   try{H.validate(body.geometryChoices);}catch(e){fail('SHAPES',e.message);}
   if(!errors.length){
    const expected=S.build(body.parameters,P.profiles[body.biologicalProfile.category].trunkWidth);
@@ -58,14 +65,33 @@
    requestedParameters:normalized.requested,parameters:p,corrections:normalized.corrections,skeleton,volumes,palette:{skin,outline:'#302336',skeleton:'#79d8dc',joint:'#e78861',anchor:'#c2d77d'}};
   const report=validateBody(body);if(!report.valid)throw Error('N3 : '+report.errors.map(e=>e.message).join(' '));return body;
  }
- function serializeBody(body){const v=validateBody(body);if(!v.valid)throw Error('Export refusé : corps invalide.');return JSON.stringify({schema,version:2,seed:body.seed,geometryChoices:body.geometryChoices,migration:body.migration,biologicalProfile:{category:body.biologicalProfile.category,reproductiveFunction:body.biologicalProfile.reproductiveFunction},requestedParameters:body.requestedParameters,parameters:body.parameters,corrections:body.corrections},null,2);}
- function parseBody(text){const d=JSON.parse(text);if(!d||d.schema!==schema||![1,2].includes(d.version))throw Error('Format T3-A v1/v2 requis ; aucune conversion T2 automatique.');
+ function generateBodyR3(seed,profile,parameters={},geometryChoices={},appearance={}){
+  const choices=H.validate(geometryChoices),oldOval=choices.pelvisShape==='oval';if(oldOval)choices.pelvisShape='rectangle';
+  const body=generateBody(seed,profile,parameters,choices);Finish.apply(body,A.normalize(profile.category,appearance));
+  if(oldOval)body.migration={fromVersion:2,toVersion:3,policy:'Bassin ovale → rectangulaire, volume anatomique conservé.',originalPelvisShape:'oval',previous:null};
+  const report=validateBody(body);if(!report.valid)throw Error('N3 : '+report.errors.map(e=>e.message).join(' '));return body;
+ }
+ function upgradeBody(body){
+  if(body.version===3)return body;
+  const upgraded=generateBodyR3(body.seed,body.biologicalProfile,body.requestedParameters,body.geometryChoices);
+  upgraded.migration={fromVersion:body.migration?.fromVersion||body.version,toVersion:3,policy:'Données P1/P2 et fonction conservées ; finitions R3 ajoutées. '+(body.geometryChoices.pelvisShape==='oval'?'Bassin ovale → rectangulaire, volume anatomique conservé.':'Forme du bassin conservée.')+(body.biologicalProfile.category==='M'?' Ancien volume mammaire conservé dans le JSON ; rendu M par pectoraux et graisse.':''),originalPelvisShape:body.geometryChoices.pelvisShape,previous:body.migration};return upgraded;
+ }
+ function serializeBody(body){const v=validateBody(body);if(!v.valid)throw Error('Export refusé : corps invalide.');return JSON.stringify({schema,version:body.version,seed:body.seed,geometryChoices:body.geometryChoices,migration:body.migration,biologicalProfile:{category:body.biologicalProfile.category,reproductiveFunction:body.biologicalProfile.reproductiveFunction},requestedParameters:body.requestedParameters,parameters:body.parameters,corrections:body.corrections,...(body.version===3?{appearance:body.appearance}:{})},null,2);}
+ function parseBody(text){const d=JSON.parse(text);if(!d||d.schema!==schema||![1,2,3].includes(d.version))throw Error('Format T3-A v1/v2/v3 requis ; aucune conversion T2 automatique.');
+  const equal=(a,b)=>a===b||(a&&b&&typeof a==='object'&&typeof b==='object'&&Object.keys(a).length===Object.keys(b).length&&Object.keys(a).every(k=>Object.hasOwn(b,k)&&equal(a[k],b[k])));
+  if(d.version===3){
+   if(!d.appearance||!d.geometryChoices)throw Error('Formes et réglages R3 requis.');
+   if(d.geometryChoices.pelvisShape==='oval')throw Error('Bassin ovale v3 interdit ; importer le JSON historique pour migration explicite.');
+   const b=generateBodyR3(d.seed,d.biologicalProfile,d.requestedParameters,d.geometryChoices,d.appearance);
+   if(!equal(d.appearance,b.appearance))throw Error('Réglages R3 complets et normalisés requis.');
+   if(d.migration){if(![1,2].includes(d.migration.fromVersion)||d.migration.toVersion!==3||typeof d.migration.policy!=='string')throw Error('Trace de migration R3 invalide.');b.migration=structuredClone(d.migration);}
+   if(!equal(d.parameters,b.parameters)||!equal(d.corrections,b.corrections))throw Error('Rapport ou valeurs appliquées incompatibles avec la demande exportée.');return b;
+  }
   if(d.version===2&&!d.geometryChoices)throw Error('Choix de formes v2 requis.');
   const body=generateBody(d.seed,d.biologicalProfile,d.requestedParameters,d.version===1?{headShape:'oval'}:d.geometryChoices);
   if(d.version===1)body.migration={fromVersion:1,toVersion:2,policy:'P1/P2 et fonction conservés ; géométrie R1 recalculée, tête ovale et choix neutres explicites.'};
   else if(d.migration){if(d.migration.fromVersion!==1||d.migration.toVersion!==2||typeof d.migration.policy!=='string')throw Error('Trace de migration invalide.');body.migration={...d.migration};}
-  const equal=(a,b)=>a===b||(a&&b&&typeof a==='object'&&typeof b==='object'&&Object.keys(a).length===Object.keys(b).length&&Object.keys(a).every(k=>Object.hasOwn(b,k)&&equal(a[k],b[k])));
   if(!equal(d.parameters,body.parameters)||!equal(d.corrections,body.corrections))throw Error('Rapport ou valeurs appliquées incompatibles avec la demande exportée.');return body;
  }
- const api={generateBody,validateBody,serializeBody,parseBody};if(typeof module!=='undefined')module.exports=api;root.CanonicalBody=api;
+ const api={generateBody,generateBodyR3,upgradeBody,validateBody,serializeBody,parseBody};if(typeof module!=='undefined')module.exports=api;root.CanonicalBody=api;
 })(globalThis);

@@ -2,7 +2,7 @@
 (function(root){
  'use strict';
  function render(canvas,scene,options={}){
-  canvas.width=scene.width;canvas.height=scene.height;const c=canvas.getContext('2d');c.imageSmoothingEnabled=false;
+  canvas.width=scene.width;canvas.height=scene.height;let c=canvas.getContext('2d');c.imageSmoothingEnabled=false;
   const rect=(x,y,w,h)=>{if(w>0&&h>0)c.fillRect(Math.round(x),Math.round(y),Math.max(1,Math.round(w)),Math.max(1,Math.round(h)));};
   function primitive(cmd,dx=0,dy=0){
    if(cmd.kind==='polyline'){
@@ -16,7 +16,14 @@
    for(let y=min;y<max;y++){const yy=y+.5,xs=[];for(let i=0;i<pts.length;i++){const a=pts[i],b=pts[(i+1)%pts.length];if((a[1]<=yy&&b[1]>yy)||(b[1]<=yy&&a[1]>yy))xs.push(a[0]+(b[0]-a[0])*(yy-a[1])/(b[1]-a[1]));}xs.sort((a,b)=>a-b);for(let i=0;i+1<xs.length;i+=2)rect(xs[i]+dx,y+dy,xs[i+1]-xs[i],1);}
   }
   if(options.volumes!==false){
-   for(const cmd of scene.commands){if(cmd.visible===false)continue;if(options.volumeEdges){c.fillStyle=cmd.outline;for(const [dx,dy]of [[-1,0],[1,0],[0,-1],[0,1]])primitive(cmd,dx,dy);}c.fillStyle=cmd.color;primitive(cmd);for(const mark of cmd.surfaceMarks||[]){c.fillStyle=mark.color;primitive(mark);}}
+   let surface;
+   for(const cmd of scene.commands){if(cmd.visible===false)continue;if(options.volumeEdges){c.fillStyle=cmd.outline;for(const [dx,dy]of [[-1,0],[1,0],[0,-1],[0,1]])primitive(cmd,dx,dy);}
+    if(cmd.clipSurface&&cmd.surfaceMarks?.length){
+     if(!surface){surface=document.createElement('canvas');surface.width=canvas.width;surface.height=canvas.height;}
+     const target=c;c=surface.getContext('2d');c.clearRect(0,0,surface.width,surface.height);c.fillStyle=cmd.color;primitive(cmd);c.globalCompositeOperation='source-atop';
+     for(const mark of cmd.surfaceMarks){c.fillStyle=mark.color;primitive(mark);}c.globalCompositeOperation='source-over';c=target;c.drawImage(surface,0,0);
+    }else{c.fillStyle=cmd.color;primitive(cmd);for(const mark of cmd.surfaceMarks||[]){c.fillStyle=mark.color;primitive(mark);}}
+   }
    if(options.face!==false){c.globalCompositeOperation='source-atop';for(const cmd of scene.facialCommands){c.fillStyle=cmd.color;primitive(cmd);}c.globalCompositeOperation='source-over';}
    // One outline for the union, never a compulsory border around every muscle.
    if(!options.volumeEdges){const data=c.getImageData(0,0,canvas.width,canvas.height),src=data.data,out=new Uint8ClampedArray(src),w=canvas.width,h=canvas.height,rgb=[1,3,5].map(i=>parseInt(scene.outline.slice(i,i+2),16));
