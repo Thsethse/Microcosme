@@ -1,8 +1,8 @@
 # Résultats T3-A / R1 / R2 / R3
 
-Les 23 tests T3-A et 8 + 8 contrôles Node R1/R2 sont conservés sans modification. Les dix contrôles techniques R3 sont ajoutés ; R3-11 reste une réception humaine non exécutée. Les preuves CI/publiques sont consignées dans PUBLICATION.md après exécution.
+Les 23 tests T3-A et 8 + 8 contrôles Node R1/R2 sont conservés sans modification. Les dix contrôles techniques R3 sont ajoutés ; R3-11 reste une réception humaine non exécutée. Les preuves CI/publiques sont consignées dans [PUBLICATION.md](PUBLICATION.md).
 
-| ID | Contrôle | Node local |
+| ID | Contrôle | Node local / CI |
 |---|---|---|
 | T3A-01 | proportions initiales 25/30/45 total 100 | Réussi |
 | T3A-02 | articulations toutes connectées | Réussi |
@@ -58,3 +58,5 @@ Les 23 tests T3-A et 8 + 8 contrôles Node R1/R2 sont conservés sans modificati
 **49 réussis, 0 échec, 1 contrôle humain explicitement ignoré par Node**, plus 35 tests historiques locaux réussis. La ligne R3-11 n’est pas un succès automatisé. Les captures sont disponibles, mais l’essai iPad physique et la validation artistique ne sont pas réalisés par Codex.
 
 L’API v2 de compatibilité et les tests historiques vérifient le canon R2 préservé. Les tests R3 utilisent explicitement le canon v3 et vérifient les nouveaux volumes, contraintes, projections, import/export et réglages. R3-09 compare 126 cas aux squelettes, têtes/visages et signes génitaux R2 correspondants. Le parcours navigateur vérifie aussi les pixels et les interactions réelles du canon v3.
+
+[CI finale réussie](https://github.com/Thsethse/Microcosme/actions/runs/43764854161), source `be0779be4809ea321ab4485bf66ff9c7900b1e65` : **90 réussis, 0 échec, 1 non exécuté** (réception R3-11). Les quatre parcours passent sous Chromium/WebKit sur fichiers et HTTPS public ; T2 passe dans les deux moteurs et les workflows du jeu réussissent.

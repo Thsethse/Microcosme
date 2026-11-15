@@ -29,7 +29,7 @@ Parcours R3 :
 - **21 comparaisons de têtes** (sept formes × trois vues) : pixels tête/visage identiques à R2.
 - UI tactile simulée : M sans contrôles mammaires, F/T libres, anciens ovales migrés visiblement, bascule T sans changement thoracique, téléchargement export puis réimport identique, JSON invalide refusé sans perte, formats 390/820/1180 sans débordement ni erreur JavaScript.
 
-Relevés bruts : MESURES-T3A-LOCAL.jsonl, MESURES-R1-LOCAL.jsonl, MESURES-R2-LOCAL.jsonl et MESURES-R3-LOCAL.jsonl. VM Linux, Node 24.22.1, Playwright 1.62.1, Chromium 151.0.7922.34, viewport 820×1180, DPR2 et toucher simulé ; captures DPR1. WebKit local manque de bibliothèques système ; la CI installe ses dépendances. Les résultats finaux Chromium/WebKit, T2 et HTTPS seront consignés dans PUBLICATION.md après exécution effective.
+Relevés bruts : MESURES-T3A-LOCAL.jsonl, MESURES-R1-LOCAL.jsonl, MESURES-R2-LOCAL.jsonl et MESURES-R3-LOCAL.jsonl. VM Linux, Node 24.22.1, Playwright 1.62.1, Chromium 151.0.7922.34, viewport 820×1180, DPR2 et toucher simulé ; captures DPR1. WebKit local manque de bibliothèques système ; la CI installe ses dépendances. **CI finale réussie sur `be0779be4809ea321ab4485bf66ff9c7900b1e65` : 90 tests Node réussis, aucun échec, un contrôle humain non exécuté (R3-11)**. Les quatre parcours T3-A/R1/R2/R3 passent sous Chromium 151 et WebKit 26.5 sur fichiers puis sur l’URL publique HTTPS. Le nombril reste un point carré aux trois tailles dans les deux moteurs. T2 passe ses tests Node et navigateurs ; les workflows historiques de la branche et de main réussissent. [Preuves et liens](PUBLICATION.md) · [18 relevés CI](MESURES-CI.jsonl).
 
 ## Problèmes détectés et corrigés
 
@@ -39,7 +39,7 @@ Une forme mammaire goutte atteignait exactement la limite thoracique : marge de 
 
 Modifiés sous `experiments/bio-struct-t3-a/` : `canonical-body.js` (API/JSON v3 et validation), `body-projection.js` (décoration des surfaces), `render.js` (masques de détails), `lab.js`, `index.html`, `lab.css`, `README.md` (contrôles/liens R3). Nouveaux : `morphology-settings.js`, `body-finish.js`, `surface-projection.js`.
 
-Les modules `biological-profile.js`, `anatomical-skeleton.js`, `body-geometry.js`, `shape-grammar.js` et `facial-anchors.js` restent identiques à R2. Tests R3 et outil de captures ajoutés ; workflow étendu. Aucun fichier de jeu principal, sauvegarde ou laboratoire antérieur modifié. Publication : nouveau dossier preview R3 uniquement, sans reconfiguration Pages, sans fusion. Vérifications publiques détaillées dans PUBLICATION.md après publication.
+Les modules `biological-profile.js`, `anatomical-skeleton.js`, `body-geometry.js`, `shape-grammar.js` et `facial-anchors.js` restent identiques à R2. Tests R3 et outil de captures ajoutés ; workflow étendu. Aucun fichier de jeu principal, sauvegarde ou laboratoire antérieur modifié. Publication : nouveau dossier preview R3 uniquement, sans reconfiguration Pages, sans fusion. Les quatorze ressources R3 et les 56 ressources des previews antérieures ont été récupérées en HTTPS et comparées octet pour octet à leurs sources ; toutes répondent HTTP 200. Empreintes et déploiement dans PUBLICATION.md et RESSOURCES-HTTPS.json.
 
 ## Arbitrages visuels et limites
 

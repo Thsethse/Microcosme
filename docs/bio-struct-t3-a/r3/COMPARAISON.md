@@ -1,6 +1,6 @@
 # Comparaisons R2 / R3 — captures sans retouche
 
-Avant : R2 `bf9f6d002bed891344dd2f954a33c4126baa84e1` (code applicatif `0f08780`). Après : source R3 indiquée dans PUBLICATION.md. Graine `t3-a-reference`, trois références P2 réinitialisées, superpositions désactivées. Chromium 151 Linux, viewport 1180×1100, DPR1. Les captures sont des résultats à examiner, jamais une référence artistique approuvée substituée au croquis utilisateur.
+Avant : R2 `bf9f6d002bed891344dd2f954a33c4126baa84e1` (code applicatif `0f08780`). Après : source finale R3 `be0779be4809ea321ab4485bf66ff9c7900b1e65`, identifiée dans PUBLICATION.md. Graine `t3-a-reference`, trois références P2 réinitialisées, superpositions désactivées. Chromium 151 Linux, viewport 1180×1100, DPR1. Les captures sont des résultats à examiner, jamais une référence artistique approuvée substituée au croquis utilisateur.
 
 ## T à fonction masculine
 
