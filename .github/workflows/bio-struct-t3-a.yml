@@ -1,4 +1,4 @@
-name: BIO-STRUCT-T3-A squelette canonique
+name: BIO-STRUCT-T3-A-R1 corrections et ancrages
 on:
   pull_request:
     paths: ['experiments/bio-struct-t3-a/**', 'tests/bio-struct-t3-a/**', '.github/workflows/bio-struct-t3-a.yml']
@@ -16,14 +16,19 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: node --test tests/bio-struct-t3-a/contract.test.cjs
+      - run: node --test tests/bio-struct-t3-a/contract.test.cjs tests/bio-struct-t3-a/r1.test.cjs
       - run: npm test
       - run: npx playwright install --with-deps chromium webkit
       - run: node tests/bio-struct-t3-a/browser.cjs
+      - run: node tests/bio-struct-t3-a/r1-browser.cjs
       - name: Parcours HTTPS GitHub Pages
         run: node tests/bio-struct-t3-a/browser.cjs
         env:
-          T3_URL: https://thsethse.github.io/Microcosme/preview/bio-struct-t3-a/
+          T3_URL: https://thsethse.github.io/Microcosme/preview/bio-struct-t3-a-r1/
+      - name: Parcours R1 HTTPS GitHub Pages
+        run: node tests/bio-struct-t3-a/r1-browser.cjs
+        env:
+          T3_URL: https://thsethse.github.io/Microcosme/preview/bio-struct-t3-a-r1/
       - name: T2 non fusionne, revision auditee
         uses: actions/checkout@v4
         with:

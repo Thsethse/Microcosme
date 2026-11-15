@@ -9,19 +9,28 @@
  function projectBody(body,view='front'){
   const scale=2,origin=[120,344],toScreen=p=>{const [x,y]=projectPoint(p,view);return [origin[0]+scale*x,origin[1]-scale*y];};
   const commands=body.volumes.map(v=>{
-   const corners=[];for(const a of [-1,1])for(const b of [-1,1])for(const c of [-1,1]){
+   const corners=v.vertices?v.vertices.slice():[];if(!v.vertices)for(const a of [-1,1])for(const b of [-1,1])for(const c of [-1,1]){
     corners.push(S.add(v.center,S.add(S.mul(v.basis.u,v.dimensions.width*a/2),S.add(S.mul(v.basis.v,v.dimensions.height*b/2),S.mul(v.basis.w,v.dimensions.depth*c/2)))));
    }
-   const points=hull(corners.map(toScreen)),xs=points.map(p=>p[0]),ys=points.map(p=>p[1]);
+   const points=v.meshType==='prism'&&view!=='profile'?corners.filter((_,i)=>i%2===0).map(toScreen):hull(corners.map(toScreen)),xs=points.map(p=>p[0]),ys=points.map(p=>p[1]);
    const box={x:Math.min(...xs),y:Math.min(...ys),w:Math.max(...xs)-Math.min(...xs),h:Math.max(...ys)-Math.min(...ys)};
-   const color=v.kind==='muscle'?mix(body.palette.skin,'#744548',.15+.35*body.parameters.muscleVolume):v.kind==='anatomical-marker'?mix(body.palette.skin,'#744548',.3):body.palette.skin;
-   return {id:v.id,region:v.region,kind:v.shape==='oval'?'oval':v.shape==='triangle'?'triangle':'polygon',points,...box,color,outline:body.palette.outline,
+   const color=v.kind==='muscle'?mix(body.palette.skin,'#744548',.025+.055*body.parameters.muscleVolume):v.kind==='breast'?mix(body.palette.skin,'#744548',.085):v.kind==='anatomical-marker'?mix(body.palette.skin,'#744548',.20):body.palette.skin;
+   return {id:v.id,region:v.region,role:v.kind,kind:v.shape==='oval'?'oval':v.shape==='triangle'?'triangle':'polygon',points,...box,color,outline:body.palette.outline,
     anchor:toScreen(v.center),canonicalDimensions:v.dimensions,depth:view==='back'?-v.center[2]:view==='profile'?v.center[0]:v.center[2]};
   }).sort((a,b)=>a.depth-b.depth);
   const debug={segments:Object.values(body.skeleton.segments).map(s=>({id:s.id,from:toScreen(s.origin),to:toScreen(s.end)})),
    joints:Object.values(body.skeleton.joints).map(j=>({id:j.id,point:toScreen(j.position)})),
-   anchors:body.volumes.map(v=>({id:v.id,point:toScreen(S.point(body.skeleton,v.anchor))})).concat(Object.entries(body.skeleton.anchors).map(([id,a])=>({id,point:toScreen(S.point(body.skeleton,a))})))};
-  return {view,width:240,height:360,scale,origin,commands,debug,canonicalHeight:body.skeleton.height,bodyId:body.seed+':'+body.biologicalProfile.category};
+   anchors:body.volumes.map(v=>({id:v.id,point:toScreen(S.point(body.skeleton,v.anchor))})).concat(Object.entries(body.skeleton.anchors).filter(([id])=>view!=='back'||!(/^(eye|brow|mouth|face|facial)/.test(id))).map(([id,a])=>({id,point:toScreen(S.point(body.skeleton,a))})))};
+  const facialCommands=[];
+  if(view!=='back'){
+   for(const side of view==='profile'?['right']:['left','right']){
+    const eye=toScreen(body.face.anchors['eye_'+side]),brow=toScreen(body.face.anchors['brow_'+side]),h=body.face.eyeHeight*scale;
+    facialCommands.push({id:'face-eye-'+side,kind:'oval',x:eye[0]-h*.30,y:eye[1]-h/2,w:h*.60,h,color:body.palette.outline});
+    facialCommands.push({id:'face-brow-'+side,kind:'rectangle',x:brow[0]-h*.45,y:brow[1]-.5,w:h*.90,h:1,color:body.palette.outline});
+   }
+   const mouth=toScreen(body.face.anchors.mouth),w=Math.max(2,body.face.width*.12*scale);facialCommands.push({id:'face-mouth',kind:'rectangle',x:mouth[0]-w/2,y:mouth[1]-.5,w,h:1,color:body.palette.outline});
+  }
+  return {facialCommands,outline:body.palette.outline,view,width:240,height:360,scale,origin,commands,debug,canonicalHeight:body.skeleton.height,bodyId:body.seed+':'+body.biologicalProfile.category};
  }
  const api={projectPoint,projectBody};if(typeof module!=='undefined')module.exports=api;root.BodyProjection=api;
 })(globalThis);
