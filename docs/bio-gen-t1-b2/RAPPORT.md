@@ -59,3 +59,7 @@ Sur Safari iPad physique : noter appareil, version iPadOS/Safari et orientation 
 ## Preuves CI finales
 
 Commit applicatif testé : `ebb11f97080c8b04dc2be8e340126ea96448404c`. CI Linux GitHub Actions `ubuntu-latest`, Playwright 1.62.1, mêmes viewport/DPR et file:// ; matériel exact non relevé. Chromium 151 et WebKit 26.5 réussissent les 180 masques, les 32 effets de paramètres, le parcours tactile simulé, les huit exemples, l’import v1 et l’export/import v2 réel. Temps pour 100 paires : Chromium **37,3 ms** travail JS/DOM et **78,4 ms** jusqu’à deux RAF ; WebKit **41,0 ms** et **86,0 ms**. Cinq rendus de 100 sprites : Chromium 18,4–20,1 ms ; WebKit 29–32 ms. Chronomètre WebKit grossier (génération seule = 0 ms, pas un coût nul). Mesures brutes dans `MESURES-CI.jsonl`. Aucune extrapolation iPad.
+
+## Parcours de la publication HTTPS
+
+Le [run 43709726776](https://github.com/Thsethse/Microcosme/actions/runs/43709726776) réussit aussi les parcours complets **Chromium 151 / WebKit 26.5 sur l’URL publique GitHub Pages**, en plus de file://. Commit vérifié `2a0d5886a25f17bf884c888613c68017c844c11b`, code applicatif inchangé depuis `ebb11f9`. Résultats et mesures du runner Linux dans `MESURES-HTTPS.jsonl`. Cette preuve HTTPS ne remplace pas l’essai iPad physique ni l’évaluation artistique.
