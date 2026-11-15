@@ -2,7 +2,7 @@
 
 Captures générées dans Chromium 151 Linux, viewport 1180×1100, DPR1, graine `t3-a-reference`, profils P2 réinitialisés, superpositions désactivées. Chaque image contient M/F/T à la même échelle. Ce sont des **résultats de rendu à auditer**, jamais une référence artistique validée substituée au croquis utilisateur.
 
-Avant : T3-A `dfa56ba34c94de6bc80f3b2e4c58e584a2827c79`. Après : source R1 de cette branche, derniers changements documentaires exclus des fichiers applicatifs. Le commit applicatif publié figure dans PUBLICATION.md.
+Avant : T3-A `dfa56ba34c94de6bc80f3b2e4c58e584a2827c79`. Après : source R1 `c8ccd6c966e5e44a254949d9ffd023a8c2515d11`. La correction finale `5dcac5795c408ab72607477eaeedc9641acd11d8` remplace uniquement un point d’axe facial de diagnostic par un cadre sommet/menton ; elle ne change pas ces rendus sans superpositions. Le commit applicatif publié figure dans PUBLICATION.md.
 
 | Vue | T3-A avant R1 | T3-A-R1 |
 |---|---|---|

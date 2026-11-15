@@ -1,0 +1,186 @@
+{
+  "verifiedAt": "2026-11-15T19:50:48.472723+00:00",
+  "sourceCommit": "5dcac5795c408ab72607477eaeedc9641acd11d8",
+  "pagesSnapshotCommit": "66308659e5d25edd8f238c99caec25d93c6c33c5",
+  "resources": [
+    {
+      "path": "anatomical-skeleton.js",
+      "http": 200,
+      "bytes": 4056,
+      "sha256": "3fd0cebb8c5e76184d47ca9d4aa7e8fee67fe485a7deede0486ab78a8931698a",
+      "matchesSource": true
+    },
+    {
+      "path": "biological-profile.js",
+      "http": 200,
+      "bytes": 3321,
+      "sha256": "1a32e8f53f2d2610a61b44283ea022118c7ebc2a7a2b443e1cb404be0e0d2b1d",
+      "matchesSource": true
+    },
+    {
+      "path": "body-geometry.js",
+      "http": 200,
+      "bytes": 5931,
+      "sha256": "0b52184d05ae5cf381b33af94b856da640799e54ab03155f5ff8722d49a54427",
+      "matchesSource": true
+    },
+    {
+      "path": "body-projection.js",
+      "http": 200,
+      "bytes": 3979,
+      "sha256": "bf2be7699f96afc3ce30e0394d55fc977ccd2f7818542ec947d3e19350b4d62d",
+      "matchesSource": true
+    },
+    {
+      "path": "canonical-body.js",
+      "http": 200,
+      "bytes": 8254,
+      "sha256": "b43409211787559c767071092aa067a8db6433df3f646ec5777dd9ad72760291",
+      "matchesSource": true
+    },
+    {
+      "path": "facial-anchors.js",
+      "http": 200,
+      "bytes": 1828,
+      "sha256": "20f1cb7641f84ab9a00b99138618e2ec74cb9ef8ef9c30ad8a833f3fa6e0bc38",
+      "matchesSource": true
+    },
+    {
+      "path": "index.html",
+      "http": 200,
+      "bytes": 5399,
+      "sha256": "1e2bba40ad01e8d1a4fd6e9ef83e36aa2a2828f2193f6ec16effa8bdabf0ad94",
+      "matchesSource": true
+    },
+    {
+      "path": "lab.css",
+      "http": 200,
+      "bytes": 4672,
+      "sha256": "ed929138ffd957d7890416a9bb2e1929e69d55ea1076f62eb79bdb5864e5cd65",
+      "matchesSource": true
+    },
+    {
+      "path": "lab.js",
+      "http": 200,
+      "bytes": 7206,
+      "sha256": "08c82f16d38986c1e0c5feb79c8b00ee29f72e069118606f55b5d085888c1721",
+      "matchesSource": true
+    },
+    {
+      "path": "render.js",
+      "http": 200,
+      "bytes": 3027,
+      "sha256": "e3111a7f862cf38cbd92c2d82356b0e4e3d28f7f3b4532398dfc3b0e81af6d50",
+      "matchesSource": true
+    },
+    {
+      "path": "shape-grammar.js",
+      "http": 200,
+      "bytes": 2174,
+      "sha256": "c20ef0817e0ddfc9a9c95577a4c70a62b7ecba7c0b1f8942a21d822d7593e48c",
+      "matchesSource": true
+    }
+  ],
+  "preservedPreviews": [
+    {
+      "url": "https://thsethse.github.io/Microcosme/preview/bio-struct-t3-a/",
+      "resources": [
+        {
+          "path": "anatomical-skeleton.js",
+          "http": 200,
+          "sha256": "17d8fd976cc9dfce1dfe169b51debae8e3527692fd4b572f0a96cd04177d0bc8",
+          "matchesPreservedSource": true
+        },
+        {
+          "path": "biological-profile.js",
+          "http": 200,
+          "sha256": "1a32e8f53f2d2610a61b44283ea022118c7ebc2a7a2b443e1cb404be0e0d2b1d",
+          "matchesPreservedSource": true
+        },
+        {
+          "path": "body-geometry.js",
+          "http": 200,
+          "sha256": "30db6217fab13265438d50ff9265e6d18a5fd45aa3bf611202f443d80e35d193",
+          "matchesPreservedSource": true
+        },
+        {
+          "path": "body-projection.js",
+          "http": 200,
+          "sha256": "a02cbd74b05971a16ccd84baf9fb3d5a91c34d18009d527a0ef70a66dc4daa3b",
+          "matchesPreservedSource": true
+        },
+        {
+          "path": "canonical-body.js",
+          "http": 200,
+          "sha256": "6049eb513a5448bdb80d54671f62863aa8e825c38d2075c3f7e95b8540c0b0fd",
+          "matchesPreservedSource": true
+        },
+        {
+          "path": "index.html",
+          "http": 200,
+          "sha256": "aa296a5a6b318fdbe56c1a41b0172a35f12cfb88e018a8860ba580cd5db6370b",
+          "matchesPreservedSource": true
+        },
+        {
+          "path": "lab.css",
+          "http": 200,
+          "sha256": "243bcad91b11ab84133fa3f400e9c33be1179ba51cc8f305e45d263fb2371b70",
+          "matchesPreservedSource": true
+        },
+        {
+          "path": "lab.js",
+          "http": 200,
+          "sha256": "c49c9ac0bd57fbd816cb4329b11d4014a1d4d576c392ddc9c8fe464b12e0b05e",
+          "matchesPreservedSource": true
+        },
+        {
+          "path": "render.js",
+          "http": 200,
+          "sha256": "3e97f0b0d19db97a498189e8d04c492155accfc5d1a0f1602b232571f606d654",
+          "matchesPreservedSource": true
+        }
+      ]
+    },
+    {
+      "url": "https://thsethse.github.io/Microcosme/preview/bio-gen-t2/",
+      "resources": [
+        {
+          "path": "geometry.js",
+          "http": 200,
+          "sha256": "7c657cc5cc43eaf0c07ef8659b23cb485837598c93c6bcbe1b676490e894555d",
+          "matchesPreservedSource": true
+        },
+        {
+          "path": "index.html",
+          "http": 200,
+          "sha256": "3936789afe7d73bb48aaba6ca2c80e42df731e18b0d3cd36ab598da057b154c1",
+          "matchesPreservedSource": true
+        },
+        {
+          "path": "lab.css",
+          "http": 200,
+          "sha256": "5dd7119ae730fd76940e4e11b3b4b0a8e475f541ffd5309da1e27537cf2aa101",
+          "matchesPreservedSource": true
+        },
+        {
+          "path": "lab.js",
+          "http": 200,
+          "sha256": "c40db853dd162a36f47e812dff9c11067df211922b69263fa2ac397dc31ecc49",
+          "matchesPreservedSource": true
+        },
+        {
+          "path": "model.js",
+          "http": 200,
+          "sha256": "69a4f3cf54c92e9178299608dce75826ec4d55442b58f9089dd3354b29a542eb",
+          "matchesPreservedSource": true
+        },
+        {
+          "path": "render.js",
+          "http": 200,
+          "sha256": "0b4c3c635627c4510391cce5f849e5945e3a8353f0397f6e21a7d6b1cff337cd",
+          "matchesPreservedSource": true
+        }
+      ]
+    }
+  ]
+}

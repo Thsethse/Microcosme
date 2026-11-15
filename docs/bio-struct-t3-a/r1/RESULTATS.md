@@ -2,7 +2,7 @@
 
 23 tests T3-A conservés, 8 contrôles R1 ajoutés. Les statuts ci-dessous portent sur leurs assertions techniques automatisées. **Validation visuelle et Safari iPad physique : non exécutés par Codex, à la charge de l’utilisateur.**
 
-|ID|Vérification|Node local|
+|ID|Vérification|Node local et CI|
 |---|---|---|
 |T3A-01|proportions initiales 25/30/45 total 100|Réussi|
 |T3A-02|articulations toutes connectées|Réussi|
@@ -36,4 +36,6 @@
 |R1-07|Dos sans traits faciaux, projections depuis le même canon|Réussi|
 |R1-08|Non-régression du contrat, JSON versionné et fichiers protégés|Réussi|
 
-Les preuves Chromium/WebKit et HTTPS sont consignées dans RAPPORT.md et PUBLICATION.md après exécution effective.
+Les 31 lignes réussissent aussi dans la [CI finale](https://github.com/Thsethse/Microcosme/actions/runs/43754301274), sur la source `5dcac5795c408ab72607477eaeedc9641acd11d8`. Les 35 tests historiques et les 6 tests T2 réussissent, soit 72 tests Node au total. Les parcours T3-A et R1 réussissent sous Chromium 151 et WebKit 26.5 sur fichiers et sur l’URL HTTPS publique. La non-régression navigateur T2 réussit dans les deux moteurs.
+
+Les preuves et limites détaillées figurent dans [RAPPORT.md](RAPPORT.md), [PUBLICATION.md](PUBLICATION.md) et [MESURES-CI.jsonl](MESURES-CI.jsonl). Les contrôles techniques R1-01/R1-02 ne valent pas approbation de la qualité anatomique ou artistique ; R1-08 ne vaut pas essai Safari iPad physique.
