@@ -22,12 +22,20 @@ La référence définit une direction graphique et un niveau de stylisation ; el
 
 ## Fichier et contrôle d'intégrité
 
-Emplacement demandé : `docs/bio-gen-t2/REFERENCE_ARTISTIQUE_T2.png`.
+Référence : [REFERENCE_ARTISTIQUE_T2.png](REFERENCE_ARTISTIQUE_T2.png).
 
-**Dépôt du PNG en attente.** L'image est visible dans la conversation, mais son fichier binaire original n'est pas fourni aux outils de téléchargement de cette session et n'est pas présent dans les pièces jointes du workspace. Aucun PNG de substitution n'est créé. Aucune empreinte ni identité binaire ne peut être certifiée avant récupération du fichier fourni.
+![Direction artistique explicitement validée pour BIO-GEN-T2](REFERENCE_ARTISTIQUE_T2.png)
 
-À réception du PNG téléchargeable : le copier sans redimensionnement, recadrage, conversion ou recompression ; calculer son SHA-256 ; récupérer le blob déposé sur GitHub et vérifier que les octets et le SHA-256 sont identiques ; consigner le résultat ici.
+- Format : PNG, **1536 × 1024 pixels**, **1 773 205 octets**.
+- Provenance : fichier déposé par l'utilisateur dans le commit `30b528baa8452407e3ae2f1b6553ca9c3fe69b9a`, branche `docs/bio-gen-t2-reference`, sous le nom `a_detailed_infographic_in_pixel_art_retro_16_bit.png`.
+- Nom normalisé : `docs/bio-gen-t2/REFERENCE_ARTISTIQUE_T2.png`.
+- SHA-256 : `1a5b2d226f205066027e25bf930a9db6ea959ca5bfcba42f00fc5470d5c63a84`.
+- Blob Git d'origine et du fichier renommé : `ab2f46b51feeb73a8339076bdb95ab9d76b6592d`.
+
+**Identité binaire vérifiée** avec le PNG déposé par l'utilisateur sur GitHub : mêmes octets, même taille, même SHA-256 et même blob Git. Renommage seulement ; aucun redimensionnement, recadrage, conversion ou recompression. Ce contrôle porte sur le fichier PNG effectivement déposé par l'utilisateur, désormais accessible, et non sur une reconstitution de l'aperçu de conversation.
+
+La référence est disponible pour la future mission de programmation T2. Sa présence n'autorise pas à lancer cette programmation dans la présente mission documentaire.
 
 ## Périmètre de cette mission documentaire
 
-Seule cette notice est déposée à ce stade. Aucune programmation T2 supplémentaire, aucune modification du jeu, des sauvegardes, des comportements ou des prototypes B1/B2. Aucune fusion de PR.
+Cette mission dépose uniquement le PNG et cette notice sur la branche documentaire dédiée. Aucune programmation T2 supplémentaire, aucune modification du jeu, des sauvegardes, des comportements ou des prototypes B1/B2. Aucune fusion de PR.
