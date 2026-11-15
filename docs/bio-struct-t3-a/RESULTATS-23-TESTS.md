@@ -28,4 +28,4 @@ Commande exécutée : `node --test tests/bio-struct-t3-a/contract.test.cjs`. **2
 | T3A-22 | dimensions cohérentes dans les trois vues | Réussi |
 | T3A-23 | export conserve valeurs appliquées et catégorie | Réussi |
 
-Ces assertions vérifient des propriétés programmables ; elles ne démontrent ni la reconnaissance artistique M/F/T ni la validation Safari iPad physique. Le détail navigateur et la révision exécutée en CI figurent dans le rapport de livraison.
+Ces assertions vérifient des propriétés programmables ; elles ne démontrent ni la reconnaissance artistique M/F/T ni la validation Safari iPad physique. Ces 23 tests passent aussi individuellement dans la [CI 43743148481](https://github.com/Thsethse/Microcosme/actions/runs/43743148481), révision `ad6040ca0dbc306ef908ea53b3c50237f65d9111`. Le détail navigateur et la réception humaine figurent dans le rapport de livraison.

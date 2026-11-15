@@ -1,0 +1,56 @@
+[
+  {
+    "path": "anatomical-skeleton.js",
+    "http": 200,
+    "bytes": 4052,
+    "sha256": "17d8fd976cc9dfce1dfe169b51debae8e3527692fd4b572f0a96cd04177d0bc8"
+  },
+  {
+    "path": "biological-profile.js",
+    "http": 200,
+    "bytes": 3321,
+    "sha256": "1a32e8f53f2d2610a61b44283ea022118c7ebc2a7a2b443e1cb404be0e0d2b1d"
+  },
+  {
+    "path": "body-geometry.js",
+    "http": 200,
+    "bytes": 2998,
+    "sha256": "30db6217fab13265438d50ff9265e6d18a5fd45aa3bf611202f443d80e35d193"
+  },
+  {
+    "path": "body-projection.js",
+    "http": 200,
+    "bytes": 2938,
+    "sha256": "a02cbd74b05971a16ccd84baf9fb3d5a91c34d18009d527a0ef70a66dc4daa3b"
+  },
+  {
+    "path": "canonical-body.js",
+    "http": 200,
+    "bytes": 6516,
+    "sha256": "6049eb513a5448bdb80d54671f62863aa8e825c38d2075c3f7e95b8540c0b0fd"
+  },
+  {
+    "path": "index.html",
+    "http": 200,
+    "bytes": 4939,
+    "sha256": "aa296a5a6b318fdbe56c1a41b0172a35f12cfb88e018a8860ba580cd5db6370b"
+  },
+  {
+    "path": "lab.css",
+    "http": 200,
+    "bytes": 4446,
+    "sha256": "243bcad91b11ab84133fa3f400e9c33be1179ba51cc8f305e45d263fb2371b70"
+  },
+  {
+    "path": "lab.js",
+    "http": 200,
+    "bytes": 6003,
+    "sha256": "c49c9ac0bd57fbd816cb4329b11d4014a1d4d576c392ddc9c8fe464b12e0b05e"
+  },
+  {
+    "path": "render.js",
+    "http": 200,
+    "bytes": 2220,
+    "sha256": "3e97f0b0d19db97a498189e8d04c492155accfc5d1a0f1602b232571f606d654"
+  }
+]

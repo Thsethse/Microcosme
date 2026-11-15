@@ -19,7 +19,7 @@ JSON T3-A v1 conserve graine, catégorie, fonction, valeurs demandées/appliqué
 - **23/23 contractuels Node**, identifiants **T3A-01 à T3A-23**, un test distinct par identifiant ; résultats et intitulés individuels dans `RESULTATS-23-TESTS.md`.
 - **35/35 historiques Node** (`npm test`) ; **6/6 T2 Node** dans son checkout non fusionné. Total Node local : **64 réussis**.
 - **Chromium 151.0.7922.34 local réussi** : les 11 paramètres ont un effet de pixels pertinent ; **108 masques anatomiques connexes et non coupés** (M/F/T × 12 combinaisons extrêmes × trois vues), déterminisme des pixels, sélection tactile simulée, bascule de fonction T sans modification des autres volumes, debug sans mutation du corps, corrections persistantes, rejet sans perte, export relu/réimporté, refus T2 et formats 390/820/1180 sans débordement horizontal.
-- WebKit local indisponible faute de bibliothèques système ; la CI dédiée installe les dépendances, exécute Chromium/WebKit localement et sur l'URL publique, puis les suites Node/navigateur T2 dans un checkout de sa révision auditée. Le résultat final est consigné après exécution effective.
+- WebKit local indisponible faute de bibliothèques système ; la CI dédiée installe les dépendances, exécute Chromium/WebKit localement et sur l'URL publique, puis les suites Node/navigateur T2 dans un checkout de sa révision auditée. La [CI 43743148481](https://github.com/Thsethse/Microcosme/actions/runs/43743148481) est **réussie** : Chromium 151 et WebKit 26.5 passent les parcours local et HTTPS public ; T2 passe aussi Node et navigateurs dans son checkout séparé.
 
 Environnement local : VM Linux x86_64, 3 vCPU AMD EPYC 9V74, Node 24.22.1, Playwright 1.62.1 ; viewport 820×1180, DPR2, toucher simulé. `MESURES-LOCAL.jsonl` contient les effets de réglages, nombre de masques et coût ponctuel de 90 rendus (trois références × trois vues × dix passes). Aucun test de galerie de 100 personnages. Ni mémoire GPU, batterie, latence physique ou performance iPad certifiée.
 
@@ -53,3 +53,14 @@ Fichiers de code : sept modules JS (`biological-profile`, `anatomical-skeleton`,
 4. Exporter vers Fichiers, réinitialiser, réimporter et comparer ; tester portrait et paysage.
 
 Noter appareil, versions iPadOS/Safari et les graines/JSON des anomalies. L'utilisateur doit juger la reconnaissance M/F/T, la proximité des proportions avec les croquis, les raccords, les volumes et la lisibilité des superpositions. **PR pour audit uniquement, non fusionnée ; aucune phase suivante sans validation.**
+
+## Preuves finales CI et HTTPS
+
+- Code applicatif : `e122da5294daff8aaa1a8fbabe51a6ea635aa71f`. Révision complète testée : `ad6040ca0dbc306ef908ea53b3c50237f65d9111` (seule différence : récupération de l'historique Git pour T3A-15).
+- [CI 43743148481](https://github.com/Thsethse/Microcosme/actions/runs/43743148481) **success** : les 23 identifiants passent individuellement, les 35 tests historiques et les 6 tests T2 aussi (**64 Node**). Parcours T3-A dans Chromium 151 / WebKit 26.5 Linux sur fichiers locaux puis **sur l'URL publique HTTPS**, 108 masques par moteur et contexte, saisies/limites et rejets sans perte, trois vues, bascule T, debug et JSON complet. Parcours T2 Chromium/WebKit également réussis.
+- [Non-régression historique 43743148478](https://github.com/Thsethse/Microcosme/actions/runs/43743148478) **success**, y compris son parcours navigateur existant.
+- Le premier job T3-A `43743016534` avait échoué uniquement sur l'absence du commit de comparaison T3A-15 dans le clone Git superficiel (22/23). `fetch-depth: 0` fournit désormais la base auditée ; le test n'a pas été supprimé ou affaibli. Les 23 passent dans la révision corrigée.
+- [Déploiement Pages 43742970672](https://github.com/Thsethse/Microcosme/actions/runs/43742970672) **success** au commit de publication `1c28b507684836d91021732420fa998009a74d99`. Les neuf fichiers applicatifs sont HTTP 200 et identiques octet par octet/SHA-256 à la source (voir `RESSOURCES-HTTPS.json`).
+- Mesures CI dans `MESURES-CI.jsonl` : runner Linux GitHub Actions ubuntu-latest, Node 22, Playwright 1.62.1, viewport 820×1180, DPR2, toucher simulé ; matériel précis non relevé. Le user-agent WebKit évoquant macOS ne constitue pas un test sur matériel Apple. Les derniers commits documentaires ne modifient pas les fichiers applicatifs publiés.
+
+**URL effectivement ouverte et manipulée par les deux navigateurs : https://thsethse.github.io/Microcosme/preview/bio-struct-t3-a/**. Test Safari iPad physique et validation artistique toujours ouverts.
