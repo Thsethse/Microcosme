@@ -1,0 +1,57 @@
+const {chromium,webkit}=require('playwright'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+(async()=>{for(const name of (process.env.T3_ENGINES||'chromium,webkit').split(',')){
+ const browser=await ({chromium,webkit})[name].launch(),page=await browser.newPage({viewport:{width:820,height:1180},hasTouch:true,deviceScaleFactor:2}),errors=[],bad=[];page.on('pageerror',e=>errors.push(String(e)));page.on('response',r=>{if(r.status()>=400)bad.push(r.status()+' '+r.url());});
+ await page.goto(process.env.T3_URL||'file://'+path.resolve('experiments/bio-struct-t3-a/index.html'));await page.waitForFunction(()=>document.querySelector('#description').textContent.includes('"version": 3'));
+ const technical=await page.evaluate(()=>{
+  const C=CanonicalBody,P=BiologicalProfile,H=ShapeGrammar,B=BodyProjection,R=T3Render;
+  const make=(category='T',appearance={},parameters={},choices={},fn=category==='F'?'female':'male',seed='r3-pixels')=>C.generateBodyR3(seed,{category,reproductiveFunction:fn},parameters,choices,appearance);
+  const draw=(b,view='front',edit=()=>{})=>{const scene=B.projectBody(b,view);edit(scene);const c=document.createElement('canvas');R.render(c,scene,{transparent:true});return c;};
+  const bytes=c=>c.getContext('2d').getImageData(0,0,c.width,c.height).data;
+  function changed(a,b){let n=0;for(let i=0;i<a.length;i+=4)if(a[i]!==b[i]||a[i+1]!==b[i+1]||a[i+2]!==b[i+2]||a[i+3]!==b[i+3])n++;return n;}
+  const effects={};
+  for(const [key,values]of Object.entries({pectoralDefinition:[0,.25,.5,.75,1],abdominalDefinition:[0,.25,.5,.75,1],fatVolume:[0,.5,1],shadowStrength:[0,.5,1]})){
+   const renders=new Set();for(const value of values)renders.add(draw(make('M',{[key]:value},{breastVolume:0})).toDataURL());if(renders.size!==values.length)throw Error('Réglage sans effet '+key);effects[key]=renders.size;
+  }
+  for(const category of ['F','T']){const shapes=new Set();for(const breastShape of ['natural','round','drop'])shapes.add(draw(make(category,{breastShape},{breastVolume:.8})).toDataURL());if(shapes.size!==3)throw Error('Formes mammaires indifférenciées '+category);effects[category+'BreastShapes']=shapes.size;const small=draw(make(category,{}, {breastVolume:.2})).toDataURL(),large=draw(make(category,{}, {breastVolume:1})).toDataURL();if(small===large)throw Error('Taille sans effet');}
+  const hairCounts={};for(const key of ['chestHairDensity','bellyHairDensity','pubicHairDensity']){const no=draw(make('T',{pubicHairShape:'rectangle',[key]:0})),yes=draw(make('T',{pubicHairShape:'rectangle',[key]:1}));const n=changed(bytes(no),bytes(yes));if(!n)throw Error('Pilosité invisible '+key);hairCounts[key]=n;}
+  const pubicShapes=new Set();for(const pubicHairShape of ['none','triangle','square','rectangle'])pubicShapes.add(draw(make('F',{pubicHairShape,pubicHairDensity:1})).toDataURL());if(pubicShapes.size!==4)throw Error('Pilosité pubienne indifférenciée');
+  let masks=0;
+  function connected(b,view){const c=draw(b,view),a=bytes(c),w=c.width,h=c.height,seen=new Uint8Array(w*h);let count=0,start=-1;for(let i=0;i<w*h;i++)if(a[i*4+3]){count++;start=i;}const queue=[start];seen[start]=1;for(let n=0;n<queue.length;n++){const i=queue[n],x=i%w,y=Math.floor(i/w);for(const [dx,dy]of [[1,0],[-1,0],[0,1],[0,-1]]){const xx=x+dx,yy=y+dy,k=yy*w+xx;if(xx>=0&&xx<w&&yy>=0&&yy<h&&!seen[k]&&a[k*4+3]){seen[k]=1;queue.push(k);}}}if(queue.length!==count)throw Error('Détachement '+b.biologicalProfile.category+' '+view+' '+JSON.stringify(b.geometryChoices)+' '+queue.length+'/'+count);for(let x=0;x<w;x++)if(a[x*4+3]||a[((h-1)*w+x)*4+3])throw Error('Coupe verticale');for(let y=0;y<h;y++)if(a[(y*w)*4+3]||a[(y*w+w-1)*4+3])throw Error('Coupe horizontale');masks++;}
+  for(const [category,fn]of [['M','male'],['F','female'],['T','male'],['T','female']])for(const torsoShape of Object.keys(H.schema[1].options))for(const breastShape of category==='M'?[null]:['natural','round','drop'])for(const extreme of ['min','max']){
+   const parameters=Object.fromEntries(P.schema.map(s=>[s.key,s[extreme]])),appearance={breastShape,pectoralDefinition:extreme==='min'?0:1,abdominalDefinition:extreme==='min'?0:1,fatVolume:extreme==='min'?1:0,shadowStrength:1,pubicHairShape:'rectangle',pubicHairDensity:1,chestHairDensity:category==='F'?0:1,bellyHairDensity:category==='F'?0:1};
+   const b=make(category,appearance,parameters,{headShape:'diamond',torsoShape,pelvisShape:extreme==='min'?'rectangle':'trapezoid',limbShape:'rounded'},fn);for(const view of ['front','profile','back'])connected(b,view);
+  }
+  let clippedSurfaces=0;
+  for(const skinSeed of ['skin-0','skin-1','skin-2','skin-3','skin-4','skin-5','skin-6','skin-7']){
+   const b=make('T',{shadowStrength:1,abdominalDefinition:1,chestHairDensity:1,bellyHairDensity:1,pubicHairShape:'rectangle',pubicHairDensity:1},{}, {},'male',skinSeed);
+   for(const view of ['front','profile','back']){
+    const normal=bytes(draw(b,view)),clean=bytes(draw(b,view,s=>s.commands.forEach(c=>c.surfaceMarks=[])));
+    for(let i=3;i<normal.length;i+=4)if(normal[i]!==clean[i])throw Error('Détail hors silhouette '+view);clippedSurfaces++;
+    const noNavel=bytes(draw(b,view,s=>s.commands.forEach(c=>c.surfaceMarks=c.surfaceMarks.filter(m=>m.role!=='navel'))));const effect=changed(normal,noNavel);if((effect>0)!==(view==='front'))throw Error('Nombril illisible ou transperçant '+view+' '+effect);
+    if(view!=='front'){const withoutHair=bytes(draw(b,view,s=>s.commands.forEach(c=>c.surfaceMarks=c.surfaceMarks.filter(m=>m.role!=='hair'))));if(changed(normal,withoutHair))throw Error('Pilosité transperçante');}
+   }
+  }
+  let navelPointScales=0;
+  for(const globalSize of [.75,1,1.3]){
+   const b=make('T',{bellyHairDensity:1,abdominalDefinition:1},{globalSize}),normal=bytes(draw(b)),without=bytes(draw(b,'front',s=>s.commands.forEach(c=>c.surfaceMarks=c.surfaceMarks.filter(m=>m.role!=='navel')))),points=[];
+   for(let i=0;i<normal.length;i+=4)if(normal[i]!==without[i]||normal[i+1]!==without[i+1]||normal[i+2]!==without[i+2])points.push([(i/4)%240,Math.floor(i/4/240)]);
+   if(!points.length)throw Error('Point de nombril masqué');const w=Math.max(...points.map(p=>p[0]))-Math.min(...points.map(p=>p[0]))+1,h=Math.max(...points.map(p=>p[1]))-Math.min(...points.map(p=>p[1]))+1;
+   if(w!==h||w>2)throw Error('Nombril en tiret '+globalSize+' '+w+'×'+h);navelPointScales++;
+  }
+  let headComparisons=0;
+  for(const headShape of Object.keys(H.schema[0].options))for(const view of ['front','profile','back']){
+   const b=make('T',{}, {},{headShape}),old=C.generateBody(b.seed,b.biologicalProfile,b.requestedParameters,b.geometryChoices),a=draw(b,view),c=draw(old,view),top=a.getContext('2d').getImageData(0,130,240,67).data,oldTop=c.getContext('2d').getImageData(0,130,240,67).data;
+   if(changed(top,oldTop))throw Error('Visage/tête R2 modifiés '+headShape+' '+view);headComparisons++;
+  }
+  return {effects,hairPixels:hairCounts,pubicShapes:pubicShapes.size,connectedMasks:masks,clippedSurfaces,navelPointScales,unchangedHeads:headComparisons,userAgent:navigator.userAgent};
+ });
+ assert.equal(await page.locator('#a-breastShape').isVisible(),false);assert.equal(await page.locator('#p-breastVolume').isVisible(),false);assert.deepEqual(await page.locator('#a-pubicHairShape option').evaluateAll(nodes=>nodes.map(n=>n.value)),['none','rectangle']);assert.equal(await page.locator('#choice-pelvisShape option[value=oval]').count(),0);
+ const set=async(key,value)=>{await page.locator('#a-'+key).fill(String(value));await page.locator('#a-'+key).dispatchEvent('input');};
+ for(const category of ['F','T']){await page.locator('[data-category='+category+']').tap();assert.equal(await page.locator('#a-breastShape').isVisible(),true);assert.equal(await page.locator('#p-breastVolume').isVisible(),true);await page.locator('#a-breastShape').selectOption('drop');await page.locator('#p-breastVolume').fill('0.8');await page.locator('#p-breastVolume').dispatchEvent('input');assert.equal(JSON.parse(await page.locator('#description').textContent()).appearance.breastShape,'drop');await page.locator('#a-pubicHairShape').selectOption('triangle');}
+ await set('pectoralDefinition',.9);await set('abdominalDefinition',1);await set('fatVolume',.7);await set('chestHairDensity',.7);await set('bellyHairDensity',.7);await page.locator('#a-hairColor').fill('#9b7051');await page.locator('#a-hairColor').dispatchEvent('input');
+ const before=JSON.parse(await page.locator('#inspection').textContent()),frontBefore=await page.locator('#detail-front').evaluate(c=>Array.from(c.getContext('2d').getImageData(0,0,c.width,230).data));await page.locator('#thirdFunction').selectOption('female');const after=JSON.parse(await page.locator('#inspection').textContent());assert.deepEqual(before.appearance,after.appearance);assert.deepEqual(before.finish,after.finish);assert.deepEqual(before.volumes.filter(v=>v.id!=='sexual_marker'),after.volumes.filter(v=>v.id!=='sexual_marker'));assert.deepEqual(await page.locator('#detail-front').evaluate(c=>Array.from(c.getContext('2d').getImageData(0,0,c.width,230).data)),frontBefore);
+ const data=await page.locator('#description').textContent(),downloadPromise=page.waitForEvent('download');await page.locator('#export').tap();const file=await downloadPromise;assert.deepEqual(JSON.parse(fs.readFileSync(await file.path(),'utf8')),JSON.parse(data));await page.locator('#resetOne').tap();await page.locator('#import').setInputFiles({name:'r3.json',mimeType:'application/json',buffer:Buffer.from(data)});await page.waitForFunction(()=>document.querySelector('#status').textContent==='Corps T3-A importé.');assert.equal(await page.locator('#description').textContent(),data);
+ const badData=JSON.parse(data);badData.appearance.fatVolume=2;await page.locator('#import').setInputFiles({name:'bad.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(badData))});await page.waitForFunction(()=>document.querySelector('#error').textContent.includes('entre 0 et 1'));assert.equal(await page.locator('#description').textContent(),data);
+ const legacy=require('./fixtures/r1-v2-exports.json')[1];await page.locator('#import').setInputFiles({name:'old-oval.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(legacy))});await page.waitForFunction(()=>document.querySelector('#migration').textContent.includes('Bassin ovale'));const migrated=JSON.parse(await page.locator('#description').textContent());assert.equal(migrated.geometryChoices.pelvisShape,'rectangle');assert.equal(migrated.migration.originalPelvisShape,'oval');assert.deepEqual(migrated.parameters,legacy.parameters);assert.equal(await page.locator('#a-chestHairDensity').inputValue(),'0');
+ await page.locator('#resetAll').tap();for(const width of [390,820,1180]){await page.setViewportSize({width,height:1000});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));}assert.deepEqual(errors,[]);assert.deepEqual(bad,[]);console.log(JSON.stringify({name,version:browser.version(),url:process.env.T3_URL||'file://',...technical}));await browser.close();
+}})().catch(e=>{console.error(e);process.exit(1)});
