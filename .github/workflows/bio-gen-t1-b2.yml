@@ -1,0 +1,19 @@
+name: BIO-GEN-T1 revision B2
+on:
+  pull_request:
+    paths: ['experiments/bio-gen-t1-b2/**', 'tests/bio-gen-t1-b2/**', '.github/workflows/bio-gen-t1-b2.yml']
+permissions:
+  contents: read
+jobs:
+  laboratory-b2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: node --test tests/bio-gen-t1-b2/model.test.cjs tests/bio-gen-t1/model.test.cjs
+      - run: npx playwright install --with-deps chromium webkit
+      - run: node tests/bio-gen-t1-b2/browser.cjs
