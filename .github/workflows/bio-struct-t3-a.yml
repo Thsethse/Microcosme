@@ -1,0 +1,35 @@
+name: BIO-STRUCT-T3-A squelette canonique
+on:
+  pull_request:
+    paths: ['experiments/bio-struct-t3-a/**', 'tests/bio-struct-t3-a/**', '.github/workflows/bio-struct-t3-a.yml']
+permissions:
+  contents: read
+jobs:
+  laboratory-t3-a:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: node --test tests/bio-struct-t3-a/contract.test.cjs
+      - run: npm test
+      - run: npx playwright install --with-deps chromium webkit
+      - run: node tests/bio-struct-t3-a/browser.cjs
+      - name: Parcours HTTPS GitHub Pages
+        run: node tests/bio-struct-t3-a/browser.cjs
+        env:
+          T3_URL: https://thsethse.github.io/Microcosme/preview/bio-struct-t3-a/
+      - name: T2 non fusionne, revision auditee
+        uses: actions/checkout@v4
+        with:
+          ref: e057e5f906afba25ac943bcc617afb581eb8d296
+          path: regression-t2
+      - run: npm ci
+        working-directory: regression-t2
+      - run: node --test tests/bio-gen-t2/model.test.cjs
+        working-directory: regression-t2
+      - run: node tests/bio-gen-t2/browser.cjs
+        working-directory: regression-t2
