@@ -40,7 +40,7 @@ test('R1-05 Yeux sous mi-hauteur, sourcils au-dessus, bouche entre bas des yeux 
 });
 test('R1-06 Aucun nez, ni géométrie ni ancrage nasal',()=>{
  for(const headShape of Object.keys(H.schema[0].options)){
-  const b=make('T',{}, {headShape});assert.ok(!Object.keys(b.skeleton.anchors).some(id=>/nose|nasal/i.test(id)));assert.ok(!b.volumes.some(v=>/nose|nasal/i.test(v.id)));
+  const b=make('T',{}, {headShape});assert.ok(!Object.keys(b.skeleton.anchors).some(id=>/nose|nasal/i.test(id)));assert.ok(!Object.hasOwn(b.skeleton.anchors,'facial_axis'));assert.deepEqual(b.face.axis,{top:'face_top',bottom:'face_chin'});assert.ok(!b.volumes.some(v=>/nose|nasal/i.test(v.id)));
   for(const view of ['front','profile','back'])assert.ok(![...B.projectBody(b,view).commands,...B.projectBody(b,view).facialCommands].some(c=>/nose|nasal/i.test(c.id)));
  }
 });
