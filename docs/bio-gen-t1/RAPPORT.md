@@ -29,7 +29,7 @@ Le laboratoire s'ouvre directement par `experiments/bio-gen-t1/index.html` aprè
 | B-09 | JSON aller-retour, pixels identiques, import interface, rejet JSON invalide sans perte | Réussi Chromium et Node |
 | B-10 | 100 profils, cinq séries de rendu, galerie DOM et deux RAF | Mesuré sur VM Linux ; aucune conclusion iPad |
 
-Commandes : `node --test tests/bio-gen-t1/model.test.cjs` : **5/5** ; `npm test` : **35/35** historiques. `node tests/bio-gen-t1/browser.cjs` : parcours Chromium réussi, puis échec de lancement WebKit 26.5 faute de bibliothèques Linux (GTK4, Graphene, Harfbuzz ICU, Manette, Hyphen, GLES). Le script complet retourne donc un échec local, pas un succès multi-navigateurs. CI configurée pour installer ces dépendances ; ses résultats sont à consulter dans la PR. Pas de validation Safari iPad physique.
+Commandes : `node --test tests/bio-gen-t1/model.test.cjs` : **5/5** ; `npm test` : **35/35** historiques. `node tests/bio-gen-t1/browser.cjs` : parcours Chromium réussi, puis échec de lancement WebKit 26.5 faute de bibliothèques Linux (GTK4, Graphene, Harfbuzz ICU, Manette, Hyphen, GLES). Le script complet retourne donc un échec local, pas un succès multi-navigateurs. La CI dédiée [43706979806](https://github.com/Thsethse/Microcosme/actions/runs/43706979806) a ensuite installé ces dépendances et réussi le parcours complet dans **Chromium 151 et WebKit 26.5 Linux** au commit applicatif `31dbd90f46821fa400c206342b32a4440d978073`. Pas de validation Safari iPad physique.
 
 Chromium 151.0.7922.34 headless, Playwright 1.62.1, Linux x86_64, VM 3 vCPU AMD EPYC 9V74, Node 24.22.1. Viewport 820×1180, DPR 2, toucher simulé ; absence de débordement horizontal aussi vérifiée à 390 et 1180 px. Test initial en `file://`. Génération de 100 profils : **0,8 ms**. Rendu de 100 sprites sans DOM, cinq passes : **18,8–22,2 ms**, médiane **20,8 ms**. Galerie complète : **23,9 ms** génération/Canvas/DOM, **53,8 ms** jusqu'à deux RAF. Mesures ponctuelles sans garantie de présentation physique ni débit continu. Mémoire native/GPU, batterie et latence tactile non mesurées.
 
@@ -50,3 +50,7 @@ Sur Safari iPad physique, ouvrir le lien HTTPS de PUBLICATION.md. Noter appareil
 Évaluer séparément (pas encore exécuté) : diversité des silhouettes à taille égale ; distinction d'au moins cinq visages sans lire la graine ; association à l'aveugle de portraits et sprites ; cohérence avant/arrière/profil ; lisibilité à petite taille et aux bornes. Consigner des exemples d'échec et les graines/JSON concernés. Aucun de ces points artistiques n'est déclaré réussi par les tests de pixels.
 
 Attendre audit utilisateur et arbitrage sur qualité des portraits/profil, budget des paramètres et validation iPad avant toute intégration. **Ne pas fusionner ; aucun passage automatique au lot C.**
+
+## Complément CI
+
+Les deux parcours navigateur ont réussi sur le runner GitHub Actions `ubuntu-latest` (Linux ; matériel non relevé), Playwright 1.62.1, mêmes viewport/DPR et tests file://. Galerie de 100 : Chromium 9,3 ms de travail JS/DOM et 36,2 ms jusqu’à deux RAF ; WebKit 7,0 ms et 57,0 ms. Résolution de chronomètre WebKit grossière (génération seule mesurée 0 ms, pas une absence de coût). Ces chiffres ne sont pas ceux de la VM locale et ne valident pas Safari sur matériel Apple. Résultats JSON dans `MESURES-CI.jsonl`.
