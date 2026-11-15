@@ -19,7 +19,9 @@ Pour T, seule la représentation génitale dépend de sa fonction ; poitrine, pa
 - R2 vérifie l’effet réel des attributs en pixels : poitrine F/T de face et profil, zéro effet de dos ; signe masculin de face/profil, zéro effet de dos ; signe féminin de face uniquement. La bascule T laisse les pixels thoraciques et le dos identiques.
 - Import de vrais exports R1 v2, conservation des paramètres/corrections/formes ; export/import et migration v1 également couverts par les parcours conservés. Schéma v2 inchangé, pas de conservation promise des anciens pixels des attributs.
 
-Mesures brutes : MESURES-T3A-LOCAL.jsonl, MESURES-R1-LOCAL.jsonl, MESURES-R2-LOCAL.jsonl. Node 24.22.1, Playwright 1.62.1, Chromium 151.0.7922.34 Linux ; viewport tactile 820×1180, DPR2. WebKit local manque de bibliothèques système ; la CI installe ses dépendances. Résultats CI Chromium/WebKit, T2 et HTTPS à consigner après exécution effective dans [PUBLICATION.md](PUBLICATION.md).
+Mesures brutes : MESURES-T3A-LOCAL.jsonl, MESURES-R1-LOCAL.jsonl, MESURES-R2-LOCAL.jsonl. Node 24.22.1, Playwright 1.62.1, Chromium 151.0.7922.34 Linux ; viewport tactile 820×1180, DPR2. WebKit local manque de bibliothèques système ; la CI installe ses dépendances. **CI réussie sur `0f08780e4c3505c828f18a01ad99aae8858e32b3` : 80 tests Node, 0 échec** (39 T3-A/R1/R2 + 35 historiques + 6 T2). Les parcours T3-A, R1 et R2 réussissent sous Chromium 151 et WebKit 26.5, sur fichiers puis sur l’URL HTTPS publique. T2 réussit également dans les deux moteurs. Le workflow historique du jeu et celui de main après publication réussissent. [Publication et liens CI](PUBLICATION.md) · [14 relevés bruts](MESURES-CI.jsonl).
+
+Intégrité des previews : onze fichiers applicatifs R2 et 45 ressources B1/B2/T2/T3-A/R1 ont été récupérés en HTTPS et comparés octet pour octet à leurs sources/snapshots. Aucun remplacement d’une preview antérieure ; empreintes dans RESSOURCES-HTTPS.json.
 
 ## Fichiers modifiés
 

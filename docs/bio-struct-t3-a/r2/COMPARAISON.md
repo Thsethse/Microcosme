@@ -1,6 +1,6 @@
 # Comparaison R1 / R2 — captures sans retouche
 
-Chaque capture contient M/F/T à la même échelle, graine `t3-a-reference`, paramètres P2 réinitialisés, superpositions désactivées. R1 : `b05a3fe9b9ab0664fe1caf278bce9f5b10679520`. R2 : source applicative de cette branche, identifiée dans PUBLICATION.md. Chromium 151 Linux, viewport 1180×1100, DPR1. Ces rendus sont des preuves à examiner, jamais une nouvelle référence artistique validée.
+Chaque capture contient M/F/T à la même échelle, graine `t3-a-reference`, paramètres P2 réinitialisés, superpositions désactivées. R1 : `b05a3fe9b9ab0664fe1caf278bce9f5b10679520`. R2 : `0f08780e4c3505c828f18a01ad99aae8858e32b3`, source applicative publiée. Chromium 151 Linux, viewport 1180×1100, DPR1. Ces rendus sont des preuves à examiner, jamais une nouvelle référence artistique validée.
 
 ## Troisième type à fonction masculine
 

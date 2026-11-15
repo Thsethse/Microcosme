@@ -1,8 +1,8 @@
 # Résultats individuels T3-A / R1 / R2
 
-Les statuts ci-dessous concernent les assertions techniques exécutées en Node local. La CI et les parcours HTTPS sont détaillés dans PUBLICATION.md après leur exécution. Les 23 tests T3-A et 8 contrôles R1 restent inchangés.
+Les statuts ci-dessous concernent les assertions techniques exécutées en Node local et dans la CI réussie. La CI et les parcours HTTPS sont détaillés dans [PUBLICATION.md](PUBLICATION.md). Les 23 tests T3-A et 8 contrôles R1 restent inchangés.
 
-| ID | Contrôle | Node local |
+| ID | Contrôle | Node local / CI |
 |---|---|---|
 | T3A-01 | proportions initiales 25/30/45 total 100 | Réussi |
 | T3A-02 | articulations toutes connectées | Réussi |
@@ -47,3 +47,5 @@ Les statuts ci-dessous concernent les assertions techniques exécutées en Node 
 **39/39 réussis, 0 échec**, plus les 35 tests historiques locaux. R2-01…R2-06 vérifient attaches et commandes de projection ; le parcours navigateur vérifie aussi l’effet réel dans les pixels. R2-07 compare 378 corps R1 et 1 134 projections non concernées par la correction ; les références sont générées depuis le code R1 `b05a3fe`, pas depuis l’implémentation R2. R2-08 vérifie notamment la lecture/réexport des JSON v2 R1.
 
 Les contrôles R1/R2 de non-régression iPad ne valent pas essai physique : **Safari iPad et approbation artistique non réalisés par Codex, attendus de l’utilisateur**. Les nombres de pixels et masques connexes ne prouvent pas la qualité du dessin ni l’absence de toute superposition possible.
+
+[CI finale réussie](https://github.com/Thsethse/Microcosme/actions/runs/43759478609), source applicative `0f08780e4c3505c828f18a01ad99aae8858e32b3` : **80/80 Node** (39 ci-dessus + 35 historiques + 6 T2). Les trois parcours T3-A/R1/R2 passent sous Chromium/WebKit sur fichiers et HTTPS public, et T2 passe dans les deux moteurs. Le workflow historique de non-régression du jeu réussit également.
