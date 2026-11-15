@@ -66,7 +66,16 @@
    const pelvis=skeleton.segments.pelvis;add('gluteal_'+name,'pelvis','oval',[.46,.72,.35],.43,[side*pelvis.width*.24,0,-pelvis.depth*.52],'muscle','paired');
   }
   const pelvis=skeleton.segments.pelvis;
-  add('sexual_marker','pelvis',profile.reproductiveFunction==='male'?'box':'triangle',profile.reproductiveFunction==='male'?[.10,.48,.23]:[.16,.35,.12],.35,skeleton.anchors.genital_anchor.offsetLocal.slice(),'anatomical-marker');
+  const male=profile.reproductiveFunction==='male',attachment=skeleton.anchors.genital_anchor;
+  const marker=add('sexual_marker','pelvis',male?'box':'triangle',male?[.14,.86,.30]:[.16,.50,.12],attachment.t,attachment.offsetLocal.slice(),'anatomical-marker');
+  const thigh=volumes.find(v=>v.id==='thigh_right'),gap=2*(thigh.center[0]-thigh.dimensions.width/2);
+  marker.dimensions.width=Math.min(marker.dimensions.width,gap*.9);
+  marker.relativeDimensions.widthRatio=marker.dimensions.width/pelvis.width;
+  if(male){
+   // A small attached silhouette with a rounded inferior end, not an abdominal badge.
+   const w=marker.dimensions.width/2,h=marker.dimensions.height/2;
+   prism(marker,[[-w,h],[w,h],[w,-h*.45],[w*.7,-h*.85],[0,-h],[-w*.7,-h*.85],[-w,-h*.45]]);
+  }
   return volumes;
  }
  const api={build};if(typeof module!=='undefined')module.exports=api;root.BodyGeometry=api;

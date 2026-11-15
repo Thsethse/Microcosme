@@ -1,0 +1,152 @@
+[
+  {
+    "schema": "microcosme.bio-struct-t3-a",
+    "version": 2,
+    "seed": "r1-v2-import",
+    "geometryChoices": {
+      "headShape": "diamond",
+      "torsoShape": "hourglass",
+      "pelvisShape": "oval",
+      "limbShape": "rounded"
+    },
+    "migration": null,
+    "biologicalProfile": {
+      "category": "M",
+      "reproductiveFunction": "male"
+    },
+    "requestedParameters": {
+      "globalSize": 1,
+      "headHeight": 1,
+      "headWidth": 1,
+      "trunkLength": 1,
+      "armLength": 1,
+      "legLength": 1,
+      "shoulderWidth": 1.6,
+      "pelvisWidth": 0.9,
+      "thoraxDepth": 1.1,
+      "muscleVolume": 0.65,
+      "breastVolume": 0.8
+    },
+    "parameters": {
+      "globalSize": 1,
+      "headHeight": 1,
+      "headWidth": 1,
+      "trunkLength": 1,
+      "armLength": 1,
+      "legLength": 1,
+      "shoulderWidth": 1.35,
+      "pelvisWidth": 0.9,
+      "thoraxDepth": 1.1,
+      "muscleVolume": 0.65,
+      "breastVolume": 0.8
+    },
+    "corrections": [
+      {
+        "parameter": "shoulderWidth",
+        "requested": 1.6,
+        "applied": 1.35,
+        "reason": "N2 : borne P1 finale [0.75, 1.35]"
+      }
+    ]
+  },
+  {
+    "schema": "microcosme.bio-struct-t3-a",
+    "version": 2,
+    "seed": "r1-v2-import",
+    "geometryChoices": {
+      "headShape": "diamond",
+      "torsoShape": "hourglass",
+      "pelvisShape": "oval",
+      "limbShape": "rounded"
+    },
+    "migration": null,
+    "biologicalProfile": {
+      "category": "F",
+      "reproductiveFunction": "female"
+    },
+    "requestedParameters": {
+      "globalSize": 1,
+      "headHeight": 1,
+      "headWidth": 1,
+      "trunkLength": 1,
+      "armLength": 1,
+      "legLength": 1,
+      "shoulderWidth": 1.6,
+      "pelvisWidth": 1.15,
+      "thoraxDepth": 1,
+      "muscleVolume": 0.4,
+      "breastVolume": 0.8
+    },
+    "parameters": {
+      "globalSize": 1,
+      "headHeight": 1,
+      "headWidth": 1,
+      "trunkLength": 1,
+      "armLength": 1,
+      "legLength": 1,
+      "shoulderWidth": 1.35,
+      "pelvisWidth": 1.15,
+      "thoraxDepth": 1,
+      "muscleVolume": 0.4,
+      "breastVolume": 0.8
+    },
+    "corrections": [
+      {
+        "parameter": "shoulderWidth",
+        "requested": 1.6,
+        "applied": 1.35,
+        "reason": "N2 : borne P1 finale [0.75, 1.35]"
+      }
+    ]
+  },
+  {
+    "schema": "microcosme.bio-struct-t3-a",
+    "version": 2,
+    "seed": "r1-v2-import",
+    "geometryChoices": {
+      "headShape": "diamond",
+      "torsoShape": "hourglass",
+      "pelvisShape": "oval",
+      "limbShape": "rounded"
+    },
+    "migration": null,
+    "biologicalProfile": {
+      "category": "T",
+      "reproductiveFunction": "male"
+    },
+    "requestedParameters": {
+      "globalSize": 1,
+      "headHeight": 1,
+      "headWidth": 1,
+      "trunkLength": 1,
+      "armLength": 1,
+      "legLength": 1,
+      "shoulderWidth": 1.6,
+      "pelvisWidth": 1.05,
+      "thoraxDepth": 1.05,
+      "muscleVolume": 0.5,
+      "breastVolume": 0.8
+    },
+    "parameters": {
+      "globalSize": 1,
+      "headHeight": 1,
+      "headWidth": 1,
+      "trunkLength": 1,
+      "armLength": 1,
+      "legLength": 1,
+      "shoulderWidth": 1.35,
+      "pelvisWidth": 1.05,
+      "thoraxDepth": 1.05,
+      "muscleVolume": 0.5,
+      "breastVolume": 0.8
+    },
+    "corrections": [
+      {
+        "parameter": "shoulderWidth",
+        "requested": 1.6,
+        "applied": 1.35,
+        "reason": "N2 : borne P1 finale [0.75, 1.35]"
+      }
+    ]
+  }
+]

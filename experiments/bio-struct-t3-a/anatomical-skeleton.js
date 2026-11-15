@@ -37,6 +37,10 @@
    segments['foot_'+name].basis={u:[1,0,0],v:[0,1,0],w:[0,0,1]};
   }
   const anchors={sternum:{segment:'thorax',t:.5,offsetLocal:[0,0,0]},neck:{segment:'neck',t:.5,offsetLocal:[0,0,0]},chin:{segment:'head',t:0,offsetLocal:[0,0,0]},facial_axis:{segment:'head',t:.5,offsetLocal:[0,0,8*s]},navel:{segment:'abdomen',t:8/12,offsetLocal:[0,0,depth*.5*s]},pelvic_center:{segment:'pelvis',t:.5,offsetLocal:[0,0,0]},genital_anchor:{segment:'pelvis',t:.35,offsetLocal:[0,0,depth*.5*s]}};
+  // R2: move only the genital attachment towards the inferior pelvic edge.
+  // Joints, segments, proportions and every other R1 attachment stay unchanged.
+  anchors.genital_anchor.t=.12;
+  anchors.genital_anchor.offsetLocal[2]=segments.pelvis.depth*.5;
   return {joints,segments,anchors,root:'pelvis_root',height:top*s,zConvention:'positive-anterior',zones:{head:25*p.headHeight*s,trunk:30*p.trunkLength*s,lower:hip*s}};
  }
  function point(skeleton,anchor){
