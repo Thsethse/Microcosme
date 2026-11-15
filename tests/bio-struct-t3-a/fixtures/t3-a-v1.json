@@ -1,0 +1,125 @@
+{
+  "sourceCommit": "dfa56ba34c94de6bc80f3b2e4c58e584a2827c79",
+  "profiles": {
+    "M": {
+      "export": {
+        "schema": "microcosme.bio-struct-t3-a",
+        "version": 1,
+        "seed": "t3-a-reference",
+        "biologicalProfile": {
+          "category": "M",
+          "reproductiveFunction": "male"
+        },
+        "requestedParameters": {
+          "globalSize": 1,
+          "headHeight": 1,
+          "headWidth": 1,
+          "trunkLength": 1,
+          "armLength": 1,
+          "legLength": 1,
+          "shoulderWidth": 1.15,
+          "pelvisWidth": 0.9,
+          "thoraxDepth": 1.1,
+          "muscleVolume": 0.65,
+          "breastVolume": 0.05
+        },
+        "parameters": {
+          "globalSize": 1,
+          "headHeight": 1,
+          "headWidth": 1,
+          "trunkLength": 1,
+          "armLength": 1,
+          "legLength": 1,
+          "shoulderWidth": 1.15,
+          "pelvisWidth": 0.9,
+          "thoraxDepth": 1.1,
+          "muscleVolume": 0.65,
+          "breastVolume": 0.05
+        },
+        "corrections": []
+      },
+      "pectoralHeight": 5.8500000000000005,
+      "thoraxLength": 9
+    },
+    "F": {
+      "export": {
+        "schema": "microcosme.bio-struct-t3-a",
+        "version": 1,
+        "seed": "t3-a-reference",
+        "biologicalProfile": {
+          "category": "F",
+          "reproductiveFunction": "female"
+        },
+        "requestedParameters": {
+          "globalSize": 1,
+          "headHeight": 1,
+          "headWidth": 1,
+          "trunkLength": 1,
+          "armLength": 1,
+          "legLength": 1,
+          "shoulderWidth": 0.9,
+          "pelvisWidth": 1.15,
+          "thoraxDepth": 1,
+          "muscleVolume": 0.4,
+          "breastVolume": 0.65
+        },
+        "parameters": {
+          "globalSize": 1,
+          "headHeight": 1,
+          "headWidth": 1,
+          "trunkLength": 1,
+          "armLength": 1,
+          "legLength": 1,
+          "shoulderWidth": 0.9,
+          "pelvisWidth": 1.15,
+          "thoraxDepth": 1,
+          "muscleVolume": 0.4,
+          "breastVolume": 0.65
+        },
+        "corrections": []
+      },
+      "pectoralHeight": 5.8500000000000005,
+      "thoraxLength": 9
+    },
+    "T": {
+      "export": {
+        "schema": "microcosme.bio-struct-t3-a",
+        "version": 1,
+        "seed": "t3-a-reference",
+        "biologicalProfile": {
+          "category": "T",
+          "reproductiveFunction": "male"
+        },
+        "requestedParameters": {
+          "globalSize": 1,
+          "headHeight": 1,
+          "headWidth": 1,
+          "trunkLength": 1,
+          "armLength": 1,
+          "legLength": 1,
+          "shoulderWidth": 1.05,
+          "pelvisWidth": 1.05,
+          "thoraxDepth": 1.05,
+          "muscleVolume": 0.5,
+          "breastVolume": 0.5
+        },
+        "parameters": {
+          "globalSize": 1,
+          "headHeight": 1,
+          "headWidth": 1,
+          "trunkLength": 1,
+          "armLength": 1,
+          "legLength": 1,
+          "shoulderWidth": 1.05,
+          "pelvisWidth": 1.05,
+          "thoraxDepth": 1.05,
+          "muscleVolume": 0.5,
+          "breastVolume": 0.5
+        },
+        "corrections": []
+      },
+      "pectoralHeight": 5.8500000000000005,
+      "thoraxLength": 9
+    }
+  }
+}
