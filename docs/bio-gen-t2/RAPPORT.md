@@ -17,7 +17,7 @@ Le [découpage source](ARCHITECTURE.md) sépare description, génération des fo
 | T2-01 | Référence : tête 20, tronc 25, bassin 10, jambes 25, soit 80 = 4 × 20 | Réussi ; contours et coiffures exclus de la mesure des segments |
 | T2-02 | Étirements X/Y et dimensions des membres modifiés sans changer les autres dimensions | Réussi ; les ancrages sont recalculés pour maintenir les raccords |
 | T2-03 | Cinq géométries et cinq portraits sans cheveux distincts par pixels | Réussi ; reconnaissance perceptive humaine ouverte |
-| T2-04 | 1000 profils bornés, membres rectangulaires, 180 masques anatomiques connexes et non coupés (60 profils × 3 vues) | Réussi Chromium ; non équivalent à un jugement anatomique |
+| T2-04 | 1000 profils bornés, membres rectangulaires, 180 masques anatomiques connexes et non coupés (60 profils × 3 vues) | Réussi Chromium/WebKit ; non équivalent à un jugement anatomique |
 | T2-05 | Commandes musculaires carrées/rectangulaires, tailles et contrastes indépendants par cinq zones | Réussi ; musculature purement visuelle |
 | T2-06 | Présence, volume, forme, étirement, position et écartement de poitrine indépendants des muscles et des signes | Réussi ; aucun détail explicite |
 | T2-07 | Aucun paramètre ni commande nez/mâchoire/pommette ; yeux géométriques | Réussi ; formes simplifiées, pas de visage réaliste |
@@ -25,10 +25,10 @@ Le [découpage source](ARCHITECTURE.md) sépare description, génération des fo
 | T2-09 | 5 têtes × 7 coiffures × 4 vues rendues sans erreur et reproductibles | Réussi ; crédibilité/reconnaissance des coupes à auditer |
 | T2-10 | Seulement barbe, moustache, favoris, pubis ; aucune autre carte pileuse | Réussi ; couches indépendantes |
 | T2-11 | Quatre pigments indépendants, sans modification des autres couleurs | Réussi ; certaines combinaisons libres peuvent manquer de contraste |
-| T2-12 | Même profil → mêmes pixels ; téléchargement export JSON relu, réimport et rejet JSON invalide sans perte | Réussi Chromium/Node ; v1 est propre à T2, pas une migration B1/B2 |
+| T2-12 | Même profil → mêmes pixels ; téléchargement export JSON relu, réimport et rejet JSON invalide sans perte | Réussi Chromium/WebKit et Node ; v1 est propre à T2, pas une migration B1/B2 |
 | T2-13 | Une géométrie/palette/description pour quatre projections, sans hasard au rendu | Réussi ; association portrait/sprite humaine ouverte |
-| T2-14 | 35 tests historiques + 5 B1 + 4 B2, aucun fichier ancien modifié | Réussis localement ; parcours navigateur B1/B2 également prévus en CI |
-| T2-15 | Sélection tactile simulée, accordéon, curseur, cases, forme, palette, reset, JSON, 100 personnages, 390/820/1180 px | Chromium local réussi ; Chromium/WebKit et HTTPS public exécutés par la CI de livraison |
+| T2-14 | 35 tests historiques + 5 B1 + 4 B2, aucun fichier ancien modifié | Réussis localement et en CI ; parcours navigateur B1/B2 Chromium/WebKit réussis |
+| T2-15 | Sélection tactile simulée, accordéon, curseur, cases, forme, palette, reset, JSON, 100 personnages, 390/820/1180 px | Réussi Chromium/WebKit sur fichiers locaux et URL HTTPS publique dans la CI de livraison |
 
 Les automatismes testent les propriétés techniques, pas l'acceptation artistique de la référence. Aucun essai iPad physique déclaré réussi.
 
@@ -58,3 +58,14 @@ VM Linux x86_64, 3 vCPU AMD EPYC 9V74, Node 24.22.1, viewport 820×1180, DPR2, t
 Ouvrir l'URL publique Safari, sélectionner plusieurs des 20 personnages, ouvrir les groupes, modifier tête/tronc/membres, muscles, poitrine, yeux, sourcils, cheveux, signes/pilosité et pigments. Tester les quatre vues, la référence quatre têtes et la réinitialisation. Exporter vers Fichiers, changer le profil, puis réimporter et comparer. Tester portrait/paysage et une galerie de 100 ; noter appareil, versions iPadOS/Safari, temps et réactivité.
 
 L'utilisateur juge exclusivement la lisibilité, les proportions stylisées, la cohérence et la proximité de la référence artistique. Consigner les graines/JSON des incohérences. **PR ouverte, non fusionnée ; attendre l'audit utilisateur. Aucune phase supplémentaire.**
+
+## Preuves finales de livraison
+
+- Code applicatif publié : `294e008d7ae5eae3d5da97f7d61058d95d9c2573` (initialement `561be82`, puis signes +/− des accordéons et vues du corps agrandies pour le toucher).
+- [CI 43731870372](https://github.com/Thsethse/Microcosme/actions/runs/43731870372) **réussie** : 50 tests Node, parcours T2 dans Chromium 151 et WebKit 26.5 sur fichiers locaux puis sur **https://thsethse.github.io/Microcosme/preview/bio-gen-t2/**. L'URL a effectivement été ouverte par les deux navigateurs : galerie 20, sélection, réglages, reset, quatre vues, export téléchargé/relu, import, refus d'un JSON invalide et génération de 100.
+- Le même job réexécute avec succès les suites navigateur B1 et B2 dans les deux moteurs, depuis leur révision `f85e584` non fusionnée. Les tests historiques supplémentaires de la PR restent indépendants.
+- Mesures CI finales dans `MESURES-CI.jsonl` : runner Linux GitHub Actions ubuntu-latest, Node 22, Playwright 1.62.1, viewport 820×1180, DPR2, toucher simulé ; matériel exact non relevé. Ne pas confondre le user-agent WebKit simulant Safari macOS avec un appareil Apple réel. Mesure WebKit de précision limitée.
+- [Déploiement Pages 43731872737](https://github.com/Thsethse/Microcosme/actions/runs/43731872737) réussi ; onze fichiers HTTPS vérifiés HTTP 200, mêmes octets et SHA-256 que la source. Preuves dans `RESSOURCES-HTTPS.json`.
+- PR #15 ouverte en brouillon pour audit, non fusionnée. Derniers ajouts documentaires sans changement des fichiers applicatifs publiés.
+
+**Safari iPad physique non testé ; validation artistique exclusivement à la charge de l'utilisateur.**
