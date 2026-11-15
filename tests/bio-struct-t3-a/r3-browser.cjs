@@ -31,12 +31,19 @@ const {chromium,webkit}=require('playwright'),assert=require('node:assert/strict
     if(view!=='front'){const withoutHair=bytes(draw(b,view,s=>s.commands.forEach(c=>c.surfaceMarks=c.surfaceMarks.filter(m=>m.role!=='hair'))));if(changed(normal,withoutHair))throw Error('Pilosité transperçante');}
    }
   }
+  let navelPointScales=0;
+  for(const globalSize of [.75,1,1.3]){
+   const b=make('T',{bellyHairDensity:1,abdominalDefinition:1},{globalSize}),normal=bytes(draw(b)),without=bytes(draw(b,'front',s=>s.commands.forEach(c=>c.surfaceMarks=c.surfaceMarks.filter(m=>m.role!=='navel')))),points=[];
+   for(let i=0;i<normal.length;i+=4)if(normal[i]!==without[i]||normal[i+1]!==without[i+1]||normal[i+2]!==without[i+2])points.push([(i/4)%240,Math.floor(i/4/240)]);
+   if(!points.length)throw Error('Point de nombril masqué');const w=Math.max(...points.map(p=>p[0]))-Math.min(...points.map(p=>p[0]))+1,h=Math.max(...points.map(p=>p[1]))-Math.min(...points.map(p=>p[1]))+1;
+   if(w!==h||w>2)throw Error('Nombril en tiret '+globalSize+' '+w+'×'+h);navelPointScales++;
+  }
   let headComparisons=0;
   for(const headShape of Object.keys(H.schema[0].options))for(const view of ['front','profile','back']){
    const b=make('T',{}, {},{headShape}),old=C.generateBody(b.seed,b.biologicalProfile,b.requestedParameters,b.geometryChoices),a=draw(b,view),c=draw(old,view),top=a.getContext('2d').getImageData(0,130,240,67).data,oldTop=c.getContext('2d').getImageData(0,130,240,67).data;
    if(changed(top,oldTop))throw Error('Visage/tête R2 modifiés '+headShape+' '+view);headComparisons++;
   }
-  return {effects,hairPixels:hairCounts,pubicShapes:pubicShapes.size,connectedMasks:masks,clippedSurfaces,unchangedHeads:headComparisons,userAgent:navigator.userAgent};
+  return {effects,hairPixels:hairCounts,pubicShapes:pubicShapes.size,connectedMasks:masks,clippedSurfaces,navelPointScales,unchangedHeads:headComparisons,userAgent:navigator.userAgent};
  });
  assert.equal(await page.locator('#a-breastShape').isVisible(),false);assert.equal(await page.locator('#p-breastVolume').isVisible(),false);assert.deepEqual(await page.locator('#a-pubicHairShape option').evaluateAll(nodes=>nodes.map(n=>n.value)),['none','rectangle']);assert.equal(await page.locator('#choice-pelvisShape option[value=oval]').count(),0);
  const set=async(key,value)=>{await page.locator('#a-'+key).fill(String(value));await page.locator('#a-'+key).dispatchEvent('input');};

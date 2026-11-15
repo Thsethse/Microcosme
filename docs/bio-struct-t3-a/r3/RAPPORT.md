@@ -23,9 +23,9 @@ Chromium 151 local : les parcours T3-A, R1, R2 et R3 réussissent. Les parcours 
 Parcours R3 :
 
 - Cinq états pectoraux et cinq états abdominaux visuellement distincts ; trois états de graisse/ombres et trois formes mammaires par catégorie F/T distingués par pixels.
-- Quatre formes pubiennes F/T distinctes ; effet réel des densités de torse, ventre et pubis (86, 31 et 80 pixels modifiés sur la référence de mesure, sans prétention universelle).
+- Quatre formes pubiennes F/T distinctes ; effet réel des densités de torse, ventre et pubis (86, 32 et 80 pixels modifiés sur la référence de mesure, sans prétention universelle).
 - **360 masques connexes/non coupés** couvrant catégories/fonctions, six morphologies, formes de poitrine et extrêmes P1.
-- **24 comparaisons de masques** avec/sans détails : aucune extension d’alpha hors du volume ; nombril réellement visible de face et absent de profil/dos, y compris sous pilosité dense.
+- **24 comparaisons de masques** avec/sans détails : aucune extension d’alpha hors du volume ; nombril réellement visible de face et absent de profil/dos, y compris sous pilosité dense. Le point reste carré et limité à 1 ou 2 pixels à trois tailles globales (0.75, 1, 1.30).
 - **21 comparaisons de têtes** (sept formes × trois vues) : pixels tête/visage identiques à R2.
 - UI tactile simulée : M sans contrôles mammaires, F/T libres, anciens ovales migrés visiblement, bascule T sans changement thoracique, téléchargement export puis réimport identique, JSON invalide refusé sans perte, formats 390/820/1180 sans débordement ni erreur JavaScript.
 

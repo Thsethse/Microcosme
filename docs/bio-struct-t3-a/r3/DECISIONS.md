@@ -20,7 +20,7 @@ La présence et la densité du torse et du ventre ont deux curseurs indépendant
 
 Les poils sont de petits points déterministes (graine + indices), de couleur corporelle indépendante réglable. Leurs positions sont locales aux pectoraux, à la surface abdominale ou au bassin. Les points antérieurs sont cachés lorsque la surface est vue de dos ou tangente en profil ; pas de transpercement. Le pubis reste entièrement au-dessus de la base maximale du signe masculin R2, avec une marge de 0.4 unité neutre ; la région est identique pour les deux fonctions de T. Ni barbe, moustache, rouflaquettes ni cheveux.
 
-Le nombril est un seul point de diamètre 0.60 unité neutre, attaché à la surface abdominale à la hauteur du repère R2. Il se dessine après les poils pour rester lisible, de face seulement. Aucun tiret.
+Le nombril est un seul point de diamètre 0.60 unité neutre, quantifié en un carré de 1 ou 2 pixels pour rester un point aux extrêmes, attaché à la surface abdominale à la hauteur du repère R2. Il se dessine après les poils pour rester lisible, de face seulement. Aucun tiret.
 
 ## Compatibilité et bassin
 
