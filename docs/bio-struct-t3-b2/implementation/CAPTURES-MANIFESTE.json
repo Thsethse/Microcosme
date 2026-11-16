@@ -1,0 +1,51 @@
+{
+  "sourceCommit": "5c82fdbf494ce22bf4ee985e1b2dbcf048074fd3",
+  "generator": "tests/bio-struct-t3-b2/capture.cjs",
+  "captures": [
+    {
+      "file": "comparaison-b1-b2.png",
+      "bytes": 117572,
+      "sha256": "33ae80ff6476eb96a3db923b377a5073e954ea8f87ec2119106afc2f8fa504e9"
+    },
+    {
+      "file": "couleurs.png",
+      "bytes": 72804,
+      "sha256": "eeea09266cf50cf0933d8adec4a60a77523d66e6c97bb88edc4b7600f17c43dd"
+    },
+    {
+      "file": "coupes.png",
+      "bytes": 106852,
+      "sha256": "55e61e74b6cbb4aec09915552f487dc543384127388d92598222c8c48622e3e9"
+    },
+    {
+      "file": "galerie-initiale.png",
+      "bytes": 24353,
+      "sha256": "ded6c6c53bccd7eeb9e91ee7ec56b44afe6bd68ec0ee4b44f1397d70bd9c86e0"
+    },
+    {
+      "file": "interface-tactile.png",
+      "bytes": 394405,
+      "sha256": "19e94fc4487a35b7882bc178b0c5ede2aac90fac1bf0146cbd0ba5602bccd215"
+    },
+    {
+      "file": "longueurs.png",
+      "bytes": 83014,
+      "sha256": "dad58f7095088ede8f01bd4af31dfee41d31c955b48277c61654bb9c29a68dfd"
+    },
+    {
+      "file": "pilosites.png",
+      "bytes": 83981,
+      "sha256": "a907823fef2452b096730f618332f550999e4972c1f1ef710933e4d33456cf66"
+    },
+    {
+      "file": "tailles-pilosites.png",
+      "bytes": 49699,
+      "sha256": "113737c10e7c3a5a1217c907c40d5d3a70fc69ba76d33d2a57202dad94a982ed"
+    },
+    {
+      "file": "textures.png",
+      "bytes": 74488,
+      "sha256": "5da1d99e4dd770d7aa95759f4100788371e836fe0b64458292aa7a4bf226dcb8"
+    }
+  ]
+}

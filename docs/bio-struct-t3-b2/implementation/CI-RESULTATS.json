@@ -1,0 +1,440 @@
+{
+  "verifiedAt": "2026-11-16T16:58:19.139505+00:00",
+  "applicationCommit": "5c82fdbf494ce22bf4ee985e1b2dbcf048074fd3",
+  "runs": [
+    {
+      "conclusion": "success",
+      "databaseId": 43910300039,
+      "headSha": "5c82fdbf494ce22bf4ee985e1b2dbcf048074fd3",
+      "jobs": [
+        {
+          "completedAt": "2026-11-16T16:57:53Z",
+          "conclusion": "success",
+          "databaseId": 133450070060,
+          "name": "laboratory-b2",
+          "startedAt": "2026-11-16T16:41:40Z",
+          "status": "completed",
+          "steps": [
+            {
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run actions/checkout@v4",
+              "number": 2,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run actions/setup-node@v4",
+              "number": 3,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run npm ci",
+              "number": 4,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run node --test tests/bio-struct-t3-a/contract.test.cjs tests/bio-struct-t3-a/r1.test.cjs tests/bio-struct-t3-a/r2.test.cjs tests/bio-struct-t3-a/r3.test.cjs tests/bio-struct-t3-b1/contract.test.cjs tests/bio-struct-t3-b2/contract.test.cjs",
+              "number": 5,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run npm test",
+              "number": 6,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run npx playwright install --with-deps chromium webkit",
+              "number": 7,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "T3-A, R1, R2, R3 et B1 preserves",
+              "number": 8,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "B2 local Chromium et WebKit",
+              "number": 9,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "B2 HTTPS GitHub Pages Chromium et WebKit",
+              "number": 10,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "T2 non fusionne, revision preservee",
+              "number": 11,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run npm ci",
+              "number": 12,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run node --test tests/bio-gen-t2/model.test.cjs",
+              "number": 13,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run node tests/bio-gen-t2/browser.cjs",
+              "number": 14,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Post T2 non fusionne, revision preservee",
+              "number": 26,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Post Run actions/setup-node@v4",
+              "number": 27,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@v4",
+              "number": 28,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 29,
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/Thsethse/Microcosme/actions/runs/43910300039/job/133450070060"
+        }
+      ],
+      "status": "completed",
+      "url": "https://github.com/Thsethse/Microcosme/actions/runs/43910300039",
+      "workflowName": "BIO-STRUCT-T3-B2 cheveux et pilosite"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 43910299576,
+      "headSha": "5c82fdbf494ce22bf4ee985e1b2dbcf048074fd3",
+      "jobs": [
+        {
+          "completedAt": "2026-11-16T16:44:25Z",
+          "conclusion": "success",
+          "databaseId": 133450067833,
+          "name": "tests",
+          "startedAt": "2026-11-16T16:41:40Z",
+          "status": "completed",
+          "steps": [
+            {
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run actions/checkout@v4",
+              "number": 2,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run actions/setup-node@v4",
+              "number": 3,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run npm ci",
+              "number": 4,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run npm test",
+              "number": 5,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run npx playwright install --with-deps chromium webkit",
+              "number": 6,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run npm run test:browser",
+              "number": 7,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Post Run actions/setup-node@v4",
+              "number": 13,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@v4",
+              "number": 14,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 15,
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/Thsethse/Microcosme/actions/runs/43910299576/job/133450067833"
+        }
+      ],
+      "status": "completed",
+      "url": "https://github.com/Thsethse/Microcosme/actions/runs/43910299576",
+      "workflowName": "Non-régression"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 43910239186,
+      "headSha": "155914993b675b61d33cb2b2cbfbf100e0d87f66",
+      "jobs": [
+        {
+          "completedAt": "2026-11-16T16:43:55Z",
+          "conclusion": "success",
+          "databaseId": 133449855176,
+          "name": "tests",
+          "startedAt": "2026-11-16T16:41:21Z",
+          "status": "completed",
+          "steps": [
+            {
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run actions/checkout@v4",
+              "number": 2,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run actions/setup-node@v4",
+              "number": 3,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run npm ci",
+              "number": 4,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run npm test",
+              "number": 5,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run npx playwright install --with-deps chromium webkit",
+              "number": 6,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run npm run test:browser",
+              "number": 7,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Post Run actions/setup-node@v4",
+              "number": 13,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@v4",
+              "number": 14,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 15,
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/Thsethse/Microcosme/actions/runs/43910239186/job/133449855176"
+        }
+      ],
+      "status": "completed",
+      "url": "https://github.com/Thsethse/Microcosme/actions/runs/43910239186",
+      "workflowName": "Non-régression"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 43910237688,
+      "headSha": "155914993b675b61d33cb2b2cbfbf100e0d87f66",
+      "jobs": [
+        {
+          "completedAt": "2026-11-16T16:41:43Z",
+          "conclusion": "success",
+          "databaseId": 133449860291,
+          "name": "build",
+          "startedAt": "2026-11-16T16:41:21Z",
+          "status": "completed",
+          "steps": [
+            {
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Pull ghcr.io/actions/jekyll-build-pages:v1.0.13",
+              "number": 2,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Checkout",
+              "number": 3,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Build with Jekyll",
+              "number": 4,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Upload artifact",
+              "number": 5,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Post Checkout",
+              "number": 10,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 11,
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/Thsethse/Microcosme/actions/runs/43910237688/job/133449860291"
+        },
+        {
+          "completedAt": "2026-11-16T16:41:51Z",
+          "conclusion": "success",
+          "databaseId": 133450141146,
+          "name": "report-build-status",
+          "startedAt": "2026-11-16T16:41:46Z",
+          "status": "completed",
+          "steps": [
+            {
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Report Build Status",
+              "number": 2,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 3,
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/Thsethse/Microcosme/actions/runs/43910237688/job/133450141146"
+        },
+        {
+          "completedAt": "2026-11-16T16:41:57Z",
+          "conclusion": "success",
+          "databaseId": 133450141551,
+          "name": "deploy",
+          "startedAt": "2026-11-16T16:41:49Z",
+          "status": "completed",
+          "steps": [
+            {
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Deploy to GitHub Pages",
+              "number": 2,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 3,
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/Thsethse/Microcosme/actions/runs/43910237688/job/133450141551"
+        }
+      ],
+      "status": "completed",
+      "url": "https://github.com/Thsethse/Microcosme/actions/runs/43910237688",
+      "workflowName": "pages-build-deployment"
+    }
+  ],
+  "nodeSummaries": [
+    "laboratory-b2\tRun node --test tests/bio-struct-t3-a/contract.test.cjs tests/bio-struct-t3-a/r1.test.cjs tests/bio-struct-t3-a/r2.test.cjs tests/bio-struct-t3-a/r3.test.cjs tests/bio-struct-t3-b1/contract.test.cjs tests/bio-struct-t3-b2/contract.test.cjs\t2026-11-16T16:41:57.3199418Z # tests 74",
+    "laboratory-b2\tRun node --test tests/bio-struct-t3-a/contract.test.cjs tests/bio-struct-t3-a/r1.test.cjs tests/bio-struct-t3-a/r2.test.cjs tests/bio-struct-t3-a/r3.test.cjs tests/bio-struct-t3-b1/contract.test.cjs tests/bio-struct-t3-b2/contract.test.cjs\t2026-11-16T16:41:57.3199784Z # pass 71",
+    "laboratory-b2\tRun node --test tests/bio-struct-t3-a/contract.test.cjs tests/bio-struct-t3-a/r1.test.cjs tests/bio-struct-t3-a/r2.test.cjs tests/bio-struct-t3-a/r3.test.cjs tests/bio-struct-t3-b1/contract.test.cjs tests/bio-struct-t3-b2/contract.test.cjs\t2026-11-16T16:41:57.3199961Z # fail 0",
+    "laboratory-b2\tRun node --test tests/bio-struct-t3-a/contract.test.cjs tests/bio-struct-t3-a/r1.test.cjs tests/bio-struct-t3-a/r2.test.cjs tests/bio-struct-t3-a/r3.test.cjs tests/bio-struct-t3-b1/contract.test.cjs tests/bio-struct-t3-b2/contract.test.cjs\t2026-11-16T16:41:57.3200349Z # skipped 3",
+    "laboratory-b2\tRun npm test\t2026-11-16T16:41:58.0072673Z # tests 35",
+    "laboratory-b2\tRun npm test\t2026-11-16T16:41:58.0073644Z # pass 35",
+    "laboratory-b2\tRun npm test\t2026-11-16T16:41:58.0073852Z # fail 0",
+    "laboratory-b2\tRun npm test\t2026-11-16T16:41:58.0074250Z # skipped 0",
+    "laboratory-b2\tRun node --test tests/bio-gen-t2/model.test.cjs\t2026-11-16T16:57:43.6262310Z # tests 6",
+    "laboratory-b2\tRun node --test tests/bio-gen-t2/model.test.cjs\t2026-11-16T16:57:43.6263419Z # pass 6",
+    "laboratory-b2\tRun node --test tests/bio-gen-t2/model.test.cjs\t2026-11-16T16:57:43.6264184Z # fail 0",
+    "laboratory-b2\tRun node --test tests/bio-gen-t2/model.test.cjs\t2026-11-16T16:57:43.6265723Z # skipped 0"
+  ],
+  "nodeUniquePass": 112,
+  "nodeFailures": 0,
+  "humanChecksSkipped": [
+    "R3-11",
+    "B1-12",
+    "B2-12"
+  ],
+  "browserRecords": 16
+}

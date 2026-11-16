@@ -1,0 +1,119 @@
+{
+  "baseB1Commit": "6d5fcfdcbc0645515462c4bcb5dadeb447c6718b",
+  "applicationCommit": "5c82fdbf494ce22bf4ee985e1b2dbcf048074fd3",
+  "pagesBefore": "13da86e8adb4fb4936ed7a261d093e00d270f1b3",
+  "pagesAfter": "155914993b675b61d33cb2b2cbfbf100e0d87f66",
+  "sourceChangedPaths": [
+    ".github/workflows/bio-struct-t3-b2.yml",
+    "docs/bio-struct-t3-b2/CONTRAT-T3-B2.md",
+    "docs/bio-struct-t3-b2/MISSION-CODEX-T3-B2.md",
+    "docs/bio-struct-t3-b2/implementation/COMPARAISONS.md",
+    "docs/bio-struct-t3-b2/implementation/CONTROLES-B2.md",
+    "docs/bio-struct-t3-b2/implementation/JSON-V5.md",
+    "docs/bio-struct-t3-b2/implementation/PUBLICATION.md",
+    "docs/bio-struct-t3-b2/implementation/RAPPORT.md",
+    "docs/bio-struct-t3-b2/implementation/VERIFICATION-BASE-B1.json",
+    "docs/bio-struct-t3-b2/implementation/captures/comparaison-b1-b2.png",
+    "docs/bio-struct-t3-b2/implementation/captures/couleurs.png",
+    "docs/bio-struct-t3-b2/implementation/captures/coupes.png",
+    "docs/bio-struct-t3-b2/implementation/captures/galerie-initiale.png",
+    "docs/bio-struct-t3-b2/implementation/captures/interface-tactile.png",
+    "docs/bio-struct-t3-b2/implementation/captures/longueurs.png",
+    "docs/bio-struct-t3-b2/implementation/captures/pilosites.png",
+    "docs/bio-struct-t3-b2/implementation/captures/tailles-pilosites.png",
+    "docs/bio-struct-t3-b2/implementation/captures/textures.png",
+    "experiments/bio-struct-t3-b2/README.md",
+    "experiments/bio-struct-t3-b2/anatomical-skeleton.js",
+    "experiments/bio-struct-t3-b2/biological-profile.js",
+    "experiments/bio-struct-t3-b2/body-finish.js",
+    "experiments/bio-struct-t3-b2/body-geometry.js",
+    "experiments/bio-struct-t3-b2/body-projection.js",
+    "experiments/bio-struct-t3-b2/canonical-body.js",
+    "experiments/bio-struct-t3-b2/face-settings.js",
+    "experiments/bio-struct-t3-b2/facial-anchors.js",
+    "experiments/bio-struct-t3-b2/facial-model.js",
+    "experiments/bio-struct-t3-b2/facial-projection.js",
+    "experiments/bio-struct-t3-b2/grooming-model.js",
+    "experiments/bio-struct-t3-b2/grooming-projection.js",
+    "experiments/bio-struct-t3-b2/grooming-settings.js",
+    "experiments/bio-struct-t3-b2/index.html",
+    "experiments/bio-struct-t3-b2/lab.css",
+    "experiments/bio-struct-t3-b2/lab.js",
+    "experiments/bio-struct-t3-b2/morphology-settings.js",
+    "experiments/bio-struct-t3-b2/render.js",
+    "experiments/bio-struct-t3-b2/shape-grammar.js",
+    "experiments/bio-struct-t3-b2/surface-projection.js",
+    "tests/bio-struct-t3-b2/browser.cjs",
+    "tests/bio-struct-t3-b2/capture.cjs",
+    "tests/bio-struct-t3-b2/contract.test.cjs"
+  ],
+  "pagesChangedPaths": [
+    "preview/bio-struct-t3-b2/README.md",
+    "preview/bio-struct-t3-b2/anatomical-skeleton.js",
+    "preview/bio-struct-t3-b2/biological-profile.js",
+    "preview/bio-struct-t3-b2/body-finish.js",
+    "preview/bio-struct-t3-b2/body-geometry.js",
+    "preview/bio-struct-t3-b2/body-projection.js",
+    "preview/bio-struct-t3-b2/canonical-body.js",
+    "preview/bio-struct-t3-b2/face-settings.js",
+    "preview/bio-struct-t3-b2/facial-anchors.js",
+    "preview/bio-struct-t3-b2/facial-model.js",
+    "preview/bio-struct-t3-b2/facial-projection.js",
+    "preview/bio-struct-t3-b2/grooming-model.js",
+    "preview/bio-struct-t3-b2/grooming-projection.js",
+    "preview/bio-struct-t3-b2/grooming-settings.js",
+    "preview/bio-struct-t3-b2/index.html",
+    "preview/bio-struct-t3-b2/lab.css",
+    "preview/bio-struct-t3-b2/lab.js",
+    "preview/bio-struct-t3-b2/morphology-settings.js",
+    "preview/bio-struct-t3-b2/render.js",
+    "preview/bio-struct-t3-b2/shape-grammar.js",
+    "preview/bio-struct-t3-b2/surface-projection.js"
+  ],
+  "unchangedB1Modules": [
+    {
+      "path": "facial-anchors.js",
+      "sha256": "20f1cb7641f84ab9a00b99138618e2ec74cb9ef8ef9c30ad8a833f3fa6e0bc38"
+    },
+    {
+      "path": "facial-projection.js",
+      "sha256": "3de9107001df480af749c055d694ae7c1391ecad96b2bfe4002bfe3ca9849a74"
+    },
+    {
+      "path": "biological-profile.js",
+      "sha256": "1a32e8f53f2d2610a61b44283ea022118c7ebc2a7a2b443e1cb404be0e0d2b1d"
+    },
+    {
+      "path": "facial-model.js",
+      "sha256": "a61ecddf6e0d817df6672e5e917f18c30e934e01a3e877d30df98881db2e1a3c"
+    },
+    {
+      "path": "morphology-settings.js",
+      "sha256": "381d1bfe11b399dd8b20195233f31103f6cc28b3e06230b1098f12b26d9b83f2"
+    },
+    {
+      "path": "shape-grammar.js",
+      "sha256": "55c08aeff05a6352809b928b2ae7cc90201f92ba68d5877caddec1053c201e30"
+    },
+    {
+      "path": "face-settings.js",
+      "sha256": "b28fad1204fc63ed804c456c8b93454e16f7c640c0d3b4b6400d40497e692071"
+    },
+    {
+      "path": "anatomical-skeleton.js",
+      "sha256": "39423d9d2db92652f096f7ece0442f2f2e0dbd20da45b8c439329259eaf6057a"
+    },
+    {
+      "path": "surface-projection.js",
+      "sha256": "8663f2f38a47d29e9f8b68dae33eaad0c7cd455f92c149ee6f54b41b0de77ed4"
+    },
+    {
+      "path": "body-finish.js",
+      "sha256": "c486120f1b84f43492a54802426091cb7abe52fd860f154c013c827a21aa0fcd"
+    },
+    {
+      "path": "body-geometry.js",
+      "sha256": "83c20c4e1cbd244535bb13555b10169205842edc0a3dbf315e99be787032156f"
+    }
+  ]
+}
