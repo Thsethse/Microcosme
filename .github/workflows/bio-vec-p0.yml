@@ -1,0 +1,23 @@
+name: BIO-VEC-P0
+on:
+  pull_request:
+    paths: ['bio-vec-p0/**', 'docs/bio-vec-std-01/**', '.github/workflows/bio-vec-p0.yml']
+permissions:
+  contents: read
+jobs:
+  portrait:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: node --test bio-vec-p0/model.test.mjs
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Serve and test both browser engines
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/bio-vec-server.log 2>&1 &
+          curl --silent --fail --retry 5 --retry-connrefused --retry-delay 1 http://127.0.0.1:8765/bio-vec-p0/ > /dev/null
+          node bio-vec-p0/browser.test.cjs

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#ece8df"><title>Microcosme · Atelier des visages</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<header><a href="https://thsethse.github.io/Microcosme/" class="brand">MICROCOSME <span>/ études du vivant</span></a><span class="edition">BIO–VEC / 001</span></header>
+<main>
+<div class="intro"><div><p class="eyebrow">LABORATOIRE DE MORPHOLOGIE</p><h1>Un visage, deux regards.</h1><p class="lede">Explorer les lignes d’une identité. Retrouver ses traits à travers le temps.</p></div><span class="stamp">ÉTUDE<br>VECTORIELLE<br><b>P0</b></span></div>
+<div class="workspace">
+<section class="studio" aria-label="Les deux vues du personnage">
+<div class="studio-bar"><span><i></i> Portrait vivant</span><label class="toggle"><input id="construction" type="checkbox"><span>Construction</span></label></div>
+<div class="portraits"><figure><div id="front" class="portrait"></div><figcaption><span>01 / FACE</span><span>Vue frontale</span></figcaption></figure><figure><div id="profile" class="portrait"></div><figcaption><span>02 / PROFIL</span><span>Vue latérale droite</span></figcaption></figure></div>
+<div class="studio-foot"><span id="identity" aria-live="polite">Identité neutre · adulte</span><span>SVG procédural · sans image</span></div>
+<p id="construction-note" hidden>Turquoise : rectangles, croix centrales et ancres. Les liens relient yeux, nez, bouche et menton. Les courbes sont des interprétations des repères.</p>
+</section>
+<aside aria-label="Paramètres du portrait"><div class="panel-heading"><p class="eyebrow">VARIATIONS D’IDENTITÉ</p><h2>Les traits</h2></div>
+<div class="presets" role="group" aria-label="Presets"><button data-preset="neutral" aria-pressed="true">Neutre</button><button data-preset="A" aria-pressed="false">A</button><button data-preset="B" aria-pressed="false">B</button><button data-preset="C" aria-pressed="false">C</button></div>
+<div id="sliders"></div>
+<div class="age"><div><b>Le passage du temps</b><small>Les mêmes traits, une autre histoire.</small></div><label class="toggle"><input id="old" type="checkbox"><span>Ancien</span></label></div>
+<button id="reset" class="reset">↺ Revenir au neutre</button>
+</aside></div>
+<footer><p><b>À propos de cette étude.</b> Huit paramètres communs aux deux vues. Le vieillissement ajoute paupières, sillons, volumes des joues et cheveux grisonnants en conservant l’identité.</p><p>Référence BIO-VEC-STD-01 · Proportions graphiques provisoires, sans validation anthropométrique. Prototype en attente de validation artistique.</p><a href="reference.json">Consulter les données de référence ↗</a></footer>
+<div id="error" role="alert" hidden>Le portrait n’a pas pu être chargé. Vérifiez la connexion, puis rechargez la page.</div>
+</main><script type="module" src="app.mjs"></script></body></html>
