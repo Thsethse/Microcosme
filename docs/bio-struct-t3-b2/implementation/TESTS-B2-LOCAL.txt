@@ -1,0 +1,20 @@
+✔ B2-01 Cinq longueurs, chauve sans mèche (99.896252ms)
+✔ B2-02 Quatre textures géométriquement distinctes (229.965377ms)
+✔ B2-03 Familles et six coupes T, couleurs indépendantes (224.045416ms)
+✔ B2-04 Ancrage crânien et transformations communes aux trois vues (443.275562ms)
+✔ B2-05 Moustache et barbe presque accolées, rouflaquettes sous médiane (542.144249ms)
+✔ B2-06 Combinaisons présence/taille/couleur séparées (95.877097ms)
+✔ B2-07 F génération et imports historiques/v5 assainis sans perte (71.186057ms)
+✔ B2-08 T toutes combinaisons, fonction indépendante (89.990351ms)
+✔ B2-09 Traits préservés, aucun visage/pilosité de dos, aucun nez (55.248863ms)
+✔ B2-10 JSON v5 déterministe, bornes N2 et anciens profils (694.015749ms)
+✔ B2-11 B1/R3 et sources historiques inchangés (335.312055ms)
+﹣ B2-12 Réception artistique et Safari iPad physique (0.10582ms) # Planches fournies ; validation visuelle et iPad physique réservés à l’utilisateur.
+ℹ tests 12
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 1
+ℹ todo 0
+ℹ duration_ms 3000.098089

@@ -1,0 +1,108 @@
+{
+  "source": "6d5fcfdcbc0645515462c4bcb5dadeb447c6718b",
+  "verifiedAt": "2026-11-16T16:16:08.058042+00:00",
+  "resources": [
+    {
+      "path": "anatomical-skeleton.js",
+      "http": 200,
+      "sha256": "39423d9d2db92652f096f7ece0442f2f2e0dbd20da45b8c439329259eaf6057a",
+      "matchesSource": true
+    },
+    {
+      "path": "biological-profile.js",
+      "http": 200,
+      "sha256": "1a32e8f53f2d2610a61b44283ea022118c7ebc2a7a2b443e1cb404be0e0d2b1d",
+      "matchesSource": true
+    },
+    {
+      "path": "body-finish.js",
+      "http": 200,
+      "sha256": "c486120f1b84f43492a54802426091cb7abe52fd860f154c013c827a21aa0fcd",
+      "matchesSource": true
+    },
+    {
+      "path": "body-geometry.js",
+      "http": 200,
+      "sha256": "83c20c4e1cbd244535bb13555b10169205842edc0a3dbf315e99be787032156f",
+      "matchesSource": true
+    },
+    {
+      "path": "body-projection.js",
+      "http": 200,
+      "sha256": "3a5df6faae2f10661d3a85b123156d123b69ae195c695272ad01d3556b7da3e5",
+      "matchesSource": true
+    },
+    {
+      "path": "canonical-body.js",
+      "http": 200,
+      "sha256": "160240b5d7a167431fcaeae94e240200f9fffb4bee5dff802e5b43a9d46f214c",
+      "matchesSource": true
+    },
+    {
+      "path": "face-settings.js",
+      "http": 200,
+      "sha256": "b28fad1204fc63ed804c456c8b93454e16f7c640c0d3b4b6400d40497e692071",
+      "matchesSource": true
+    },
+    {
+      "path": "facial-anchors.js",
+      "http": 200,
+      "sha256": "20f1cb7641f84ab9a00b99138618e2ec74cb9ef8ef9c30ad8a833f3fa6e0bc38",
+      "matchesSource": true
+    },
+    {
+      "path": "facial-model.js",
+      "http": 200,
+      "sha256": "a61ecddf6e0d817df6672e5e917f18c30e934e01a3e877d30df98881db2e1a3c",
+      "matchesSource": true
+    },
+    {
+      "path": "facial-projection.js",
+      "http": 200,
+      "sha256": "3de9107001df480af749c055d694ae7c1391ecad96b2bfe4002bfe3ca9849a74",
+      "matchesSource": true
+    },
+    {
+      "path": "index.html",
+      "http": 200,
+      "sha256": "5af728348b7911df6a77b5243ee6a673384f908daf5a35fb59c8d95e8e652858",
+      "matchesSource": true
+    },
+    {
+      "path": "lab.css",
+      "http": 200,
+      "sha256": "59d20fb61e299d5f3da50586e499cf0b1b9c0da5929515c53fe4dd31adc7f02c",
+      "matchesSource": true
+    },
+    {
+      "path": "lab.js",
+      "http": 200,
+      "sha256": "c235b72750ef3f02a63d0530c30e8d8e3b951cae8f2bf88897c826044c7896ee",
+      "matchesSource": true
+    },
+    {
+      "path": "morphology-settings.js",
+      "http": 200,
+      "sha256": "381d1bfe11b399dd8b20195233f31103f6cc28b3e06230b1098f12b26d9b83f2",
+      "matchesSource": true
+    },
+    {
+      "path": "render.js",
+      "http": 200,
+      "sha256": "2bac7e6a43c014e491878edce55cb909f5f4f9b2b557bf9ed2298fdbcb96c211",
+      "matchesSource": true
+    },
+    {
+      "path": "shape-grammar.js",
+      "http": 200,
+      "sha256": "55c08aeff05a6352809b928b2ae7cc90201f92ba68d5877caddec1053c201e30",
+      "matchesSource": true
+    },
+    {
+      "path": "surface-projection.js",
+      "http": 200,
+      "sha256": "8663f2f38a47d29e9f8b68dae33eaad0c7cd455f92c149ee6f54b41b0de77ed4",
+      "matchesSource": true
+    }
+  ]
+}

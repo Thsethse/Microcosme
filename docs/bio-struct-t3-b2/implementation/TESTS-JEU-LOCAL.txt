@@ -1,0 +1,47 @@
+
+> microcosme@0.9.0 test
+> node --test tests/*.test.js
+
+✔ champ disparu : retour fondé sur un souvenir obsolète, correction seulement à portée de vue (6.289111ms)
+✔ le décideur et les solutions ne lisent pas la carte réelle, même pour une intention active (0.576363ms)
+✔ les prairies sont observées en Manhattan et une révision change seulement la connaissance locale (0.326454ms)
+✔ plusieurs solutions plausibles, choix imparfait borné et reproductible sous hasard injecté (0.83215ms)
+✔ une réussite influence le classement sans imposer une destination éloignée (0.387186ms)
+✔ une nouvelle alternative proche ne provoque pas de changement d’intention (0.403711ms)
+✔ une découverte utile interrompt une exploration sans solution connue (0.485746ms)
+✔ fatigue et faim urgentes interrompent le trajet sans modifier les seuils (0.595952ms)
+✔ l’anticipation utilise le coût réel et la maison connue, sans détour pour une faim urgente (0.505585ms)
+✔ un échec est évité tant que la même information subsiste, puis reconsidéré après observation nouvelle (0.577664ms)
+✔ une action réussie enregistre sa destination et son résultat (0.388939ms)
+✔ l’exploration ignore entièrement la nature cachée des cases (4.312829ms)
+✔ migration v0.6 sans reconstruire de connaissances omniscientes, conservation des relations (1.193486ms)
+✔ sauvegarde v0.7 : intentions, connaissances, expériences et journal traversent un aller-retour (7.247662ms)
+✔ les mémoires restent bornées, la population et les identités restent stables dans plusieurs mondes (299.88942ms)
+✔ une exploration pour faim urgente reste stable tant qu’aucune solution n’est découverte (0.545696ms)
+✔ la population et les identités restent stables pendant 2000 heures (607.617267ms)
+✔ un trajet agricole conserve sa destination et récolte seulement à arrivée (3.868617ms)
+✔ un trajet vers le bois reste cohérent et une faim urgente le préempte (0.46241ms)
+✔ une destination transformée est abandonnée sans récolte fantôme (3.660472ms)
+✔ le repos conserve sa maison et récupère seulement à arrivée (4.270726ms)
+✔ exploration persistante, déplacements unitaires et mémoire conservée après tour complet (0.775284ms)
+✔ mémoire de perception et relations de partage réciproques (0.894424ms)
+✔ destination hors carte refusée (0.279704ms)
+✔ migration v02, normalisation et aller-retour complet des souvenirs et destinations (27.968412ms)
+✔ anciens habitants incomplets réparés sans perte des identités (1.068778ms)
+✔ JSON corrompu sauvegardé avant récupération du v02 (0.529532ms)
+✔ stockage indisponible et quota ne font pas tomber la simulation (0.341097ms)
+✔ validation rejette les identités dupliquées et les positions invalides (0.616253ms)
+✔ une copie de récupération impossible bloque les écritures de la session (0.187794ms)
+✔ journaux et souvenirs restent bornés et les lois sont normalisées (0.358903ms)
+✔ resources are deterministic, original drawing commands and bounded per tile (98.156474ms)
+✔ lighting interpolates continuously, wraps at midnight and is independent of wall time (1.67786ms)
+✔ reusable characters vary by identity, frame and direction without random input (3.650366ms)
+✔ atmosphere honors frozen inputs and reduced motion without changing terrain (2.254313ms)
+ℹ tests 35
+ℹ suites 0
+ℹ pass 35
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1515.194626

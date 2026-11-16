@@ -1,0 +1,863 @@
+{
+  "verifiedAt": "2026-11-16T16:42:37.571688+00:00",
+  "sourceCommit": "5c82fdbf494ce22bf4ee985e1b2dbcf048074fd3",
+  "pagesSnapshotCommit": "155914993b675b61d33cb2b2cbfbf100e0d87f66",
+  "resources": [
+    {
+      "group": "preserved",
+      "path": "preview/bio-gen-t1/model.js",
+      "http": 200,
+      "bytes": 3213,
+      "sha256": "4c0335f200860cd720650fd804534601a1dfae28300b463bc6127306bd10ddce",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-gen-t1/index.html",
+      "http": 200,
+      "bytes": 2460,
+      "sha256": "9cffb3ab8d7805af2cc145427d97a159f3189c3237165866fd03d11b7797f8fe",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-gen-t1/render.js",
+      "http": 200,
+      "bytes": 3343,
+      "sha256": "c009e92f733edba9bbcb93a4b4a5f3cb76639de0a8a4684276c7b72d62d7eab8",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-gen-t1/lab.css",
+      "http": 200,
+      "bytes": 2608,
+      "sha256": "2a70d690744187429341ca7d6057439ae65be2d68da3287a62261f8a6f61d9ff",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-gen-t1/gallery.json",
+      "http": 200,
+      "bytes": 9726,
+      "sha256": "d84a78ca3eacde086354b17fe2de57f63cf586ec56dabf90630e9571d55f01de",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-gen-t1/lab.js",
+      "http": 200,
+      "bytes": 3501,
+      "sha256": "fb0a85009b1b51901ba68be2cf9008141e59b1fa43606ab2e3c176ec9a33900e",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-gen-t1-b2/model.js",
+      "http": 200,
+      "bytes": 6647,
+      "sha256": "740cda83da69aaa8ec4a10e21ab38c0b6a1f647e71de8db712dd42e8fafc855a",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-gen-t1-b2/index.html",
+      "http": 200,
+      "bytes": 2920,
+      "sha256": "a56dfbed53ba06f35ecddf9f4fb3914ddcc0160c107022732c8cf122af8d404e",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-gen-t1-b2/render.js",
+      "http": 200,
+      "bytes": 11525,
+      "sha256": "aa8f22998edc1f15574227b531a8e96957881cf97450966d1aa0ac5a70556f99",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-gen-t1-b2/lab.css",
+      "http": 200,
+      "bytes": 3522,
+      "sha256": "7236220d7077c125f0b0798f19a4c0ded2d52c12cc413d92271dea36b5a570f2",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-gen-t1-b2/gallery.json",
+      "http": 200,
+      "bytes": 16661,
+      "sha256": "9e4344fe4822865cb2bc294697e7a5d13117e95673d23b069211242e2c0e0e78",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-gen-t1-b2/lab.js",
+      "http": 200,
+      "bytes": 4361,
+      "sha256": "36365cd66ebf7fcbeae0716afd659c335219d7c97e16629c01a1e63c92cc8406",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-gen-t1-b2/baseline/model.js",
+      "http": 200,
+      "bytes": 3215,
+      "sha256": "81355ce500e019e17821fcf1efb7ae63d5df8094b7f99d1be14aa97659180187",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-gen-t1-b2/baseline/render.js",
+      "http": 200,
+      "bytes": 3345,
+      "sha256": "aff0365cb13980acfd021b1aae366a170069108d3da2531714bf9f816b1aa52f",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-gen-t2/model.js",
+      "http": 200,
+      "bytes": 6445,
+      "sha256": "69a4f3cf54c92e9178299608dce75826ec4d55442b58f9089dd3354b29a542eb",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-gen-t2/index.html",
+      "http": 200,
+      "bytes": 3965,
+      "sha256": "3936789afe7d73bb48aaba6ca2c80e42df731e18b0d3cd36ab598da057b154c1",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-gen-t2/render.js",
+      "http": 200,
+      "bytes": 1549,
+      "sha256": "0b4c3c635627c4510391cce5f849e5945e3a8353f0397f6e21a7d6b1cff337cd",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-gen-t2/geometry.js",
+      "http": 200,
+      "bytes": 8939,
+      "sha256": "7c657cc5cc43eaf0c07ef8659b23cb485837598c93c6bcbe1b676490e894555d",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-gen-t2/lab.css",
+      "http": 200,
+      "bytes": 5181,
+      "sha256": "5dd7119ae730fd76940e4e11b3b4b0a8e475f541ffd5309da1e27537cf2aa101",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-gen-t2/gallery.json",
+      "http": 200,
+      "bytes": 25372,
+      "sha256": "4b36d9cee9a0ccf1537b1dc7ecb7cfe66faa9bac728126088dbc0913bcb378ba",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-gen-t2/reference.png",
+      "http": 200,
+      "bytes": 1773205,
+      "sha256": "1a5b2d226f205066027e25bf930a9db6ea959ca5bfcba42f00fc5470d5c63a84",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-gen-t2/lab.js",
+      "http": 200,
+      "bytes": 6302,
+      "sha256": "c40db853dd162a36f47e812dff9c11067df211922b69263fa2ac397dc31ecc49",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-gen-t2/comparison/render-b2.js",
+      "http": 200,
+      "bytes": 11525,
+      "sha256": "aa8f22998edc1f15574227b531a8e96957881cf97450966d1aa0ac5a70556f99",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-gen-t2/comparison/model-b2.js",
+      "http": 200,
+      "bytes": 6647,
+      "sha256": "740cda83da69aaa8ec4a10e21ab38c0b6a1f647e71de8db712dd42e8fafc855a",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-gen-t2/comparison/baseline/model.js",
+      "http": 200,
+      "bytes": 3215,
+      "sha256": "81355ce500e019e17821fcf1efb7ae63d5df8094b7f99d1be14aa97659180187",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a/index.html",
+      "http": 200,
+      "bytes": 4939,
+      "sha256": "aa296a5a6b318fdbe56c1a41b0172a35f12cfb88e018a8860ba580cd5db6370b",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a/render.js",
+      "http": 200,
+      "bytes": 2220,
+      "sha256": "3e97f0b0d19db97a498189e8d04c492155accfc5d1a0f1602b232571f606d654",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a/lab.css",
+      "http": 200,
+      "bytes": 4446,
+      "sha256": "243bcad91b11ab84133fa3f400e9c33be1179ba51cc8f305e45d263fb2371b70",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a/canonical-body.js",
+      "http": 200,
+      "bytes": 6516,
+      "sha256": "6049eb513a5448bdb80d54671f62863aa8e825c38d2075c3f7e95b8540c0b0fd",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a/biological-profile.js",
+      "http": 200,
+      "bytes": 3321,
+      "sha256": "1a32e8f53f2d2610a61b44283ea022118c7ebc2a7a2b443e1cb404be0e0d2b1d",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a/anatomical-skeleton.js",
+      "http": 200,
+      "bytes": 4052,
+      "sha256": "17d8fd976cc9dfce1dfe169b51debae8e3527692fd4b572f0a96cd04177d0bc8",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a/lab.js",
+      "http": 200,
+      "bytes": 6003,
+      "sha256": "c49c9ac0bd57fbd816cb4329b11d4014a1d4d576c392ddc9c8fe464b12e0b05e",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a/body-projection.js",
+      "http": 200,
+      "bytes": 2938,
+      "sha256": "a02cbd74b05971a16ccd84baf9fb3d5a91c34d18009d527a0ef70a66dc4daa3b",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a/body-geometry.js",
+      "http": 200,
+      "bytes": 2998,
+      "sha256": "30db6217fab13265438d50ff9265e6d18a5fd45aa3bf611202f443d80e35d193",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r1/facial-anchors.js",
+      "http": 200,
+      "bytes": 1828,
+      "sha256": "20f1cb7641f84ab9a00b99138618e2ec74cb9ef8ef9c30ad8a833f3fa6e0bc38",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r1/index.html",
+      "http": 200,
+      "bytes": 5399,
+      "sha256": "1e2bba40ad01e8d1a4fd6e9ef83e36aa2a2828f2193f6ec16effa8bdabf0ad94",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r1/render.js",
+      "http": 200,
+      "bytes": 3027,
+      "sha256": "e3111a7f862cf38cbd92c2d82356b0e4e3d28f7f3b4532398dfc3b0e81af6d50",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r1/lab.css",
+      "http": 200,
+      "bytes": 4672,
+      "sha256": "ed929138ffd957d7890416a9bb2e1929e69d55ea1076f62eb79bdb5864e5cd65",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r1/canonical-body.js",
+      "http": 200,
+      "bytes": 8254,
+      "sha256": "b43409211787559c767071092aa067a8db6433df3f646ec5777dd9ad72760291",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r1/biological-profile.js",
+      "http": 200,
+      "bytes": 3321,
+      "sha256": "1a32e8f53f2d2610a61b44283ea022118c7ebc2a7a2b443e1cb404be0e0d2b1d",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r1/shape-grammar.js",
+      "http": 200,
+      "bytes": 2174,
+      "sha256": "c20ef0817e0ddfc9a9c95577a4c70a62b7ecba7c0b1f8942a21d822d7593e48c",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r1/anatomical-skeleton.js",
+      "http": 200,
+      "bytes": 4056,
+      "sha256": "3fd0cebb8c5e76184d47ca9d4aa7e8fee67fe485a7deede0486ab78a8931698a",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r1/lab.js",
+      "http": 200,
+      "bytes": 7206,
+      "sha256": "08c82f16d38986c1e0c5feb79c8b00ee29f72e069118606f55b5d085888c1721",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r1/body-projection.js",
+      "http": 200,
+      "bytes": 3979,
+      "sha256": "bf2be7699f96afc3ce30e0394d55fc977ccd2f7818542ec947d3e19350b4d62d",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r1/body-geometry.js",
+      "http": 200,
+      "bytes": 5931,
+      "sha256": "0b52184d05ae5cf381b33af94b856da640799e54ab03155f5ff8722d49a54427",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r2/facial-anchors.js",
+      "http": 200,
+      "bytes": 1828,
+      "sha256": "20f1cb7641f84ab9a00b99138618e2ec74cb9ef8ef9c30ad8a833f3fa6e0bc38",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r2/index.html",
+      "http": 200,
+      "bytes": 5419,
+      "sha256": "cb464d03d8fbc35a4669d2f4e718527bf638bd30a0f5e925dc78e0cc84752d39",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r2/render.js",
+      "http": 200,
+      "bytes": 3434,
+      "sha256": "ba4da9ef5cd8a0ad8d27b60149b4debc22f5970dc2f8e35e832cf83b510576b8",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r2/lab.css",
+      "http": 200,
+      "bytes": 4672,
+      "sha256": "ed929138ffd957d7890416a9bb2e1929e69d55ea1076f62eb79bdb5864e5cd65",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r2/canonical-body.js",
+      "http": 200,
+      "bytes": 8254,
+      "sha256": "b43409211787559c767071092aa067a8db6433df3f646ec5777dd9ad72760291",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r2/biological-profile.js",
+      "http": 200,
+      "bytes": 3321,
+      "sha256": "1a32e8f53f2d2610a61b44283ea022118c7ebc2a7a2b443e1cb404be0e0d2b1d",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r2/shape-grammar.js",
+      "http": 200,
+      "bytes": 2174,
+      "sha256": "c20ef0817e0ddfc9a9c95577a4c70a62b7ecba7c0b1f8942a21d822d7593e48c",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r2/anatomical-skeleton.js",
+      "http": 200,
+      "bytes": 4311,
+      "sha256": "39423d9d2db92652f096f7ece0442f2f2e0dbd20da45b8c439329259eaf6057a",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r2/lab.js",
+      "http": 200,
+      "bytes": 7206,
+      "sha256": "08c82f16d38986c1e0c5feb79c8b00ee29f72e069118606f55b5d085888c1721",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r2/body-projection.js",
+      "http": 200,
+      "bytes": 5446,
+      "sha256": "6993f26fcae9a4b200007fdf3f96afb321d88b1a4223783b92a75e78d52ef02e",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r2/body-geometry.js",
+      "http": 200,
+      "bytes": 6470,
+      "sha256": "83c20c4e1cbd244535bb13555b10169205842edc0a3dbf315e99be787032156f",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r3/facial-anchors.js",
+      "http": 200,
+      "bytes": 1828,
+      "sha256": "20f1cb7641f84ab9a00b99138618e2ec74cb9ef8ef9c30ad8a833f3fa6e0bc38",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r3/index.html",
+      "http": 200,
+      "bytes": 6122,
+      "sha256": "a4d12d38b378282f7da3bcf907b0a366426c73d81ba36ad45c17bfb207a44300",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r3/render.js",
+      "http": 200,
+      "bytes": 3961,
+      "sha256": "0201f78fb025f3bf7c6952ca7171093ce5f19d9bc94575b470abf81e28280af4",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r3/lab.css",
+      "http": 200,
+      "bytes": 5005,
+      "sha256": "0c8be9358a9d8f2d85efa054a8c624a1f6471dafb87e7c4ecb3dd6ef914ef08f",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r3/canonical-body.js",
+      "http": 200,
+      "bytes": 11528,
+      "sha256": "048b9692f3d91066ab4862195394391a9cfb55f24ebc22478b448dd1fbd124a9",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r3/biological-profile.js",
+      "http": 200,
+      "bytes": 3321,
+      "sha256": "1a32e8f53f2d2610a61b44283ea022118c7ebc2a7a2b443e1cb404be0e0d2b1d",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r3/morphology-settings.js",
+      "http": 200,
+      "bytes": 2587,
+      "sha256": "381d1bfe11b399dd8b20195233f31103f6cc28b3e06230b1098f12b26d9b83f2",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r3/shape-grammar.js",
+      "http": 200,
+      "bytes": 2174,
+      "sha256": "c20ef0817e0ddfc9a9c95577a4c70a62b7ecba7c0b1f8942a21d822d7593e48c",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r3/anatomical-skeleton.js",
+      "http": 200,
+      "bytes": 4311,
+      "sha256": "39423d9d2db92652f096f7ece0442f2f2e0dbd20da45b8c439329259eaf6057a",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r3/surface-projection.js",
+      "http": 200,
+      "bytes": 3260,
+      "sha256": "676d73f2f1311279fd8a88ae091dc765126da649b5f3c8d29696bdcfae23f83f",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r3/lab.js",
+      "http": 200,
+      "bytes": 9572,
+      "sha256": "2ecfc937b8bf1f294adface972677133095309bd4cdaaef8e29caff1ec583c99",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r3/body-finish.js",
+      "http": 200,
+      "bytes": 6642,
+      "sha256": "c486120f1b84f43492a54802426091cb7abe52fd860f154c013c827a21aa0fcd",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r3/body-projection.js",
+      "http": 200,
+      "bytes": 5683,
+      "sha256": "34a2327f3df4517a8aefda5d71f50594f4dda7439ba8b5108a95d3726e437c2b",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-a-r3/body-geometry.js",
+      "http": 200,
+      "bytes": 6470,
+      "sha256": "83c20c4e1cbd244535bb13555b10169205842edc0a3dbf315e99be787032156f",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-b1/facial-anchors.js",
+      "http": 200,
+      "bytes": 1828,
+      "sha256": "20f1cb7641f84ab9a00b99138618e2ec74cb9ef8ef9c30ad8a833f3fa6e0bc38",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-b1/index.html",
+      "http": 200,
+      "bytes": 6907,
+      "sha256": "5af728348b7911df6a77b5243ee6a673384f908daf5a35fb59c8d95e8e652858",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-b1/render.js",
+      "http": 200,
+      "bytes": 5467,
+      "sha256": "2bac7e6a43c014e491878edce55cb909f5f4f9b2b557bf9ed2298fdbcb96c211",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-b1/lab.css",
+      "http": 200,
+      "bytes": 5572,
+      "sha256": "59d20fb61e299d5f3da50586e499cf0b1b9c0da5929515c53fe4dd31adc7f02c",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-b1/canonical-body.js",
+      "http": 200,
+      "bytes": 15178,
+      "sha256": "160240b5d7a167431fcaeae94e240200f9fffb4bee5dff802e5b43a9d46f214c",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-b1/facial-projection.js",
+      "http": 200,
+      "bytes": 5827,
+      "sha256": "3de9107001df480af749c055d694ae7c1391ecad96b2bfe4002bfe3ca9849a74",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-b1/biological-profile.js",
+      "http": 200,
+      "bytes": 3321,
+      "sha256": "1a32e8f53f2d2610a61b44283ea022118c7ebc2a7a2b443e1cb404be0e0d2b1d",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-b1/facial-model.js",
+      "http": 200,
+      "bytes": 4436,
+      "sha256": "a61ecddf6e0d817df6672e5e917f18c30e934e01a3e877d30df98881db2e1a3c",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-b1/morphology-settings.js",
+      "http": 200,
+      "bytes": 2587,
+      "sha256": "381d1bfe11b399dd8b20195233f31103f6cc28b3e06230b1098f12b26d9b83f2",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-b1/shape-grammar.js",
+      "http": 200,
+      "bytes": 2115,
+      "sha256": "55c08aeff05a6352809b928b2ae7cc90201f92ba68d5877caddec1053c201e30",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-b1/face-settings.js",
+      "http": 200,
+      "bytes": 2478,
+      "sha256": "b28fad1204fc63ed804c456c8b93454e16f7c640c0d3b4b6400d40497e692071",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-b1/anatomical-skeleton.js",
+      "http": 200,
+      "bytes": 4311,
+      "sha256": "39423d9d2db92652f096f7ece0442f2f2e0dbd20da45b8c439329259eaf6057a",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-b1/surface-projection.js",
+      "http": 200,
+      "bytes": 3258,
+      "sha256": "8663f2f38a47d29e9f8b68dae33eaad0c7cd455f92c149ee6f54b41b0de77ed4",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-b1/lab.js",
+      "http": 200,
+      "bytes": 12729,
+      "sha256": "c235b72750ef3f02a63d0530c30e8d8e3b951cae8f2bf88897c826044c7896ee",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-b1/body-finish.js",
+      "http": 200,
+      "bytes": 6642,
+      "sha256": "c486120f1b84f43492a54802426091cb7abe52fd860f154c013c827a21aa0fcd",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-b1/body-projection.js",
+      "http": 200,
+      "bytes": 5964,
+      "sha256": "3a5df6faae2f10661d3a85b123156d123b69ae195c695272ad01d3556b7da3e5",
+      "matchesSource": true
+    },
+    {
+      "group": "preserved",
+      "path": "preview/bio-struct-t3-b1/body-geometry.js",
+      "http": 200,
+      "bytes": 6470,
+      "sha256": "83c20c4e1cbd244535bb13555b10169205842edc0a3dbf315e99be787032156f",
+      "matchesSource": true
+    },
+    {
+      "group": "B2",
+      "path": "preview/bio-struct-t3-b2/grooming-model.js",
+      "http": 200,
+      "bytes": 8987,
+      "sha256": "027299d22e8bef3c4fad634b6b541be07ed40d70152cc7417e83cef6f940f82b",
+      "matchesSource": true
+    },
+    {
+      "group": "B2",
+      "path": "preview/bio-struct-t3-b2/facial-anchors.js",
+      "http": 200,
+      "bytes": 1828,
+      "sha256": "20f1cb7641f84ab9a00b99138618e2ec74cb9ef8ef9c30ad8a833f3fa6e0bc38",
+      "matchesSource": true
+    },
+    {
+      "group": "B2",
+      "path": "preview/bio-struct-t3-b2/index.html",
+      "http": 200,
+      "bytes": 7398,
+      "sha256": "e761d4545d75a327650f0fca05556e965ea1c1cbe2cc93a01643cf480d019a76",
+      "matchesSource": true
+    },
+    {
+      "group": "B2",
+      "path": "preview/bio-struct-t3-b2/grooming-projection.js",
+      "http": 200,
+      "bytes": 2190,
+      "sha256": "6f493e73fb54a9a1273cab7a118cf65783aed6bef7918c39ef424f773dfb23ca",
+      "matchesSource": true
+    },
+    {
+      "group": "B2",
+      "path": "preview/bio-struct-t3-b2/render.js",
+      "http": 200,
+      "bytes": 6552,
+      "sha256": "f4a13bfdb404c47f93b01e0a3121e056f962cb3399d465ac8195ac188c29c6da",
+      "matchesSource": true
+    },
+    {
+      "group": "B2",
+      "path": "preview/bio-struct-t3-b2/lab.css",
+      "http": 200,
+      "bytes": 6116,
+      "sha256": "fd9f72a6861f91c9333e3409454e6d37c6f8f624cea2a3e35c9810ff5cf9ffeb",
+      "matchesSource": true
+    },
+    {
+      "group": "B2",
+      "path": "preview/bio-struct-t3-b2/canonical-body.js",
+      "http": 200,
+      "bytes": 18809,
+      "sha256": "46b0d8fd25bee0b71b0f52ba7a7cd6d884fde2fb1b29f57e174ad0aba2f90cf9",
+      "matchesSource": true
+    },
+    {
+      "group": "B2",
+      "path": "preview/bio-struct-t3-b2/facial-projection.js",
+      "http": 200,
+      "bytes": 5827,
+      "sha256": "3de9107001df480af749c055d694ae7c1391ecad96b2bfe4002bfe3ca9849a74",
+      "matchesSource": true
+    },
+    {
+      "group": "B2",
+      "path": "preview/bio-struct-t3-b2/biological-profile.js",
+      "http": 200,
+      "bytes": 3321,
+      "sha256": "1a32e8f53f2d2610a61b44283ea022118c7ebc2a7a2b443e1cb404be0e0d2b1d",
+      "matchesSource": true
+    },
+    {
+      "group": "B2",
+      "path": "preview/bio-struct-t3-b2/facial-model.js",
+      "http": 200,
+      "bytes": 4436,
+      "sha256": "a61ecddf6e0d817df6672e5e917f18c30e934e01a3e877d30df98881db2e1a3c",
+      "matchesSource": true
+    },
+    {
+      "group": "B2",
+      "path": "preview/bio-struct-t3-b2/morphology-settings.js",
+      "http": 200,
+      "bytes": 2587,
+      "sha256": "381d1bfe11b399dd8b20195233f31103f6cc28b3e06230b1098f12b26d9b83f2",
+      "matchesSource": true
+    },
+    {
+      "group": "B2",
+      "path": "preview/bio-struct-t3-b2/shape-grammar.js",
+      "http": 200,
+      "bytes": 2115,
+      "sha256": "55c08aeff05a6352809b928b2ae7cc90201f92ba68d5877caddec1053c201e30",
+      "matchesSource": true
+    },
+    {
+      "group": "B2",
+      "path": "preview/bio-struct-t3-b2/face-settings.js",
+      "http": 200,
+      "bytes": 2478,
+      "sha256": "b28fad1204fc63ed804c456c8b93454e16f7c640c0d3b4b6400d40497e692071",
+      "matchesSource": true
+    },
+    {
+      "group": "B2",
+      "path": "preview/bio-struct-t3-b2/anatomical-skeleton.js",
+      "http": 200,
+      "bytes": 4311,
+      "sha256": "39423d9d2db92652f096f7ece0442f2f2e0dbd20da45b8c439329259eaf6057a",
+      "matchesSource": true
+    },
+    {
+      "group": "B2",
+      "path": "preview/bio-struct-t3-b2/surface-projection.js",
+      "http": 200,
+      "bytes": 3258,
+      "sha256": "8663f2f38a47d29e9f8b68dae33eaad0c7cd455f92c149ee6f54b41b0de77ed4",
+      "matchesSource": true
+    },
+    {
+      "group": "B2",
+      "path": "preview/bio-struct-t3-b2/lab.js",
+      "http": 200,
+      "bytes": 16050,
+      "sha256": "35cb1ccf248b1ac4226d33754cb1fd7de70017372e5014abf4324e510cf887a2",
+      "matchesSource": true
+    },
+    {
+      "group": "B2",
+      "path": "preview/bio-struct-t3-b2/body-finish.js",
+      "http": 200,
+      "bytes": 6642,
+      "sha256": "c486120f1b84f43492a54802426091cb7abe52fd860f154c013c827a21aa0fcd",
+      "matchesSource": true
+    },
+    {
+      "group": "B2",
+      "path": "preview/bio-struct-t3-b2/body-projection.js",
+      "http": 200,
+      "bytes": 6640,
+      "sha256": "e409fbbcb9b96b8ab97d288585dd69c5ef6971c4e1a733fe30fd381182e8dc96",
+      "matchesSource": true
+    },
+    {
+      "group": "B2",
+      "path": "preview/bio-struct-t3-b2/grooming-settings.js",
+      "http": 200,
+      "bytes": 3265,
+      "sha256": "ae2d0803122cd7b791effbb34b87159efefeddf07de6101ec36b59e0593f5e20",
+      "matchesSource": true
+    },
+    {
+      "group": "B2",
+      "path": "preview/bio-struct-t3-b2/body-geometry.js",
+      "http": 200,
+      "bytes": 6470,
+      "sha256": "83c20c4e1cbd244535bb13555b10169205842edc0a3dbf315e99be787032156f",
+      "matchesSource": true
+    }
+  ]
+}
