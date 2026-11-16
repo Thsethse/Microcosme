@@ -1,0 +1,45 @@
+name: BIO-STRUCT-T3-B2 cheveux et pilosite
+on:
+  pull_request:
+    paths: ['experiments/bio-struct-t3-b2/**', 'tests/bio-struct-t3-b2/**', '.github/workflows/bio-struct-t3-b2.yml']
+permissions:
+  contents: read
+jobs:
+  laboratory-b2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: node --test tests/bio-struct-t3-a/contract.test.cjs tests/bio-struct-t3-a/r1.test.cjs tests/bio-struct-t3-a/r2.test.cjs tests/bio-struct-t3-a/r3.test.cjs tests/bio-struct-t3-b1/contract.test.cjs tests/bio-struct-t3-b2/contract.test.cjs
+      - run: npm test
+      - run: npx playwright install --with-deps chromium webkit
+      - name: T3-A, R1, R2, R3 et B1 preserves
+        run: |
+          node tests/bio-struct-t3-a/browser.cjs
+          node tests/bio-struct-t3-a/r1-browser.cjs
+          node tests/bio-struct-t3-a/r2-browser.cjs
+          node tests/bio-struct-t3-a/r3-browser.cjs
+          node tests/bio-struct-t3-b1/browser.cjs
+      - name: B2 local Chromium et WebKit
+        run: node tests/bio-struct-t3-b2/browser.cjs
+      - name: B2 HTTPS GitHub Pages Chromium et WebKit
+        run: node tests/bio-struct-t3-b2/browser.cjs
+        env:
+          B2_URL: https://thsethse.github.io/Microcosme/preview/bio-struct-t3-b2/
+      - name: T2 non fusionne, revision preservee
+        uses: actions/checkout@v4
+        with:
+          ref: e057e5f906afba25ac943bcc617afb581eb8d296
+          path: regression-t2
+      - run: npm ci
+        working-directory: regression-t2
+      - run: node --test tests/bio-gen-t2/model.test.cjs
+        working-directory: regression-t2
+      - run: node tests/bio-gen-t2/browser.cjs
+        working-directory: regression-t2
