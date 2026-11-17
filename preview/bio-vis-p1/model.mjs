@@ -1,9 +1,9 @@
-export const palette = Object.freeze({skin:'#dcc18a',contour:'#bda46e',detail:'#bea66f',white:'#f6f5e9',pupil:'#33332c',hair:'#76501f'});
+export const palette = Object.freeze({skin:'#dbbf88',contour:'#c2a873',detail:'#c2a873',white:'#ebebeb',pupil:'#171713',hair:'#75470f'});
 export const choices = Object.freeze({
   silhouette:['tee','pear','oval','column','trapezoid','hourglass'],
   head:['triangle','round','oval','square','pear'],
   eyes:['round','sleepy','sharp'], nose:['button','line','triangle'],
-  mouth:['line','smile','lips','round'], hair:['short','bob','curls','swept','none'],
+  mouth:['line','smile','lips','round','pout'], hair:['short','bob','curls','swept','none'],
   chest:['plain','curves','pectoral'],age:['adult','elder']
 });
 export const bounds = Object.freeze({belly:[.72,1.3],shoulders:[.72,1.25],hips:[.72,1.25]});
@@ -11,7 +11,7 @@ export const defaults=Object.freeze({silhouette:'tee',belly:1,shoulders:1,hips:1
 export const presets=Object.freeze([
   {name:'Émile',note:'Épaules carrées · tête en pointe',...defaults},
   {name:'Alma',note:'Courbes douces · carré court',...defaults,silhouette:'pear',head:'oval',hair:'bob',eyes:'sharp',mouth:'lips',chest:'curves',hips:1.1},
-  {name:'Rose',note:'Silhouette ronde · boucles',...defaults,silhouette:'oval',head:'square',hair:'curls',chest:'curves',nose:'line',mouth:'round',belly:1.12},
+  {name:'Rose',note:'Silhouette ronde · boucles',...defaults,silhouette:'oval',head:'square',hair:'curls',chest:'curves',nose:'line',mouth:'pout',belly:1.12},
   {name:'Lou',note:'Colonne fine · mèche',...defaults,silhouette:'column',head:'square',hair:'swept',chest:'plain',mouth:'smile'},
   {name:'Gustave',note:'Trapèze · visage rond',...defaults,silhouette:'trapezoid',head:'pear',hair:'none',age:'elder',belly:1.15,mouth:'smile',chest:'plain'},
   {name:'Ari',note:'Sablier · regard tranquille',...defaults,silhouette:'hourglass',head:'oval',hair:'none',eyes:'sleepy',chest:'curves',nose:'line'}
