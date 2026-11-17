@@ -43,6 +43,9 @@ function start(){
  $('#motion-status').textContent='Petits bonds en cours · déplacement de démonstration, sans moteur de jeu.';frame=requestAnimationFrame(tick);
 }
 try{
+ const asset='docs/ai/visual-references/BIO-VIS-P1-planche-originale.png';
+ const referenceURL=new URL((location.pathname.includes('/preview/')?'../../':'../')+asset,location.href).href;
+ $('#reference-image').src=referenceURL;$('#reference-link').href=referenceURL;
  const names={belly:'Largeur du ventre',shoulders:'Largeur des épaules',hips:'Largeur des hanches'};
  for(const [key,[min,max]]of Object.entries(bounds)){
   const label=document.createElement('label');label.className='range';label.htmlFor=key;

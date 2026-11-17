@@ -1,7 +1,7 @@
 name: BIO-VIS-P1
 on:
   pull_request:
-    paths: ['bio-vis-p1/**', '.github/workflows/bio-vis-p1.yml']
+    paths: ['bio-vis-p1/**', 'docs/ai/visual-references/BIO-VIS-P1-planche-originale.png', '.github/workflows/bio-vis-p1.yml']
 permissions:
   contents: read
 jobs:
@@ -14,6 +14,6 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: node --test bio-vis-p1/model.test.mjs
+      - run: node --test bio-vis-p1/*.test.mjs
       - run: npx playwright install --with-deps chromium webkit
       - run: node bio-vis-p1/browser.test.cjs

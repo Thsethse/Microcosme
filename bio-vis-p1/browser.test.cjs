@@ -8,7 +8,7 @@ const http=require('node:http'),fs=require('node:fs'),path=require('node:path');
   const relative=name.endsWith('/')?name+'index.html':name;
   const file=path.resolve(root,'.'+relative);
   if(!file.startsWith(root+path.sep)||!fs.existsSync(file)){res.writeHead(404).end();return}
-  res.setHeader('Content-Type',file.endsWith('.mjs')?'text/javascript':file.endsWith('.css')?'text/css':'text/html');res.end(fs.readFileSync(file));
+  res.setHeader('Content-Type',file.endsWith('.mjs')?'text/javascript':file.endsWith('.css')?'text/css':file.endsWith('.png')?'image/png':'text/html');res.end(fs.readFileSync(file));
  });
  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
  try{
@@ -20,7 +20,13 @@ const http=require('node:http'),fs=require('node:fs'),path=require('node:path');
     await page.goto(process.env.BASE_URL||`http://127.0.0.1:${server.address().port}/bio-vis-p1/`);
     await page.locator('#body svg').waitFor();
     assert.equal(await page.locator('.specimen').count(),6);
-    assert.match(await page.locator('.reference-notice').textContent(),/manque encore au dépôt/);
+    assert.match(await page.locator('.reference-notice').textContent(),/vérifiée et archivée/);
+    await page.locator('#reference-panel summary').tap();
+    await page.locator('#reference-image').scrollIntoViewIfNeeded();
+    await page.locator('#reference-image').evaluate(img=>img.decode());
+    assert.deepEqual(await page.locator('#reference-image').evaluate(img=>[img.naturalWidth,img.naturalHeight]),[2480,3508]);
+    assert.equal(await page.locator('#reference-link').getAttribute('href'),await page.locator('#reference-image').getAttribute('src'));
+    await page.locator('#reference-panel summary').tap();
     const equalHeads=async()=>assert.equal(await page.locator('#body .head-shape').innerHTML(),await page.locator('#face .head-shape').innerHTML());
     await equalHeads();
     const base=await page.locator('#body').innerHTML();
@@ -31,6 +37,7 @@ const http=require('node:http'),fs=require('node:fs'),path=require('node:path');
     await page.locator('[data-preset="0"]').tap();assert.equal(await page.locator('#body').innerHTML(),base);
     for(const id of ['belly','shoulders','hips']){
      const before=await page.locator('#body .body-shape').innerHTML(),face=await page.locator('#face').innerHTML();
+     await page.locator('#'+id).scrollIntoViewIfNeeded();
      const box=await page.locator('#'+id).boundingBox();await page.touchscreen.tap(box.x+box.width*.88,box.y+box.height/2);
      assert.notEqual(await page.locator('#body .body-shape').innerHTML(),before,id);
      assert.equal(await page.locator('#face').innerHTML(),face);await equalHeads();
@@ -82,7 +89,7 @@ const http=require('node:http'),fs=require('node:fs'),path=require('node:path');
     await page.context().setOffline(true);await page.locator('[data-preset="2"]').tap();await equalHeads();await page.context().setOffline(false);
     if(process.env.CAPTURE_DIR){
      await page.screenshot({path:path.join(process.env.CAPTURE_DIR,engine.name()+'-vis-ipad.png'),fullPage:true});
-     await page.setViewportSize({width:1180,height:820});await page.screenshot({path:path.join(process.env.CAPTURE_DIR,engine.name()+'-vis-landscape.png'),fullPage:true});
+     await page.setViewportSize({width:1180,height:820});await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));await page.screenshot({path:path.join(process.env.CAPTURE_DIR,engine.name()+'-vis-landscape.png'),fullPage:true});
     }
     assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);
     console.log(engine.name()+': touch, head identity at 3 scales, all controls, 240 SVG bounds, hair bounds, hopping/pause, reduced motion, 4 viewports, storage, offline: OK');
