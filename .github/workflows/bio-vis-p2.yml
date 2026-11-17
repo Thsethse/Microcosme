@@ -1,0 +1,20 @@
+name: BIO-VIS-P2
+on:
+  pull_request:
+    paths: ['bio-vis-p2/**', '.github/workflows/bio-vis-p2.yml', 'docs/ai/visual-references/a_clean_infographic_character_design_sheet_in_warm.png']
+permissions:
+  contents: read
+jobs:
+  hair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: node --test bio-vis-p2/model.test.mjs
+      - run: npx playwright install --with-deps chromium webkit
+      - run: node bio-vis-p2/browser.test.cjs
+      - run: node bio-vis-p2/p1-regression.test.cjs
