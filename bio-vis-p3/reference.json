@@ -1,0 +1,15 @@
+{
+  "path": "docs/ai/visual-references/a_clean_infographic_character_design_sheet_in_warm.png",
+  "sha256": "06dec2e59f34f195363cf482d51cae34808d4d3b3ff1e8863e8ba217bf571932",
+  "width": 1536,
+  "height": 1024,
+  "bytes": 1697961,
+  "selectedEntries": {
+    "classic": "03 · Classique",
+    "bob": "04 · Carré court",
+    "curls": "08 · Boucles courtes"
+  },
+  "base": "BIO-VIS-P2 snapshot on main 41dfc2fc333ae6e300846bc797de92a8b0eba94b",
+  "approval": "artistic validation pending user review",
+  "stage": "P3 continuous morphology; same 3 catalogue cuts"
+}
