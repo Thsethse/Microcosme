@@ -1,0 +1,13 @@
+{
+  "path": "docs/ai/visual-references/BIO-VIS-P1-planche-originale.png",
+  "sourcePath": "docs/BIO-VIS-P1-planche-originale.png..png",
+  "sourceCommit": "100aae7705335d2de283ff4e4b17f19ef8c03c18",
+  "sha256": "ddb6a8515fcedd0bdc4493bdc3fe3afb32322706012186f481efa764875c3e06",
+  "bytes": 942003,
+  "width": 2480,
+  "height": 3508,
+  "bitDepth": 8,
+  "colorType": 6,
+  "paletteSampledFromOpaquePixels": {"skin":"#dbbf88","contour":"#c2a873","shortHair":"#75470f","blondHair":"#d5a917","curlyHair":"#cb7916","bobHair":"#6c521d"},
+  "artisticApproval": "pending user review"
+}
