@@ -1,0 +1,809 @@
+{
+  "caps": {
+    "bob": 17,
+    "classic": 102,
+    "curls": 7
+  },
+  "coverageEnvelope": 118,
+  "fixedForelock19": [
+    "19-G",
+    "21-G",
+    "21-D",
+    "22-G",
+    "22-D",
+    "23-D",
+    "25-D",
+    "32-G",
+    "33-G",
+    "33-D",
+    "35-G",
+    "37-D",
+    "43-D",
+    "44-D",
+    "45-D",
+    "51-D",
+    "53-D",
+    "54-D",
+    "61-D",
+    "65-G",
+    "67-G",
+    "68-G",
+    "69-D",
+    "72-G"
+  ],
+  "inputKeys": [
+    "cut",
+    "skull_width",
+    "skull_height",
+    "forehead_width",
+    "forehead_height",
+    "temple_width",
+    "cheek_width",
+    "jowls",
+    "jaw_width",
+    "style",
+    "body",
+    "monochrome",
+    "arrangement",
+    "accessories",
+    "contrast"
+  ],
+  "accessories": [
+    {
+      "key": "01",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "02",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "03",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "04",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "05",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "06",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "07",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "08",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "09",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "10",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 2
+    },
+    {
+      "key": "11",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "12",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 1
+    },
+    {
+      "key": "13",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "14",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "15",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "16",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "17",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 1
+    },
+    {
+      "key": "18",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "19-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "19-D",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "20-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "20-D",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "21-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "21-D",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "22-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "22-D",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "23-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "23-D",
+      "separatePaths": 1,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "24-G",
+      "separatePaths": 1,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "24-D",
+      "separatePaths": 1,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "25-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "25-D",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "26-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "26-D",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "27-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "27-D",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "28-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "28-D",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "29-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "29-D",
+      "separatePaths": 1,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "30-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "30-D",
+      "separatePaths": 5,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "31-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "31-D",
+      "separatePaths": 7,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "32-G",
+      "separatePaths": 1,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "32-D",
+      "separatePaths": 2,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "33-G",
+      "separatePaths": 1,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "33-D",
+      "separatePaths": 11,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "34-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "34-D",
+      "separatePaths": 6,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "35-G",
+      "separatePaths": 8,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "35-D",
+      "separatePaths": 5,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "36-G",
+      "separatePaths": 2,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "36-D",
+      "separatePaths": 1,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "37-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "37-D",
+      "separatePaths": 1,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "38-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "38-D",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "39-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "39-D",
+      "separatePaths": 2,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "40-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "40-D",
+      "separatePaths": 8,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "41-G",
+      "separatePaths": 1,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "41-D",
+      "separatePaths": 1,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "42-G",
+      "separatePaths": 1,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "42-D",
+      "separatePaths": 1,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "43-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "43-D",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "44-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "44-D",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "45-G",
+      "separatePaths": 2,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "45-D",
+      "separatePaths": 4,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "46-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "46-D",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "47-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "47-D",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "48-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "48-D",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "49-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "49-D",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "50-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "50-D",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "51-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "51-D",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "52-G",
+      "separatePaths": 4,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "52-D",
+      "separatePaths": 6,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "53-G",
+      "separatePaths": 2,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "53-D",
+      "separatePaths": 3,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "54-G",
+      "separatePaths": 5,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "54-D",
+      "separatePaths": 7,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "55-G",
+      "separatePaths": 6,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "55-D",
+      "separatePaths": 5,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "56-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "56-D",
+      "separatePaths": 2,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "57-G",
+      "separatePaths": 14,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "57-D",
+      "separatePaths": 13,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "58-G",
+      "separatePaths": 8,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "58-D",
+      "separatePaths": 1,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "59-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "59-D",
+      "separatePaths": 2,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "60-G",
+      "separatePaths": 1,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "60-D",
+      "separatePaths": 2,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "61-G",
+      "separatePaths": 1,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "61-D",
+      "separatePaths": 7,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "62-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "62-D",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "63-G",
+      "separatePaths": 3,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "63-D",
+      "separatePaths": 2,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "64-G",
+      "separatePaths": 1,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "64-D",
+      "separatePaths": 7,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "65-G",
+      "separatePaths": 1,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "65-D",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "66-G",
+      "separatePaths": 2,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "66-D",
+      "separatePaths": 4,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "67-G",
+      "separatePaths": 2,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "67-D",
+      "separatePaths": 5,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "68-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "68-D",
+      "separatePaths": 2,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "69-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "69-D",
+      "separatePaths": 7,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "70-G",
+      "separatePaths": 1,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "70-D",
+      "separatePaths": 8,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "71-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "71-D",
+      "separatePaths": 8,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "72-G",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    },
+    {
+      "key": "72-D",
+      "separatePaths": 0,
+      "offPaths": 0,
+      "embeddedTiePaths": 0
+    }
+  ]
+}
