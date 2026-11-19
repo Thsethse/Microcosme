@@ -1,0 +1,24 @@
+{
+  "runtimeFilesVerified": 93,
+  "sourceEqualsPublication": true,
+  "runtimeUnchanged": true,
+  "references": 72,
+  "choices": 126,
+  "statesPerChoice": 270,
+  "geometries": 111,
+  "visualFamiliesProposed": 32,
+  "duplicateGroups": 10,
+  "redundantChoices": 14,
+  "engines": [
+    "chromium",
+    "webkit"
+  ],
+  "faceVariants": 1,
+  "bodyVariants": 1,
+  "p5VignettesCompared": 108,
+  "v1VignettesCompared": 12,
+  "node": "v24.22.1",
+  "publicFilesVerified": 93,
+  "publicURL": "https://thsethse.github.io/Microcosme/preview/bio-vis-p5-i6/",
+  "publicTLS": "curl verified TLS, no insecure flag"
+}

@@ -1,0 +1,538 @@
+[
+  {
+    "a": "32-D",
+    "b": "60-D",
+    "states": [
+      {
+        "name": "Neutre",
+        "iou": 0.972845953002611
+      },
+      {
+        "name": "Cas iPad",
+        "iou": 0.9484490852454701
+      },
+      {
+        "name": "skull_width min",
+        "iou": 0.9718609987979456
+      },
+      {
+        "name": "skull_width max",
+        "iou": 0.974510966212211
+      },
+      {
+        "name": "skull_height min",
+        "iou": 0.9719091673675357
+      },
+      {
+        "name": "skull_height max",
+        "iou": 0.973650598419982
+      },
+      {
+        "name": "forehead_width min",
+        "iou": 0.9733100651850332
+      },
+      {
+        "name": "forehead_width max",
+        "iou": 0.9725405291228811
+      },
+      {
+        "name": "forehead_height min",
+        "iou": 0.9713031045751634
+      },
+      {
+        "name": "forehead_height max",
+        "iou": 0.9738991192954364
+      },
+      {
+        "name": "temple_width min",
+        "iou": 0.9723010264610306
+      },
+      {
+        "name": "temple_width max",
+        "iou": 0.9710572641607125
+      },
+      {
+        "name": "cheek_width min",
+        "iou": 0.9724617233631185
+      },
+      {
+        "name": "cheek_width max",
+        "iou": 0.966658064516129
+      },
+      {
+        "name": "jowls min",
+        "iou": 0.972845953002611
+      },
+      {
+        "name": "jowls max",
+        "iou": 0.9723382045929019
+      },
+      {
+        "name": "jaw_width min",
+        "iou": 0.972845953002611
+      },
+      {
+        "name": "jaw_width max",
+        "iou": 0.972845953002611
+      },
+      {
+        "name": "Tout min",
+        "iou": 0.9687835167936777
+      },
+      {
+        "name": "Tout max",
+        "iou": 0.9590244337435349
+      },
+      {
+        "name": "Mix 1",
+        "iou": 0.9736225087924971
+      },
+      {
+        "name": "Mix 2",
+        "iou": 0.9726971504307489
+      },
+      {
+        "name": "Mix 3",
+        "iou": 0.9664873244574138
+      },
+      {
+        "name": "Mix 4",
+        "iou": 0.9615100654624207
+      },
+      {
+        "name": "Mix 5",
+        "iou": 0.9670799718447127
+      },
+      {
+        "name": "Mix 6",
+        "iou": 0.9675675675675676
+      },
+      {
+        "name": "Mix 7",
+        "iou": 0.9692131616595135
+      },
+      {
+        "name": "Mix 8",
+        "iou": 0.9702256466703357
+      },
+      {
+        "name": "Mix 9",
+        "iou": 0.9731957720123401
+      },
+      {
+        "name": "Mix 10",
+        "iou": 0.9739708325641498
+      },
+      {
+        "name": "Mix 11",
+        "iou": 0.973222570809951
+      },
+      {
+        "name": "Mix 12",
+        "iou": 0.970102352307416
+      }
+    ]
+  },
+  {
+    "a": "25-D",
+    "b": "44-D",
+    "states": [
+      {
+        "name": "Neutre",
+        "iou": 0.9652512924824138
+      },
+      {
+        "name": "Cas iPad",
+        "iou": 0.9587489225464845
+      },
+      {
+        "name": "skull_width min",
+        "iou": 0.9682027649769586
+      },
+      {
+        "name": "skull_width max",
+        "iou": 0.9630225080385852
+      },
+      {
+        "name": "skull_height min",
+        "iou": 0.967941507311586
+      },
+      {
+        "name": "skull_height max",
+        "iou": 0.961038961038961
+      },
+      {
+        "name": "forehead_width min",
+        "iou": 0.970560385641732
+      },
+      {
+        "name": "forehead_width max",
+        "iou": 0.9640281874795149
+      },
+      {
+        "name": "forehead_height min",
+        "iou": 0.9657459491226598
+      },
+      {
+        "name": "forehead_height max",
+        "iou": 0.9641974256244139
+      },
+      {
+        "name": "temple_width min",
+        "iou": 0.9663197088939663
+      },
+      {
+        "name": "temple_width max",
+        "iou": 0.964207696185515
+      },
+      {
+        "name": "cheek_width min",
+        "iou": 0.9670302832953436
+      },
+      {
+        "name": "cheek_width max",
+        "iou": 0.9637894736842105
+      },
+      {
+        "name": "jowls min",
+        "iou": 0.9652542372881356
+      },
+      {
+        "name": "jowls max",
+        "iou": 0.9640006939625261
+      },
+      {
+        "name": "jaw_width min",
+        "iou": 0.9652512924824138
+      },
+      {
+        "name": "jaw_width max",
+        "iou": 0.9650110940433521
+      },
+      {
+        "name": "Tout min",
+        "iou": 0.9747439594312419
+      },
+      {
+        "name": "Tout max",
+        "iou": 0.9538672826019102
+      },
+      {
+        "name": "Mix 1",
+        "iou": 0.9631897843507721
+      },
+      {
+        "name": "Mix 2",
+        "iou": 0.9610680799021606
+      },
+      {
+        "name": "Mix 3",
+        "iou": 0.9611957882335616
+      },
+      {
+        "name": "Mix 4",
+        "iou": 0.9677705977382876
+      },
+      {
+        "name": "Mix 5",
+        "iou": 0.967147510469986
+      },
+      {
+        "name": "Mix 6",
+        "iou": 0.9669379961812883
+      },
+      {
+        "name": "Mix 7",
+        "iou": 0.967786698384379
+      },
+      {
+        "name": "Mix 8",
+        "iou": 0.9623956630238362
+      },
+      {
+        "name": "Mix 9",
+        "iou": 0.9628623853211009
+      },
+      {
+        "name": "Mix 10",
+        "iou": 0.9630876914949815
+      },
+      {
+        "name": "Mix 11",
+        "iou": 0.961733852345451
+      },
+      {
+        "name": "Mix 12",
+        "iou": 0.9606117443370366
+      }
+    ]
+  },
+  {
+    "a": "19-D",
+    "b": "21-D",
+    "states": [
+      {
+        "name": "Neutre",
+        "iou": 0.9579024034959942
+      },
+      {
+        "name": "Cas iPad",
+        "iou": 0.9324067223337914
+      },
+      {
+        "name": "skull_width min",
+        "iou": 0.9580512102109113
+      },
+      {
+        "name": "skull_width max",
+        "iou": 0.9575468529589575
+      },
+      {
+        "name": "skull_height min",
+        "iou": 0.9571451717433571
+      },
+      {
+        "name": "skull_height max",
+        "iou": 0.9539687599617469
+      },
+      {
+        "name": "forehead_width min",
+        "iou": 0.9594409624666811
+      },
+      {
+        "name": "forehead_width max",
+        "iou": 0.9568181818181818
+      },
+      {
+        "name": "forehead_height min",
+        "iou": 0.9630260449932581
+      },
+      {
+        "name": "forehead_height max",
+        "iou": 0.9564104494466611
+      },
+      {
+        "name": "temple_width min",
+        "iou": 0.9595590866795505
+      },
+      {
+        "name": "temple_width max",
+        "iou": 0.9551893826424098
+      },
+      {
+        "name": "cheek_width min",
+        "iou": 0.9610136452241715
+      },
+      {
+        "name": "cheek_width max",
+        "iou": 0.9470141772876987
+      },
+      {
+        "name": "jowls min",
+        "iou": 0.9608775915932973
+      },
+      {
+        "name": "jowls max",
+        "iou": 0.9516080777860882
+      },
+      {
+        "name": "jaw_width min",
+        "iou": 0.9588214157384117
+      },
+      {
+        "name": "jaw_width max",
+        "iou": 0.9570917759237187
+      },
+      {
+        "name": "Tout min",
+        "iou": 0.9708580679978414
+      },
+      {
+        "name": "Tout max",
+        "iou": 0.9289094249290207
+      },
+      {
+        "name": "Mix 1",
+        "iou": 0.9576848801544928
+      },
+      {
+        "name": "Mix 2",
+        "iou": 0.9564050189670266
+      },
+      {
+        "name": "Mix 3",
+        "iou": 0.9457287674619854
+      },
+      {
+        "name": "Mix 4",
+        "iou": 0.9435183369288096
+      },
+      {
+        "name": "Mix 5",
+        "iou": 0.9453879713306326
+      },
+      {
+        "name": "Mix 6",
+        "iou": 0.947527662517289
+      },
+      {
+        "name": "Mix 7",
+        "iou": 0.9561691113028473
+      },
+      {
+        "name": "Mix 8",
+        "iou": 0.9576033371255215
+      },
+      {
+        "name": "Mix 9",
+        "iou": 0.9578091736017031
+      },
+      {
+        "name": "Mix 10",
+        "iou": 0.9590305828043855
+      },
+      {
+        "name": "Mix 11",
+        "iou": 0.9573994867408041
+      },
+      {
+        "name": "Mix 12",
+        "iou": 0.9499753876445975
+      }
+    ]
+  },
+  {
+    "a": "31-D",
+    "b": "68-D",
+    "states": [
+      {
+        "name": "Neutre",
+        "iou": 0.951818585052118
+      },
+      {
+        "name": "Cas iPad",
+        "iou": 0.9584213243230559
+      },
+      {
+        "name": "skull_width min",
+        "iou": 0.949925089316584
+      },
+      {
+        "name": "skull_width max",
+        "iou": 0.9542049171678801
+      },
+      {
+        "name": "skull_height min",
+        "iou": 0.94802825191289
+      },
+      {
+        "name": "skull_height max",
+        "iou": 0.9550956061838893
+      },
+      {
+        "name": "forehead_width min",
+        "iou": 0.9526281280734346
+      },
+      {
+        "name": "forehead_width max",
+        "iou": 0.9513091922005571
+      },
+      {
+        "name": "forehead_height min",
+        "iou": 0.9525058752801006
+      },
+      {
+        "name": "forehead_height max",
+        "iou": 0.9512455116696589
+      },
+      {
+        "name": "temple_width min",
+        "iou": 0.9517168574286031
+      },
+      {
+        "name": "temple_width max",
+        "iou": 0.9517838317705154
+      },
+      {
+        "name": "cheek_width min",
+        "iou": 0.9518078970718722
+      },
+      {
+        "name": "cheek_width max",
+        "iou": 0.9528792972562629
+      },
+      {
+        "name": "jowls min",
+        "iou": 0.951818585052118
+      },
+      {
+        "name": "jowls max",
+        "iou": 0.9520101612546941
+      },
+      {
+        "name": "jaw_width min",
+        "iou": 0.951818585052118
+      },
+      {
+        "name": "jaw_width max",
+        "iou": 0.951818585052118
+      },
+      {
+        "name": "Tout min",
+        "iou": 0.9470155061964917
+      },
+      {
+        "name": "Tout max",
+        "iou": 0.9582666038624588
+      },
+      {
+        "name": "Mix 1",
+        "iou": 0.9564726111520511
+      },
+      {
+        "name": "Mix 2",
+        "iou": 0.9571886224638385
+      },
+      {
+        "name": "Mix 3",
+        "iou": 0.9565388979330077
+      },
+      {
+        "name": "Mix 4",
+        "iou": 0.9551523274395587
+      },
+      {
+        "name": "Mix 5",
+        "iou": 0.9513177774047339
+      },
+      {
+        "name": "Mix 6",
+        "iou": 0.9487709761285748
+      },
+      {
+        "name": "Mix 7",
+        "iou": 0.9470513824468405
+      },
+      {
+        "name": "Mix 8",
+        "iou": 0.9497900730430782
+      },
+      {
+        "name": "Mix 9",
+        "iou": 0.9523300555793074
+      },
+      {
+        "name": "Mix 10",
+        "iou": 0.9547658319588144
+      },
+      {
+        "name": "Mix 11",
+        "iou": 0.9569241205543173
+      },
+      {
+        "name": "Mix 12",
+        "iou": 0.9568334724745863
+      }
+    ]
+  }
+]

@@ -1,0 +1,25 @@
+import{readFileSync,writeFileSync,readdirSync}from'node:fs';import{createHash}from'node:crypto';import{promisify}from'node:util';import{execFile,execFileSync}from'node:child_process';
+import{families,recipes}from'./annotations.mjs';import{ecarts}from'./ecarts.mjs';
+import{model}from'../../../../preview/bio-vis-p5-i6/model.mjs';
+const dir=new URL('../',import.meta.url),repo=new URL('../../../../',import.meta.url),runtime=new URL('../../../../preview/bio-vis-p5-i6/',import.meta.url),sha=b=>createHash('sha256').update(b).digest('hex'),read=p=>JSON.parse(readFileSync(new URL(p,dir)));
+const d=read('data/inventaire.json'),groups=read('data/compositions.json'),manifest=read('data/source-manifest.json'),v=read('data/visual-chromium.json'),w=read('data/visual-webkit.json'),caps=read('data/capabilities.json');
+function check(x,label){if(!x)throw Error(label)}
+for(const e of d.entries){const m=model({style:e.style,arrangement:e.a});check(m.state.style===e.style,'style without fallback '+e.key);check(e.number<=18||m.reference?.id===e.style,'actual P5 model '+e.key);}
+check(d.entries.length===126,'126 choices');check(new Set(d.entries.map(e=>e.number)).size===72,'72 references');check(Object.keys(recipes).length===72,'72 recipes');check(Object.keys(ecarts).length===54,'54 source comparisons');
+check(groups.length===111,'111 technical classes');check(groups.filter(g=>g.members.length>1).length===10,'10 duplicate groups');check(groups.reduce((n,g)=>n+g.members.length-1,0)===14,'14 redundant choices');
+check(families.filter(f=>/^\d/.test(f.id)).length===32,'32 complete families');const members=families.flatMap(f=>f.keys);check(members.length===126&&new Set(members).size===126,'exhaustive nonoverlapping families');
+check(d.entries.filter(e=>e.status==='partial').length===3&&d.entries.filter(e=>e.status==='unknown').length===1,'3 partial / 1 unknown');check(!groups.some(g=>g.members.includes('63-G')),'unknown excluded from geometry classes');
+const partition=(entries,key)=>Object.values(Object.groupBy(entries,e=>e[key])).map(g=>g.map(e=>e.key).sort().join(',')).sort().join('|');
+const observable=d.entries.filter(e=>e.status!=='unknown');for(const m of[v,w]){check(m.faceVariants===1&&m.bodyVariants===1,'same person in both engines');const filtered=m.entries.filter(e=>e.key!=='63-G');check(new Set(filtered.map(e=>e.hash)).size===111,'111 painted silhouettes');check(partition(filtered,'hash')===partition(observable,'geometryHash'),'paint/technical partition equality');}
+for(const entry of manifest){const bytes=readFileSync(new URL(entry.path,runtime));check(sha(bytes)===entry.sha256,'runtime immutable '+entry.path);const source=execFileSync('git',['show','6d476dc13b53647d561d8ea97bfd9ec93c470450:bio-vis-p5-i6/'+entry.path],{cwd:repo,maxBuffer:16*1024*1024});check(source.equals(bytes),'PR39 source == publication '+entry.path);}
+check(v.scales.filter(e=>e.lengthPaths[0]>0&&e.lengthPaths.slice(1).some(n=>n<e.lengthPaths[0])).length===7,'7 historical length omissions');
+check(caps.accessories.filter(e=>e.separatePaths>0).length===56,'56 separate accessory choices');check(caps.accessories.every(e=>e.offPaths===0),'accessory off clears separate layers');check(caps.accessories.reduce((n,e)=>n+e.embeddedTiePaths,0)===4,'4 incorporated tie strokes');
+const missing=[];for(const name of readdirSync(dir).filter(n=>n.endsWith('.md'))){const text=readFileSync(new URL(name,dir),'utf8');for(const [,link]of text.matchAll(/\]\(([^)]+)\)/g)){if(/^(https?:|#)/.test(link)||link==='data/verification.json')continue;try{readFileSync(new URL(link.split('#')[0],dir));}catch{missing.push({name,link});}}}check(!missing.length,'missing local links '+JSON.stringify(missing));
+const files=execFileSync('git',['status','--porcelain','--untracked-files=all'],{cwd:repo,encoding:'utf8'}).split('\n').filter(Boolean);check(files.every(x=>x.slice(3).startsWith('docs/ai/bio-vis-audit-01/')||x.slice(3)==='node_modules'),'audit scope only');
+const result={runtimeFilesVerified:manifest.length,sourceEqualsPublication:true,runtimeUnchanged:true,references:72,choices:126,statesPerChoice:270,geometries:111,visualFamiliesProposed:32,duplicateGroups:10,redundantChoices:14,engines:['chromium','webkit'],faceVariants:1,bodyVariants:1,p5VignettesCompared:108,v1VignettesCompared:12,node:process.version};
+if(process.argv.includes('--public')){
+ const run=promisify(execFile),base='https://thsethse.github.io/Microcosme/preview/bio-vis-p5-i6/';let index=0,done=0;
+ await Promise.all(Array.from({length:8},async()=>{while(index<manifest.length){const e=manifest[index++],{stdout}=await run('curl',['--fail','--silent','--show-error','--location','--max-time','45',base+e.path],{encoding:'buffer',maxBuffer:16*1024*1024});check(sha(stdout)===e.sha256,'public bytes '+e.path);done++;}}));
+ result.publicFilesVerified=done;result.publicURL=base;result.publicTLS='curl verified TLS, no insecure flag';
+}
+writeFileSync(new URL('data/verification.json',dir),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));

@@ -1,0 +1,5276 @@
+{
+  "counts": {
+    "references": 72,
+    "arrangements": 126,
+    "known": 122,
+    "partial": 3,
+    "unknown": 1,
+    "technical": 111,
+    "neutralTechnical": 111
+  },
+  "entries": [
+    {
+      "key": "01",
+      "number": 1,
+      "style": "shaved",
+      "a": "U",
+      "name": "Rasée",
+      "status": "known",
+      "neutralHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "geometryHash": "04bd11c311f0107c20d95e65d9a593ee5c92c7cb53507e10b680ece3de7add1c",
+      "base": "shaved",
+      "geometryKey": "shaved",
+      "policy": {},
+      "paths": {
+        "back": 0,
+        "volume": 0,
+        "front": 0,
+        "sides": 0,
+        "texture": 0,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "bob",
+      "family": "01",
+      "familyName": "Crâne explicitement dégagé",
+      "module": "P4",
+      "modulePath": "i5/i4/i3/i2/i1/base/p4-render.mjs",
+      "technical": "T001",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "Aucune calotte ni mèche.",
+      "primitives": "aucune chevelure",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "02",
+      "number": 2,
+      "style": "short",
+      "a": "U",
+      "name": "Courte ébouriffée",
+      "status": "known",
+      "neutralHash": "2dbf752e7cdbdd3b0bfc0306e3ad180079470f82d28d4ea9befec888d48ed44c",
+      "geometryHash": "81afed059e4b8205a631892ba8f875c9e461a70b36a5a71027d7bfacf3a59323",
+      "base": "short",
+      "geometryKey": "short",
+      "policy": {},
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 1,
+        "sides": 0,
+        "texture": 1,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "03",
+      "familyName": "Pointes courtes et franges irrégulières",
+      "module": "P4",
+      "modulePath": "i5/i4/i3/i2/i1/base/p4-render.mjs",
+      "technical": "T002",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "Couronne de 17 points alternés, pointes +5 ; petite frange polygonale.",
+      "primitives": "coverageCap, pointes/franges en tableaux",
+      "exactPeers": [],
+      "closest": [
+        "03 (81.16 %)",
+        "28-G (80.89 %)",
+        "59-G (80.89 %)"
+      ]
+    },
+    {
+      "key": "03",
+      "number": 3,
+      "style": "classic",
+      "a": "U",
+      "name": "Classique courte",
+      "status": "known",
+      "neutralHash": "2b8a43ecb1a3cd77f6637588988f6ef5878dccd4169d0de711e2192a7359017e",
+      "geometryHash": "492e2b79667cd39d13289a235792a565e9c8a6e947b87ac1bac8d72cbdb943a9",
+      "base": "classic",
+      "geometryKey": "classic",
+      "policy": {},
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 1,
+        "sides": 0,
+        "texture": 1,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "02",
+      "familyName": "Balayages courts et mèches en S",
+      "module": "R1",
+      "modulePath": "i5/i4/i3/i2/i1/base/r1/render.mjs",
+      "technical": "T003",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "Classique P3-R1 : volume balayé en S et implantation corrigée par coverageCap(classic).",
+      "primitives": "coverageCap, swept, courbes locales",
+      "exactPeers": [],
+      "closest": [
+        "19-G (91.35 %)",
+        "21-G (91.35 %)",
+        "68-G (91.35 %)"
+      ]
+    },
+    {
+      "key": "04",
+      "number": 4,
+      "style": "bob",
+      "a": "U",
+      "name": "Carré court",
+      "status": "known",
+      "neutralHash": "1337563a9788d4e6caa83e3b38fe3841e757076f9478eb59406dfe216a9a8ae4",
+      "geometryHash": "2bda93380e6c3d7f9387a29f27ee139740b49b66d7afff930fc58bfcbd504599",
+      "base": "bob",
+      "geometryKey": "bob",
+      "policy": {},
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 1,
+        "sides": 2,
+        "texture": 2,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "bob",
+      "family": "04",
+      "familyName": "Carrés lisses à raie",
+      "module": "R1",
+      "modulePath": "i5/i4/i3/i2/i1/base/r1/render.mjs",
+      "technical": "T004",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "Carré P3-R1 : raie centrale et deux panneaux arrondis au niveau end.",
+      "primitives": "calotte bob, swept et panneaux",
+      "exactPeers": [],
+      "closest": [
+        "21-D (89.65 %)",
+        "19-D (89.48 %)"
+      ]
+    },
+    {
+      "key": "05",
+      "number": 5,
+      "style": "fringe_bob",
+      "a": "U",
+      "name": "Carré à frange",
+      "status": "known",
+      "neutralHash": "971f64d01f4a1b613ad85901a7d2d6c6d4a71e3bb771624634c85e875407142b",
+      "geometryHash": "42591a7369be62714c865d4692ab292cb5bc3c91177ec001033b295a691e3753",
+      "base": "fringe_bob",
+      "geometryKey": "fringe_bob",
+      "policy": {},
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 1,
+        "sides": 2,
+        "texture": 7,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "bob",
+      "family": "05",
+      "familyName": "Carrés structurés à frange droite",
+      "module": "P4",
+      "modulePath": "i5/i4/i3/i2/i1/base/p4-render.mjs",
+      "technical": "T005",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "Frange pleine, by=min(brow−4,fy+10) ; panneaux rectilignes au menton.",
+      "primitives": "frange P4, panneaux droits",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "06",
+      "number": 6,
+      "style": "mid_waves",
+      "a": "U",
+      "name": "Mi-longs ondulés",
+      "status": "known",
+      "neutralHash": "0db292ca30d5f5bebc806387ffb71591849cd0a4a9785bae76d211014ac43ac1",
+      "geometryHash": "1719c0ff89230ed40880a7352a76c465034305866c3293608a7389bb364e9e37",
+      "base": "mid_waves",
+      "geometryKey": "mid_waves",
+      "policy": {},
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 1,
+        "sides": 0,
+        "texture": 0,
+        "lengths": 6
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "bob",
+      "family": "07",
+      "familyName": "Longueurs libres ondulées",
+      "module": "P4",
+      "modulePath": "i5/i4/i3/i2/i1/base/p4-render.mjs",
+      "technical": "T006",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "Deux rubans waves, longueur end+27 ; sinuosités en cubiques et détails périodiques.",
+      "primitives": "calotte, ribbon/wave/cascade",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "07",
+      "number": 7,
+      "style": "long_straight",
+      "a": "U",
+      "name": "Longs lisses",
+      "status": "known",
+      "neutralHash": "bae3e1604d0726b5c90e7fc2ccf1141b820b46ea00583f9f80d83585cad4c447",
+      "geometryHash": "ceb3f2cc6638910a0f1406ac77a632e6e8446b40e43fb118b2309953763fec30",
+      "base": "long_straight",
+      "geometryKey": "long_straight",
+      "policy": {},
+      "paths": {
+        "back": 5,
+        "volume": 2,
+        "front": 1,
+        "sides": 0,
+        "texture": 0,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "bob",
+      "family": "06",
+      "familyName": "Longs rideaux lisses ou à faible ondulation",
+      "module": "P4",
+      "modulePath": "i5/i4/i3/i2/i1/base/p4-render.mjs",
+      "technical": "T007",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "Rideau arrière et deux rubans straight, end+58 ; raie héritée bob.",
+      "primitives": "calotte, ribbon lisse ou faible amplitude",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "08",
+      "number": 8,
+      "style": "curls",
+      "a": "U",
+      "name": "Boucles courtes",
+      "status": "known",
+      "neutralHash": "d27ae83e4b485b2ad851c8dc2d6449cdcd4f3b5a989c42d16f53e7afc13cad0d",
+      "geometryHash": "e85d22bfbaff32f807d55d1c7e3b16266dad7ae1dba0cd895198cab2de010498",
+      "base": "curls",
+      "geometryKey": "curls",
+      "policy": {},
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 20,
+        "sides": 2,
+        "texture": 22,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "curls",
+      "family": "08",
+      "familyName": "Couronnes de boucles courtes",
+      "module": "R1",
+      "modulePath": "i5/i4/i3/i2/i1/base/r1/render.mjs",
+      "technical": "T008",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "Boucles P3-R1 : 17 lobes périphériques et trois boucles frontales.",
+      "primitives": "calotte curls, lobes/coils",
+      "exactPeers": [
+        "58-G"
+      ],
+      "closest": [
+        "27-G (80.35 %)"
+      ]
+    },
+    {
+      "key": "09",
+      "number": 9,
+      "style": "long_curls",
+      "a": "U",
+      "name": "Boucles longues",
+      "status": "known",
+      "neutralHash": "02923603272ffc2e0624860061305724be13042268131db5698b6bad395fba14",
+      "geometryHash": "1923dc6cefc72bc87f094ba3af887f3a56ecd743e4006ea61aa5d0418feadeb9",
+      "base": "long_curls",
+      "geometryKey": "long_curls",
+      "policy": {},
+      "paths": {
+        "back": 15,
+        "volume": 2,
+        "front": 20,
+        "sides": 0,
+        "texture": 22,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "curls",
+      "family": "09",
+      "familyName": "Longues boucles et rouleaux ouverts",
+      "module": "P4",
+      "modulePath": "i5/i4/i3/i2/i1/base/p4-render.mjs",
+      "technical": "T009",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "Rideau arrière et rubans curls end+64 ; lobes/détails répétés, sans attache.",
+      "primitives": "calotte, ribbon/curls/halo",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "10",
+      "number": 10,
+      "style": "braids",
+      "a": "U",
+      "name": "Tresses",
+      "status": "known",
+      "neutralHash": "9db549322c1818e199a00b6979658574e3a78182dc5f68556d0bbc55cd4b4a1d",
+      "geometryHash": "ffa247c06b5f9ac6b06570770f42a06ed2bcd522f7b432f280c96df36e07ce01",
+      "base": "braids",
+      "geometryKey": "braids",
+      "policy": {},
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 1,
+        "sides": 2,
+        "texture": 0,
+        "lengths": 34
+      },
+      "features": [],
+      "embeddedTiesRemoved": 2,
+      "cap": "bob",
+      "family": "18",
+      "familyName": "Deux longues nattes, avec ou sans couronne",
+      "module": "P4",
+      "modulePath": "i5/i4/i3/i2/i1/base/p4-render.mjs",
+      "technical": "T010",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "Raie bob et deux nattes P4 ; départ end−6, fin end+67, largeur 7.",
+      "primitives": "parted/crown, hangingBraid, strand",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "11",
+      "number": 11,
+      "style": "bun",
+      "a": "U",
+      "name": "Attaché · chignon",
+      "status": "known",
+      "neutralHash": "ed3bfa005aef71a99a471452453836f0e235a2be11ae041cd541dfca191827ec",
+      "geometryHash": "3d3587b7b9f0e3f317839f013328205ba647b20366b33890f9a37cde6065baac",
+      "base": "bun",
+      "geometryKey": "bun",
+      "policy": {},
+      "paths": {
+        "back": 2,
+        "volume": 2,
+        "front": 1,
+        "sides": 2,
+        "texture": 2,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "bob",
+      "family": "12",
+      "familyName": "Chignons lisses et petites mèches",
+      "module": "P4",
+      "modulePath": "i5/i4/i3/i2/i1/base/p4-render.mjs",
+      "technical": "T011",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "Chignon haut cubique et deux petites mèches ; volume arrière de t−37 à t+2.",
+      "primitives": "smoothBun/chignon, pulled/parted, loose",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "12",
+      "number": 12,
+      "style": "pony",
+      "a": "U",
+      "name": "Queue de cheval",
+      "status": "known",
+      "neutralHash": "d7b22c0cfeda7860ee6602955ac3d06be6d1d4ddb768b2f688d502a1e7efdd98",
+      "geometryHash": "6a4f4bc6d3922f439b7a61b51af114a2b08f9aec148d831044bba263f64ef21d",
+      "base": "pony",
+      "geometryKey": "pony",
+      "policy": {},
+      "paths": {
+        "back": 2,
+        "volume": 2,
+        "front": 1,
+        "sides": 0,
+        "texture": 1,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 1,
+      "cap": "classic",
+      "family": "15",
+      "familyName": "Queues uniques hautes ou basses",
+      "module": "P4",
+      "modulePath": "i5/i4/i3/i2/i1/base/p4-render.mjs",
+      "technical": "T012",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "Queue haute décentrée x+.76r,t+12 ; longue courbe derrière l’épaule.",
+      "primitives": "calotte, queue cubique arrière",
+      "exactPeers": [
+        "24-D"
+      ],
+      "closest": []
+    },
+    {
+      "key": "13",
+      "number": 13,
+      "style": "waist_straight",
+      "a": "U",
+      "name": "Très longs lisses",
+      "status": "known",
+      "neutralHash": "8b3a19b83c9ff9ccc65d7193bca879047fb94ebf40bae8f0ee6f304928000d91",
+      "geometryHash": "cc1c1a56bee448a370cf79bb3aeb776bfc730d92d9004b86d4d5abe04d2574aa",
+      "base": "waist_straight",
+      "geometryKey": "waist_straight",
+      "policy": {},
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 1,
+        "sides": 0,
+        "texture": 0,
+        "lengths": 4
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "bob",
+      "family": "06",
+      "familyName": "Longs rideaux lisses ou à faible ondulation",
+      "module": "P4",
+      "modulePath": "i5/i4/i3/i2/i1/base/p4-render.mjs",
+      "technical": "T013",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Rubans straight jusqu’à end+118, devant le buste ; même famille de raie que 07.",
+      "primitives": "calotte, ribbon lisse ou faible amplitude",
+      "exactPeers": [],
+      "closest": [
+        "14 (85.54 %)"
+      ]
+    },
+    {
+      "key": "14",
+      "number": 14,
+      "style": "waist_waves",
+      "a": "U",
+      "name": "Très longs ondulés",
+      "status": "known",
+      "neutralHash": "a1c5b768ed25ee4dffeb009fdf558b119c134da29eb628e0a6e23e387d3da328",
+      "geometryHash": "e4b5a2c55db19776fd281964492a7f77ea8711ec7483bc8b00b0ffa9674eabd0",
+      "base": "waist_waves",
+      "geometryKey": "waist_waves",
+      "policy": {},
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 1,
+        "sides": 0,
+        "texture": 0,
+        "lengths": 12
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "bob",
+      "family": "07",
+      "familyName": "Longueurs libres ondulées",
+      "module": "P4",
+      "modulePath": "i5/i4/i3/i2/i1/base/p4-render.mjs",
+      "technical": "T014",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Rubans waves jusqu’à end+118 ; nombre de courbes dépend de la longueur fixe.",
+      "primitives": "calotte, ribbon/wave/cascade",
+      "exactPeers": [],
+      "closest": [
+        "13 (85.54 %)",
+        "15 (81.62 %)"
+      ]
+    },
+    {
+      "key": "15",
+      "number": 15,
+      "style": "waist_curls",
+      "a": "U",
+      "name": "Très longues boucles",
+      "status": "known",
+      "neutralHash": "df4db96b2e903e94b99782dd378ffba9b50a03badf8b9951bdacd18339c7d5f3",
+      "geometryHash": "0425892d35aa7626a70dd3a7bdf09116ce2320ba6ab2cb4d25078b32ae93200c",
+      "base": "waist_curls",
+      "geometryKey": "waist_curls",
+      "policy": {},
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 20,
+        "sides": 0,
+        "texture": 22,
+        "lengths": 24
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "curls",
+      "family": "09",
+      "familyName": "Longues boucles et rouleaux ouverts",
+      "module": "P4",
+      "modulePath": "i5/i4/i3/i2/i1/base/p4-render.mjs",
+      "technical": "T015",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Rubans curls jusqu’à end+118 ; mêmes mécanismes que 09, longueur et répétition accrues.",
+      "primitives": "calotte, ribbon/curls/halo",
+      "exactPeers": [],
+      "closest": [
+        "14 (81.62 %)"
+      ]
+    },
+    {
+      "key": "16",
+      "number": 16,
+      "style": "afro",
+      "a": "U",
+      "name": "Afro ample",
+      "status": "known",
+      "neutralHash": "be79e6d88f0978c21be0d2439e4924477b70d4a4d0f86c39606fefb744b91598",
+      "geometryHash": "797fda0c5f962216af8631997b51cfafcd66386706dd5739b5c9fd95d15b7591",
+      "base": "afro",
+      "geometryKey": "afro",
+      "policy": {},
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 20,
+        "sides": 0,
+        "texture": 6,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "curls",
+      "family": "10",
+      "familyName": "Masse afro ample",
+      "module": "P4",
+      "modulePath": "i5/i4/i3/i2/i1/base/p4-render.mjs",
+      "technical": "T016",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "Macro-masse afro de 40 points à lobes alternés ±2,5, coils internes en grille.",
+      "primitives": "contourPath lobé, grille de coils",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "17",
+      "number": 17,
+      "style": "side_braid",
+      "a": "U",
+      "name": "Natte sur l’épaule",
+      "status": "known",
+      "neutralHash": "b78f191623d3d56ef6a839a23ae5d98cd7d00abb7d9b18565e8c9affa309b227",
+      "geometryHash": "10668bbd7a9ed067bd1ab6c956a631b87977bba75f15876afcfb8b75496db48a",
+      "base": "side_braid",
+      "geometryKey": "side_braid",
+      "policy": {},
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 1,
+        "sides": 2,
+        "texture": 1,
+        "lengths": 27
+      },
+      "features": [],
+      "embeddedTiesRemoved": 1,
+      "cap": "bob",
+      "family": "17",
+      "familyName": "Une natte longue à départ temporal ou de nuque",
+      "module": "P4",
+      "modulePath": "i5/i4/i3/i2/i1/base/p4-render.mjs",
+      "technical": "T017",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "Natte unique P4 à droite, largeur 10, fin end+111 et déport 8.",
+      "primitives": "braid/strand, hanging, racines locales",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "18",
+      "number": 18,
+      "style": "asym_long",
+      "a": "U",
+      "name": "Asymétrique · carré et cascade",
+      "status": "known",
+      "neutralHash": "3e46c7e958156745b00acc245f09111d187f5a5ebc268e9f582c08632ff7120f",
+      "geometryHash": "b6424bbb3dcc90e9967e63f8a02ea15eac49d911b46f06996ae28429084c3fea",
+      "base": "asym_long",
+      "geometryKey": "asym_long",
+      "policy": {},
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 2,
+        "sides": 1,
+        "texture": 1,
+        "lengths": 5
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "bob",
+      "family": "21",
+      "familyName": "Longueurs fortement dissymétriques",
+      "module": "P4",
+      "modulePath": "i5/i4/i3/i2/i1/base/p4-render.mjs",
+      "technical": "T018",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "Côté court rectiligne et cascade ondulée opposée end+88 ; frange oblique.",
+      "primitives": "ribbon/cascade asymétrique, highSweep",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "19-G",
+      "number": 19,
+      "style": "p5-019",
+      "a": "G",
+      "name": "Raie classique",
+      "status": "known",
+      "neutralHash": "ddbae726a877cdafc940b7002d6f9ba4efa74bafe511218b8e9bc5cbf6321072",
+      "geometryHash": "26c4f4d688c3c12d75e56f193a4c4c04bbe18427e0978eb4eeea40a218007119",
+      "base": "classic",
+      "geometryKey": "side-wave-short",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 1,
+        "sides": 0,
+        "texture": 1,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "02",
+      "familyName": "Balayages courts et mèches en S",
+      "module": "A",
+      "modulePath": "i5/i4/i3/i2/i1/hair.mjs",
+      "technical": "T019",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "swept(0) : grande mèche en S ; même appel pour 21-G.",
+      "primitives": "coverageCap, swept, courbes locales",
+      "exactPeers": [
+        "21-G",
+        "68-G"
+      ],
+      "closest": [
+        "03 (91.35 %)",
+        "22-G (90.77 %)",
+        "33-G (89.14 %)"
+      ]
+    },
+    {
+      "key": "19-D",
+      "number": 19,
+      "style": "p5-019",
+      "a": "D",
+      "name": "Raie classique",
+      "status": "known",
+      "neutralHash": "dbc4a4bd26e1ff34c6898e878f0ab2e2a3880c6a852154e8abf53d104bee349b",
+      "geometryHash": "d819b5bf5c4537b511607a5c8557d2a78e1b8ca8902e57d856e9d0a1d077d34f",
+      "base": "bob",
+      "geometryKey": "p5-019-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 1,
+        "sides": 2,
+        "texture": 3,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "bob",
+      "family": "04",
+      "familyName": "Carrés lisses à raie",
+      "module": "A",
+      "modulePath": "i5/i4/i3/i2/i1/hair.mjs",
+      "technical": "T020",
+      "classification": "Variante mineure",
+      "justification": "Même macro-structure que ses voisines ; différence locale de bord, de mèche ou de chignon, visible sur les planches.",
+      "recipe": "bob(false) : balayage et panneaux arrondis end+3.",
+      "primitives": "calotte bob, swept et panneaux",
+      "exactPeers": [],
+      "closest": [
+        "21-D (95.79 %)",
+        "04 (89.48 %)"
+      ]
+    },
+    {
+      "key": "20-G",
+      "number": 20,
+      "style": "p5-020",
+      "a": "G",
+      "name": "Dégradé court",
+      "status": "known",
+      "neutralHash": "deb9c37f8c5c38c3338f900fb0a0823cba107fa3ea3eec91adf5c8a57fbf2442",
+      "geometryHash": "5cdc71f8ec4b9af1fdbd8754500ac4092bd03845da0bce09e04e44f9efc65a42",
+      "base": "classic",
+      "geometryKey": "p5-020-G",
+      "policy": {
+        "mode": "top",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 0,
+        "volume": 2,
+        "front": 1,
+        "sides": 0,
+        "texture": 9,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "32",
+      "familyName": "Dessus court sur côtés dégagés",
+      "module": "A",
+      "modulePath": "i5/i4/i3/i2/i1/hair.mjs",
+      "technical": "T021",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "spikes(crop), calotte tronquée au-dessus des tempes ; côtés exposés.",
+      "primitives": "spikes/quiff/undercut, calotte tronquée",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "20-D",
+      "number": 20,
+      "style": "p5-020",
+      "a": "D",
+      "name": "Dégradé court",
+      "status": "known",
+      "neutralHash": "ff42b5bc1fc46510af4ca4ae63d745368f61146415c661e80658bbce1f4d5653",
+      "geometryHash": "9bcc84292589ce62ac40d586ab918622da7fa443b22609bfe915d6f253ae8768",
+      "base": "classic",
+      "geometryKey": "p5-020-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 1,
+        "sides": 0,
+        "texture": 3,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "03",
+      "familyName": "Pointes courtes et franges irrégulières",
+      "module": "A",
+      "modulePath": "i5/i4/i3/i2/i1/hair.mjs",
+      "technical": "T022",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "spikes(swept) : petits polygones et frange pointue limitée à brow−3,5.",
+      "primitives": "coverageCap, pointes/franges en tableaux",
+      "exactPeers": [],
+      "closest": [
+        "26-G (90.12 %)",
+        "44-G (85.57 %)",
+        "39-G (82.61 %)"
+      ]
+    },
+    {
+      "key": "21-G",
+      "number": 21,
+      "style": "p5-021",
+      "a": "G",
+      "name": "Carré moderne",
+      "status": "known",
+      "neutralHash": "ddbae726a877cdafc940b7002d6f9ba4efa74bafe511218b8e9bc5cbf6321072",
+      "geometryHash": "26c4f4d688c3c12d75e56f193a4c4c04bbe18427e0978eb4eeea40a218007119",
+      "base": "classic",
+      "geometryKey": "side-wave-short",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 1,
+        "sides": 0,
+        "texture": 1,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "02",
+      "familyName": "Balayages courts et mèches en S",
+      "module": "A",
+      "modulePath": "i5/i4/i3/i2/i1/hair.mjs",
+      "technical": "T019",
+      "classification": "Doublon visuel",
+      "justification": "Même composition que 19-G sur les 270 états, sans objets/couleur.",
+      "recipe": "Même swept(0) que 19-G.",
+      "primitives": "coverageCap, swept, courbes locales",
+      "exactPeers": [
+        "19-G",
+        "68-G"
+      ],
+      "closest": [
+        "03 (91.35 %)",
+        "22-G (90.77 %)",
+        "33-G (89.14 %)"
+      ]
+    },
+    {
+      "key": "21-D",
+      "number": 21,
+      "style": "p5-021",
+      "a": "D",
+      "name": "Carré moderne",
+      "status": "known",
+      "neutralHash": "93a8b67d084dc40c5ec8786d1af742ea2395e4bbbe37054060e12029e7cb447d",
+      "geometryHash": "52b742c4a0f230785cf43448a8d6e11cb78e6deb229ca6c1772e556e985e9941",
+      "base": "bob",
+      "geometryKey": "p5-021-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 1,
+        "sides": 2,
+        "texture": 3,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "bob",
+      "family": "04",
+      "familyName": "Carrés lisses à raie",
+      "module": "A",
+      "modulePath": "i5/i4/i3/i2/i1/hair.mjs",
+      "technical": "T023",
+      "classification": "Variante mineure",
+      "justification": "Même macro-structure que ses voisines ; différence locale de bord, de mèche ou de chignon, visible sur les planches.",
+      "recipe": "bob(true) : ligne basse droite end+5, côtés et bord distincts de 19-D.",
+      "primitives": "calotte bob, swept et panneaux",
+      "exactPeers": [],
+      "closest": [
+        "19-D (95.79 %)",
+        "04 (89.65 %)"
+      ]
+    },
+    {
+      "key": "22-G",
+      "number": 22,
+      "style": "p5-022",
+      "a": "G",
+      "name": "Ondulations souples",
+      "status": "known",
+      "neutralHash": "9457bd9ade1705286c1d678cb3d32a58074f9f36bc9ec712281b10a10a83a90a",
+      "geometryHash": "f057b1517942467389ffc16f014aa380b2ee0e0e9898ac14d2b21bb931f9c2bc",
+      "base": "classic",
+      "geometryKey": "p5-022-G",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 1,
+        "sides": 2,
+        "texture": 3,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "02",
+      "familyName": "Balayages courts et mèches en S",
+      "module": "A",
+      "modulePath": "i5/i4/i3/i2/i1/hair.mjs",
+      "technical": "T024",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Grandes vagues retournées courtes, sans attache ; contours locaux propres.",
+      "primitives": "coverageCap, swept, courbes locales",
+      "exactPeers": [],
+      "closest": [
+        "19-G (90.77 %)",
+        "21-G (90.77 %)",
+        "68-G (90.77 %)"
+      ]
+    },
+    {
+      "key": "22-D",
+      "number": 22,
+      "style": "p5-022",
+      "a": "D",
+      "name": "Ondulations souples",
+      "status": "known",
+      "neutralHash": "e4e6e4d0fe5f0cd3b9b537a20bc25d29a3ca48bf98a3b71fd7ae26b1f0075921",
+      "geometryHash": "d592543b1794289df92c3204059ce054bc71aad26a0e85a26a31145cceab6f4e",
+      "base": "mid_waves",
+      "geometryKey": "p5-022-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 1,
+        "sides": 0,
+        "texture": 1,
+        "lengths": 8
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "bob",
+      "family": "07",
+      "familyName": "Longueurs libres ondulées",
+      "module": "A",
+      "modulePath": "i5/i4/i3/i2/i1/hair.mjs",
+      "technical": "T025",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Deux ribbon(waves), amp=8, trois lobes, jusqu’à end+53 ; arrière hérité.",
+      "primitives": "calotte, ribbon/wave/cascade",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "23-G",
+      "number": 23,
+      "style": "p5-023",
+      "a": "G",
+      "name": "Effet coiffé-décoiffé",
+      "status": "known",
+      "neutralHash": "c094c90918b8311a36bfdd006f319bd2228d208ad1a8bb61d1390c480271c91c",
+      "geometryHash": "728459879377537d9e907fe5cd501decbcb701f7f5c6303efa5515bbbc420542",
+      "base": "classic",
+      "geometryKey": "p5-023-G",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 1,
+        "sides": 0,
+        "texture": 3,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "03",
+      "familyName": "Pointes courtes et franges irrégulières",
+      "module": "A",
+      "modulePath": "i5/i4/i3/i2/i1/hair.mjs",
+      "technical": "T026",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "spikes(messy), pointes et frange désordonnée.",
+      "primitives": "coverageCap, pointes/franges en tableaux",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "23-D",
+      "number": 23,
+      "style": "p5-023",
+      "a": "D",
+      "name": "Effet coiffé-décoiffé",
+      "status": "known",
+      "neutralHash": "e58709391ecddf3227ea6a2b1b47a1af4cb92532ab3ccc0120ae43a705cec7a0",
+      "geometryHash": "32692c6d6d65f0ca749b0708c1da521a64f23d46f7be635eb4f9fec065e310d2",
+      "base": "bun",
+      "geometryKey": "p5-023-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 1,
+        "sides": 2,
+        "texture": 2,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "bob",
+      "family": "14",
+      "familyName": "Volumes ébouriffés hauts et mèches libres",
+      "module": "A",
+      "modulePath": "i5/i4/i3/i2/i1/hair.mjs",
+      "technical": "T027",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "Petit volume de chignon irrégulier et deux mèches étroites jusqu’à end+22.",
+      "primitives": "chignon irrégulier, swept/highFan, loose",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "24-G",
+      "number": 24,
+      "style": "p5-024",
+      "a": "G",
+      "name": "Queue-de-cheval",
+      "status": "known",
+      "neutralHash": "5b93b2f08e0fcd6f1464e84c23c662e7585cbf18609d582126b3e5683fdb4d15",
+      "geometryHash": "f998942df6c25f8f676081614649fbe4faa0867c981ea2498a1bb74c0d4f70ac",
+      "base": "classic",
+      "geometryKey": "p5-024-G",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 2,
+        "volume": 2,
+        "front": 0,
+        "sides": 0,
+        "texture": 4,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "15",
+      "familyName": "Queues uniques hautes ou basses",
+      "module": "A",
+      "modulePath": "i5/i4/i3/i2/i1/hair.mjs",
+      "technical": "T028",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Queue basse latérale derrière la nuque ; terminaison end+59.",
+      "primitives": "calotte, queue cubique arrière",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "24-D",
+      "number": 24,
+      "style": "p5-024",
+      "a": "D",
+      "name": "Queue-de-cheval",
+      "status": "known",
+      "neutralHash": "d7b22c0cfeda7860ee6602955ac3d06be6d1d4ddb768b2f688d502a1e7efdd98",
+      "geometryHash": "6a4f4bc6d3922f439b7a61b51af114a2b08f9aec148d831044bba263f64ef21d",
+      "base": "pony",
+      "geometryKey": "p4-pony",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 2,
+        "volume": 2,
+        "front": 1,
+        "sides": 0,
+        "texture": 1,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "15",
+      "familyName": "Queues uniques hautes ou basses",
+      "module": "A",
+      "modulePath": "i5/i4/i3/i2/i1/hair.mjs",
+      "technical": "T012",
+      "classification": "Doublon visuel",
+      "justification": "Même composition que 12 sur les 270 états, sans objets/couleur.",
+      "recipe": "Cheveux de pony P4 repris ; lien déplacé vers les accessoires séparés.",
+      "primitives": "calotte, queue cubique arrière",
+      "exactPeers": [
+        "12"
+      ],
+      "closest": []
+    },
+    {
+      "key": "25-G",
+      "number": 25,
+      "style": "p5-025",
+      "a": "G",
+      "name": "Undercut",
+      "status": "known",
+      "neutralHash": "1ba17f6b84f4516c71fed317f924a566c554f73e5482712a0553a17719e3ee50",
+      "geometryHash": "f4f7a7b63d29a6331c20184a7b4d022552d0f2855bc63416def78793382c9d92",
+      "base": "classic",
+      "geometryKey": "p5-025-G",
+      "policy": {
+        "mode": "top",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 0,
+        "volume": 2,
+        "front": 1,
+        "sides": 0,
+        "texture": 1,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "32",
+      "familyName": "Dessus court sur côtés dégagés",
+      "module": "A",
+      "modulePath": "i5/i4/i3/i2/i1/hair.mjs",
+      "technical": "T029",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Quiff court polygonal sur côtés tronqués ; traits de tonte latéraux.",
+      "primitives": "spikes/quiff/undercut, calotte tronquée",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "25-D",
+      "number": 25,
+      "style": "p5-025",
+      "a": "D",
+      "name": "Undercut",
+      "status": "known",
+      "neutralHash": "83b1614fd68065999f805d632991d92101bbfc0cd8a3423cff895b9a61d1ae2d",
+      "geometryHash": "dc3259590d36b5c0238d9dd4ee60f1a5f34ea480621266d5c6f80f2e26dab58e",
+      "base": "bob",
+      "geometryKey": "p5-025-D",
+      "policy": {
+        "mode": "right-shaved",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 0,
+        "volume": 2,
+        "front": 1,
+        "sides": 1,
+        "texture": 5,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "bob",
+      "family": "20",
+      "familyName": "Longue mèche asymétrique et tempe courte",
+      "module": "A",
+      "modulePath": "i5/i4/i3/i2/i1/hair.mjs",
+      "technical": "T030",
+      "classification": "Variante mineure",
+      "justification": "Même macro-structure que ses voisines ; différence locale de bord, de mèche ou de chignon, visible sur les planches.",
+      "recipe": "Balayage en S et panneau oblique end+24, tempe opposée dégagée.",
+      "primitives": "undercut/swept, panneau, clip de côté court",
+      "exactPeers": [],
+      "closest": [
+        "44-D (96.53 %)"
+      ]
+    },
+    {
+      "key": "26-G",
+      "number": 26,
+      "style": "p5-026",
+      "a": "G",
+      "name": "Frange et mèches",
+      "status": "known",
+      "neutralHash": "e338fdf9c10862499d0d234eb68cee7d41f51670d4d90059788f8d47540e6482",
+      "geometryHash": "8bba51551166becce34354dae6d1d7c7f424a39693fed60653ea3a4cc46434f0",
+      "base": "classic",
+      "geometryKey": "p5-026-G",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 1,
+        "sides": 0,
+        "texture": 3,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "03",
+      "familyName": "Pointes courtes et franges irrégulières",
+      "module": "A",
+      "modulePath": "i5/i4/i3/i2/i1/hair.mjs",
+      "technical": "T031",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "spikes(fringe), frange déchiquetée et arrière hérité.",
+      "primitives": "coverageCap, pointes/franges en tableaux",
+      "exactPeers": [],
+      "closest": [
+        "20-D (90.12 %)",
+        "44-G (84.82 %)"
+      ]
+    },
+    {
+      "key": "26-D",
+      "number": 26,
+      "style": "p5-026",
+      "a": "D",
+      "name": "Frange et mèches",
+      "status": "known",
+      "neutralHash": "daa00129776dbf47320db82411a267cc3c84e0a4f76967c8fb72be9303f82094",
+      "geometryHash": "2a743519e9f3895a6f4da3fccdc099e6ebbe0c19bf3d680303e3df141b7297b4",
+      "base": "fringe_bob",
+      "geometryKey": "p5-026-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 1,
+        "sides": 0,
+        "texture": 5,
+        "lengths": 8
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "bob",
+      "family": "06",
+      "familyName": "Longs rideaux lisses ou à faible ondulation",
+      "module": "A",
+      "modulePath": "i5/i4/i3/i2/i1/hair.mjs",
+      "technical": "T032",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Frange droite P4 et ribbon amp=4, lobes=3, jusqu’à end+55.",
+      "primitives": "calotte, ribbon lisse ou faible amplitude",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "27-G",
+      "number": 27,
+      "style": "p5-027",
+      "a": "G",
+      "name": "Boucles volumineuses",
+      "status": "known",
+      "neutralHash": "e452b9b86b00ba473bdd8214ed72767206c4a3c08e702bf735e2f93288a400fd",
+      "geometryHash": "faae351be3645298d04533856f9d30b6a07ac49d21792ff67622801263008b93",
+      "base": "curls",
+      "geometryKey": "p5-027-G",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 1,
+        "volume": 1,
+        "front": 3,
+        "sides": 0,
+        "texture": 12,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "curls",
+      "family": "08",
+      "familyName": "Couronnes de boucles courtes",
+      "module": "A",
+      "modulePath": "i5/i4/i3/i2/i1/hair.mjs",
+      "technical": "T033",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "halo(false), 26 points alternés et neuf boucles de texture.",
+      "primitives": "calotte curls, lobes/coils",
+      "exactPeers": [],
+      "closest": [
+        "08 (80.35 %)",
+        "58-G (80.35 %)"
+      ]
+    },
+    {
+      "key": "27-D",
+      "number": 27,
+      "style": "p5-027",
+      "a": "D",
+      "name": "Boucles volumineuses",
+      "status": "known",
+      "neutralHash": "664f195b8b21b4568720228f5b63dd52bc22229d2f3ce80846e794b534efe8a1",
+      "geometryHash": "231cc7838225f796f986c1bf958646a60883b2172b73980b1331295020cf7e82",
+      "base": "long_curls",
+      "geometryKey": "p5-027-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 1,
+        "volume": 1,
+        "front": 2,
+        "sides": 0,
+        "texture": 9,
+        "lengths": 10
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "curls",
+      "family": "09",
+      "familyName": "Longues boucles et rouleaux ouverts",
+      "module": "A",
+      "modulePath": "i5/i4/i3/i2/i1/hair.mjs",
+      "technical": "T034",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "halo(true), 22 points et rubans curl amp=10, quatre lobes, end+64.",
+      "primitives": "calotte, ribbon/curls/halo",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "28-G",
+      "number": 28,
+      "style": "p5-028",
+      "a": "G",
+      "name": "Couronne tressée",
+      "status": "known",
+      "neutralHash": "db91b5d9fe4e3dcdeb1944911127dbc80f47fe46bc746e9882d155d098b7c502",
+      "geometryHash": "df65eca40bf0e2e78788ffa4d2611903faf9fc0ca7d3312b3adce8816ef63e41",
+      "base": "classic",
+      "geometryKey": "p5-028-G",
+      "policy": {
+        "mode": "full"
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 34,
+        "sides": 0,
+        "texture": 0,
+        "lengths": 0
+      },
+      "features": [
+        "braided-crown",
+        "braid"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "11",
+      "familyName": "Couronnes tressées sans longue natte",
+      "module": "B",
+      "modulePath": "i5/i4/i3/i2/hair.mjs",
+      "technical": "T035",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "centrePart + crown(false), arc de 17 centres entrelacés, largeur 5,4.",
+      "primitives": "centrePart, arc braid/strand",
+      "exactPeers": [
+        "59-G"
+      ],
+      "closest": [
+        "31-G (81.34 %)",
+        "02 (80.89 %)"
+      ]
+    },
+    {
+      "key": "28-D",
+      "number": 28,
+      "style": "p5-028",
+      "a": "D",
+      "name": "Couronne tressée",
+      "status": "known",
+      "neutralHash": "9711f716344d694941209725040f331769a1e1cd0658d6d5ac1c1f6836aa4061",
+      "geometryHash": "2020dec3196df13710433bac573e79c16c1c3a2eb99a62c4c0e00691468a0f3e",
+      "base": "classic",
+      "geometryKey": "p5-028-D",
+      "policy": {
+        "mode": "full"
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 34,
+        "sides": 0,
+        "texture": 0,
+        "lengths": 2
+      },
+      "features": [
+        "braided-crown",
+        "braid",
+        "loose-lock"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "11",
+      "familyName": "Couronnes tressées sans longue natte",
+      "module": "B",
+      "modulePath": "i5/i4/i3/i2/hair.mjs",
+      "technical": "T036",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Même couronne, plus deux tendril fins jusqu’à end+31.",
+      "primitives": "centrePart, arc braid/strand",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "29-G",
+      "number": 29,
+      "style": "p5-029",
+      "a": "G",
+      "name": "Chignon architectural",
+      "status": "known",
+      "neutralHash": "aa24853745a5fad007be1086a08618d100fedefedbfbd1a6b3522cbba9912973",
+      "geometryHash": "652d735af208aa92bb7769c62492b7b388802d68c1a5425c16c597fbb1ac74fc",
+      "base": "classic",
+      "geometryKey": "p5-029-G",
+      "policy": {
+        "mode": "full"
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 1,
+        "sides": 0,
+        "texture": 4,
+        "lengths": 0
+      },
+      "features": [
+        "architectural-fan"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "31",
+      "familyName": "Éventails et quiffs très hauts",
+      "module": "B",
+      "modulePath": "i5/i4/i3/i2/hair.mjs",
+      "technical": "T037",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "fan(false), contour relevé en grandes courbes.",
+      "primitives": "fan/highFan en grandes courbes",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "29-D",
+      "number": 29,
+      "style": "p5-029",
+      "a": "D",
+      "name": "Chignon architectural",
+      "status": "known",
+      "neutralHash": "c0f5e04f4c171e27f9e88e3b1d336603b2f9161393783f1798d94738a5a9d145",
+      "geometryHash": "bd74a23345495fd5a165f5b1b49da9eb9ae7839c091866b2e653267df8063992",
+      "base": "classic",
+      "geometryKey": "p5-029-D",
+      "policy": {
+        "mode": "full"
+      },
+      "paths": {
+        "back": 5,
+        "volume": 1,
+        "front": 2,
+        "sides": 0,
+        "texture": 0,
+        "lengths": 2
+      },
+      "features": [
+        "rolled-bun",
+        "loose-lock"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "13",
+      "familyName": "Chignons, rouleaux et boucles latérales",
+      "module": "B",
+      "modulePath": "i5/i4/i3/i2/hair.mjs",
+      "technical": "T038",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "bun(0,t−18,24,16), raie centrale et deux tendril end+35.",
+      "primitives": "bun, sideRolls, tendril, closed-roll",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "30-G",
+      "number": 30,
+      "style": "p5-030",
+      "a": "G",
+      "name": "Boucles aristocratiques",
+      "status": "known",
+      "neutralHash": "23614ef052791d41a8109919d55059c19824ee20cbe3249de599c87f151f73ed",
+      "geometryHash": "b3963d1fa7a62331a67cbe1e600679d0e74f25199bb5a612ef52529a97e61aff",
+      "base": "classic",
+      "geometryKey": "p5-030-G",
+      "policy": {
+        "mode": "full"
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 3,
+        "sides": 2,
+        "texture": 0,
+        "lengths": 8
+      },
+      "features": [
+        "frontal-curl",
+        "side-roll",
+        "open-curls"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "09",
+      "familyName": "Longues boucles et rouleaux ouverts",
+      "module": "B",
+      "modulePath": "i5/i4/i3/i2/hair.mjs",
+      "technical": "T039",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Raie, gros sideRolls et curls : trois tours, largeur 8, fin end+19.",
+      "primitives": "calotte, ribbon/curls/halo",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "30-D",
+      "number": 30,
+      "style": "p5-030",
+      "a": "D",
+      "name": "Boucles aristocratiques",
+      "status": "known",
+      "neutralHash": "9b7c82ed4a79beb3a5e7cbb1b7150c88e4fed160125058951869461dc5ea6026",
+      "geometryHash": "6963dbe5e77d6f7579c11fc1cf0125feee327b8989a7befbfc45aeb4870aaf65",
+      "base": "classic",
+      "geometryKey": "p5-030-D",
+      "policy": {
+        "mode": "full"
+      },
+      "paths": {
+        "back": 5,
+        "volume": 1,
+        "front": 3,
+        "sides": 2,
+        "texture": 0,
+        "lengths": 10
+      },
+      "features": [
+        "rolled-bun",
+        "frontal-curl",
+        "side-roll",
+        "open-curls"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "09",
+      "familyName": "Longues boucles et rouleaux ouverts",
+      "module": "B",
+      "modulePath": "i5/i4/i3/i2/hair.mjs",
+      "technical": "T040",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Chignon arrière supplémentaire ; curls quatre tours, largeur 10, end+63.",
+      "primitives": "calotte, ribbon/curls/halo",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "31-G",
+      "number": 31,
+      "style": "p5-031",
+      "a": "G",
+      "name": "Coiffure de cour",
+      "status": "known",
+      "neutralHash": "6d641a5fe2ba9e19fc6ee71b8cb08e8c8fa8cec9bc99bd2b829a4b8d6d1da22e",
+      "geometryHash": "a545f8d43577585ba05a5b50f312f317407442c08c8dc1eaea4e9693463b2571",
+      "base": "classic",
+      "geometryKey": "p5-031-G",
+      "policy": {
+        "mode": "full"
+      },
+      "paths": {
+        "back": 5,
+        "volume": 1,
+        "front": 2,
+        "sides": 2,
+        "texture": 0,
+        "lengths": 0
+      },
+      "features": [
+        "rolled-bun",
+        "side-roll"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "13",
+      "familyName": "Chignons, rouleaux et boucles latérales",
+      "module": "B",
+      "modulePath": "i5/i4/i3/i2/hair.mjs",
+      "technical": "T041",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "bun à t+1,22×12 ; raie et petits rouleaux latéraux.",
+      "primitives": "bun, sideRolls, tendril, closed-roll",
+      "exactPeers": [],
+      "closest": [
+        "28-G (81.34 %)",
+        "59-G (81.34 %)"
+      ]
+    },
+    {
+      "key": "31-D",
+      "number": 31,
+      "style": "p5-031",
+      "a": "D",
+      "name": "Coiffure de cour",
+      "status": "known",
+      "neutralHash": "f81531c6186736a0ea86def1f38adbbc797ac0f3ebae63214a04c8521fbb13b4",
+      "geometryHash": "03860afadb744734045e2442065ab72fe12b0320ee293aca1c977051bb54f569",
+      "base": "classic",
+      "geometryKey": "p5-031-D",
+      "policy": {
+        "mode": "full"
+      },
+      "paths": {
+        "back": 5,
+        "volume": 1,
+        "front": 2,
+        "sides": 2,
+        "texture": 0,
+        "lengths": 2
+      },
+      "features": [
+        "rolled-bun",
+        "side-roll",
+        "loose-lock"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "13",
+      "familyName": "Chignons, rouleaux et boucles latérales",
+      "module": "B",
+      "modulePath": "i5/i4/i3/i2/hair.mjs",
+      "technical": "T042",
+      "classification": "Variante mineure",
+      "justification": "Même macro-structure que ses voisines ; différence locale de bord, de mèche ou de chignon, visible sur les planches.",
+      "recipe": "bun à t−20,23×17 ; grands rouleaux et deux tendril épais end+28.",
+      "primitives": "bun, sideRolls, tendril, closed-roll",
+      "exactPeers": [
+        "58-D"
+      ],
+      "closest": [
+        "68-D (95.18 %)"
+      ]
+    },
+    {
+      "key": "32-G",
+      "number": 32,
+      "style": "p5-032",
+      "a": "G",
+      "name": "Tresse royale",
+      "status": "known",
+      "neutralHash": "73cb8efcf7140c3879f6edc7f214d0173eacee1e65fdec0367f40ccba765f58e",
+      "geometryHash": "c39a970d0914fa1a5b6455923523494c80f67ad9f3d0b2b170b1824770492ef3",
+      "base": "classic",
+      "geometryKey": "p5-032-G",
+      "policy": {
+        "mode": "full"
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 1,
+        "sides": 1,
+        "texture": 1,
+        "lengths": 21
+      },
+      "features": [
+        "braid-root",
+        "braid"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "17",
+      "familyName": "Une natte longue à départ temporal ou de nuque",
+      "module": "B",
+      "modulePath": "i5/i4/i3/i2/hair.mjs",
+      "technical": "T043",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "swept de 19-G et une natte gauche, largeur 6, fin end+61.",
+      "primitives": "braid/strand, hanging, racines locales",
+      "exactPeers": [],
+      "closest": [
+        "60-G (94.08 %)",
+        "35-G (84.49 %)",
+        "41-D (84.45 %)"
+      ]
+    },
+    {
+      "key": "32-D",
+      "number": 32,
+      "style": "p5-032",
+      "a": "D",
+      "name": "Tresse royale",
+      "status": "known",
+      "neutralHash": "38c7944b4092ce38a9997b786245ca5593d99b8e5bc2fafc9bfa5c598fe4ff6f",
+      "geometryHash": "efa789158297c75e088665a4bc485eaa1bc7c5000e30ecce5c1fab10a62083a2",
+      "base": "classic",
+      "geometryKey": "p5-032-D",
+      "policy": {
+        "mode": "full"
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 34,
+        "sides": 2,
+        "texture": 0,
+        "lengths": 42
+      },
+      "features": [
+        "braided-crown",
+        "braid",
+        "braid-root"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "18",
+      "familyName": "Deux longues nattes, avec ou sans couronne",
+      "module": "B",
+      "modulePath": "i5/i4/i3/i2/hair.mjs",
+      "technical": "T044",
+      "classification": "Variante mineure",
+      "justification": "Même macro-structure que ses voisines ; différence locale de bord, de mèche ou de chignon, visible sur les planches.",
+      "recipe": "Raie, couronne et deux nattes largeur 6.",
+      "primitives": "parted/crown, hangingBraid, strand",
+      "exactPeers": [],
+      "closest": [
+        "60-D (97.28 %)",
+        "39-D (87.89 %)"
+      ]
+    },
+    {
+      "key": "33-G",
+      "number": 33,
+      "style": "p5-033",
+      "a": "G",
+      "name": "Chignon ornementé",
+      "status": "known",
+      "neutralHash": "fd3a6617e6a0dffd66ad08ce3529da4aa6b455bbc01113d843802d194dd2635a",
+      "geometryHash": "afeb3b52ebcc8573feecbdfff57ceb447078ba47885045225784fc79dd05c649",
+      "base": "classic",
+      "geometryKey": "p5-033-G",
+      "policy": {
+        "mode": "full"
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 1,
+        "sides": 0,
+        "texture": 1,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "02",
+      "familyName": "Balayages courts et mèches en S",
+      "module": "B",
+      "modulePath": "i5/i4/i3/i2/hair.mjs",
+      "technical": "T045",
+      "classification": "Variante mineure",
+      "justification": "Même macro-structure que ses voisines ; différence locale de bord, de mèche ou de chignon, visible sur les planches.",
+      "recipe": "swept de 19-G sans son arrière hérité, calotte réduite au premier tracé ; ruban amovible.",
+      "primitives": "coverageCap, swept, courbes locales",
+      "exactPeers": [],
+      "closest": [
+        "19-G (89.14 %)",
+        "21-G (89.14 %)",
+        "68-G (89.14 %)"
+      ]
+    },
+    {
+      "key": "33-D",
+      "number": 33,
+      "style": "p5-033",
+      "a": "D",
+      "name": "Chignon ornementé",
+      "status": "known",
+      "neutralHash": "aff7d5f01cae037c300e2e3726e0f0ca1032d9f9b12eb476447c6a3840f35bc2",
+      "geometryHash": "d5a0f389d0f071dbf4f1eebeb16545ca3bc7dc1c7cae2cbdc944d57142cdd103",
+      "base": "classic",
+      "geometryKey": "p5-033-D",
+      "policy": {
+        "mode": "full"
+      },
+      "paths": {
+        "back": 5,
+        "volume": 1,
+        "front": 1,
+        "sides": 0,
+        "texture": 1,
+        "lengths": 1
+      },
+      "features": [
+        "rolled-bun",
+        "loose-lock"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "13",
+      "familyName": "Chignons, rouleaux et boucles latérales",
+      "module": "B",
+      "modulePath": "i5/i4/i3/i2/hair.mjs",
+      "technical": "T046",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Chignon latéral x+.8r,t+2 de 20×20 ; balayage et une mèche end+15.",
+      "primitives": "bun, sideRolls, tendril, closed-roll",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "34-G",
+      "number": 34,
+      "style": "p5-034",
+      "a": "G",
+      "name": "Haut volume sophistiqué",
+      "status": "known",
+      "neutralHash": "0c449a7dcd50402330b731806d1332515fa8588095ec27872b4065b253c4f576",
+      "geometryHash": "30007a384dfcd88047be290952873c3e6e4655cc16d4e651744c85462a39d6da",
+      "base": "classic",
+      "geometryKey": "p5-034-G",
+      "policy": {
+        "mode": "full"
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 1,
+        "sides": 0,
+        "texture": 4,
+        "lengths": 0
+      },
+      "features": [
+        "high-quiff"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "31",
+      "familyName": "Éventails et quiffs très hauts",
+      "module": "B",
+      "modulePath": "i5/i4/i3/i2/hair.mjs",
+      "technical": "T047",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "fan(true), éventail haut dont sommet t−27.",
+      "primitives": "fan/highFan en grandes courbes",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "34-D",
+      "number": 34,
+      "style": "p5-034",
+      "a": "D",
+      "name": "Haut volume sophistiqué",
+      "status": "known",
+      "neutralHash": "4174dc4952d5f874b17ce864ce5b4df62f4b1d4e2b8c89bceda6e5a7523cc0cd",
+      "geometryHash": "08975ddf1034a27252149daeacc0ea26f746650c7b98a9cf3714adf542bfb8d1",
+      "base": "classic",
+      "geometryKey": "p5-034-D",
+      "policy": {
+        "mode": "full"
+      },
+      "paths": {
+        "back": 5,
+        "volume": 1,
+        "front": 1,
+        "sides": 0,
+        "texture": 1,
+        "lengths": 2
+      },
+      "features": [
+        "rolled-bun",
+        "high-sweep",
+        "side-cascade"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "21",
+      "familyName": "Longueurs fortement dissymétriques",
+      "module": "B",
+      "modulePath": "i5/i4/i3/i2/hair.mjs",
+      "technical": "T048",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "bun décentré, highSweep jusqu’à t−36 et une cascade end+66.",
+      "primitives": "ribbon/cascade asymétrique, highSweep",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "35-G",
+      "number": 35,
+      "style": "p5-035",
+      "a": "G",
+      "name": "Natte et bijoux",
+      "status": "known",
+      "neutralHash": "7ec82798b89ca203d6f93eae2896fb4dc0b2e1d70332868b469e8f8025733995",
+      "geometryHash": "a4a2d2ceda56eda651ebec660feea707773fafdaf1e716fde6836129a19a7cfb",
+      "base": "classic",
+      "geometryKey": "p5-035-G",
+      "policy": {
+        "mode": "full"
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 1,
+        "sides": 1,
+        "texture": 1,
+        "lengths": 21
+      },
+      "features": [
+        "braid-root",
+        "braid"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "17",
+      "familyName": "Une natte longue à départ temporal ou de nuque",
+      "module": "B",
+      "modulePath": "i5/i4/i3/i2/hair.mjs",
+      "technical": "T049",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Même montage de base que 32-G ; natte largeur 4, trajectoire plus souple, fin end+64.",
+      "primitives": "braid/strand, hanging, racines locales",
+      "exactPeers": [],
+      "closest": [
+        "32-G (84.49 %)"
+      ]
+    },
+    {
+      "key": "35-D",
+      "number": 35,
+      "style": "p5-035",
+      "a": "D",
+      "name": "Natte et bijoux",
+      "status": "known",
+      "neutralHash": "1a276260bf6483e84925d31578813ddfdb259f3610a490ec5d9d042a655b0f50",
+      "geometryHash": "4f0ee1ef065b6cca0a060084b407a9879be47e01b7b49c129de025e91895bea9",
+      "base": "classic",
+      "geometryKey": "p5-035-D",
+      "policy": {
+        "mode": "full"
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 34,
+        "sides": 2,
+        "texture": 0,
+        "lengths": 42
+      },
+      "features": [
+        "braided-crown",
+        "braid",
+        "braid-root"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "18",
+      "familyName": "Deux longues nattes, avec ou sans couronne",
+      "module": "B",
+      "modulePath": "i5/i4/i3/i2/hair.mjs",
+      "technical": "T050",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Couronne plus basse largeur 4,5 et deux nattes fines/plus souples.",
+      "primitives": "parted/crown, hangingBraid, strand",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "36-G",
+      "number": 36,
+      "style": "p5-036",
+      "a": "G",
+      "name": "Coiffure cérémonielle",
+      "status": "known",
+      "neutralHash": "c50635a44fe1b5c0d795194674bac1a971af5a8e2cfcb2b3eede07123cbda7dc",
+      "geometryHash": "f0ea9acd8020186924dcc4fd5a7819c72eca25bfa0397ec02dceacf2d28aee17",
+      "base": "classic",
+      "geometryKey": "p5-036-G",
+      "policy": {
+        "mode": "full"
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 2,
+        "sides": 0,
+        "texture": 0,
+        "lengths": 4
+      },
+      "features": [
+        "side-cascade"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "07",
+      "familyName": "Longueurs libres ondulées",
+      "module": "B",
+      "modulePath": "i5/i4/i3/i2/hair.mjs",
+      "technical": "T051",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Raie et deux cascades ondulées, fin end+66 ; feuilles séparées.",
+      "primitives": "calotte, ribbon/wave/cascade",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "36-D",
+      "number": 36,
+      "style": "p5-036",
+      "a": "D",
+      "name": "Coiffure cérémonielle",
+      "status": "known",
+      "neutralHash": "d7b1fba923809a52932c169cdd67ccb854521dae531fc3226ecec06b566c9c43",
+      "geometryHash": "4227ee8eeb7e653e3245474df1e91870b41d55ca181d764f3e64f16291e910de",
+      "base": "classic",
+      "geometryKey": "p5-036-D",
+      "policy": {
+        "mode": "full"
+      },
+      "paths": {
+        "back": 9,
+        "volume": 1,
+        "front": 2,
+        "sides": 2,
+        "texture": 0,
+        "lengths": 0
+      },
+      "features": [
+        "stacked-rolls",
+        "side-roll"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "13",
+      "familyName": "Chignons, rouleaux et boucles latérales",
+      "module": "B",
+      "modulePath": "i5/i4/i3/i2/hair.mjs",
+      "technical": "T052",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "bun à deux étages espacés de 13, raie et grands rouleaux ; diadème séparé.",
+      "primitives": "bun, sideRolls, tendril, closed-roll",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "37-G",
+      "number": 37,
+      "style": "p5-037",
+      "a": "G",
+      "name": "Coupe de travail",
+      "status": "known",
+      "neutralHash": "891f2d2924425619c9e3a003903d78f9fa5e46ad00c4b94ab77895e517cd0b73",
+      "geometryHash": "3f6a4019f51da2ec00465cf9713143644e8caf815ff870d82a10f0a2e464a333",
+      "base": "classic",
+      "geometryKey": "p5-037-G",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 2,
+        "sides": 0,
+        "texture": 3,
+        "lengths": 0
+      },
+      "features": [
+        "irregular-fringe",
+        "swept-lock"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "03",
+      "familyName": "Pointes courtes et franges irrégulières",
+      "module": "C",
+      "modulePath": "i5/i4/i3/hair.mjs",
+      "technical": "T053",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "rough(work) + forelock ; points et frange dédiés.",
+      "primitives": "coverageCap, pointes/franges en tableaux",
+      "exactPeers": [],
+      "closest": [
+        "44-G (82.95 %)"
+      ]
+    },
+    {
+      "key": "37-D",
+      "number": 37,
+      "style": "p5-037",
+      "a": "D",
+      "name": "Coupe de travail",
+      "status": "known",
+      "neutralHash": "0423adf894483898d01f43378dd9ea985c47eae927ce3daa303c1f5925d77464",
+      "geometryHash": "e0277497257e2eea52b7ea5c73476600d3a2cfa75e4e17d68243bc5622db4287",
+      "base": "classic",
+      "geometryKey": "p5-037-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 2,
+        "volume": 1,
+        "front": 1,
+        "sides": 1,
+        "texture": 1,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "15",
+      "familyName": "Queues uniques hautes ou basses",
+      "module": "C",
+      "modulePath": "i5/i4/i3/hair.mjs",
+      "technical": "T054",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Queue basse inspirée de 24-G mais orientée à gauche, avec grand panneau oblique end+7.",
+      "primitives": "calotte, queue cubique arrière",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "38-G",
+      "number": 38,
+      "style": "p5-038",
+      "a": "G",
+      "name": "Cheveux en bataille",
+      "status": "known",
+      "neutralHash": "f7f422ea32992bf12e9c787fdb25bd1efa98ba5e0207e38ad640251c1d319c90",
+      "geometryHash": "aa22a68e2347a8d741bd357e2fb02169b78e1f2a1242bc657d15683e8bea052a",
+      "base": "classic",
+      "geometryKey": "p5-038-G",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 1,
+        "sides": 0,
+        "texture": 3,
+        "lengths": 0
+      },
+      "features": [
+        "irregular-fringe"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "03",
+      "familyName": "Pointes courtes et franges irrégulières",
+      "module": "C",
+      "modulePath": "i5/i4/i3/hair.mjs",
+      "technical": "T055",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "rough(battle), frange et petites pointes multiaxes.",
+      "primitives": "coverageCap, pointes/franges en tableaux",
+      "exactPeers": [
+        "48-G",
+        "54-G",
+        "69-G"
+      ],
+      "closest": []
+    },
+    {
+      "key": "38-D",
+      "number": 38,
+      "style": "p5-038",
+      "a": "D",
+      "name": "Cheveux en bataille",
+      "status": "known",
+      "neutralHash": "8cc030d7da0de7410f75b1302502930ff8b3c5c4f0ca063a6e28c2a3bf26403c",
+      "geometryHash": "3363f0274ac426e742dfe987155c1176ae41325cb8a6c8bd804ba99c72621760",
+      "base": "classic",
+      "geometryKey": "p5-038-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 1,
+        "sides": 2,
+        "texture": 5,
+        "lengths": 0
+      },
+      "features": [
+        "irregular-fringe",
+        "layered-lock"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "29",
+      "familyName": "Mèches étagées et nuque ébouriffée",
+      "module": "C",
+      "modulePath": "i5/i4/i3/hair.mjs",
+      "technical": "T056",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "rough(fringe) et deux shag de nuque len=12.",
+      "primitives": "rough, shag, radiating-tufts",
+      "exactPeers": [],
+      "closest": [
+        "43-G (88.29 %)",
+        "48-D (87.23 %)",
+        "65-D (87.23 %)"
+      ]
+    },
+    {
+      "key": "39-G",
+      "number": 39,
+      "style": "p5-039",
+      "a": "G",
+      "name": "Coupe rustique",
+      "status": "known",
+      "neutralHash": "5ff771385dd67bb32bd8022ae4689177b7bcd12a3382104337f9075d0dcb88a0",
+      "geometryHash": "1e9122084abb528876ff5511b61c18eef7335984576cf84fdbf5c00622f4aa0a",
+      "base": "classic",
+      "geometryKey": "p5-039-G",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 1,
+        "sides": 0,
+        "texture": 3,
+        "lengths": 0
+      },
+      "features": [
+        "irregular-fringe"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "03",
+      "familyName": "Pointes courtes et franges irrégulières",
+      "module": "C",
+      "modulePath": "i5/i4/i3/hair.mjs",
+      "technical": "T057",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "rough(rustic), frange dense à petites dents.",
+      "primitives": "coverageCap, pointes/franges en tableaux",
+      "exactPeers": [],
+      "closest": [
+        "44-G (84.81 %)",
+        "20-D (82.61 %)",
+        "19-G (81.42 %)"
+      ]
+    },
+    {
+      "key": "39-D",
+      "number": 39,
+      "style": "p5-039",
+      "a": "D",
+      "name": "Coupe rustique",
+      "status": "known",
+      "neutralHash": "752fd67c7f83d54dbadc74d9540a5a2f197217afe5c28586475c4a89b749e401",
+      "geometryHash": "0b784cda550134905b3a9ae16ca9fde2070928c00a43984bf6a7ef172b84d776",
+      "base": "classic",
+      "geometryKey": "p5-039-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 2,
+        "sides": 2,
+        "texture": 0,
+        "lengths": 42
+      },
+      "features": [
+        "braid-root",
+        "braid"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "18",
+      "familyName": "Deux longues nattes, avec ou sans couronne",
+      "module": "C",
+      "modulePath": "i5/i4/i3/hair.mjs",
+      "technical": "T058",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Raie de 28, racines et nattes de 32-D ; couronne tressée retirée.",
+      "primitives": "parted/crown, hangingBraid, strand",
+      "exactPeers": [],
+      "closest": [
+        "32-D (87.89 %)",
+        "60-D (85.50 %)"
+      ]
+    },
+    {
+      "key": "40-G",
+      "number": 40,
+      "style": "p5-040",
+      "a": "G",
+      "name": "Longue chevelure sauvage",
+      "status": "known",
+      "neutralHash": "519487af40007b2d2fad34a74cc68c195f3f04c7e9e9096c75f9646f151e195b",
+      "geometryHash": "bcb0bb538abdad3db3c11416fc1c79b1a7175f89f89abfca335b69eaeb4fea85",
+      "base": "classic",
+      "geometryKey": "p5-040-G",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 2,
+        "sides": 2,
+        "texture": 5,
+        "lengths": 0
+      },
+      "features": [
+        "irregular-fringe",
+        "swept-lock",
+        "layered-lock"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "29",
+      "familyName": "Mèches étagées et nuque ébouriffée",
+      "module": "C",
+      "modulePath": "i5/i4/i3/hair.mjs",
+      "technical": "T059",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "rough(shag), forelock et deux shag de nuque len=22.",
+      "primitives": "rough, shag, radiating-tufts",
+      "exactPeers": [],
+      "closest": [
+        "38-D (83.24 %)"
+      ]
+    },
+    {
+      "key": "40-D",
+      "number": 40,
+      "style": "p5-040",
+      "a": "D",
+      "name": "Longue chevelure sauvage",
+      "status": "known",
+      "neutralHash": "250589fec33e615b5f08c00f799949805d16f150480e5fdb6576ca0d8aada942",
+      "geometryHash": "3ddd47377e26d2553666bce24f9da1f7cff7f9becdaf9145537431e0f3892be7",
+      "base": "classic",
+      "geometryKey": "p5-040-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 2,
+        "sides": 2,
+        "texture": 0,
+        "lengths": 54
+      },
+      "features": [
+        "braid-root",
+        "free-wave",
+        "braid"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "07",
+      "familyName": "Longueurs libres ondulées",
+      "module": "C",
+      "modulePath": "i5/i4/i3/hair.mjs",
+      "technical": "T060",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Deux wave libres end+60/70, amp=7/9 et deux fines tresses secondaires.",
+      "primitives": "calotte, ribbon/wave/cascade",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "41-G",
+      "number": 41,
+      "style": "p5-041",
+      "a": "G",
+      "name": "Natte de travail",
+      "status": "known",
+      "neutralHash": "cbf35c1a68449f6caa0e75e80847f3c5c7d0c93af5b7ab56b05c8463e754f106",
+      "geometryHash": "2d46cccbd39e67e6f5baa0d62c6cd969076f622adfebbbd1f176cc442f3f75ff",
+      "base": "classic",
+      "geometryKey": "p5-041-G",
+      "policy": {
+        "mode": "top",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 1,
+        "volume": 1,
+        "front": 1,
+        "sides": 0,
+        "texture": 10,
+        "lengths": 20
+      },
+      "features": [
+        "pulled-roll",
+        "braid"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "17",
+      "familyName": "Une natte longue à départ temporal ou de nuque",
+      "module": "C",
+      "modulePath": "i5/i4/i3/hair.mjs",
+      "technical": "T061",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Rouleau tiré, côtés courts ; natte à départ de nuque, 78 unités, tag rear mais calque de longueurs avant.",
+      "primitives": "braid/strand, hanging, racines locales",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "41-D",
+      "number": 41,
+      "style": "p5-041",
+      "a": "D",
+      "name": "Natte de travail",
+      "status": "known",
+      "neutralHash": "32822e7ac09b74de7fe0263c2576513bf85bd1505565c03d0f785a19a66dcbfa",
+      "geometryHash": "31980f457dee396657bc793b2233641e72bfd7b4a80745bf7fc54212c60095ee",
+      "base": "classic",
+      "geometryKey": "p5-041-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 2,
+        "sides": 1,
+        "texture": 0,
+        "lengths": 22
+      },
+      "features": [
+        "braid-root",
+        "braid",
+        "loose-lock"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "17",
+      "familyName": "Une natte longue à départ temporal ou de nuque",
+      "module": "C",
+      "modulePath": "i5/i4/i3/hair.mjs",
+      "technical": "T062",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Raie, natte/racine de 32-G et mèche libre opposée end+10.",
+      "primitives": "braid/strand, hanging, racines locales",
+      "exactPeers": [],
+      "closest": [
+        "32-G (84.45 %)",
+        "60-G (83.63 %)"
+      ]
+    },
+    {
+      "key": "42-G",
+      "number": 42,
+      "style": "p5-042",
+      "a": "G",
+      "name": "Demi-attaché naturel",
+      "status": "known",
+      "neutralHash": "4b9c7df653a2c00b9c604de658b8b87a90f50a139c2ce0a12c4cb92a277557fb",
+      "geometryHash": "38a21de00e4b4dbe7c8643446eca74d7cc8133c16b7adae25a1acfbc88614d83",
+      "base": "classic",
+      "geometryKey": "p5-042-G",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 2,
+        "volume": 1,
+        "front": 2,
+        "sides": 2,
+        "texture": 2,
+        "lengths": 0
+      },
+      "features": [
+        "half-up-knot",
+        "layered-lock"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "22",
+      "familyName": "Demi-attaches sur longueurs libres",
+      "module": "C",
+      "modulePath": "i5/i4/i3/hair.mjs",
+      "technical": "T063",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "halfBun et raie ; deux mèches de nuque shag len=16.",
+      "primitives": "halfBun/smoothBun, parted, wave",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "42-D",
+      "number": 42,
+      "style": "p5-042",
+      "a": "D",
+      "name": "Demi-attaché naturel",
+      "status": "known",
+      "neutralHash": "daf4773c2b9078c53a09789d1be7a612f9d487289396f6b6ff6a92d1fa3a7831",
+      "geometryHash": "84db6d9e8361c0c2b4ae02eeaf8f8c80a24865cbf48a31ec063b227b7e5489e4",
+      "base": "classic",
+      "geometryKey": "p5-042-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 2,
+        "volume": 1,
+        "front": 2,
+        "sides": 0,
+        "texture": 0,
+        "lengths": 12
+      },
+      "features": [
+        "half-up-knot",
+        "free-wave"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "22",
+      "familyName": "Demi-attaches sur longueurs libres",
+      "module": "C",
+      "modulePath": "i5/i4/i3/hair.mjs",
+      "technical": "T064",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "halfBun décentré, raie, wave amp=6 jusqu’à end+62/69.",
+      "primitives": "halfBun/smoothBun, parted, wave",
+      "exactPeers": [],
+      "closest": [
+        "59-D (90.53 %)",
+        "70-D (88.62 %)",
+        "72-D (80.38 %)"
+      ]
+    },
+    {
+      "key": "43-G",
+      "number": 43,
+      "style": "p5-043",
+      "a": "G",
+      "name": "Cheveux ébouriffés et longs",
+      "status": "known",
+      "neutralHash": "90ea421a57dfee71a95003fd74c9ad61a62dc4427c7fe4e4db9b0a37951dda98",
+      "geometryHash": "26a0b8221aadefb382967c36c8eff3b6e457eea32f6bb5fba0599968bd56c200",
+      "base": "classic",
+      "geometryKey": "p5-043-G",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 2,
+        "sides": 2,
+        "texture": 5,
+        "lengths": 0
+      },
+      "features": [
+        "irregular-fringe",
+        "swept-lock",
+        "layered-lock"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "29",
+      "familyName": "Mèches étagées et nuque ébouriffée",
+      "module": "C",
+      "modulePath": "i5/i4/i3/hair.mjs",
+      "technical": "T065",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "rough(oblique), forelock et deux shag len=8.",
+      "primitives": "rough, shag, radiating-tufts",
+      "exactPeers": [],
+      "closest": [
+        "38-D (88.29 %)"
+      ]
+    },
+    {
+      "key": "43-D",
+      "number": 43,
+      "style": "p5-043",
+      "a": "D",
+      "name": "Cheveux ébouriffés et longs",
+      "status": "known",
+      "neutralHash": "09f73bdffe21e8f756081c7fb7ab2cdc30c79585ddf59f9c3b9e592b54bf1725",
+      "geometryHash": "979325258e66b5d762cb3c12a98b7e60d985c366a625076427e3cc31e9ff297d",
+      "base": "classic",
+      "geometryKey": "p5-043-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 1,
+        "sides": 0,
+        "texture": 1,
+        "lengths": 12
+      },
+      "features": [
+        "free-wave"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "07",
+      "familyName": "Longueurs libres ondulées",
+      "module": "C",
+      "modulePath": "i5/i4/i3/hair.mjs",
+      "technical": "T066",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "swept de 19-G, deux wave déphasées amp=8, end+71/63.",
+      "primitives": "calotte, ribbon/wave/cascade",
+      "exactPeers": [],
+      "closest": [
+        "59-D (80.34 %)"
+      ]
+    },
+    {
+      "key": "44-G",
+      "number": 44,
+      "style": "p5-044",
+      "a": "G",
+      "name": "Coupe asymétrique simple",
+      "status": "known",
+      "neutralHash": "942749575b687b3746a70fb325f12684ad32d1408018a7e2d9ca807c9d123272",
+      "geometryHash": "7da6230ffc614732e9543915f2a0be96bbaa460644e7f3bc9cd83cf762390a80",
+      "base": "classic",
+      "geometryKey": "p5-044-G",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 1,
+        "sides": 0,
+        "texture": 3,
+        "lengths": 0
+      },
+      "features": [
+        "irregular-fringe"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "03",
+      "familyName": "Pointes courtes et franges irrégulières",
+      "module": "C",
+      "modulePath": "i5/i4/i3/hair.mjs",
+      "technical": "T067",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "rough(oblique) seul, sans les mèches longues de 43-G.",
+      "primitives": "coverageCap, pointes/franges en tableaux",
+      "exactPeers": [],
+      "closest": [
+        "20-D (85.57 %)",
+        "26-G (84.82 %)",
+        "39-G (84.81 %)"
+      ]
+    },
+    {
+      "key": "44-D",
+      "number": 44,
+      "style": "p5-044",
+      "a": "D",
+      "name": "Coupe asymétrique simple",
+      "status": "known",
+      "neutralHash": "d95fc89d5426cd3d0b4d89e2055fa296582a49c5857651c672606094f07f0166",
+      "geometryHash": "1de24760588719e0825ebb7dabab4ff2a1af97537c25da2f7782407a229b02b9",
+      "base": "classic",
+      "geometryKey": "p5-044-D",
+      "policy": {
+        "mode": "right-shaved",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 25,
+        "sides": 1,
+        "texture": 5,
+        "lengths": 0
+      },
+      "features": [
+        "braid"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "20",
+      "familyName": "Longue mèche asymétrique et tempe courte",
+      "module": "C",
+      "modulePath": "i5/i4/i3/hair.mjs",
+      "technical": "T068",
+      "classification": "Variante mineure",
+      "justification": "Même macro-structure que ses voisines ; différence locale de bord, de mèche ou de chignon, visible sur les planches.",
+      "recipe": "Panneau 25-D, calotte à côté court et trois petites rangées de tempe.",
+      "primitives": "undercut/swept, panneau, clip de côté court",
+      "exactPeers": [],
+      "closest": [
+        "25-D (96.53 %)",
+        "72-G (81.99 %)"
+      ]
+    },
+    {
+      "key": "45-G",
+      "number": 45,
+      "style": "p5-045",
+      "a": "G",
+      "name": "Tresses sauvages",
+      "status": "known",
+      "neutralHash": "535887607a2f380db9c4f2ca65e636df3914c31ae3c8b36b61378f2740911c5a",
+      "geometryHash": "d82ace5e28eaec48834884d55305a9902a914d9c7ee5e712e9022b13fbc2c755",
+      "base": "classic",
+      "geometryKey": "p5-045-G",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 28,
+        "sides": 2,
+        "texture": 0,
+        "lengths": 42
+      },
+      "features": [
+        "braid",
+        "braid-root"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "26",
+      "familyName": "Tresses en éventail et compositions irrégulières",
+      "module": "C",
+      "modulePath": "i5/i4/i3/hair.mjs",
+      "technical": "T069",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "Sept brins tressés en éventail + deux petites nattes ; texture entrelacée.",
+      "primitives": "strand en éventail/couronne, hanging",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "45-D",
+      "number": 45,
+      "style": "p5-045",
+      "a": "D",
+      "name": "Tresses sauvages",
+      "status": "known",
+      "neutralHash": "c0c07797fca12f2960730c162feabd07d5087e7b3b0670a6795decf1b2183b1b",
+      "geometryHash": "e387a392ff4991d11a08e750c734acfc39c479438501e03ef45cf7e088d16d08",
+      "base": "classic",
+      "geometryKey": "p5-045-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 29,
+        "sides": 4,
+        "texture": 1,
+        "lengths": 84
+      },
+      "features": [
+        "braided-crown",
+        "braid",
+        "braid-root"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "26",
+      "familyName": "Tresses en éventail et compositions irrégulières",
+      "module": "C",
+      "modulePath": "i5/i4/i3/hair.mjs",
+      "technical": "T070",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Couronne tressée et nattes irrégulières multiples, dont une secondaire.",
+      "primitives": "strand en éventail/couronne, hanging",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "46-G",
+      "number": 46,
+      "style": "p5-046",
+      "a": "G",
+      "name": "Crête / Iroquois",
+      "status": "known",
+      "neutralHash": "335d8831272bf6b0097667bb2d95e3edd5443b05630cb6a826d40869fd355a31",
+      "geometryHash": "9a3921b69359efb03d0356f3b6bbd942608d9183133c257619dabc2ab831ae4c",
+      "base": "classic",
+      "geometryKey": "p5-046-G",
+      "policy": {
+        "mode": "crest",
+        "cutY": 54.72,
+        "crestWidth": 8.99
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 1,
+        "sides": 0,
+        "texture": 3,
+        "lengths": 0
+      },
+      "features": [
+        "central-crest"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "19",
+      "familyName": "Crêtes centrales à côtés dégagés",
+      "module": "D",
+      "modulePath": "i5/i4/hair.mjs",
+      "technical": "T071",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "Crête étroite, implantation .31r et pointes jusqu’à t−40.",
+      "primitives": "calotte masquée, contour de crête",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "46-D",
+      "number": 46,
+      "style": "p5-046",
+      "a": "D",
+      "name": "Crête / Iroquois",
+      "status": "known",
+      "neutralHash": "884ae9163b8ea29782812f7ba08f3e3a36578b20a7744daab04ae6d1c834bea0",
+      "geometryHash": "8276cec23f9ec068cdddd57ae93e9f6164778d59f2a25b1561f50e535d132100",
+      "base": "classic",
+      "geometryKey": "p5-046-D",
+      "policy": {
+        "mode": "crest",
+        "cutY": 54.72,
+        "crestWidth": 13.92
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 1,
+        "sides": 0,
+        "texture": 3,
+        "lengths": 0
+      },
+      "features": [
+        "central-crest"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "19",
+      "familyName": "Crêtes centrales à côtés dégagés",
+      "module": "D",
+      "modulePath": "i5/i4/hair.mjs",
+      "technical": "T072",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Crête inclinée élargie .48r, contour en grandes courbes ; côtés toujours dégagés.",
+      "primitives": "calotte masquée, contour de crête",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "47-G",
+      "number": 47,
+      "style": "p5-047",
+      "a": "G",
+      "name": "Côtés rasés et longue mèche",
+      "status": "known",
+      "neutralHash": "dd0d45dd36c5a853722fb7f7c376bb3994104926bdb52d46f82d73202305775a",
+      "geometryHash": "876eb13a82397d79ab047548df09667c38edf73d1f773643b49eff960787faca",
+      "base": "classic",
+      "geometryKey": "p5-047-G",
+      "policy": {
+        "mode": "right-shaved",
+        "cutY": 54.72,
+        "crestWidth": 8.99
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 1,
+        "sides": 0,
+        "texture": 4,
+        "lengths": 0
+      },
+      "features": [
+        "oblique-root"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "32",
+      "familyName": "Dessus court sur côtés dégagés",
+      "module": "D",
+      "modulePath": "i5/i4/hair.mjs",
+      "technical": "T073",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "undercut(false), racines obliques et côté court.",
+      "primitives": "spikes/quiff/undercut, calotte tronquée",
+      "exactPeers": [
+        "50-G"
+      ],
+      "closest": []
+    },
+    {
+      "key": "47-D",
+      "number": 47,
+      "style": "p5-047",
+      "a": "D",
+      "name": "Côtés rasés et longue mèche",
+      "status": "known",
+      "neutralHash": "4900eeacb701d91893f4eab0247f4162141c74b7ef0cd9551b44443b155c6eef",
+      "geometryHash": "6e6db6c12e00a31fb80bdbc7dc48302efdf0b36e2b43c18dc1269cd4c0abec50",
+      "base": "classic",
+      "geometryKey": "p5-047-D",
+      "policy": {
+        "mode": "right-shaved",
+        "cutY": 54.72,
+        "crestWidth": 13.92
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 1,
+        "sides": 1,
+        "texture": 5,
+        "lengths": 0
+      },
+      "features": [
+        "oblique-root",
+        "asymmetric-panel"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "20",
+      "familyName": "Longue mèche asymétrique et tempe courte",
+      "module": "D",
+      "modulePath": "i5/i4/hair.mjs",
+      "technical": "T074",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "undercut(true), panneau long de 21 unités sous end.",
+      "primitives": "undercut/swept, panneau, clip de côté court",
+      "exactPeers": [],
+      "closest": [
+        "49-G (81.20 %)",
+        "62-D (81.20 %)",
+        "71-G (81.20 %)"
+      ]
+    },
+    {
+      "key": "48-G",
+      "number": 48,
+      "style": "p5-048",
+      "a": "G",
+      "name": "Pointes ébouriffées",
+      "status": "known",
+      "neutralHash": "f7f422ea32992bf12e9c787fdb25bd1efa98ba5e0207e38ad640251c1d319c90",
+      "geometryHash": "aa22a68e2347a8d741bd357e2fb02169b78e1f2a1242bc657d15683e8bea052a",
+      "base": "classic",
+      "geometryKey": "p5-038-G",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72,
+        "crestWidth": 8.99
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 1,
+        "sides": 0,
+        "texture": 3,
+        "lengths": 0
+      },
+      "features": [
+        "irregular-fringe"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "03",
+      "familyName": "Pointes courtes et franges irrégulières",
+      "module": "D",
+      "modulePath": "i5/i4/hair.mjs",
+      "technical": "T055",
+      "classification": "Doublon visuel",
+      "justification": "Même composition que 38-G sur les 270 états, sans objets/couleur.",
+      "recipe": "Cheveux rough(battle) de 38-G sans nouvelle géométrie.",
+      "primitives": "coverageCap, pointes/franges en tableaux",
+      "exactPeers": [
+        "38-G",
+        "54-G",
+        "69-G"
+      ],
+      "closest": []
+    },
+    {
+      "key": "48-D",
+      "number": 48,
+      "style": "p5-048",
+      "a": "D",
+      "name": "Pointes ébouriffées",
+      "status": "known",
+      "neutralHash": "ddb4f2635a2ac35682e530456fb0837cc2f9b1f4ce39e557e4dd1035ee729e98",
+      "geometryHash": "47bfbabda824ca13b3c3de7084abaadbb8bd6fe4899fb4329b883bba60fa467c",
+      "base": "classic",
+      "geometryKey": "p5-048-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72,
+        "crestWidth": 13.92
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 2,
+        "sides": 2,
+        "texture": 5,
+        "lengths": 0
+      },
+      "features": [
+        "irregular-fringe",
+        "radiating-tufts",
+        "layered-lock"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "29",
+      "familyName": "Mèches étagées et nuque ébouriffée",
+      "module": "D",
+      "modulePath": "i5/i4/hair.mjs",
+      "technical": "T075",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Base 38-D + nouveaux radiating-tufts, grandes pointes rayonnantes.",
+      "primitives": "rough, shag, radiating-tufts",
+      "exactPeers": [
+        "65-D"
+      ],
+      "closest": [
+        "38-D (87.23 %)"
+      ]
+    },
+    {
+      "key": "49-G",
+      "number": 49,
+      "style": "p5-049",
+      "a": "G",
+      "name": "Coupe asymétrique extrême",
+      "status": "known",
+      "neutralHash": "7f433d9d5cb49cf6cea8476aa4295603ac684470bc1c066e72fa9bae70840efd",
+      "geometryHash": "8a2da2367b76812dce4f1e964273b98caa0ab2df6e76f7fd0281c0415ab08367",
+      "base": "classic",
+      "geometryKey": "p5-049-G",
+      "policy": {
+        "mode": "right-shaved",
+        "cutY": 54.72,
+        "crestWidth": 8.99
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 1,
+        "sides": 1,
+        "texture": 5,
+        "lengths": 0
+      },
+      "features": [
+        "oblique-root",
+        "asymmetric-panel"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "20",
+      "familyName": "Longue mèche asymétrique et tempe courte",
+      "module": "D",
+      "modulePath": "i5/i4/hair.mjs",
+      "technical": "T076",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "undercut(false,true), panneau extrême court jusqu’à end+5 (largeur/pointes extrêmes).",
+      "primitives": "undercut/swept, panneau, clip de côté court",
+      "exactPeers": [
+        "62-D",
+        "71-G"
+      ],
+      "closest": [
+        "47-D (81.20 %)"
+      ]
+    },
+    {
+      "key": "49-D",
+      "number": 49,
+      "style": "p5-049",
+      "a": "D",
+      "name": "Coupe asymétrique extrême",
+      "status": "known",
+      "neutralHash": "26c63d2e2c2db9c263c09fc9ee599eaf40cd1c67a5fba80a80d5fe7dc1d10d45",
+      "geometryHash": "b19ef539fc3a14500e5e6126955e3c101919ce2206ba386527fc49dc90fb6079",
+      "base": "classic",
+      "geometryKey": "p5-049-D",
+      "policy": {
+        "mode": "right-shaved",
+        "cutY": 54.72,
+        "crestWidth": 13.92
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 1,
+        "sides": 1,
+        "texture": 5,
+        "lengths": 0
+      },
+      "features": [
+        "oblique-root",
+        "asymmetric-panel"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "20",
+      "familyName": "Longue mèche asymétrique et tempe courte",
+      "module": "D",
+      "modulePath": "i5/i4/hair.mjs",
+      "technical": "T077",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "undercut(true,true), panneau/pointes extrêmes prolongés jusqu’à end+53.",
+      "primitives": "undercut/swept, panneau, clip de côté court",
+      "exactPeers": [],
+      "closest": [
+        "50-D (90.07 %)"
+      ]
+    },
+    {
+      "key": "50-G",
+      "number": 50,
+      "style": "p5-050",
+      "a": "G",
+      "name": "Couleurs et mèches contrastées",
+      "status": "known",
+      "neutralHash": "dd0d45dd36c5a853722fb7f7c376bb3994104926bdb52d46f82d73202305775a",
+      "geometryHash": "876eb13a82397d79ab047548df09667c38edf73d1f773643b49eff960787faca",
+      "base": "classic",
+      "geometryKey": "p5-047-G",
+      "policy": {
+        "mode": "right-shaved",
+        "cutY": 54.72,
+        "crestWidth": 8.99
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 1,
+        "sides": 0,
+        "texture": 4,
+        "lengths": 0
+      },
+      "features": [
+        "oblique-root"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "32",
+      "familyName": "Dessus court sur côtés dégagés",
+      "module": "D",
+      "modulePath": "i5/i4/hair.mjs",
+      "technical": "T073",
+      "classification": "Doublon visuel",
+      "justification": "Même composition que 47-G sur les 270 états, sans objets/couleur.",
+      "recipe": "Même cheveux que 47-G ; seule couche de contraste ajoutée hors monochrome.",
+      "primitives": "spikes/quiff/undercut, calotte tronquée",
+      "exactPeers": [
+        "47-G"
+      ],
+      "closest": []
+    },
+    {
+      "key": "50-D",
+      "number": 50,
+      "style": "p5-050",
+      "a": "D",
+      "name": "Couleurs et mèches contrastées",
+      "status": "known",
+      "neutralHash": "d83e1a3f79b0980412bc5bab6f9639097bd9c5120bbf66f00c2152798863f979",
+      "geometryHash": "e585658e52a7cb376bf19929ef63fcc0430d77f535f258a8cfac6ac3075ec9aa",
+      "base": "classic",
+      "geometryKey": "p5-050-D",
+      "policy": {
+        "mode": "right-shaved",
+        "cutY": 54.72,
+        "crestWidth": 13.92
+      },
+      "paths": {
+        "back": 1,
+        "volume": 1,
+        "front": 1,
+        "sides": 1,
+        "texture": 5,
+        "lengths": 0
+      },
+      "features": [
+        "oblique-root",
+        "asymmetric-panel"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "20",
+      "familyName": "Longue mèche asymétrique et tempe courte",
+      "module": "D",
+      "modulePath": "i5/i4/hair.mjs",
+      "technical": "T078",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Long panneau et masse arrière supplémentaire jusqu’à end+44 ; contraste séparé.",
+      "primitives": "undercut/swept, panneau, clip de côté court",
+      "exactPeers": [],
+      "closest": [
+        "49-D (90.07 %)"
+      ]
+    },
+    {
+      "key": "51-G",
+      "number": 51,
+      "style": "p5-051",
+      "a": "G",
+      "name": "Volume extravagant",
+      "status": "known",
+      "neutralHash": "db9a7dd268e4d0df3e0a468c566c675232bd6e9f521d00792510d64acad25d86",
+      "geometryHash": "e4819f66f78a3dae26224c54181f85838b3952db22e3edafe2a084fbd3f61622",
+      "base": "classic",
+      "geometryKey": "p5-051-G",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72,
+        "crestWidth": 8.99
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 1,
+        "sides": 0,
+        "texture": 4,
+        "lengths": 0
+      },
+      "features": [
+        "extravagant-fan"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "31",
+      "familyName": "Éventails et quiffs très hauts",
+      "module": "D",
+      "modulePath": "i5/i4/hair.mjs",
+      "technical": "T079",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "highFan : éventail souple jusqu’à t−46.",
+      "primitives": "fan/highFan en grandes courbes",
+      "exactPeers": [],
+      "closest": [
+        "54-D (81.33 %)"
+      ]
+    },
+    {
+      "key": "51-D",
+      "number": 51,
+      "style": "p5-051",
+      "a": "D",
+      "name": "Volume extravagant",
+      "status": "known",
+      "neutralHash": "fe1d4ac598bfe62efcaea43bf5121d9a97567f2f5175af8a6dec6cbe53803c30",
+      "geometryHash": "5cff77d3e722e3fa93d51cec69e1b12f6f88627a45583472398b9f756b9be3f0",
+      "base": "classic",
+      "geometryKey": "p5-051-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72,
+        "crestWidth": 13.92
+      },
+      "paths": {
+        "back": 5,
+        "volume": 1,
+        "front": 1,
+        "sides": 1,
+        "texture": 1,
+        "lengths": 2
+      },
+      "features": [
+        "closed-roll",
+        "loose-lock"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "13",
+      "familyName": "Chignons, rouleaux et boucles latérales",
+      "module": "D",
+      "modulePath": "i5/i4/hair.mjs",
+      "technical": "T080",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Quatre closed-roll, grand arrière, balayage et mèches de 31-D.",
+      "primitives": "bun, sideRolls, tendril, closed-roll",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "52-G",
+      "number": 52,
+      "style": "p5-052",
+      "a": "G",
+      "name": "Dreadlocks / Locks",
+      "status": "known",
+      "neutralHash": "8e539de3b06f6a60a26535f3f08469e39313257dc7e7732cd9d2e8479987ade9",
+      "geometryHash": "ccd42c3a685848a3cd551afa8c22c92c4b90adbed6d4a3e57475c1811cc6e2d7",
+      "base": "classic",
+      "geometryKey": "p5-052-G",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72,
+        "crestWidth": 8.99
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 21,
+        "sides": 4,
+        "texture": 0,
+        "lengths": 20
+      },
+      "features": [
+        "lock"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "23",
+      "familyName": "Locks cylindriques rayonnantes ou longues",
+      "module": "D",
+      "modulePath": "i5/i4/hair.mjs",
+      "technical": "T081",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "Sept locks supérieures et deux brins par côté, cylindres de largeur 8–9.",
+      "primitives": "cylinder et centreline, contours de locks",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "52-D",
+      "number": 52,
+      "style": "p5-052",
+      "a": "D",
+      "name": "Dreadlocks / Locks",
+      "status": "known",
+      "neutralHash": "4a32637f73ff49b92312f34cc0afc24eb9b7a4bfd9c560745140120b16ea1194",
+      "geometryHash": "13d111801db2a20550791fb93a3f20a87472e579c0f8b6fe32c196fee92979c0",
+      "base": "classic",
+      "geometryKey": "p5-052-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72,
+        "crestWidth": 13.92
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 15,
+        "sides": 6,
+        "texture": 0,
+        "lengths": 30
+      },
+      "features": [
+        "lock"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "23",
+      "familyName": "Locks cylindriques rayonnantes ou longues",
+      "module": "D",
+      "modulePath": "i5/i4/hair.mjs",
+      "technical": "T082",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Cinq locks relevées et trois longues par côté, largeur 7,5.",
+      "primitives": "cylinder et centreline, contours de locks",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "53-G",
+      "number": 53,
+      "style": "p5-053",
+      "a": "G",
+      "name": "Tresses créatives",
+      "status": "known",
+      "neutralHash": "6d80698ad96a8ed96b2fa748161b654a8d6da14e51a0d2e414867e9ee1047fd3",
+      "geometryHash": "e9400163f9e8dae454e3fe75e26ddb520c3941bfdf6140c522171eb09dff8674",
+      "base": "classic",
+      "geometryKey": "p5-053-G",
+      "policy": {
+        "mode": "rows",
+        "cutY": 54.72,
+        "crestWidth": 8.99
+      },
+      "paths": {
+        "back": 0,
+        "volume": 0,
+        "front": 48,
+        "sides": 2,
+        "texture": 0,
+        "lengths": 40
+      },
+      "features": [
+        "scalp-row",
+        "braid",
+        "temple-row",
+        "braid-root"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "24",
+      "familyName": "Rangées plaquées et retombées tressées",
+      "module": "D",
+      "modulePath": "i5/i4/hair.mjs",
+      "technical": "T083",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "Cinq rowRoutes plaquées, tempes entrelacées et deux brins courts.",
+      "primitives": "rowRoutes, braid/strand, retombées",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "53-D",
+      "number": 53,
+      "style": "p5-053",
+      "a": "D",
+      "name": "Tresses créatives",
+      "status": "known",
+      "neutralHash": "d0e0337eb19db9efbaa048a9b2150e5cd080e79a5384936adc09820ec681c8f5",
+      "geometryHash": "0ee32252ca4b2da76ab5f582b476cfffae490cf6f07d52b19a49a806561061d3",
+      "base": "classic",
+      "geometryKey": "p5-053-D",
+      "policy": {
+        "mode": "right-shaved",
+        "cutY": 54.72,
+        "crestWidth": 13.92
+      },
+      "paths": {
+        "back": 1,
+        "volume": 1,
+        "front": 45,
+        "sides": 3,
+        "texture": 1,
+        "lengths": 60
+      },
+      "features": [
+        "braid",
+        "braid-root"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "26",
+      "familyName": "Tresses en éventail et compositions irrégulières",
+      "module": "D",
+      "modulePath": "i5/i4/hair.mjs",
+      "technical": "T084",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Couronne partielle, trois tresses de tempe et trois longues nattes asymétriques.",
+      "primitives": "strand en éventail/couronne, hanging",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "54-G",
+      "number": 54,
+      "style": "p5-054",
+      "a": "G",
+      "name": "Accessoires et ornements",
+      "status": "known",
+      "neutralHash": "f7f422ea32992bf12e9c787fdb25bd1efa98ba5e0207e38ad640251c1d319c90",
+      "geometryHash": "aa22a68e2347a8d741bd357e2fb02169b78e1f2a1242bc657d15683e8bea052a",
+      "base": "classic",
+      "geometryKey": "p5-038-G",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72,
+        "crestWidth": 8.99
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 1,
+        "sides": 0,
+        "texture": 3,
+        "lengths": 0
+      },
+      "features": [
+        "irregular-fringe"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "03",
+      "familyName": "Pointes courtes et franges irrégulières",
+      "module": "D",
+      "modulePath": "i5/i4/hair.mjs",
+      "technical": "T055",
+      "classification": "Doublon visuel",
+      "justification": "Même composition que 38-G sur les 270 états, sans objets/couleur.",
+      "recipe": "Cheveux identiques à 38-G/48-G ; lunettes et plume dans les accessoires.",
+      "primitives": "coverageCap, pointes/franges en tableaux",
+      "exactPeers": [
+        "38-G",
+        "48-G",
+        "69-G"
+      ],
+      "closest": []
+    },
+    {
+      "key": "54-D",
+      "number": 54,
+      "style": "p5-054",
+      "a": "D",
+      "name": "Accessoires et ornements",
+      "status": "known",
+      "neutralHash": "f1b5d7ba76d99b756524aed994c5362daf774e79815e9e13517b3725c845bf1b",
+      "geometryHash": "f5d79ceeb178adcc9a694b68563bfd7821c3f28263dbf32beaac8e9bf9058ab5",
+      "base": "classic",
+      "geometryKey": "p5-054-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72,
+        "crestWidth": 13.92
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 2,
+        "sides": 2,
+        "texture": 5,
+        "lengths": 0
+      },
+      "features": [
+        "extravagant-fan"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "14",
+      "familyName": "Volumes ébouriffés hauts et mèches libres",
+      "module": "D",
+      "modulePath": "i5/i4/hair.mjs",
+      "technical": "T085",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "highFan + swept + mèches 23-D ; bandeau, plume et perles séparés.",
+      "primitives": "chignon irrégulier, swept/highFan, loose",
+      "exactPeers": [],
+      "closest": [
+        "51-G (81.33 %)"
+      ]
+    },
+    {
+      "key": "55-G",
+      "number": 55,
+      "style": "p5-055",
+      "a": "G",
+      "name": "Tresses africaines",
+      "status": "known",
+      "neutralHash": "cd03f54161941bd97305fe260b6a75bfb6dd5f7d5696b32001a75d5c64f40954",
+      "geometryHash": "ef7e827f971f2657083294edf0bf0dd01980aa9a67cbf93dfe7679f3e3dfc7cc",
+      "base": "classic",
+      "geometryKey": "p5-055-G",
+      "policy": {
+        "mode": "rows",
+        "cutY": 54.72,
+        "crestWidth": 20.009999999999998
+      },
+      "paths": {
+        "back": 0,
+        "volume": 0,
+        "front": 70,
+        "sides": 8,
+        "texture": 0,
+        "lengths": 132
+      },
+      "features": [
+        "scalp-row",
+        "braid",
+        "braid-root"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "24",
+      "familyName": "Rangées plaquées et retombées tressées",
+      "module": "E",
+      "modulePath": "i5/hair.mjs",
+      "technical": "T086",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Sept rangées et six fines nattes, longueurs end+65−6i, sans calotte pleine.",
+      "primitives": "rowRoutes, braid/strand, retombées",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "55-D",
+      "number": 55,
+      "style": "p5-055",
+      "a": "D",
+      "name": "Tresses africaines",
+      "status": "known",
+      "neutralHash": "2cdf18a3b1a634d9ac9af5d5b15f73ac99387769061d2f745ecba432911ef4de",
+      "geometryHash": "92683053063b33c0dded1fa17034fa46430cc3cc568b16377fd3902bf57921d3",
+      "base": "classic",
+      "geometryKey": "p5-055-D",
+      "policy": {
+        "mode": "rows",
+        "cutY": 54.72,
+        "crestWidth": 20.009999999999998
+      },
+      "paths": {
+        "back": 130,
+        "volume": 0,
+        "front": 90,
+        "sides": 6,
+        "texture": 0,
+        "lengths": 88
+      },
+      "features": [
+        "braided-bun",
+        "braid",
+        "scalp-row",
+        "braid-root"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "25",
+      "familyName": "Rangées plaquées et chignon tressé",
+      "module": "E",
+      "modulePath": "i5/hair.mjs",
+      "technical": "T087",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "Neuf rangées, chignon de spirales tressées et quatre brins courts.",
+      "primitives": "rowRoutes, fineBraid, braidedBun",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "56-G",
+      "number": 56,
+      "style": "p5-056",
+      "a": "G",
+      "name": "Chignon japonais",
+      "status": "known",
+      "neutralHash": "2a66ad1a6a13c4995b96bf113fa448c38d121cf4163bedd1e0ec3ea9bf0342fd",
+      "geometryHash": "106b9a4e1141c0ec45b8965b753b850d5f9675b96c2ef2fbd8255bcc0aba46ce",
+      "base": "classic",
+      "geometryKey": "p5-056-G",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72,
+        "crestWidth": 20.009999999999998
+      },
+      "paths": {
+        "back": 3,
+        "volume": 1,
+        "front": 1,
+        "sides": 0,
+        "texture": 5,
+        "lengths": 0
+      },
+      "features": [
+        "smooth-bun",
+        "pulled-roots"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "12",
+      "familyName": "Chignons lisses et petites mèches",
+      "module": "E",
+      "modulePath": "i5/hair.mjs",
+      "technical": "T088",
+      "classification": "Variante mineure",
+      "justification": "Même macro-structure que ses voisines ; différence locale de bord, de mèche ou de chignon, visible sur les planches.",
+      "recipe": "Petit smoothBun 14×10 à t−12, front tiré, sans mèches longues.",
+      "primitives": "smoothBun/chignon, pulled/parted, loose",
+      "exactPeers": [],
+      "closest": [
+        "64-G (93.36 %)",
+        "70-G (93.36 %)"
+      ]
+    },
+    {
+      "key": "56-D",
+      "number": 56,
+      "style": "p5-056",
+      "a": "D",
+      "name": "Chignon japonais",
+      "status": "known",
+      "neutralHash": "842e18cd8b0b38b4e3143c2dbdede600eaa3a0f58aaa8b500d9c31ee925c90d0",
+      "geometryHash": "0957d6920f62de96996253ada0393fa269418dd234292f8b3b0f6eb869348189",
+      "base": "classic",
+      "geometryKey": "p5-056-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72,
+        "crestWidth": 20.009999999999998
+      },
+      "paths": {
+        "back": 3,
+        "volume": 1,
+        "front": 2,
+        "sides": 0,
+        "texture": 0,
+        "lengths": 2
+      },
+      "features": [
+        "smooth-bun",
+        "loose-lock"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "12",
+      "familyName": "Chignons lisses et petites mèches",
+      "module": "E",
+      "modulePath": "i5/hair.mjs",
+      "technical": "T089",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Grand smoothBun 23×15 à t−18, raie et deux mèches end+12.",
+      "primitives": "smoothBun/chignon, pulled/parted, loose",
+      "exactPeers": [],
+      "closest": [
+        "61-D (80.70 %)"
+      ]
+    },
+    {
+      "key": "57-G",
+      "number": 57,
+      "style": "p5-057",
+      "a": "G",
+      "name": "Coiffure égyptienne",
+      "status": "known",
+      "neutralHash": "dc5cb752cd6a231deb2ca6dfe7220ac75726a21207c963d34b24e1fbfc459711",
+      "geometryHash": "21a46be0ff6332bdce370d33230bfe27ec94ba106b8038fd5b4512a61d2d9a02",
+      "base": "classic",
+      "geometryKey": "p5-057-G",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72,
+        "crestWidth": 20.009999999999998
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 1,
+        "sides": 2,
+        "texture": 9,
+        "lengths": 0
+      },
+      "features": [
+        "geometric-bob"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "05",
+      "familyName": "Carrés structurés à frange droite",
+      "module": "E",
+      "modulePath": "i5/hair.mjs",
+      "technical": "T090",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Frange droite P4 et panneaux géométriques jusqu’à end+12.",
+      "primitives": "frange P4, panneaux droits",
+      "exactPeers": [],
+      "closest": [
+        "57-D (90.06 %)",
+        "38-D (81.41 %)"
+      ]
+    },
+    {
+      "key": "57-D",
+      "number": 57,
+      "style": "p5-057",
+      "a": "D",
+      "name": "Coiffure égyptienne",
+      "status": "known",
+      "neutralHash": "a9c223f3a7e9607e89c39968d90d900c237dea14381fad6ab2ec340e0e7e76ef",
+      "geometryHash": "c0e063501d5821f9adf5855825c11c349069136c07e5bf4e7c7329886b8b94d9",
+      "base": "classic",
+      "geometryKey": "p5-057-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72,
+        "crestWidth": 20.009999999999998
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 1,
+        "sides": 2,
+        "texture": 9,
+        "lengths": 0
+      },
+      "features": [
+        "geometric-bob"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "05",
+      "familyName": "Carrés structurés à frange droite",
+      "module": "E",
+      "modulePath": "i5/hair.mjs",
+      "technical": "T091",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Même famille rigide, panneaux jusqu’à end+28 ; ornements seuls dans les accessoires.",
+      "primitives": "frange P4, panneaux droits",
+      "exactPeers": [],
+      "closest": [
+        "57-G (90.06 %)"
+      ]
+    },
+    {
+      "key": "58-G",
+      "number": 58,
+      "style": "p5-058",
+      "a": "G",
+      "name": "Coiffure romaine",
+      "status": "known",
+      "neutralHash": "d27ae83e4b485b2ad851c8dc2d6449cdcd4f3b5a989c42d16f53e7afc13cad0d",
+      "geometryHash": "e85d22bfbaff32f807d55d1c7e3b16266dad7ae1dba0cd895198cab2de010498",
+      "base": "curls",
+      "geometryKey": "curls",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72,
+        "crestWidth": 20.009999999999998
+      },
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 20,
+        "sides": 2,
+        "texture": 22,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "curls",
+      "family": "08",
+      "familyName": "Couronnes de boucles courtes",
+      "module": "E",
+      "modulePath": "i5/hair.mjs",
+      "technical": "T008",
+      "classification": "Doublon visuel",
+      "justification": "Même composition que 08 sur les 270 états, sans objets/couleur.",
+      "recipe": "Cheveux curls P4 repris intégralement ; couronne de feuilles amovible.",
+      "primitives": "calotte curls, lobes/coils",
+      "exactPeers": [
+        "08"
+      ],
+      "closest": [
+        "27-G (80.35 %)"
+      ]
+    },
+    {
+      "key": "58-D",
+      "number": 58,
+      "style": "p5-058",
+      "a": "D",
+      "name": "Coiffure romaine",
+      "status": "known",
+      "neutralHash": "f81531c6186736a0ea86def1f38adbbc797ac0f3ebae63214a04c8521fbb13b4",
+      "geometryHash": "03860afadb744734045e2442065ab72fe12b0320ee293aca1c977051bb54f569",
+      "base": "classic",
+      "geometryKey": "p5-031-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72,
+        "crestWidth": 20.009999999999998
+      },
+      "paths": {
+        "back": 5,
+        "volume": 1,
+        "front": 2,
+        "sides": 2,
+        "texture": 0,
+        "lengths": 2
+      },
+      "features": [
+        "rolled-bun",
+        "side-roll",
+        "loose-lock"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "13",
+      "familyName": "Chignons, rouleaux et boucles latérales",
+      "module": "E",
+      "modulePath": "i5/hair.mjs",
+      "technical": "T042",
+      "classification": "Doublon visuel",
+      "justification": "Même composition que 31-D sur les 270 états, sans objets/couleur.",
+      "recipe": "Cheveux 31-D repris intégralement ; bande d’ornement distincte.",
+      "primitives": "bun, sideRolls, tendril, closed-roll",
+      "exactPeers": [
+        "31-D"
+      ],
+      "closest": [
+        "68-D (95.18 %)"
+      ]
+    },
+    {
+      "key": "59-G",
+      "number": 59,
+      "style": "p5-059",
+      "a": "G",
+      "name": "Coiffure médiévale",
+      "status": "known",
+      "neutralHash": "db91b5d9fe4e3dcdeb1944911127dbc80f47fe46bc746e9882d155d098b7c502",
+      "geometryHash": "df65eca40bf0e2e78788ffa4d2611903faf9fc0ca7d3312b3adce8816ef63e41",
+      "base": "classic",
+      "geometryKey": "p5-028-G",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72,
+        "crestWidth": 20.009999999999998
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 34,
+        "sides": 0,
+        "texture": 0,
+        "lengths": 0
+      },
+      "features": [
+        "braided-crown",
+        "braid"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "11",
+      "familyName": "Couronnes tressées sans longue natte",
+      "module": "E",
+      "modulePath": "i5/hair.mjs",
+      "technical": "T035",
+      "classification": "Doublon visuel",
+      "justification": "Même composition que 28-G sur les 270 états, sans objets/couleur.",
+      "recipe": "Cheveux de 28-G repris intégralement, couronne tressée.",
+      "primitives": "centrePart, arc braid/strand",
+      "exactPeers": [
+        "28-G"
+      ],
+      "closest": [
+        "31-G (81.34 %)",
+        "02 (80.89 %)"
+      ]
+    },
+    {
+      "key": "59-D",
+      "number": 59,
+      "style": "p5-059",
+      "a": "D",
+      "name": "Coiffure médiévale",
+      "status": "known",
+      "neutralHash": "cc28fec19ceffbe9a667a78e1431af045642e09100784847a9b77790e8d3f25a",
+      "geometryHash": "bd14119f9eda8a0624600093ceb5bffeb3945f0359139d4a413ad30e4e7d7eb4",
+      "base": "classic",
+      "geometryKey": "p5-059-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72,
+        "crestWidth": 20.009999999999998
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 2,
+        "sides": 0,
+        "texture": 0,
+        "lengths": 12
+      },
+      "features": [
+        "free-wave"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "07",
+      "familyName": "Longueurs libres ondulées",
+      "module": "E",
+      "modulePath": "i5/hair.mjs",
+      "technical": "T092",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Raie de 28 et wave de 42-D, sans son halfBun.",
+      "primitives": "calotte, ribbon/wave/cascade",
+      "exactPeers": [],
+      "closest": [
+        "42-D (90.53 %)",
+        "70-D (82.24 %)",
+        "43-D (80.34 %)"
+      ]
+    },
+    {
+      "key": "60-G",
+      "number": 60,
+      "style": "p5-060",
+      "a": "G",
+      "name": "Coiffure nordique",
+      "status": "known",
+      "neutralHash": "9cfea3a70f6292204173e886651cee00ff875ca9b528a544567eceecc894c3a5",
+      "geometryHash": "6d09c24876ade52af4b5dd9655a6176ec7312e7fcdf91d4b191ab496abebd500",
+      "base": "classic",
+      "geometryKey": "p5-060-G",
+      "policy": {
+        "mode": "right-shaved",
+        "cutY": 54.72,
+        "crestWidth": 20.009999999999998
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 15,
+        "sides": 1,
+        "texture": 4,
+        "lengths": 21
+      },
+      "features": [
+        "pulled-roll",
+        "temple-row",
+        "braid",
+        "braid-root"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "17",
+      "familyName": "Une natte longue à départ temporal ou de nuque",
+      "module": "E",
+      "modulePath": "i5/hair.mjs",
+      "technical": "T093",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Rouleau de 41-G, racines/natte de 32-G et nouvelle tempe tressée.",
+      "primitives": "braid/strand, hanging, racines locales",
+      "exactPeers": [],
+      "closest": [
+        "32-G (94.08 %)",
+        "41-D (83.63 %)",
+        "72-G (80.24 %)"
+      ]
+    },
+    {
+      "key": "60-D",
+      "number": 60,
+      "style": "p5-060",
+      "a": "D",
+      "name": "Coiffure nordique",
+      "status": "known",
+      "neutralHash": "f37881fc6c58916debcce86a60cc3f642d759037fb65f2a816e7d93273596da7",
+      "geometryHash": "fff1075b8bcb16af743de9f294933b49a6810bdf4e05f2a5d6255e40641c826f",
+      "base": "classic",
+      "geometryKey": "p5-060-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72,
+        "crestWidth": 20.009999999999998
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 34,
+        "sides": 2,
+        "texture": 0,
+        "lengths": 44
+      },
+      "features": [
+        "braided-crown",
+        "braid",
+        "braid-root",
+        "loose-lock"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "18",
+      "familyName": "Deux longues nattes, avec ou sans couronne",
+      "module": "E",
+      "modulePath": "i5/hair.mjs",
+      "technical": "T094",
+      "classification": "Variante mineure",
+      "justification": "Même macro-structure que ses voisines ; différence locale de bord, de mèche ou de chignon, visible sur les planches.",
+      "recipe": "Cheveux 32-D plus mèches libres de 28-D.",
+      "primitives": "parted/crown, hangingBraid, strand",
+      "exactPeers": [],
+      "closest": [
+        "32-D (97.28 %)",
+        "39-D (85.50 %)"
+      ]
+    },
+    {
+      "key": "61-G",
+      "number": 61,
+      "style": "p5-061",
+      "a": "G",
+      "name": "Coiffure asiatique",
+      "status": "known",
+      "neutralHash": "5ace93e03a09a15f319950aba48271a958689e1052bf476f02f7b81618cae998",
+      "geometryHash": "5fc6879dfcc2b6369041f5ea8100149fdfafc125ab15101fc78e0eb89c76c233",
+      "base": "classic",
+      "geometryKey": "p5-061-G",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72,
+        "crestWidth": 20.009999999999998
+      },
+      "paths": {
+        "back": 3,
+        "volume": 1,
+        "front": 1,
+        "sides": 0,
+        "texture": 5,
+        "lengths": 2
+      },
+      "features": [
+        "smooth-bun",
+        "pulled-roots",
+        "loose-lock"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "12",
+      "familyName": "Chignons lisses et petites mèches",
+      "module": "E",
+      "modulePath": "i5/hair.mjs",
+      "technical": "T095",
+      "classification": "Variante mineure",
+      "justification": "Même macro-structure que ses voisines ; différence locale de bord, de mèche ou de chignon, visible sur les planches.",
+      "recipe": "Chignon lisse de 56-G et deux petites mèches end+19 ; épingle séparée.",
+      "primitives": "smoothBun/chignon, pulled/parted, loose",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "61-D",
+      "number": 61,
+      "style": "p5-061",
+      "a": "D",
+      "name": "Coiffure asiatique",
+      "status": "known",
+      "neutralHash": "93026c740890e11048c63ef45410e39765ec5dedd92d2d4b065b846e162ae5df",
+      "geometryHash": "1a94d38987041f4994db8129f90174df0ca7de6b99e480d87700d4db92a05326",
+      "base": "classic",
+      "geometryKey": "p5-061-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72,
+        "crestWidth": 20.009999999999998
+      },
+      "paths": {
+        "back": 3,
+        "volume": 1,
+        "front": 1,
+        "sides": 0,
+        "texture": 1,
+        "lengths": 2
+      },
+      "features": [
+        "smooth-bun",
+        "loose-lock"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "12",
+      "familyName": "Chignons lisses et petites mèches",
+      "module": "E",
+      "modulePath": "i5/hair.mjs",
+      "technical": "T096",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Chignon décentré x+9, balayage de 19-G et deux mèches end+19.",
+      "primitives": "smoothBun/chignon, pulled/parted, loose",
+      "exactPeers": [],
+      "closest": [
+        "56-D (80.70 %)"
+      ]
+    },
+    {
+      "key": "62-G",
+      "number": 62,
+      "style": "p5-062",
+      "a": "G",
+      "name": "Coiffure punk",
+      "status": "known",
+      "neutralHash": "f3c653e1c884ff637a369f63e19f6fe558d9bde307b9b0192b3bcf4d64521711",
+      "geometryHash": "dea92c21227f1833e1a2d3bf5c4adfea804afc91d417f6174b035f3a14750fb3",
+      "base": "classic",
+      "geometryKey": "p5-062-G",
+      "policy": {
+        "mode": "crest",
+        "cutY": 54.72,
+        "crestWidth": 20.009999999999998
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 1,
+        "sides": 0,
+        "texture": 3,
+        "lengths": 0
+      },
+      "features": [
+        "central-crest"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "19",
+      "familyName": "Crêtes centrales à côtés dégagés",
+      "module": "E",
+      "modulePath": "i5/hair.mjs",
+      "technical": "T097",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Crête rayonnante, implantation .69r ; plus large que 46-G.",
+      "primitives": "calotte masquée, contour de crête",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "62-D",
+      "number": 62,
+      "style": "p5-062",
+      "a": "D",
+      "name": "Coiffure punk",
+      "status": "known",
+      "neutralHash": "7f433d9d5cb49cf6cea8476aa4295603ac684470bc1c066e72fa9bae70840efd",
+      "geometryHash": "8a2da2367b76812dce4f1e964273b98caa0ab2df6e76f7fd0281c0415ab08367",
+      "base": "classic",
+      "geometryKey": "p5-049-G",
+      "policy": {
+        "mode": "right-shaved",
+        "cutY": 54.72,
+        "crestWidth": 20.009999999999998
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 1,
+        "sides": 1,
+        "texture": 5,
+        "lengths": 0
+      },
+      "features": [
+        "oblique-root",
+        "asymmetric-panel"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "20",
+      "familyName": "Longue mèche asymétrique et tempe courte",
+      "module": "E",
+      "modulePath": "i5/hair.mjs",
+      "technical": "T076",
+      "classification": "Doublon visuel",
+      "justification": "Même composition que 49-G sur les 270 états, sans objets/couleur.",
+      "recipe": "Cheveux 49-G repris intégralement ; teinte rose/cuivre facultative.",
+      "primitives": "undercut/swept, panneau, clip de côté court",
+      "exactPeers": [
+        "49-G",
+        "71-G"
+      ],
+      "closest": [
+        "47-D (81.20 %)"
+      ]
+    },
+    {
+      "key": "63-G",
+      "number": 63,
+      "style": "p5-063",
+      "a": "G",
+      "name": "Coiffure nomade",
+      "status": "unknown",
+      "neutralHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "geometryHash": "04bd11c311f0107c20d95e65d9a593ee5c92c7cb53507e10b680ece3de7add1c",
+      "base": "classic",
+      "geometryKey": "unknown-under-scarf",
+      "policy": {
+        "mode": "unknown",
+        "cutY": 54.72,
+        "crestWidth": 20.009999999999998
+      },
+      "paths": {
+        "back": 0,
+        "volume": 0,
+        "front": 0,
+        "sides": 0,
+        "texture": 0,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "X",
+      "familyName": "Cheveux entièrement inconnus sous tissu",
+      "module": "E",
+      "modulePath": "i5/hair.mjs",
+      "technical": null,
+      "classification": "Hors classement : non évaluable",
+      "justification": "Aucun contour capillaire connu ; ne pas comparer à 01.",
+      "recipe": "Aucune chevelure observée ; seulement un foulard dans le rendu avec accessoires.",
+      "primitives": "aucun cheveu observé",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "63-D",
+      "number": 63,
+      "style": "p5-063",
+      "a": "D",
+      "name": "Coiffure nomade",
+      "status": "known",
+      "neutralHash": "40d0315f158e475eb6ab186b9a285e380f03bd891567043b9ffae958704741b1",
+      "geometryHash": "95a177c51fcd2a874415fb33e20040f8048f7415d43d1ea3dbdf85112b07242c",
+      "base": "classic",
+      "geometryKey": "p5-063-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72,
+        "crestWidth": 20.009999999999998
+      },
+      "paths": {
+        "back": 6,
+        "volume": 1,
+        "front": 2,
+        "sides": 0,
+        "texture": 0,
+        "lengths": 14
+      },
+      "features": [
+        "twisted-half-up",
+        "smooth-bun",
+        "free-wave",
+        "loose-lock"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "22",
+      "familyName": "Demi-attaches sur longueurs libres",
+      "module": "E",
+      "modulePath": "i5/hair.mjs",
+      "technical": "T098",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Deux volumes smoothBun torsadés, raie et wave de 42-D plus petites mèches.",
+      "primitives": "halfBun/smoothBun, parted, wave",
+      "exactPeers": [],
+      "closest": [
+        "70-D (80.97 %)",
+        "72-D (80.66 %)"
+      ]
+    },
+    {
+      "key": "64-G",
+      "number": 64,
+      "style": "p5-064",
+      "a": "G",
+      "name": "Coiffure de guerrier",
+      "status": "known",
+      "neutralHash": "e8c158a0b65d7d18a9f40ca49887ab578759e0cde0c7ec4803f75a338882ff8b",
+      "geometryHash": "9b9dc753076bb130444272e9386f2e667bae20547dcc576cd0b34370e59bf81c",
+      "base": "classic",
+      "geometryKey": "p5-064-G",
+      "policy": {
+        "mode": "top",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 3,
+        "volume": 1,
+        "front": 1,
+        "sides": 0,
+        "texture": 11,
+        "lengths": 0
+      },
+      "features": [
+        "smooth-bun",
+        "pulled-roots"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "30",
+      "familyName": "Chignon central sur côtés courts",
+      "module": "F",
+      "modulePath": "hair.mjs",
+      "technical": "T099",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "Chignon 56-G, calotte/front tronqués aux tempes et côtés courts.",
+      "primitives": "smoothBun, pulled, coverageCap tronquée",
+      "exactPeers": [
+        "70-G"
+      ],
+      "closest": [
+        "56-G (93.36 %)"
+      ]
+    },
+    {
+      "key": "64-D",
+      "number": 64,
+      "style": "p5-064",
+      "a": "D",
+      "name": "Coiffure de guerrier",
+      "status": "known",
+      "neutralHash": "2439ad5f398d556e25a4873f35f55e5a4c7243ef687e66dbfd98315988baced4",
+      "geometryHash": "5ed5d723c44611bf07e5a54f6878384eeee2783a6727be94ae61552262a5eb78",
+      "base": "classic",
+      "geometryKey": "p5-064-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 3,
+        "volume": 1,
+        "front": 34,
+        "sides": 2,
+        "texture": 0,
+        "lengths": 44
+      },
+      "features": [
+        "smooth-bun",
+        "braided-crown",
+        "braid",
+        "braid-root"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "27",
+      "familyName": "Chignon, couronne tressée et deux brins",
+      "module": "F",
+      "modulePath": "hair.mjs",
+      "technical": "T100",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "Couronne 28-G, chignon 56-D et deux nattes jusqu’à end+72.",
+      "primitives": "crown, smoothBun/braidedBun, hanging",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "65-G",
+      "number": 65,
+      "style": "p5-065",
+      "a": "G",
+      "name": "Coiffure d’aventurier",
+      "status": "known",
+      "neutralHash": "1b78f1cd34bf5ff5ce08250a22c8ba02e7c4484079d1f73745edb98b9c8304a9",
+      "geometryHash": "20c67157ec98c984da3260960f4ad61be93dcd95e9a1bca5fbf2962c1a7a380d",
+      "base": "classic",
+      "geometryKey": "p5-065-G",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 2,
+        "volume": 2,
+        "front": 1,
+        "sides": 0,
+        "texture": 1,
+        "lengths": 0
+      },
+      "features": [
+        "projected-tufts"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "02",
+      "familyName": "Balayages courts et mèches en S",
+      "module": "F",
+      "modulePath": "hair.mjs",
+      "technical": "T101",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Cheveux 19-G plus contour projected-tufts latéral, bandeau séparé.",
+      "primitives": "coverageCap, swept, courbes locales",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "65-D",
+      "number": 65,
+      "style": "p5-065",
+      "a": "D",
+      "name": "Coiffure d’aventurier",
+      "status": "known",
+      "neutralHash": "ddb4f2635a2ac35682e530456fb0837cc2f9b1f4ce39e557e4dd1035ee729e98",
+      "geometryHash": "47bfbabda824ca13b3c3de7084abaadbb8bd6fe4899fb4329b883bba60fa467c",
+      "base": "classic",
+      "geometryKey": "p5-048-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 2,
+        "sides": 2,
+        "texture": 5,
+        "lengths": 0
+      },
+      "features": [
+        "irregular-fringe",
+        "radiating-tufts",
+        "layered-lock"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "29",
+      "familyName": "Mèches étagées et nuque ébouriffée",
+      "module": "F",
+      "modulePath": "hair.mjs",
+      "technical": "T075",
+      "classification": "Doublon visuel",
+      "justification": "Même composition que 48-D sur les 270 états, sans objets/couleur.",
+      "recipe": "Cheveux de 48-D repris intégralement, lunettes non importées.",
+      "primitives": "rough, shag, radiating-tufts",
+      "exactPeers": [
+        "48-D"
+      ],
+      "closest": [
+        "38-D (87.23 %)"
+      ]
+    },
+    {
+      "key": "66-G",
+      "number": 66,
+      "style": "p5-066",
+      "a": "G",
+      "name": "Coiffure de rôdeur",
+      "status": "partial",
+      "neutralHash": "93ffd38eee1bc8408110bab0fd381e693df193db4e45c11c07d154995da259b1",
+      "geometryHash": "edb82b34e71eafd34d5f9cf07eb7e11806aca123fa141444c021b36ddcff99f5",
+      "base": "classic",
+      "geometryKey": "p5-066-G",
+      "policy": {
+        "mode": "partial",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 0,
+        "volume": 0,
+        "front": 1,
+        "sides": 0,
+        "texture": 3,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "P1",
+      "familyName": "Fragments observés : frange sous capuche",
+      "module": "F",
+      "modulePath": "hair.mjs",
+      "technical": "T102",
+      "classification": "Variante structurelle (fragment, coupe complète non évaluable)",
+      "justification": "Seuls les fragments observés sont classés ; ouverture conservée et racines cachées inconnues.",
+      "recipe": "Frange 26-G limitée à l’ouverture de capuche ; calotte/arrière cachés absents.",
+      "primitives": "frange 26-G, clip d’ouverture",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "66-D",
+      "number": 66,
+      "style": "p5-066",
+      "a": "D",
+      "name": "Coiffure de rôdeur",
+      "status": "partial",
+      "neutralHash": "56101de16d62fdc445b182ab20aa6eb11d08dcd833b8802de51bbcf984b5cfdc",
+      "geometryHash": "6fb28ca21a021888c214a83076bdcbd0441af11511c3253f755852c38aab59ae",
+      "base": "classic",
+      "geometryKey": "p5-066-D",
+      "policy": {
+        "mode": "partial",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 0,
+        "volume": 0,
+        "front": 2,
+        "sides": 2,
+        "texture": 0,
+        "lengths": 44
+      },
+      "features": [
+        "braid-root",
+        "braid"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "P2",
+      "familyName": "Fragments observés : raie et deux nattes sous tissu",
+      "module": "F",
+      "modulePath": "hair.mjs",
+      "technical": "T103",
+      "classification": "Variante structurelle (fragment, coupe complète non évaluable)",
+      "justification": "Seuls les fragments observés sont classés ; ouverture conservée et racines cachées inconnues.",
+      "recipe": "Raie et deux nattes end+72, ouverture de capuche ; aucune couronne déduite.",
+      "primitives": "parted, hanging, clip d’ouverture",
+      "exactPeers": [],
+      "closest": [
+        "67-D (86.01 %)"
+      ]
+    },
+    {
+      "key": "67-G",
+      "number": 67,
+      "style": "p5-067",
+      "a": "G",
+      "name": "Coiffure de voyageur",
+      "status": "known",
+      "neutralHash": "024c28d6f7d9a322a14f8bb411522f50847c290773ac3fdab5a0d1e26fcce5a4",
+      "geometryHash": "a1eb53da62ce58c4ef4b868f70fce230c05dbfe98168b98a97bba672e6e74090",
+      "base": "classic",
+      "geometryKey": "p5-067-G",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 1,
+        "sides": 2,
+        "texture": 1,
+        "lengths": 4
+      },
+      "features": [
+        "pigtail-root",
+        "low-pigtail"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "16",
+      "familyName": "Deux petites couettes basses",
+      "module": "F",
+      "modulePath": "hair.mjs",
+      "technical": "T104",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "Balayage 19-G, deux couettes basses pointues, raccords et liens locaux.",
+      "primitives": "swept, smallTail, raccord de nuque",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "67-D",
+      "number": 67,
+      "style": "p5-067",
+      "a": "D",
+      "name": "Coiffure de voyageur",
+      "status": "partial",
+      "neutralHash": "cb2f3d56cb41cdbaa7c8d3308943d71a338510be811bb2a4bf135509db59a06e",
+      "geometryHash": "62cc2dc42911cef9a029e5e6d42a1ca9dffc4681f616a3a6a46a7db561ba6bcc",
+      "base": "classic",
+      "geometryKey": "p5-067-D",
+      "policy": {
+        "mode": "partial",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 0,
+        "volume": 0,
+        "front": 2,
+        "sides": 2,
+        "texture": 0,
+        "lengths": 44
+      },
+      "features": [
+        "braid-root",
+        "braid"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "P2",
+      "familyName": "Fragments observés : raie et deux nattes sous tissu",
+      "module": "F",
+      "modulePath": "hair.mjs",
+      "technical": "T105",
+      "classification": "Variante structurelle (fragment, coupe complète non évaluable)",
+      "justification": "Seuls les fragments observés sont classés ; ouverture conservée et racines cachées inconnues.",
+      "recipe": "Même raie/nattes observées que 66-D, ouverture de foulard différente.",
+      "primitives": "parted, hanging, clip d’ouverture",
+      "exactPeers": [],
+      "closest": [
+        "66-D (86.01 %)"
+      ]
+    },
+    {
+      "key": "68-G",
+      "number": 68,
+      "style": "p5-068",
+      "a": "G",
+      "name": "Coiffure de savant",
+      "status": "known",
+      "neutralHash": "ddbae726a877cdafc940b7002d6f9ba4efa74bafe511218b8e9bc5cbf6321072",
+      "geometryHash": "26c4f4d688c3c12d75e56f193a4c4c04bbe18427e0978eb4eeea40a218007119",
+      "base": "classic",
+      "geometryKey": "side-wave-short",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 1,
+        "volume": 2,
+        "front": 1,
+        "sides": 0,
+        "texture": 1,
+        "lengths": 0
+      },
+      "features": [],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "02",
+      "familyName": "Balayages courts et mèches en S",
+      "module": "F",
+      "modulePath": "hair.mjs",
+      "technical": "T019",
+      "classification": "Doublon visuel",
+      "justification": "Même composition que 19-G sur les 270 états, sans objets/couleur.",
+      "recipe": "Cheveux 19-G repris intégralement ; lunettes non importées.",
+      "primitives": "coverageCap, swept, courbes locales",
+      "exactPeers": [
+        "19-G",
+        "21-G"
+      ],
+      "closest": [
+        "03 (91.35 %)",
+        "22-G (90.77 %)",
+        "33-G (89.14 %)"
+      ]
+    },
+    {
+      "key": "68-D",
+      "number": 68,
+      "style": "p5-068",
+      "a": "D",
+      "name": "Coiffure de savant",
+      "status": "known",
+      "neutralHash": "1c3c1fb7e1a236f4b5df9d7f8f8e519a7c710134adb5e195d81315938e2c2df0",
+      "geometryHash": "5b43f947e994a1597cf73d24295ac898624440626bfe2237217b52ebd88d340e",
+      "base": "classic",
+      "geometryKey": "p5-068-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 3,
+        "volume": 1,
+        "front": 2,
+        "sides": 2,
+        "texture": 0,
+        "lengths": 2
+      },
+      "features": [
+        "smooth-bun",
+        "side-roll",
+        "loose-lock"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "13",
+      "familyName": "Chignons, rouleaux et boucles latérales",
+      "module": "F",
+      "modulePath": "hair.mjs",
+      "technical": "T106",
+      "classification": "Variante mineure",
+      "justification": "Même macro-structure que ses voisines ; différence locale de bord, de mèche ou de chignon, visible sur les planches.",
+      "recipe": "Chignon/raie 56-D, rouleaux et mèches 31-D, épingles séparées.",
+      "primitives": "bun, sideRolls, tendril, closed-roll",
+      "exactPeers": [],
+      "closest": [
+        "31-D (95.18 %)",
+        "58-D (95.18 %)"
+      ]
+    },
+    {
+      "key": "69-G",
+      "number": 69,
+      "style": "p5-069",
+      "a": "G",
+      "name": "Coiffure d’alchimiste",
+      "status": "known",
+      "neutralHash": "f7f422ea32992bf12e9c787fdb25bd1efa98ba5e0207e38ad640251c1d319c90",
+      "geometryHash": "aa22a68e2347a8d741bd357e2fb02169b78e1f2a1242bc657d15683e8bea052a",
+      "base": "classic",
+      "geometryKey": "p5-038-G",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 1,
+        "sides": 0,
+        "texture": 3,
+        "lengths": 0
+      },
+      "features": [
+        "irregular-fringe"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "03",
+      "familyName": "Pointes courtes et franges irrégulières",
+      "module": "F",
+      "modulePath": "hair.mjs",
+      "technical": "T055",
+      "classification": "Doublon visuel",
+      "justification": "Même composition que 38-G sur les 270 états, sans objets/couleur.",
+      "recipe": "Cheveux de 54-G/38-G repris intégralement sans lunettes.",
+      "primitives": "coverageCap, pointes/franges en tableaux",
+      "exactPeers": [
+        "38-G",
+        "48-G",
+        "54-G"
+      ],
+      "closest": []
+    },
+    {
+      "key": "69-D",
+      "number": 69,
+      "style": "p5-069",
+      "a": "D",
+      "name": "Coiffure d’alchimiste",
+      "status": "known",
+      "neutralHash": "a65dc9af568ed9b7fcca423273dfe7a53c06e014f7874cb36572112a2560b3f3",
+      "geometryHash": "818bea953acebbc9a75b77fb80f62e9e3a0a277107c06b68078f997d8838d6df",
+      "base": "classic",
+      "geometryKey": "p5-069-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 3,
+        "volume": 2,
+        "front": 1,
+        "sides": 2,
+        "texture": 2,
+        "lengths": 2
+      },
+      "features": [
+        "irregular-bun",
+        "loose-lock"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "14",
+      "familyName": "Volumes ébouriffés hauts et mèches libres",
+      "module": "F",
+      "modulePath": "hair.mjs",
+      "technical": "T107",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "23-D, nouveau volume irregular-bun décentré et mèches 31-D.",
+      "primitives": "chignon irrégulier, swept/highFan, loose",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "70-G",
+      "number": 70,
+      "style": "p5-070",
+      "a": "G",
+      "name": "Coiffure spirituelle",
+      "status": "known",
+      "neutralHash": "e8c158a0b65d7d18a9f40ca49887ab578759e0cde0c7ec4803f75a338882ff8b",
+      "geometryHash": "9b9dc753076bb130444272e9386f2e667bae20547dcc576cd0b34370e59bf81c",
+      "base": "classic",
+      "geometryKey": "p5-064-G",
+      "policy": {
+        "mode": "top",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 3,
+        "volume": 1,
+        "front": 1,
+        "sides": 0,
+        "texture": 11,
+        "lengths": 0
+      },
+      "features": [
+        "smooth-bun",
+        "pulled-roots"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "30",
+      "familyName": "Chignon central sur côtés courts",
+      "module": "F",
+      "modulePath": "hair.mjs",
+      "technical": "T099",
+      "classification": "Doublon visuel",
+      "justification": "Même composition que 64-G sur les 270 états, sans objets/couleur.",
+      "recipe": "Même chignon sur côtés courts que 64-G.",
+      "primitives": "smoothBun, pulled, coverageCap tronquée",
+      "exactPeers": [
+        "64-G"
+      ],
+      "closest": [
+        "56-G (93.36 %)"
+      ]
+    },
+    {
+      "key": "70-D",
+      "number": 70,
+      "style": "p5-070",
+      "a": "D",
+      "name": "Coiffure spirituelle",
+      "status": "known",
+      "neutralHash": "8f3136d21300991ee8f0f31024237fd3609c54d7bc3e3abadab0a9158035455b",
+      "geometryHash": "a3d9e73a8307c0fef0a1d4386a0d739169eea273b9502ecae71e2211add640a5",
+      "base": "classic",
+      "geometryKey": "p5-070-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 3,
+        "volume": 1,
+        "front": 2,
+        "sides": 0,
+        "texture": 0,
+        "lengths": 12
+      },
+      "features": [
+        "smooth-bun",
+        "free-wave"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "22",
+      "familyName": "Demi-attaches sur longueurs libres",
+      "module": "F",
+      "modulePath": "hair.mjs",
+      "technical": "T108",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Chignon 56-D, raie 28-G et wave 42-D ; parure frontale séparée.",
+      "primitives": "halfBun/smoothBun, parted, wave",
+      "exactPeers": [],
+      "closest": [
+        "42-D (88.62 %)",
+        "72-D (88.41 %)",
+        "59-D (82.24 %)"
+      ]
+    },
+    {
+      "key": "71-G",
+      "number": 71,
+      "style": "p5-071",
+      "a": "G",
+      "name": "Coiffure mystique",
+      "status": "known",
+      "neutralHash": "7f433d9d5cb49cf6cea8476aa4295603ac684470bc1c066e72fa9bae70840efd",
+      "geometryHash": "8a2da2367b76812dce4f1e964273b98caa0ab2df6e76f7fd0281c0415ab08367",
+      "base": "classic",
+      "geometryKey": "p5-049-G",
+      "policy": {
+        "mode": "right-shaved",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 1,
+        "sides": 1,
+        "texture": 5,
+        "lengths": 0
+      },
+      "features": [
+        "oblique-root",
+        "asymmetric-panel"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "20",
+      "familyName": "Longue mèche asymétrique et tempe courte",
+      "module": "F",
+      "modulePath": "hair.mjs",
+      "technical": "T076",
+      "classification": "Doublon visuel",
+      "justification": "Même composition que 49-G sur les 270 états, sans objets/couleur.",
+      "recipe": "Cheveux de 49-G repris intégralement.",
+      "primitives": "undercut/swept, panneau, clip de côté court",
+      "exactPeers": [
+        "49-G",
+        "62-D"
+      ],
+      "closest": [
+        "47-D (81.20 %)"
+      ]
+    },
+    {
+      "key": "71-D",
+      "number": 71,
+      "style": "p5-071",
+      "a": "D",
+      "name": "Coiffure mystique",
+      "status": "known",
+      "neutralHash": "95e71015b8c970ab9d9b890b7d520963a6ec336ca0c0c88ef9a9f14b7f6753da",
+      "geometryHash": "0fdfe5a03b473eb3a6f44972f4414ee9db4ad3b628024e27eb47f293eb8544e4",
+      "base": "classic",
+      "geometryKey": "p5-071-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 130,
+        "volume": 1,
+        "front": 34,
+        "sides": 2,
+        "texture": 0,
+        "lengths": 44
+      },
+      "features": [
+        "braided-bun",
+        "braid",
+        "braided-crown",
+        "braid-root"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "27",
+      "familyName": "Chignon, couronne tressée et deux brins",
+      "module": "F",
+      "modulePath": "hair.mjs",
+      "technical": "T109",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Chignon tressé 55-D, couronne 28-G et deux brins fins end+38.",
+      "primitives": "crown, smoothBun/braidedBun, hanging",
+      "exactPeers": [],
+      "closest": []
+    },
+    {
+      "key": "72-G",
+      "number": 72,
+      "style": "p5-072",
+      "a": "G",
+      "name": "Coiffure héroïque",
+      "status": "known",
+      "neutralHash": "8e6889ee5639e466971c6f9d15c133022975110a54658125df2f7b83bfd97f57",
+      "geometryHash": "fd559f7511f32f2932fa862c02929b51973210ef8b8668a04d40edfde50b49f0",
+      "base": "classic",
+      "geometryKey": "p5-072-G",
+      "policy": {
+        "mode": "right-shaved",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 0,
+        "volume": 1,
+        "front": 31,
+        "sides": 2,
+        "texture": 5,
+        "lengths": 21
+      },
+      "features": [
+        "temple-row",
+        "braid",
+        "braid-root"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "17",
+      "familyName": "Une natte longue à départ temporal ou de nuque",
+      "module": "F",
+      "modulePath": "hair.mjs",
+      "technical": "T110",
+      "classification": "Variante structurelle",
+      "justification": "Base de famille partagée, mais longueur, contour, texture ou attache réellement différente.",
+      "recipe": "Natte 60-G, balayage/panneau 25-D et trois routes de tempe recalées sur halfWidthAt.",
+      "primitives": "braid/strand, hanging, racines locales",
+      "exactPeers": [],
+      "closest": [
+        "44-D (81.99 %)",
+        "32-G (80.71 %)",
+        "60-G (80.24 %)"
+      ]
+    },
+    {
+      "key": "72-D",
+      "number": 72,
+      "style": "p5-072",
+      "a": "D",
+      "name": "Coiffure héroïque",
+      "status": "known",
+      "neutralHash": "f44b515b5cd50656c67b924f6e38ef0a6bfd03c118f025e33413919a9a0bd43a",
+      "geometryHash": "d50e9a7d7ecf404eb50119108b6aa00b156cd9d10bcd14f2ea0df5bc17acd4cd",
+      "base": "classic",
+      "geometryKey": "p5-072-D",
+      "policy": {
+        "mode": "full",
+        "cutY": 54.72
+      },
+      "paths": {
+        "back": 85,
+        "volume": 1,
+        "front": 2,
+        "sides": 0,
+        "texture": 0,
+        "lengths": 12
+      },
+      "features": [
+        "tiered-crown",
+        "braid",
+        "free-wave"
+      ],
+      "embeddedTiesRemoved": 0,
+      "cap": "classic",
+      "family": "28",
+      "familyName": "Couronne tressée étagée sur vagues libres",
+      "module": "F",
+      "modulePath": "hair.mjs",
+      "technical": "T111",
+      "classification": "Structure unique",
+      "justification": "Premier témoin de cette macro-structure dans le classement visuel ; ne signifie pas code sans primitives communes.",
+      "recipe": "Trois arcs tressés étagés sur support rempli, raie 28-G et wave 42-D.",
+      "primitives": "crestBraid, support rempli, parted, wave",
+      "exactPeers": [],
+      "closest": [
+        "70-D (88.41 %)",
+        "63-D (80.66 %)",
+        "42-D (80.38 %)"
+      ]
+    }
+  ]
+}
