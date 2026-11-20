@@ -1,6 +1,6 @@
 # BIO-VIS-DEDUP-01 — Lot 1 : revue artistique à préparer
 
-**[Preview indépendante vérifiée](https://thsethse.github.io/Microcosme/preview/bio-vis-dedup-lot-1/)** · **[PR de code #42 en brouillon](https://github.com/Thsethse/Microcosme/pull/42)**. Code publié : `609ae96da608f45dbd82a4c373d2d8a1d6d36b4f`. Artefact Pages : `9b8aaaab10f6ad6cd5dc6b008d361832eb37ec70`, uniquement six fichiers neufs dans `preview/bio-vis-dedup-lot-1/` ; aucune fusion de la branche de code.
+**[Preview indépendante vérifiée](https://thsethse.github.io/Microcosme/preview/bio-vis-dedup-lot-1/)** · **[PR de code #42 en brouillon](https://github.com/Thsethse/Microcosme/pull/42)**. Code publié : `5ea862510b04904904241a09695be4c9141ce4a8`. Artefact Pages : `5bcda0dd2fdae799ef3f7779109660bfbee988f1`, uniquement six fichiers neufs dans `preview/bio-vis-dedup-lot-1/` ; aucune fusion de la branche de code.
 
 Autorisation de programmation : message explicite de l’utilisateur du **20 novembre 2026**, limité à E01, E02, E03 et E05. Cette autorisation remplace les mentions « non autorisé pour exécution » du contrat documentaire antérieur ; elle ne vaut ni validation du rendu ni autorisation de fusion.
 
@@ -43,7 +43,7 @@ Deux défauts du premier script de vérification ont été corrigés avant valid
 
 La matrice a aussi détecté un défaut réel de recouvrement de **58-G** : certains raccords terminaux du contour supérieur restaient visibles dans les combinaisons larges/extrêmes après retrait du halo de boucles. La correction ajoute seulement deux raccords locaux suivant les normales du contour réel aux tempes. Aucun agrandissement uniforme, aucune retouche du visage et aucun changement du helper partagé. Les contrôles Chromium/WebKit repassent ensuite sans ouverture aux points testés.
 
-La CI WebKit/Ubuntu a ensuite détecté un débordement de grille à 390 px, non reproduit dans les premiers contrôles locaux. La correction borne explicitement la largeur minimale des pistes et des menus et empile les contrôles sur écran étroit. Aucun masquage du débordement ni modification de géométrie capillaire ; l’assertion de largeur est conservée et enrichie d’un diagnostic. Les deux moteurs repassent localement ; la validation de cette correction sur le runner CI est suivie dans la PR.
+La CI WebKit/Ubuntu a ensuite détecté un débordement de grille à 390 px, non reproduit dans les premiers contrôles locaux. La correction borne explicitement la largeur minimale des pistes et des menus et empile les contrôles sur écran étroit. Aucun masquage du débordement ni modification de géométrie capillaire ; l’assertion de largeur est conservée et enrichie d’un diagnostic. Les deux moteurs repassent localement et le runner CI valide la correction, sans relâcher l’assertion.
 
 Résultats locaux obtenus :
 
@@ -57,7 +57,7 @@ Comparaisons directes, avec les originaux : [E01 neutre](../../../bio-vis-dedup-
 
 ## Vérification de la publication
 
-Le [déploiement Pages](https://github.com/Thsethse/Microcosme/actions/runs/44715611279) et la [non-régression du commit de publication](https://github.com/Thsethse/Microcosme/actions/runs/44715611441) sont réussis. La [CI normale de la PR sur le code publié](https://github.com/Thsethse/Microcosme/actions/runs/44714972432) est réussie. Le [workflow dédié du lot 1](https://github.com/Thsethse/Microcosme/actions/runs/44714972606) doit également être consulté ; son installation de navigateurs était encore en cours lors de l’ajout de ce relevé. Le résultat final est reporté dans la description de PR.
+Le [déploiement Pages](https://github.com/Thsethse/Microcosme/actions/runs/44717702384) et la [non-régression du commit de publication](https://github.com/Thsethse/Microcosme/actions/runs/44717704054) sont réussis. La [CI normale de la PR sur le code publié](https://github.com/Thsethse/Microcosme/actions/runs/44717265852) est réussie. Le [workflow dédié du lot 1](https://github.com/Thsethse/Microcosme/actions/runs/44717265858) est réussi, avec Chromium et WebKit sur le runner GitHub après la correction de grille. La dernière tête ne fait que mettre à jour ce relevé documentaire ; les fichiers du prototype restent identiques au code publié.
 
 Contrôles réellement exécutés sur l’URL publique :
 

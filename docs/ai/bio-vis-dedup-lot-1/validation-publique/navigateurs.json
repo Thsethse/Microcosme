@@ -155,7 +155,7 @@
       "failed": []
     }
   ],
-  "transport": "Cloud headless browsers do not trust the proxy CA: HTTPS requests relayed by curl with configured certificate verification; no insecure or ignoreHTTPSErrors option. Navigation retains the real Pages URL.",
-  "codeCommit": "609ae96da608f45dbd82a4c373d2d8a1d6d36b4f",
-  "pagesCommit": "9b8aaaab10f6ad6cd5dc6b008d361832eb37ec70"
+  "transport": "Cloud proxy CA is verified by curl, no insecure flag and no ignoreHTTPSErrors. Browser navigation retains the real Pages URL.",
+  "codeCommit": "5ea862510b04904904241a09695be4c9141ce4a8",
+  "pagesCommit": "5bcda0dd2fdae799ef3f7779109660bfbee988f1"
 }
