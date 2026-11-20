@@ -1,0 +1,34 @@
+[
+  {
+    "engine": "chromium",
+    "passed": true,
+    "url": "https://thsethse.github.io/Microcosme/preview/bio-vis-dedup-lot-2/",
+    "canonical": 126,
+    "ordinary": 120,
+    "historicalOptionsLoaded": 126,
+    "groups": 6,
+    "viewports": [
+      "820×1180",
+      "1180×820",
+      "390×844"
+    ],
+    "errors": [],
+    "failed": []
+  },
+  {
+    "engine": "webkit",
+    "passed": true,
+    "url": "https://thsethse.github.io/Microcosme/preview/bio-vis-dedup-lot-2/",
+    "canonical": 126,
+    "ordinary": 120,
+    "historicalOptionsLoaded": 126,
+    "groups": 6,
+    "viewports": [
+      "820×1180",
+      "1180×820",
+      "390×844"
+    ],
+    "errors": [],
+    "failed": []
+  }
+]
