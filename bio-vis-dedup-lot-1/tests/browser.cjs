@@ -25,7 +25,8 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('n
    await page.locator('[data-dossier=E02]').tap();
    const layouts=[];for(const [name,width,height]of [['ipad-portrait',820,1180],['ipad-paysage',1180,820],['etroit',390,844]]){
     await page.setViewportSize({width,height});const sizes=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,width:innerWidth,main:document.querySelector('.after .main-view svg').getBoundingClientRect().height,tile:document.querySelector('.after .tile-view svg').getBoundingClientRect().height,mini:[document.querySelector('.after .mini-view svg').getBoundingClientRect().width,document.querySelector('.after .mini-view svg').getBoundingClientRect().height]}));
-    assert(sizes.scroll<=width+1,'page overflow '+name);assert.equal(sizes.main,300);assert.equal(sizes.tile,178);assert.deepEqual(sizes.mini,[70,70]);layouts.push({name,...sizes});
+    const overflow=sizes.scroll>width+1?await page.evaluate(()=>[...document.querySelectorAll('body *')].map(e=>({tag:e.tagName,id:e.id,cls:e.getAttribute('class'),left:e.getBoundingClientRect().left,right:e.getBoundingClientRect().right})).filter(e=>e.right>innerWidth+1).slice(0,15)):[];
+    assert(sizes.scroll<=width+1,'page overflow '+name+' '+JSON.stringify({sizes,overflow}));assert.equal(sizes.main,300);assert.equal(sizes.tile,178);assert.deepEqual(sizes.mini,[70,70]);layouts.push({name,...sizes});
     if(name!=='etroit'){await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:path.join(out,engine.name()+'-'+name+'.png')});}
    }
    console.log(engine.name(),'touch UI and layouts passed; starting geometry matrix');

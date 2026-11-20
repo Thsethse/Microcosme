@@ -43,6 +43,8 @@ Deux défauts du premier script de vérification ont été corrigés avant valid
 
 La matrice a aussi détecté un défaut réel de recouvrement de **58-G** : certains raccords terminaux du contour supérieur restaient visibles dans les combinaisons larges/extrêmes après retrait du halo de boucles. La correction ajoute seulement deux raccords locaux suivant les normales du contour réel aux tempes. Aucun agrandissement uniforme, aucune retouche du visage et aucun changement du helper partagé. Les contrôles Chromium/WebKit repassent ensuite sans ouverture aux points testés.
 
+La CI WebKit/Ubuntu a ensuite détecté un débordement de grille à 390 px, non reproduit dans les premiers contrôles locaux. La correction borne explicitement la largeur minimale des pistes et des menus et empile les contrôles sur écran étroit. Aucun masquage du débordement ni modification de géométrie capillaire ; l’assertion de largeur est conservée et enrichie d’un diagnostic. Les deux moteurs repassent localement ; la validation de cette correction sur le runner CI est suivie dans la PR.
+
 Résultats locaux obtenus :
 
 - **6/6 tests du lot 1** ; 16 104 comparaisons exactes des choix hors cible (122 × 22 morphologies × deux états d’accessoires × trois vues).
