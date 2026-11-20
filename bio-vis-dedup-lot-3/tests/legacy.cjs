@@ -11,7 +11,7 @@ symlinkSync(path.join(root,'node_modules'),path.join(sandbox,'node_modules'),'di
 for(const folder of ['bio-vis-p5-i6','bio-vis-dedup-lot-1','bio-vis-dedup-lot-2'])cpSync(path.join(root,'preview',folder),path.join(sandbox,'preview',folder),{recursive:true});
 const results=[];
 for(const [folder,ref]of revisions){
- const archive=execFileSync('git',['archive',ref,folder],{cwd:root,maxBuffer:32*1024*1024});execFileSync('tar',['-x','-C',sandbox],{input:archive});
+ const archive=execFileSync('git',['-c','safe.directory='+root,'archive',ref,folder],{cwd:root,maxBuffer:32*1024*1024});execFileSync('tar',['-x','-C',sandbox],{input:archive});
  console.log('Legacy:',folder,ref);
  execFileSync(process.execPath,['--test',folder+'/tests/model.test.mjs'],{cwd:sandbox,env,stdio:'inherit'});
  execFileSync(process.execPath,[folder+'/tests/browser.cjs'],{cwd:sandbox,env,stdio:'inherit'});
