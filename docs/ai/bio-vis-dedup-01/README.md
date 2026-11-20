@@ -1,5 +1,7 @@
 # BIO-VIS-DEDUP-01 — Préparer les choix, sans les appliquer
 
+> **Arbitrages utilisateur validés :** [ARBITRAGES_UTILISATEUR.md](ARBITRAGES_UTILISATEUR.md). Les recommandations historiques ci-dessous sont conservées pour traçabilité ; les trois cas incertains restent non tranchés. Aucune programmation ni fusion autorisée.
+
 **Les copies exactes ne demandent pas toutes la même réponse.** Certaines références montrent essentiellement les mêmes cheveux avec une autre présentation. D’autres illustrations montrent des mouvements de mèches que le prototype a perdus. Le dossier distingue ces deux situations et préserve toutes les provenances.
 
 **[Ouvrir la galerie illustrée sur GitHub](PLANCHES.md)** — les 26 planches PNG se consultent directement sur iPad. Aucun téléchargement ni nouvelle preview du générateur nécessaire. Les images s’ouvrent séparément pour les agrandir.
