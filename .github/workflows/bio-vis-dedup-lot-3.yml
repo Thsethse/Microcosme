@@ -1,0 +1,35 @@
+name: BIO-VIS-DEDUP — Lot 3
+on:
+  pull_request:
+    paths:
+      - 'bio-vis-dedup-lot-3/**'
+      - '.github/workflows/bio-vis-dedup-lot-3.yml'
+permissions:
+  contents: read
+jobs:
+  coiffures:
+    runs-on: ubuntu-latest
+    # OS libraries only; install the repository's locked Playwright engines below.
+    container: mcr.microsoft.com/playwright:v1.56.1-noble
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: node --test bio-vis-dedup-lot-3/tests/model.test.mjs
+      - run: npx playwright install chromium webkit
+      - run: node bio-vis-dedup-lot-3/tests/browser.cjs
+      - name: Fetch frozen original Lot 1 and Lot 2 suites (no merge)
+        run: git -c safe.directory="$GITHUB_WORKSPACE" fetch --no-tags --depth=1 origin 1ff931586776b3f7ed41bbdc5772b97e030aa4db 4156254ca5a9b4a52f138a558bd70d461f4d4c4e
+      - run: node bio-vis-dedup-lot-3/tests/legacy.cjs
+      - run: npm run test:browser
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bio-vis-dedup-lot-3-comparaisons
+          path: /tmp/microcosme-dedup-lot3-browser
+          if-no-files-found: ignore
