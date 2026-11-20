@@ -1,0 +1,19 @@
+name: BIO-VIS-P4-R1
+on:
+  pull_request:
+    paths: ['bio-vis-p4-r1/**', '.github/workflows/bio-vis-p4-r1.yml']
+permissions:
+  contents: read
+jobs:
+  closeups:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: node --test bio-vis-p4-r1/*.test.mjs
+      - run: npx playwright install --with-deps chromium webkit
+      - run: node bio-vis-p4-r1/browser.test.cjs
