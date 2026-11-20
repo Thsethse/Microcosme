@@ -1,5 +1,7 @@
 # BIO-VIS-DEDUP-01 — Préparer les choix, sans les appliquer
 
+> **Contrat de différenciation graphique — LOT 3 :** [CONTRAT_LOT_3.md](CONTRAT_LOT_3.md) (préparation documentaire uniquement ; pas de programmation ni de fusion).
+>
 > **Contrat de regroupement — LOT 2 :** [CONTRAT_LOT_2.md](CONTRAT_LOT_2.md) (préparation documentaire uniquement ; pas de programmation ni de fusion).
 >
 > **Contrat de correction graphique — LOT 1 :** [CONTRAT_LOT_1.md](CONTRAT_LOT_1.md) (documentation seule ; programmation et fusion interdites sans nouvelle autorisation).
