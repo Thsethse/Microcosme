@@ -127,3 +127,19 @@ Consultation : [portrait iPad](captures/webkit-ipad-portrait.png), [paysage iPad
 La CI dédiée utilise Playwright **1.62.1**, version du lockfile du dépôt, et installe ses moteurs. Le conteneur Noble fournit seulement les bibliothèques système. Elle rejoue également les suites originales des lots 1/2 dans des copies temporaires, sans fusion ni modification de leurs sources. Les captures et résultats sont disponibles comme artefact de CI.
 
 La publication reste séparée de la PR de code : seuls les **23 fichiers** du nouvel artefact sont ajoutés dans `preview/bio-vis-dedup-lot-3/` sur la branche Pages. Le manifeste `version.json` épingle le commit source et les empreintes des 22 fichiers d’exécution/référence et des 106 fichiers hérités. Les liens exacts de PR, déploiement, CI et contrôles publics sont ajoutés à réception de ces vérifications.
+
+## Livraison publique vérifiée
+
+- **PR brouillon [#44](https://github.com/Thsethse/Microcosme/pull/44)**, branche indépendante `codex/bio-vis-dedup-lot-3`. Les PR #42 et #43 restent non fusionnées et inchangées.
+- **Preview publiée et ouverte : https://thsethse.github.io/Microcosme/preview/bio-vis-dedup-lot-3/**.
+- Source d’exécution **`f8c70e23cdea56cd506e837a9587035af9e2c81f`**, épinglée par le manifeste public. Les ajouts ultérieurs au journal et au lanceur de tests ne changent pas le rendu publié.
+- Publication **`9590c809e8b1e316da4f8b11466ebd9e02e322fb`**, **23 nouveaux fichiers uniquement** dans `preview/bio-vis-dedup-lot-3/`. [Déploiement GitHub Pages réussi](https://github.com/Thsethse/Microcosme/actions/runs/44817243276), sans fusion de PR.
+- [Empreintes publiques](captures/public-files.json) : **129/129 conformes**, soit 23 fichiers de preview et 106 fichiers hérités, téléchargés en HTTPS avec vérification TLS active.
+- [Tests sur l’URL publique](captures/public-results.json) : **Chromium et WebKit réussis**, chacun avec les mêmes **2 950 SVG**, les contrôles d’yeux/couverture/cadres et les trois formats. Les originaux sont chargés, les 126 IDs se sélectionnent et les six regroupements sont conservés.
+- [Non-régression initiale du dépôt réussie](https://github.com/Thsethse/Microcosme/actions/runs/44817161260). Suivi de la CI complète et de ses derniers résultats sur la **PR #44** ; les liens d’exécution finaux figurent aussi dans sa description.
+
+Le premier passage de CI dédiée a réussi les tests du lot 3, puis a échoué lors du chargement des anciennes suites : Git signalait le propriétaire du répertoire dans le conteneur. Le lanceur et la commande de lecture Git ont été corrigés avec un `safe.directory` **limité au répertoire exact du dépôt**, sans exception globale ni modification du rendu. La CI rejoue ensuite les anciennes suites.
+
+Le certificat du proxy de cet environnement n’est pas reconnu par les navigateurs headless locaux. Les tests publics acheminent donc les requêtes via `curl` avec sa chaîne de confiance configurée, en gardant l’origine Pages réelle et sans désactivation de TLS. La CI teste les mêmes fichiers directement via HTTP local. Cette particularité du banc de test n’impose aucun outil supplémentaire à l’utilisateur sur iPad.
+
+**Réception attendue : validation artistique par l’utilisateur sur Safari iPad physique. Aucune fusion et aucune suite vers le lot 4 avant nouvelle autorisation.**

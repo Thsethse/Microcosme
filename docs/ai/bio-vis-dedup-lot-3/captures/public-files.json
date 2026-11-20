@@ -1,0 +1,10 @@
+{
+  "verifiedAt": "2026-11-20T21:07:04.794333+00:00",
+  "codeCommit": "f8c70e23cdea56cd506e837a9587035af9e2c81f",
+  "baselineCommit": "5b6e4019084ee302090656b2736efcce85adece8",
+  "previewFilesVerified": 23,
+  "inheritedFilesVerified": 106,
+  "totalFilesVerified": 129,
+  "tls": "curl verified TLS; no insecure flag",
+  "previewURL": "https://thsethse.github.io/Microcosme/preview/bio-vis-dedup-lot-3/"
+}
