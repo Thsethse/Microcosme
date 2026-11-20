@@ -1,5 +1,7 @@
 # BIO-VIS-DEDUP-01 — Préparer les choix, sans les appliquer
 
+> **Contrat de regroupement — LOT 2 :** [CONTRAT_LOT_2.md](CONTRAT_LOT_2.md) (préparation documentaire uniquement ; pas de programmation ni de fusion).
+>
 > **Contrat de correction graphique — LOT 1 :** [CONTRAT_LOT_1.md](CONTRAT_LOT_1.md) (documentation seule ; programmation et fusion interdites sans nouvelle autorisation).
 >
 > **Arbitrages utilisateur validés :** [ARBITRAGES_UTILISATEUR.md](ARBITRAGES_UTILISATEUR.md). Les recommandations historiques ci-dessous sont conservées pour traçabilité ; les trois cas incertains restent non tranchés. Aucune programmation ni fusion autorisée.
