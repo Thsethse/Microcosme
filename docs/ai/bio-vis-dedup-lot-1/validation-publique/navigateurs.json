@@ -1,0 +1,161 @@
+{
+  "base": "https://thsethse.github.io/Microcosme/preview/bio-vis-dedup-lot-1/",
+  "scope": "Lot 1 only; no artistic acceptance",
+  "engines": [
+    {
+      "engine": "chromium",
+      "layouts": [
+        {
+          "name": "ipad-portrait",
+          "scroll": 820,
+          "width": 820,
+          "main": 300,
+          "tile": 178,
+          "mini": [
+            70,
+            70
+          ]
+        },
+        {
+          "name": "ipad-paysage",
+          "scroll": 1180,
+          "width": 1180,
+          "main": 300,
+          "tile": 178,
+          "mini": [
+            70,
+            70
+          ]
+        },
+        {
+          "name": "etroit",
+          "scroll": 390,
+          "width": 390,
+          "main": 300,
+          "tile": 178,
+          "mini": [
+            70,
+            70
+          ]
+        }
+      ],
+      "geometry": {
+        "states": 34,
+        "parsed": 816,
+        "eyeSamples": 79968,
+        "scalpChecks": 30192,
+        "frameChecks": 1564,
+        "unchangedFaces": 816,
+        "unchangedBodies": 816,
+        "bounds": {
+          "p5-058:G": [
+            38.04375076293945,
+            6.579999923706055,
+            121.95624923706055,
+            74.34559631347656
+          ],
+          "p5-024:D": [
+            16.661624908447266,
+            6.579999923706055,
+            152.40756225585938,
+            156.9199924468994
+          ],
+          "p5-068:G": [
+            37.909400939941406,
+            -10.957918167114258,
+            121.95624923706055,
+            74.86479806900024
+          ],
+          "p5-058:D": [
+            25.46935272216797,
+            -25.07179069519043,
+            134.5306396484375,
+            122.95731353759766
+          ]
+        },
+        "issues": []
+      },
+      "errors": [],
+      "failed": []
+    },
+    {
+      "engine": "webkit",
+      "layouts": [
+        {
+          "name": "ipad-portrait",
+          "scroll": 820,
+          "width": 820,
+          "main": 300,
+          "tile": 178,
+          "mini": [
+            70,
+            70
+          ]
+        },
+        {
+          "name": "ipad-paysage",
+          "scroll": 1180,
+          "width": 1180,
+          "main": 300,
+          "tile": 178,
+          "mini": [
+            70,
+            70
+          ]
+        },
+        {
+          "name": "etroit",
+          "scroll": 390,
+          "width": 390,
+          "main": 300,
+          "tile": 178,
+          "mini": [
+            70,
+            70
+          ]
+        }
+      ],
+      "geometry": {
+        "states": 34,
+        "parsed": 816,
+        "eyeSamples": 79968,
+        "scalpChecks": 30192,
+        "frameChecks": 1564,
+        "unchangedFaces": 816,
+        "unchangedBodies": 816,
+        "bounds": {
+          "p5-058:G": [
+            38.04375076293945,
+            6.579999923706055,
+            121.95624160766602,
+            74.34559631347656
+          ],
+          "p5-024:D": [
+            16.661624908447266,
+            6.579999923706055,
+            152.40757751464844,
+            156.91999626159668
+          ],
+          "p5-068:G": [
+            37.909400939941406,
+            -10.95792007446289,
+            121.95624160766602,
+            74.86479759216309
+          ],
+          "p5-058:D": [
+            25.46935272216797,
+            -25.07179069519043,
+            134.5306396484375,
+            122.95730590820312
+          ]
+        },
+        "issues": []
+      },
+      "errors": [],
+      "failed": []
+    }
+  ],
+  "transport": "Cloud headless browsers do not trust the proxy CA: HTTPS requests relayed by curl with configured certificate verification; no insecure or ignoreHTTPSErrors option. Navigation retains the real Pages URL.",
+  "codeCommit": "609ae96da608f45dbd82a4c373d2d8a1d6d36b4f",
+  "pagesCommit": "9b8aaaab10f6ad6cd5dc6b008d361832eb37ec70"
+}

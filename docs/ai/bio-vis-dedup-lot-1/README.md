@@ -1,6 +1,6 @@
 # BIO-VIS-DEDUP-01 — Lot 1 : revue artistique à préparer
 
-Preview indépendante prévue : **https://thsethse.github.io/Microcosme/preview/bio-vis-dedup-lot-1/**. Le lien et la révision publiée sont vérifiés avant livraison ; la PR de code relie le résultat public et les checks CI.
+**[Preview indépendante vérifiée](https://thsethse.github.io/Microcosme/preview/bio-vis-dedup-lot-1/)** · **[PR de code #42 en brouillon](https://github.com/Thsethse/Microcosme/pull/42)**. Code publié : `609ae96da608f45dbd82a4c373d2d8a1d6d36b4f`. Artefact Pages : `9b8aaaab10f6ad6cd5dc6b008d361832eb37ec70`, uniquement six fichiers neufs dans `preview/bio-vis-dedup-lot-1/` ; aucune fusion de la branche de code.
 
 Autorisation de programmation : message explicite de l’utilisateur du **20 novembre 2026**, limité à E01, E02, E03 et E05. Cette autorisation remplace les mentions « non autorisé pour exécution » du contrat documentaire antérieur ; elle ne vaut ni validation du rendu ni autorisation de fusion.
 
@@ -53,10 +53,22 @@ Résultats locaux obtenus :
 
 Comparaisons directes, avec les originaux : [E01 neutre](../../../bio-vis-dedup-lot-1/captures/webkit-E01-neutral.png), [E02 neutre](../../../bio-vis-dedup-lot-1/captures/webkit-E02-neutral.png), [E03 neutre](../../../bio-vis-dedup-lot-1/captures/webkit-E03-neutral.png), [E05 neutre](../../../bio-vis-dedup-lot-1/captures/webkit-E05-neutral.png). Les versions `-ipad.png` et les captures Chromium se trouvent dans le même dossier.
 
+## Vérification de la publication
+
+Le [déploiement Pages](https://github.com/Thsethse/Microcosme/actions/runs/44715611279) et la [non-régression du commit de publication](https://github.com/Thsethse/Microcosme/actions/runs/44715611441) sont réussis. La [CI normale de la PR sur le code publié](https://github.com/Thsethse/Microcosme/actions/runs/44714972432) est réussie. Le [workflow dédié du lot 1](https://github.com/Thsethse/Microcosme/actions/runs/44714972606) doit également être consulté ; son installation de navigateurs était encore en cours lors de l’ajout de ce relevé. Le résultat final est reporté dans la description de PR.
+
+Contrôles réellement exécutés sur l’URL publique :
+
+- [99 fichiers servis vérifiés](validation-publique/fichiers.json) : les six fichiers de l’artefact et les 93 fichiers de P5-I6 correspondent aux SHA-256 attendus. TLS vérifié, aucune option insecure.
+- [Chromium et WebKit sur Pages](validation-publique/navigateurs.json) : mêmes contrôles tactiles, trois formats et matrice de 816 SVG par moteur ; zéro erreur de chargement, d’occlusion aux points testés ou de couverture.
+- [Capture publique Chromium portrait](validation-publique/chromium-ipad-portrait.png) et [paysage](validation-publique/chromium-ipad-paysage.png). Les images comparatives sont identiques à celles du contrôle local ; seules ces captures d’en-tête diffèrent légèrement.
+
+Particularité de l’environnement Cloud : les navigateurs headless ne reconnaissent pas son certificat de proxy. Les requêtes HTTPS publiques ont donc été relayées par curl, avec vérification des certificats configurés, sans désactiver TLS ; la navigation et les modules gardent l’URL Pages réelle. Cela ne constitue pas un essai sur Safari d’un iPad physique.
+
 ## Limites artistiques et réception
 
 Les originaux sont frontaux et coupés au buste : ils ne prouvent pas le dos, les pointes hors champ ni les raccords sous les feuilles/bandeau. Les raccords restent limités aux volumes visibles et aux ancrages existants ; aucune reconstitution historique ou racine cachée n’est revendiquée. Les longueurs ondulées et leurs pointes sont une interprétation du prototype, pas une mesure du poster.
 
 Les nouveaux retours et plis restent simplifiés dans le style SVG des habitants. La miniature réduit la lecture des détails intérieurs ; les silhouettes et grandes masses doivent être jugées sur l’iPad physique. Les accessoires inchangés peuvent masquer certains plis : le contrôle sans accessoires est la référence. L’intégration actuelle ne résout pas le trio Q04, puisque 68-D est volontairement intact.
 
-**Statut : proposé pour validation après réussite des tests et publication vérifiée ; aucun accord artistique enregistré.** Aucun lot 2, regroupement visible, changement de nom/ID/provenance, suppression, modification du jeu/sauvegardes ou fusion. Attendre l’arbitrage de l’utilisateur sur Safari iPad physique avant toute suite.
+**Statut : publication vérifiée et proposition soumise à la revue artistique ; aucun accord artistique enregistré.** Aucun lot 2, regroupement visible, changement de nom/ID/provenance, suppression, modification du jeu/sauvegardes ou fusion. Attendre l’arbitrage de l’utilisateur sur Safari iPad physique avant toute suite.

@@ -1,0 +1,9 @@
+{
+  "codeCommit": "609ae96da608f45dbd82a4c373d2d8a1d6d36b4f",
+  "baselineCommit": "4fb938ac3e7d4cbd76f1f05b9cd0ec67cdae86f5",
+  "previewFilesVerified": 6,
+  "baselineFilesVerified": 93,
+  "totalFilesVerified": 99,
+  "tls": "curl verified TLS; no insecure flag",
+  "previewURL": "https://thsethse.github.io/Microcosme/preview/bio-vis-dedup-lot-1/"
+}
