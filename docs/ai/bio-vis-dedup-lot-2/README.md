@@ -13,6 +13,8 @@ Les anciennes mentions « En attente » dans la galerie ne remplacent pas les ar
 
 ## Composition indépendante, sans fusion du lot 1
 
+PR de code indépendante en brouillon : **[#43](https://github.com/Thsethse/Microcosme/pull/43)**.
+
 Branche : `codex/bio-vis-dedup-lot-2`, créée depuis `main` **`5bcda0dd2fdae799ef3f7779109660bfbee988f1`**. PR du lot 1 : [#42](https://github.com/Thsethse/Microcosme/pull/42), tête examinée `1ff931586776b3f7ed41bbdc5772b97e030aa4db`.
 
 La branche principale contient déjà l’artefact de preview du lot 1, issu du code **`5ea862510b04904904241a09695be4c9141ce4a8`**. Le nouveau prototype réexporte directement sa fonction de rendu depuis `preview/bio-vis-dedup-lot-1/render.mjs`. Il utilise le catalogue canonique de `preview/bio-vis-p5-i6/`. **Aucun fichier de ces deux répertoires n’est modifié** ; leurs 99 fichiers sont vérifiés par SHA-256, y compris leurs dépendances, images et manifeste de version.
@@ -69,6 +71,7 @@ Exécution locale :
 | Contrôle | Résultat |
 | --- | --- |
 | `npm test` du dépôt | **35 tests réussis** |
+| `npm run test:browser` du jeu | **Chromium et WebKit réussis** : interface tactile, inspecteur sans mutation, mémoire restaurée, fonctionnement hors ligne et contrôles v0.9 |
 | `node --test bio-vis-dedup-lot-2/tests/model.test.mjs` | **7 tests réussis** |
 | Fichiers hérités | **99/99 empreintes identiques** ; identité des fonctions de rendu lot 1/lot 2 |
 | Aller-retour historique déterministe | **1 512 cas** : 126 choix × 6 corps × 2 états de contraste ; aucune perte de données |
@@ -79,5 +82,16 @@ Exécution locale :
 Commandes reproductibles dans le [README du prototype](../../../bio-vis-dedup-lot-2/README.md). La CI dédiée installe la version Playwright verrouillée par le dépôt (**1.62.1**) et ses moteurs Chromium/WebKit. Son conteneur Noble fournit uniquement les bibliothèques système, évitant l’installation `apt` qui a dépassé 30 minutes lors du dernier contrôle documentaire de #42. Ce dernier contrôle a été annulé ; les tests du **code publié du lot 1** avaient réussi : [CI dédiée](https://github.com/Thsethse/Microcosme/actions/runs/44717265858), [CI dépôt](https://github.com/Thsethse/Microcosme/actions/runs/44717265852). Ce constat ne donne aucune autorisation de fusion de #42.
 
 Les résultats finaux de CI du lot 2, le commit exact de publication et la vérification de la preview sont liés dans la PR de code. Le manifeste public `version.json` contient le commit source, les empreintes des six fichiers d’exécution et celles des 99 fichiers hérités. La publication ajoute seulement sept fichiers dans le nouveau répertoire de preview sur la branche Pages : aucun merge de PR, aucun remplacement du lot 1.
+
+## Livraison vérifiée
+
+- **PR brouillon [#43](https://github.com/Thsethse/Microcosme/pull/43)**, source d’exécution `94bffaf0cf6fddc5d0f40ebebf21c76ed5acaddf` ; les ajouts ultérieurs au journal ne changent pas ce code publié.
+- Preview directe : **https://thsethse.github.io/Microcosme/preview/bio-vis-dedup-lot-2/**, ouverte et testée sous les deux moteurs après déploiement.
+- Publication isolée sur `main` : **`5b6e4019084ee302090656b2736efcce85adece8`**, sept nouveaux fichiers seulement dans `preview/bio-vis-dedup-lot-2/` ; [déploiement Pages réussi](https://github.com/Thsethse/Microcosme/actions/runs/44758251322).
+- Code publié : [CI dédiée lot 2 réussie](https://github.com/Thsethse/Microcosme/actions/runs/44758188171), [non-régression du dépôt réussie](https://github.com/Thsethse/Microcosme/actions/runs/44758188126). Les contrôles du dernier commit documentaire sont visibles sur la PR.
+- [Vérification publique des fichiers](captures/public-files.json) : **106/106 empreintes conformes** (7 nouveaux fichiers et 99 hérités), téléchargements HTTPS avec vérification TLS active.
+- [Résultats des navigateurs sur l’URL publique](captures/public-results.json) : **Chromium et WebKit réussis**, chacun charge effectivement les 126 identifiants et contrôle les formats portrait/paysage/étroit. La capture publique V01 confirme les deux mèches historiques de 61-G. La version publique utilise exactement les sources des captures locales.
+
+Le certificat du proxy de cet environnement n’est pas reconnu par les navigateurs headless locaux. Les requêtes publiques ont donc été acheminées via `curl`, qui vérifie TLS avec la chaîne de confiance configurée ; aucune désactivation de TLS. L’origine reste l’URL Pages réelle. La CI teste les mêmes fichiers directement via son serveur local, sans ce transport. Cette particularité de l’environnement de test n’impose aucun outil supplémentaire à l’utilisateur sur iPad.
 
 **Validation humaine encore nécessaire** : essai Safari sur iPad physique, confort tactile et lecture artistique du compromis V01. WebKit automatisé et captures ne constituent pas un essai matériel ni une validation artistique. La réserve acceptée sur 21-G n’a pas fait l’objet d’une nouvelle correction. Aucune autre réserve artistique ni intervention du lot 3 n’est traitée ici.
