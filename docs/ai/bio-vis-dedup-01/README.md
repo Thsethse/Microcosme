@@ -1,5 +1,7 @@
 # BIO-VIS-DEDUP-01 — Préparer les choix, sans les appliquer
 
+> **Contrat de correction graphique — LOT 1 :** [CONTRAT_LOT_1.md](CONTRAT_LOT_1.md) (documentation seule ; programmation et fusion interdites sans nouvelle autorisation).
+>
 > **Arbitrages utilisateur validés :** [ARBITRAGES_UTILISATEUR.md](ARBITRAGES_UTILISATEUR.md). Les recommandations historiques ci-dessous sont conservées pour traçabilité ; les trois cas incertains restent non tranchés. Aucune programmation ni fusion autorisée.
 
 **Les copies exactes ne demandent pas toutes la même réponse.** Certaines références montrent essentiellement les mêmes cheveux avec une autre présentation. D’autres illustrations montrent des mouvements de mèches que le prototype a perdus. Le dossier distingue ces deux situations et préserve toutes les provenances.
