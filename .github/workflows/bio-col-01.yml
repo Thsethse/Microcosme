@@ -1,0 +1,35 @@
+name: BIO-COL-01 — Palettes capillaires
+on:
+  pull_request:
+    paths:
+      - 'bio-col-01/**'
+      - '.github/workflows/bio-col-01.yml'
+permissions:
+  contents: read
+jobs:
+  palettes:
+    runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.56.1-noble
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: node --test bio-col-01/tests/model.test.mjs
+      # The container supplies OS libraries only; use the locked Playwright engines.
+      - run: npx playwright install chromium webkit
+      - run: node bio-col-01/tests/browser.cjs
+      - name: Fetch original Lot 1–3 test suites, without merging
+        run: git -c safe.directory="$GITHUB_WORKSPACE" fetch --no-tags --depth=1 origin 1ff931586776b3f7ed41bbdc5772b97e030aa4db 4156254ca5a9b4a52f138a558bd70d461f4d4c4e 576ee961b5be385e6cceb2f357ffe74341b0d05f
+      - run: node bio-col-01/tests/legacy.cjs
+      - run: npm run test:browser
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bio-col-01-comparaisons
+          path: /tmp/microcosme-bio-col01-browser
+          if-no-files-found: ignore
