@@ -1,0 +1,548 @@
+{
+  "cases": 26,
+  "exactGroups": 10,
+  "nearGroups": 4,
+  "variantDossiers": 12,
+  "tally": {
+    "REGROUPER": 4,
+    "DIFFÉRENCIER": 12,
+    "CONSERVER": 7,
+    "À ARBITRER": 3
+  },
+  "regroupementsCibles": 6,
+  "pending": 26,
+  "reviewedChoices": 126,
+  "completeFamilies": 32,
+  "runtimeFilesVerified": 93,
+  "originalBoardsVerified": 7,
+  "engines": [
+    {
+      "engine": "chromium",
+      "offline": true,
+      "javaScriptDisabled": true,
+      "networkRequests": 0,
+      "decisions": 26,
+      "coverageChoices": 126,
+      "completeFamilies": 32,
+      "coverageKeys": [
+        "01",
+        "03",
+        "19-G",
+        "21-G",
+        "22-G",
+        "33-G",
+        "65-G",
+        "68-G",
+        "02",
+        "20-D",
+        "23-G",
+        "26-G",
+        "37-G",
+        "38-G",
+        "39-G",
+        "44-G",
+        "48-G",
+        "54-G",
+        "69-G",
+        "04",
+        "19-D",
+        "21-D",
+        "05",
+        "57-G",
+        "57-D",
+        "07",
+        "13",
+        "26-D",
+        "06",
+        "14",
+        "22-D",
+        "36-G",
+        "40-D",
+        "43-D",
+        "59-D",
+        "08",
+        "27-G",
+        "58-G",
+        "09",
+        "15",
+        "27-D",
+        "30-G",
+        "30-D",
+        "16",
+        "28-G",
+        "28-D",
+        "59-G",
+        "11",
+        "56-G",
+        "56-D",
+        "61-G",
+        "61-D",
+        "29-D",
+        "31-G",
+        "31-D",
+        "33-D",
+        "36-D",
+        "51-D",
+        "58-D",
+        "68-D",
+        "23-D",
+        "54-D",
+        "69-D",
+        "12",
+        "24-G",
+        "24-D",
+        "37-D",
+        "67-G",
+        "17",
+        "32-G",
+        "35-G",
+        "41-G",
+        "41-D",
+        "60-G",
+        "72-G",
+        "10",
+        "32-D",
+        "35-D",
+        "39-D",
+        "60-D",
+        "46-G",
+        "46-D",
+        "62-G",
+        "25-D",
+        "44-D",
+        "47-D",
+        "49-G",
+        "49-D",
+        "50-D",
+        "62-D",
+        "71-G",
+        "18",
+        "34-D",
+        "42-G",
+        "42-D",
+        "63-D",
+        "70-D",
+        "52-G",
+        "52-D",
+        "53-G",
+        "55-G",
+        "55-D",
+        "45-G",
+        "45-D",
+        "53-D",
+        "64-D",
+        "71-D",
+        "72-D",
+        "38-D",
+        "40-G",
+        "43-G",
+        "48-D",
+        "65-D",
+        "64-G",
+        "70-G",
+        "29-G",
+        "34-G",
+        "51-G",
+        "20-G",
+        "25-G",
+        "47-G",
+        "50-G",
+        "66-G",
+        "66-D",
+        "67-D",
+        "63-G"
+      ],
+      "images": 63,
+      "imagesLoaded": true,
+      "ids": 126,
+      "uniqueIds": 126,
+      "faces": 1,
+      "bodies": 1,
+      "frames": [
+        "-40 -85 240 355"
+      ],
+      "palettes": [
+        "#4c3822",
+        "#9d7b47"
+      ],
+      "accessoryLayers": 0,
+      "invalidSVG": false,
+      "exact": [
+        {
+          "id": "E01",
+          "variants": 1
+        },
+        {
+          "id": "E02",
+          "variants": 1
+        },
+        {
+          "id": "E03",
+          "variants": 1
+        },
+        {
+          "id": "E04",
+          "variants": 1
+        },
+        {
+          "id": "E05",
+          "variants": 1
+        },
+        {
+          "id": "E06",
+          "variants": 1
+        },
+        {
+          "id": "E07",
+          "variants": 1
+        },
+        {
+          "id": "E08",
+          "variants": 1
+        },
+        {
+          "id": "E09",
+          "variants": 1
+        },
+        {
+          "id": "E10",
+          "variants": 1
+        }
+      ],
+      "missingClips": [],
+      "missingAnchors": [],
+      "layouts": [
+        {
+          "label": "ipad-portrait",
+          "width": 820,
+          "height": 1180,
+          "pageWidth": 820,
+          "scrollWidth": 820,
+          "columns": 2,
+          "sizes": {
+            "tile-view": {
+              "width": 292,
+              "height": 178
+            },
+            "head-view": {
+              "width": 292,
+              "height": 300
+            },
+            "mini-view": {
+              "width": 70,
+              "height": 70
+            }
+          }
+        },
+        {
+          "label": "ipad-paysage",
+          "width": 1180,
+          "height": 820,
+          "pageWidth": 1180,
+          "scrollWidth": 1180,
+          "columns": 2,
+          "sizes": {
+            "tile-view": {
+              "width": 472,
+              "height": 178
+            },
+            "head-view": {
+              "width": 472,
+              "height": 300
+            },
+            "mini-view": {
+              "width": 70,
+              "height": 70
+            }
+          }
+        },
+        {
+          "label": "etroit",
+          "width": 390,
+          "height": 844,
+          "pageWidth": 390,
+          "scrollWidth": 390,
+          "columns": 1,
+          "sizes": {
+            "tile-view": {
+              "width": 270,
+              "height": 178
+            },
+            "head-view": {
+              "width": 270,
+              "height": 300
+            },
+            "mini-view": {
+              "width": 70,
+              "height": 70
+            }
+          }
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "offline": true,
+      "javaScriptDisabled": true,
+      "networkRequests": 0,
+      "decisions": 26,
+      "coverageChoices": 126,
+      "completeFamilies": 32,
+      "coverageKeys": [
+        "01",
+        "03",
+        "19-G",
+        "21-G",
+        "22-G",
+        "33-G",
+        "65-G",
+        "68-G",
+        "02",
+        "20-D",
+        "23-G",
+        "26-G",
+        "37-G",
+        "38-G",
+        "39-G",
+        "44-G",
+        "48-G",
+        "54-G",
+        "69-G",
+        "04",
+        "19-D",
+        "21-D",
+        "05",
+        "57-G",
+        "57-D",
+        "07",
+        "13",
+        "26-D",
+        "06",
+        "14",
+        "22-D",
+        "36-G",
+        "40-D",
+        "43-D",
+        "59-D",
+        "08",
+        "27-G",
+        "58-G",
+        "09",
+        "15",
+        "27-D",
+        "30-G",
+        "30-D",
+        "16",
+        "28-G",
+        "28-D",
+        "59-G",
+        "11",
+        "56-G",
+        "56-D",
+        "61-G",
+        "61-D",
+        "29-D",
+        "31-G",
+        "31-D",
+        "33-D",
+        "36-D",
+        "51-D",
+        "58-D",
+        "68-D",
+        "23-D",
+        "54-D",
+        "69-D",
+        "12",
+        "24-G",
+        "24-D",
+        "37-D",
+        "67-G",
+        "17",
+        "32-G",
+        "35-G",
+        "41-G",
+        "41-D",
+        "60-G",
+        "72-G",
+        "10",
+        "32-D",
+        "35-D",
+        "39-D",
+        "60-D",
+        "46-G",
+        "46-D",
+        "62-G",
+        "25-D",
+        "44-D",
+        "47-D",
+        "49-G",
+        "49-D",
+        "50-D",
+        "62-D",
+        "71-G",
+        "18",
+        "34-D",
+        "42-G",
+        "42-D",
+        "63-D",
+        "70-D",
+        "52-G",
+        "52-D",
+        "53-G",
+        "55-G",
+        "55-D",
+        "45-G",
+        "45-D",
+        "53-D",
+        "64-D",
+        "71-D",
+        "72-D",
+        "38-D",
+        "40-G",
+        "43-G",
+        "48-D",
+        "65-D",
+        "64-G",
+        "70-G",
+        "29-G",
+        "34-G",
+        "51-G",
+        "20-G",
+        "25-G",
+        "47-G",
+        "50-G",
+        "66-G",
+        "66-D",
+        "67-D",
+        "63-G"
+      ],
+      "images": 63,
+      "imagesLoaded": true,
+      "ids": 126,
+      "uniqueIds": 126,
+      "faces": 1,
+      "bodies": 1,
+      "frames": [
+        "-40 -85 240 355"
+      ],
+      "palettes": [
+        "#4c3822",
+        "#9d7b47"
+      ],
+      "accessoryLayers": 0,
+      "invalidSVG": false,
+      "exact": [
+        {
+          "id": "E01",
+          "variants": 1
+        },
+        {
+          "id": "E02",
+          "variants": 1
+        },
+        {
+          "id": "E03",
+          "variants": 1
+        },
+        {
+          "id": "E04",
+          "variants": 1
+        },
+        {
+          "id": "E05",
+          "variants": 1
+        },
+        {
+          "id": "E06",
+          "variants": 1
+        },
+        {
+          "id": "E07",
+          "variants": 1
+        },
+        {
+          "id": "E08",
+          "variants": 1
+        },
+        {
+          "id": "E09",
+          "variants": 1
+        },
+        {
+          "id": "E10",
+          "variants": 1
+        }
+      ],
+      "missingClips": [],
+      "missingAnchors": [],
+      "layouts": [
+        {
+          "label": "ipad-portrait",
+          "width": 820,
+          "height": 1180,
+          "pageWidth": 820,
+          "scrollWidth": 820,
+          "columns": 2,
+          "sizes": {
+            "tile-view": {
+              "width": 292,
+              "height": 178
+            },
+            "head-view": {
+              "width": 292,
+              "height": 300
+            },
+            "mini-view": {
+              "width": 70,
+              "height": 70
+            }
+          }
+        },
+        {
+          "label": "ipad-paysage",
+          "width": 1180,
+          "height": 820,
+          "pageWidth": 1180,
+          "scrollWidth": 1180,
+          "columns": 2,
+          "sizes": {
+            "tile-view": {
+              "width": 472,
+              "height": 178
+            },
+            "head-view": {
+              "width": 472,
+              "height": 300
+            },
+            "mini-view": {
+              "width": 70,
+              "height": 70
+            }
+          }
+        },
+        {
+          "label": "etroit",
+          "width": 390,
+          "height": 844,
+          "pageWidth": 390,
+          "scrollWidth": 390,
+          "columns": 1,
+          "sizes": {
+            "tile-view": {
+              "width": 270,
+              "height": 178
+            },
+            "head-view": {
+              "width": 270,
+              "height": 300
+            },
+            "mini-view": {
+              "width": 70,
+              "height": 70
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
