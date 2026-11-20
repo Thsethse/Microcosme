@@ -1,0 +1,22 @@
+name: BIO-VIS-DEDUP — Lot 1
+on:
+  pull_request:
+    paths:
+      - 'bio-vis-dedup-lot-1/**'
+      - '.github/workflows/bio-vis-dedup-lot-1.yml'
+permissions:
+  contents: read
+jobs:
+  prototype:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: node --test bio-vis-dedup-lot-1/tests/model.test.mjs
+      - run: npx playwright install --with-deps chromium webkit
+      - run: node bio-vis-dedup-lot-1/tests/browser.cjs
