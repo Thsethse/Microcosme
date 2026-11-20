@@ -1,0 +1,10 @@
+{
+  "verifiedAt": "2026-11-20T21:55:20.480535+00:00",
+  "codeCommit": "af1da966517bd23c4a713e60dba70c8eebbc5b2c",
+  "baselineCommit": "9590c809e8b1e316da4f8b11466ebd9e02e322fb",
+  "previewFilesVerified": 9,
+  "inheritedFilesVerified": 129,
+  "totalFilesVerified": 138,
+  "tls": "curl verified TLS; no insecure flag",
+  "previewURL": "https://thsethse.github.io/Microcosme/preview/bio-col-01/"
+}

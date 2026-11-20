@@ -162,3 +162,17 @@ Captures WebKit :
 - [iPad portrait](captures/webkit-ipad-portrait.png), [iPad paysage](captures/webkit-ipad-landscape.png), [format étroit](captures/webkit-narrow.png).
 
 La publication et ses contrôles sur l’URL publique sont consignés ci-dessous après déploiement. Le manifeste public permet de relier les huit fichiers d’exécution au commit source exact et aux 129 fichiers hérités.
+
+## Livraison publique vérifiée
+
+- **PR brouillon [#45](https://github.com/Thsethse/Microcosme/pull/45)**, branche `codex/bio-col-01` ; aucune fusion, aucune intégration au jeu.
+- **Preview publiée et ouverte : https://thsethse.github.io/Microcosme/preview/bio-col-01/**.
+- Source d’exécution **`af1da966517bd23c4a713e60dba70c8eebbc5b2c`**, épinglée par le manifeste public. Les ajouts ultérieurs de documentation ne changent pas ce code.
+- Publication **`d8d39402ad0e0eff812c697f32988056abb86b31`** : **neuf nouveaux fichiers uniquement**, dans `preview/bio-col-01/`. [Déploiement Pages réussi](https://github.com/Thsethse/Microcosme/actions/runs/44824302194).
+- [Empreintes publiques](captures/public-files.json) : **138/138 conformes**, neuf fichiers publiés et 129 fichiers hérités, téléchargements HTTPS avec vérification TLS active.
+- [Navigateurs sur l’URL réelle](captures/public-results.json) : **Chromium et WebKit réussis**, chacun sur les 6 552 colorations et les 156 rasterisations en miniature, avec les mêmes résultats que localement ; les 126 IDs historiques se chargent et les six regroupements sont conservés. Portrait, paysage et format étroit vérifiés.
+- [Non-régression du dépôt sur le code publié](https://github.com/Thsethse/Microcosme/actions/runs/44824200483) réussie. La CI complète rejoue aussi les suites originales des lots 1–3 ; ses résultats finaux et liens d’exécution sont visibles sur la PR #45 et dans sa description.
+
+Les requêtes publiques du banc de test passent par `curl` avec la chaîne de confiance configurée, car les navigateurs headless de cet environnement ne reconnaissent pas le certificat du proxy. **Aucune désactivation de TLS** ; l’origine reste l’URL Pages réelle et les fichiers reçus sont vérifiés par empreinte. La CI teste directement les mêmes fichiers via son serveur local. Aucun outil supplémentaire n’est nécessaire pour ouvrir la preview sur iPad.
+
+**La livraison attend maintenant le retour artistique de l’utilisateur sur Safari iPad physique. Aucun travail supplémentaire sur les cheveux, aucun lot 4/5 et aucune fusion ne sont déduits de cette livraison.**
