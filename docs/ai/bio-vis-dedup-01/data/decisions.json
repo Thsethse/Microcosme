@@ -1,0 +1,2226 @@
+{
+  "status": "Propositions uniquement",
+  "auditCommit": "732b86489ac6dbf7fa714c0460d057083cff71da",
+  "docCommit": "0d8cc1dccea821c14c35ac4addf46bafa753bc86",
+  "runtimeCommit": "4fb938ac3e7d4cbd76f1f05b9cd0ec67cdae86f5",
+  "tally": {
+    "REGROUPER": 4,
+    "DIFFÉRENCIER": 12,
+    "CONSERVER": 7,
+    "À ARBITRER": 3
+  },
+  "regroupementsCibles": [
+    {
+      "dossier": "E04",
+      "keys": [
+        "28-G",
+        "59-G"
+      ],
+      "status": "Proposition — En attente"
+    },
+    {
+      "dossier": "E07",
+      "keys": [
+        "47-G",
+        "50-G"
+      ],
+      "status": "Proposition — En attente"
+    },
+    {
+      "dossier": "E10",
+      "keys": [
+        "64-G",
+        "70-G"
+      ],
+      "status": "Proposition — En attente"
+    },
+    {
+      "dossier": "V01",
+      "keys": [
+        "56-G",
+        "61-G"
+      ],
+      "status": "Proposition — En attente"
+    },
+    {
+      "dossier": "E03",
+      "keys": [
+        "19-G",
+        "21-G"
+      ],
+      "status": "Proposition — En attente"
+    },
+    {
+      "dossier": "E09",
+      "keys": [
+        "49-G",
+        "62-D"
+      ],
+      "status": "Proposition — En attente"
+    }
+  ],
+  "cases": [
+    {
+      "id": "E01",
+      "kind": "exact",
+      "keys": [
+        "08",
+        "58-G"
+      ],
+      "proposal": "DIFFÉRENCIER",
+      "title": "Boucles courtes et couronne ondulée",
+      "technical": "Même chevelure curls : 17 lobes périphériques et trois boucles frontales. 58-G appelle le modèle historique sans réglage propre.",
+      "original": "V1-08 distribue plusieurs petites boucles ouvertes autour du visage. E-v1-58-G montre une masse courte plus plaquée et des vagues frontales plus larges ; les feuilles cachent une partie des côtés.",
+      "lost": "La distribution visible des vagues de 58-G disparaît derrière la reprise intégrale de 08. La densité sous les feuilles reste inconnue.",
+      "reason": "Une différence locale du rythme des boucles peut exister sans la couronne de feuilles. Différencier seulement les volumes effectivement visibles, sans reconstruire les zones masquées.",
+      "sketch": "Pour 58-G, dessiner quelques vagues frontales jointives et plus larges, sur un contour court moins lobé ; conserver 08 comme halo de petites boucles. Ne pas élargir uniformément toute la coupe.",
+      "principal": "08 : témoin historique au dessin de boucles explicite ; 58-G reste une provenance rattachée si un regroupement est finalement préféré.",
+      "gain": "Deux organisations de boucles plutôt qu’un changement de feuilles.",
+      "risk": "Moyen : couverture des tempes ; lecture limitée sous les feuilles.",
+      "guard": "58-D indépendant ; ne pas inventer les racines cachées.",
+      "decision": "En attente",
+      "choices": [
+        {
+          "key": "08",
+          "style": "curls",
+          "arrangement": "U",
+          "source": {
+            "board": "V1",
+            "position": "L2C4",
+            "arrangement": "U",
+            "original": "docs/ai/visual-references/a_clean_infographic_character_design_sheet_in_warm.png",
+            "runtime": "preview/bio-vis-p5-i6/references/catalogue-v1.png",
+            "caseBox": [
+              605,
+              405,
+              193,
+              280
+            ],
+            "box": [
+              605,
+              405,
+              193,
+              280
+            ]
+          },
+          "auditGeometryHash": "e85d22bfbaff32f807d55d1c7e3b16266dad7ae1dba0cd895198cab2de010498"
+        },
+        {
+          "key": "58-G",
+          "style": "p5-058",
+          "arrangement": "G",
+          "source": {
+            "board": "E v1",
+            "position": "L2C1",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/B4099DCA-66B1-4415-8C50-53AA5CFA1C04.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-E-v1.png",
+            "caseBox": [
+              5,
+              395,
+              503,
+              280
+            ],
+            "box": [
+              125,
+              419,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "e85d22bfbaff32f807d55d1c7e3b16266dad7ae1dba0cd895198cab2de010498"
+        }
+      ]
+    },
+    {
+      "id": "E02",
+      "kind": "exact",
+      "keys": [
+        "12",
+        "24-D"
+      ],
+      "proposal": "DIFFÉRENCIER",
+      "title": "Deux queues hautes, deux fronts",
+      "technical": "24-D reprend pony. Après exclusion du lien incorporé à 12 dans les seules copies d’analyse, les cheveux sont identiques sur les 270 états.",
+      "original": "V1-12 présente un balayage latéral et une queue haute décentrée. A-24-D montre une séparation frontale en deux grandes mèches et des longueurs ondulées près du visage.",
+      "lost": "Le front propre à 24-D et ses mèches d’encadrement sont remplacés par le front classique de pony.",
+      "reason": "La queue commune ne suffit pas à rendre les deux implantations équivalentes. Les mèches autour du visage sont une différence capillaire, indépendamment du lien.",
+      "sketch": "Garder la queue haute de 24-D, ouvrir une raie centrale et deux panneaux frontaux arrondis ; prolonger les mèches latérales en vagues visibles. Préserver les traits du visage et les ancrages de P4-R1.",
+      "principal": "12 : queue haute historique et origine technique commune ; 24-D conserverait sa source A comme alias documentaire si regroupé.",
+      "gain": "Un arrangement frontal réellement différent avec la même famille d’attache.",
+      "risk": "Moyen : front, yeux et continuité des mèches.",
+      "guard": "24-G reste une queue basse distincte. Aucun regroupement de toute la référence 24.",
+      "decision": "En attente",
+      "choices": [
+        {
+          "key": "12",
+          "style": "pony",
+          "arrangement": "U",
+          "source": {
+            "board": "V1",
+            "position": "L3C4",
+            "arrangement": "U",
+            "original": "docs/ai/visual-references/a_clean_infographic_character_design_sheet_in_warm.png",
+            "runtime": "preview/bio-vis-p5-i6/references/catalogue-v1.png",
+            "caseBox": [
+              605,
+              690,
+              193,
+              280
+            ],
+            "box": [
+              605,
+              690,
+              193,
+              280
+            ]
+          },
+          "auditGeometryHash": "6a4f4bc6d3922f439b7a61b51af114a2b08f9aec148d831044bba263f64ef21d"
+        },
+        {
+          "key": "24-D",
+          "style": "p5-024",
+          "arrangement": "D",
+          "source": {
+            "board": "A",
+            "position": "L2C3",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/C7BEACBF-323B-4D6F-ABFF-92A988EC909F.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-A.png",
+            "caseBox": [
+              1029,
+              395,
+              503,
+              280
+            ],
+            "box": [
+              1339,
+              419,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "6a4f4bc6d3922f439b7a61b51af114a2b08f9aec148d831044bba263f64ef21d"
+        }
+      ]
+    },
+    {
+      "id": "E03",
+      "kind": "exact",
+      "keys": [
+        "19-G",
+        "21-G",
+        "68-G"
+      ],
+      "proposal": "DIFFÉRENCIER",
+      "title": "Deux balayages équivalents et une grande mèche perdue",
+      "technical": "19-G et 21-G utilisent swept(0) ; 68-G appelle 19-G. Égalité de tous les calques de cheveux dans le protocole de l’audit.",
+      "original": "A-19-G et A-21-G montrent pratiquement la même vague courte. F-68-G a une mèche frontale plus haute, relevée et séparée en grands retours courbes.",
+      "lost": "68-G n’a ni supplément de volume frontal ni séparation propre ; il devient exactement 19-G.",
+      "reason": "Proposition mixte : rapprocher 19-G/21-G et différencier 68-G. Le comptage retient une seule orientation principale pour ce dossier E03, sans prétendre que les trois doivent devenir trois coiffures.",
+      "sketch": "Pour 68-G, relever localement le sommet frontal et créer deux ou trois larges retours séparés, avec une racine commune suivant le crâne ; garder 19-G/21-G comme vague compacte.",
+      "principal": "19-G : premier témoin explicite de swept(0) ; 21-G serait une provenance parallèle. Si tout est regroupé, 68-G conserve aussi sa source F.",
+      "gain": "Un balayage compact et un balayage haut lisibles sans lunettes.",
+      "risk": "Moyen : ne pas gonfler la calotte entière ; vérifier le front large.",
+      "guard": "19-D et 21-D relèvent de Q03 ; 68-D de Q04. Aucune fusion transitive.",
+      "decision": "En attente",
+      "choices": [
+        {
+          "key": "19-G",
+          "style": "p5-019",
+          "arrangement": "G",
+          "source": {
+            "board": "A",
+            "position": "L1C1",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/C7BEACBF-323B-4D6F-ABFF-92A988EC909F.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-A.png",
+            "caseBox": [
+              5,
+              107,
+              503,
+              280
+            ],
+            "box": [
+              125,
+              131,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "26c4f4d688c3c12d75e56f193a4c4c04bbe18427e0978eb4eeea40a218007119"
+        },
+        {
+          "key": "21-G",
+          "style": "p5-021",
+          "arrangement": "G",
+          "source": {
+            "board": "A",
+            "position": "L1C3",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/C7BEACBF-323B-4D6F-ABFF-92A988EC909F.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-A.png",
+            "caseBox": [
+              1029,
+              107,
+              503,
+              280
+            ],
+            "box": [
+              1149,
+              131,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "26c4f4d688c3c12d75e56f193a4c4c04bbe18427e0978eb4eeea40a218007119"
+        },
+        {
+          "key": "68-G",
+          "style": "p5-068",
+          "arrangement": "G",
+          "source": {
+            "board": "F",
+            "position": "L2C2",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/132E23ED-C1DE-4311-8BAF-B56E09277B56.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-F.png",
+            "caseBox": [
+              517,
+              395,
+              503,
+              280
+            ],
+            "box": [
+              637,
+              419,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "26c4f4d688c3c12d75e56f193a4c4c04bbe18427e0978eb4eeea40a218007119"
+        }
+      ]
+    },
+    {
+      "id": "E04",
+      "kind": "exact",
+      "keys": [
+        "28-G",
+        "59-G"
+      ],
+      "proposal": "REGROUPER",
+      "title": "La même couronne tressée",
+      "technical": "59-G appelle 28-G ; même centrePart et même couronne sur 17 centres.",
+      "original": "B-28-G et E-v1-59-G montrent une couronne fermée de grosses tresses, sans longue natte pendante. Le dessin des brins varie légèrement, sans autre attache visible.",
+      "lost": "Pas de différence structurelle forte perdue démontrée. Ni le thème social ni le titre de source ne justifient une seconde entrée de cheveux.",
+      "reason": "Une entrée visible commune est défendable. Conserver les deux IDs et deux provenances ; ne pas confondre cela avec une suppression de fiche.",
+      "sketch": "Aucune correction capillaire proposée. Un éventuel regroupement ultérieur serait documentaire et de présentation, soumis à validation.",
+      "principal": "28-G : construction initiale effectivement réutilisée et source B lisible ; 59-G deviendrait un rattachement documentaire, jamais un ID effacé.",
+      "gain": "Réduire une répétition visible sans perdre une topologie distincte.",
+      "risk": "Faible graphiquement ; moyen pour la navigation et les liens d’IDs si appliqué plus tard.",
+      "guard": "28-D porte deux mèches libres ; 59-D porte des longueurs libres. Ils restent hors de ce regroupement.",
+      "decision": "En attente",
+      "choices": [
+        {
+          "key": "28-G",
+          "style": "p5-028",
+          "arrangement": "G",
+          "source": {
+            "board": "B",
+            "position": "L1C1",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/0F3CDCE7-24D6-40E4-80D8-4BE2429238AF.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-B.png",
+            "caseBox": [
+              5,
+              107,
+              503,
+              280
+            ],
+            "box": [
+              125,
+              131,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "df65eca40bf0e2e78788ffa4d2611903faf9fc0ca7d3312b3adce8816ef63e41"
+        },
+        {
+          "key": "59-G",
+          "style": "p5-059",
+          "arrangement": "G",
+          "source": {
+            "board": "E v1",
+            "position": "L2C2",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/B4099DCA-66B1-4415-8C50-53AA5CFA1C04.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-E-v1.png",
+            "caseBox": [
+              517,
+              395,
+              503,
+              280
+            ],
+            "box": [
+              637,
+              419,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "df65eca40bf0e2e78788ffa4d2611903faf9fc0ca7d3312b3adce8816ef63e41"
+        }
+      ]
+    },
+    {
+      "id": "E05",
+      "kind": "exact",
+      "keys": [
+        "31-D",
+        "58-D"
+      ],
+      "proposal": "DIFFÉRENCIER",
+      "title": "Rouleaux de cour et rouleau frontal",
+      "technical": "58-D appelle intégralement 31-D : même chignon, mêmes rouleaux latéraux et mêmes mèches.",
+      "original": "B-31-D présente un chignon haut et des rouleaux latéraux étagés. E-v1-58-D montre un grand rouleau frontal central et des côtés relevés plus continus. Le bandeau masque une partie de la jonction.",
+      "lost": "58-D n’a aucune construction propre du rouleau frontal ; seule sa présentation accessoirisée change.",
+      "reason": "Différencier la zone frontale visible de 58-D est justifié ; la forme cachée derrière le bandeau reste à arbitrer. Ne pas fabriquer une différence sous l’accessoire.",
+      "sketch": "Garder la structure haute de 31-D. Pour 58-D, former un large retour frontal unique et des côtés ramenés vers l’arrière, avec moins de petits rouleaux séparés ; ne dessiner que les raccords attestés.",
+      "principal": "31-D : modèle source effectivement appelé par 58-D ; garder l’étiquette et la planche E-v1 de 58-D si l’utilisateur préfère regrouper.",
+      "gain": "Une organisation de rouleaux identifiable en monochrome.",
+      "risk": "Moyen : jonction partiellement masquée et recouvrement du front.",
+      "guard": "Dépend de Q04 : arbitrer ensemble 31-D/58-D/68-D. 58-G relève exclusivement de E01.",
+      "decision": "En attente",
+      "choices": [
+        {
+          "key": "31-D",
+          "style": "p5-031",
+          "arrangement": "D",
+          "source": {
+            "board": "B",
+            "position": "L2C1",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/0F3CDCE7-24D6-40E4-80D8-4BE2429238AF.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-B.png",
+            "caseBox": [
+              5,
+              395,
+              503,
+              280
+            ],
+            "box": [
+              315,
+              419,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "03860afadb744734045e2442065ab72fe12b0320ee293aca1c977051bb54f569"
+        },
+        {
+          "key": "58-D",
+          "style": "p5-058",
+          "arrangement": "D",
+          "source": {
+            "board": "E v1",
+            "position": "L2C1",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/B4099DCA-66B1-4415-8C50-53AA5CFA1C04.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-E-v1.png",
+            "caseBox": [
+              5,
+              395,
+              503,
+              280
+            ],
+            "box": [
+              315,
+              419,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "03860afadb744734045e2442065ab72fe12b0320ee293aca1c977051bb54f569"
+        }
+      ]
+    },
+    {
+      "id": "E06",
+      "kind": "exact",
+      "keys": [
+        "38-G",
+        "48-G",
+        "54-G",
+        "69-G"
+      ],
+      "proposal": "DIFFÉRENCIER",
+      "title": "Les pointes ne remplacent pas tous les balayages",
+      "technical": "48-G et 54-G appellent 38-G ; 69-G appelle 54-G. Même rough(battle), aucune nouvelle mèche sans accessoires.",
+      "original": "C-38-G montre des mèches souples et un grand retour frontal. D-48-G accentue les pointes rayonnantes. D-54-G et F-69-G montrent des pointes sous lunettes ; les racines masquées ne sont pas comparables avec certitude.",
+      "lost": "La distinction visible entre le balayage courbe de 38 et le rayonnement plus anguleux de 48 est aplatie. Les objets seuls différencient les quatre sorties actuelles.",
+      "reason": "Restaurer au moins deux organisations : courbes souples et pointes rayonnantes. La preuve ne justifie pas d’imposer quatre nouvelles structures ; la séparation de 54-G/69-G reste un sous-arbitrage.",
+      "sketch": "38-G : quelques grosses mèches courbes orientées vers le même côté. 48-G : pointes réellement réparties autour du sommet avec intervalles inégaux. 54-G/69-G : garder les formes observables, sans dessiner des racines sous les lunettes.",
+      "principal": "38-G : première recette commune. Les trois autres IDs et leurs planches restent des provenances, même si certaines présentations sont regroupées.",
+      "gain": "Deux directions capillaires lisibles plutôt que quatre intitulés sur la même frange.",
+      "risk": "Moyen : conserver le caractère graphique, éviter des dents artificiellement multipliées.",
+      "guard": "48-D relève de E08 ; 54-D et 69-D restent hors de cette copie G.",
+      "decision": "En attente",
+      "choices": [
+        {
+          "key": "38-G",
+          "style": "p5-038",
+          "arrangement": "G",
+          "source": {
+            "board": "C",
+            "position": "L1C2",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/7C197DD6-3733-4B37-A0B0-B265FF034BD8.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-C.png",
+            "caseBox": [
+              517,
+              107,
+              503,
+              280
+            ],
+            "box": [
+              637,
+              131,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "aa22a68e2347a8d741bd357e2fb02169b78e1f2a1242bc657d15683e8bea052a"
+        },
+        {
+          "key": "48-G",
+          "style": "p5-048",
+          "arrangement": "G",
+          "source": {
+            "board": "D",
+            "position": "L1C3",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/FAC68E60-6567-4D1A-B299-46A07B836D27.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-D.png",
+            "caseBox": [
+              1029,
+              107,
+              503,
+              280
+            ],
+            "box": [
+              1149,
+              131,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "aa22a68e2347a8d741bd357e2fb02169b78e1f2a1242bc657d15683e8bea052a"
+        },
+        {
+          "key": "54-G",
+          "style": "p5-054",
+          "arrangement": "G",
+          "source": {
+            "board": "D",
+            "position": "L3C3",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/FAC68E60-6567-4D1A-B299-46A07B836D27.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-D.png",
+            "caseBox": [
+              1029,
+              683,
+              503,
+              280
+            ],
+            "box": [
+              1149,
+              707,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "aa22a68e2347a8d741bd357e2fb02169b78e1f2a1242bc657d15683e8bea052a"
+        },
+        {
+          "key": "69-G",
+          "style": "p5-069",
+          "arrangement": "G",
+          "source": {
+            "board": "F",
+            "position": "L2C3",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/132E23ED-C1DE-4311-8BAF-B56E09277B56.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-F.png",
+            "caseBox": [
+              1029,
+              395,
+              503,
+              280
+            ],
+            "box": [
+              1149,
+              419,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "aa22a68e2347a8d741bd357e2fb02169b78e1f2a1242bc657d15683e8bea052a"
+        }
+      ]
+    },
+    {
+      "id": "E07",
+      "kind": "exact",
+      "keys": [
+        "47-G",
+        "50-G"
+      ],
+      "proposal": "REGROUPER",
+      "title": "La couleur ne crée pas une seconde coupe",
+      "technical": "50-G reprend la forme undercut courte de 47-G ; son calque de contraste est exclu du comptage.",
+      "original": "D-47-G et D-50-G partagent le dessus balayé et la tempe dégagée. Quelques pointes de 50 sont plus graphiques, mais ni longueur ni attache différente n’est établie ; le contraste colore surtout la mèche.",
+      "lost": "De petits détails de pointes ne sont pas repris ; aucune nouvelle macro-structure suffisamment forte n’est démontrée.",
+      "reason": "Une entrée de cheveux peut porter les deux références de dessin. La future couleur restera un autre domaine, non programmé ici.",
+      "sketch": "Aucune correction de géométrie recommandée sur cette seule différence de présentation.",
+      "principal": "47-G : recette non définie par une couleur ; 50-G reste une référence d’inspiration et de teinte, sans renumérotation.",
+      "gain": "Enlever un doublon de structure tout en gardant l’information de source.",
+      "risk": "Faible pour le dessin ; préserver les informations de couleur pour une éventuelle mission distincte.",
+      "guard": "50-D possède un arrière propre : voir V06. Ne pas regrouper les références 47 et 50 entières.",
+      "decision": "En attente",
+      "choices": [
+        {
+          "key": "47-G",
+          "style": "p5-047",
+          "arrangement": "G",
+          "source": {
+            "board": "D",
+            "position": "L1C2",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/FAC68E60-6567-4D1A-B299-46A07B836D27.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-D.png",
+            "caseBox": [
+              517,
+              107,
+              503,
+              280
+            ],
+            "box": [
+              637,
+              131,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "876eb13a82397d79ab047548df09667c38edf73d1f773643b49eff960787faca"
+        },
+        {
+          "key": "50-G",
+          "style": "p5-050",
+          "arrangement": "G",
+          "source": {
+            "board": "D",
+            "position": "L2C2",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/FAC68E60-6567-4D1A-B299-46A07B836D27.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-D.png",
+            "caseBox": [
+              517,
+              395,
+              503,
+              280
+            ],
+            "box": [
+              637,
+              419,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "876eb13a82397d79ab047548df09667c38edf73d1f773643b49eff960787faca"
+        }
+      ]
+    },
+    {
+      "id": "E08",
+      "kind": "exact",
+      "keys": [
+        "48-D",
+        "65-D"
+      ],
+      "proposal": "À ARBITRER",
+      "title": "Pointes longues et source partiellement occultée",
+      "technical": "65-D appelle 48-D, y compris les pointes rayonnantes et la nuque.",
+      "original": "D-48-D expose de longues pointes rayonnantes. F-65-D montre des mèches ébouriffées plus courbes, mais les lunettes cachent le dessus et la limite de plusieurs racines.",
+      "lost": "Aucun réglage local propre à 65-D. Une différence de courbure est suggérée, mais sa portée sans lunettes est incertaine.",
+      "reason": "L’égalité du programme est prouvée ; la nécessité de deux coupes ne l’est pas. Demander l’arbitrage sur les mèches visibles, sans reconstruire la chevelure occultée.",
+      "sketch": "Si différenciation retenue : infléchir seulement les pointes latérales visibles de 65-D en grands retours courbes ; ne rien déduire sous les lunettes. Sinon conserver une entrée de pointes rayonnantes.",
+      "principal": "48-D : source la moins occultée et recette réellement reprise par 65-D ; ce choix est conditionnel au regroupement.",
+      "gain": "Éviter une fausse diversité comme une suppression artistique prématurée.",
+      "risk": "Incertitude élevée sur la zone masquée ; ne pas compter les lunettes comme cheveux.",
+      "guard": "48-G et 65-G ne sont pas concernés. Décision à prendre sur D uniquement.",
+      "decision": "En attente",
+      "choices": [
+        {
+          "key": "48-D",
+          "style": "p5-048",
+          "arrangement": "D",
+          "source": {
+            "board": "D",
+            "position": "L1C3",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/FAC68E60-6567-4D1A-B299-46A07B836D27.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-D.png",
+            "caseBox": [
+              1029,
+              107,
+              503,
+              280
+            ],
+            "box": [
+              1339,
+              131,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "47bfbabda824ca13b3c3de7084abaadbb8bd6fe4899fb4329b883bba60fa467c"
+        },
+        {
+          "key": "65-D",
+          "style": "p5-065",
+          "arrangement": "D",
+          "source": {
+            "board": "F",
+            "position": "L1C2",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/132E23ED-C1DE-4311-8BAF-B56E09277B56.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-F.png",
+            "caseBox": [
+              517,
+              107,
+              503,
+              280
+            ],
+            "box": [
+              827,
+              131,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "47bfbabda824ca13b3c3de7084abaadbb8bd6fe4899fb4329b883bba60fa467c"
+        }
+      ]
+    },
+    {
+      "id": "E09",
+      "kind": "exact",
+      "keys": [
+        "49-G",
+        "62-D",
+        "71-G"
+      ],
+      "proposal": "DIFFÉRENCIER",
+      "title": "Pointe oblique et grande nappe frontale",
+      "technical": "62-D et 71-G appellent 49-G ; la teinte de 62-D est indépendante des cheveux comparés.",
+      "original": "D-49-G est une pointe très oblique à côté court ; E-v1-62-D en reprend l’organisation, surtout avec une teinte. F-71-G montre une grande nappe frontale couvrante et plusieurs mèches souples.",
+      "lost": "71-G perd l’ampleur et la direction de ses grandes mèches. La règle undercut liée au sourcil limite le panneau et ne dessine pas le même recouvrement frontal.",
+      "reason": "Proposition mixte : rapprocher 49-G/62-D, différencier 71-G. Ne pas annoncer trois structures sur la seule couleur.",
+      "sketch": "Pour 71-G, développer une nappe oblique plus large avec deux départs lisibles et une extrémité souple ; tester le passage devant le visage sans changer ses traits. Le degré d’occultation de l’œil devra être validé, pas décidé ici.",
+      "principal": "49-G : construction originale sans dépendance à une couleur ou à un rôle ; 62-D conserve sa provenance E-v1.",
+      "gain": "Un undercut à pointe et une nappe couvrante réellement différents.",
+      "risk": "Moyen à élevé : visibilité de l’œil, occlusion frontale et recouvrement dynamique.",
+      "guard": "49-D, 62-G et 71-D restent autonomes. Aucun changement du visage.",
+      "decision": "En attente",
+      "choices": [
+        {
+          "key": "49-G",
+          "style": "p5-049",
+          "arrangement": "G",
+          "source": {
+            "board": "D",
+            "position": "L2C1",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/FAC68E60-6567-4D1A-B299-46A07B836D27.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-D.png",
+            "caseBox": [
+              5,
+              395,
+              503,
+              280
+            ],
+            "box": [
+              125,
+              419,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "8a2da2367b76812dce4f1e964273b98caa0ab2df6e76f7fd0281c0415ab08367"
+        },
+        {
+          "key": "62-D",
+          "style": "p5-062",
+          "arrangement": "D",
+          "source": {
+            "board": "E v1",
+            "position": "L3C2",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/B4099DCA-66B1-4415-8C50-53AA5CFA1C04.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-E-v1.png",
+            "caseBox": [
+              517,
+              683,
+              503,
+              280
+            ],
+            "box": [
+              827,
+              707,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "8a2da2367b76812dce4f1e964273b98caa0ab2df6e76f7fd0281c0415ab08367"
+        },
+        {
+          "key": "71-G",
+          "style": "p5-071",
+          "arrangement": "G",
+          "source": {
+            "board": "F",
+            "position": "L3C2",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/132E23ED-C1DE-4311-8BAF-B56E09277B56.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-F.png",
+            "caseBox": [
+              517,
+              683,
+              503,
+              280
+            ],
+            "box": [
+              637,
+              707,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "8a2da2367b76812dce4f1e964273b98caa0ab2df6e76f7fd0281c0415ab08367"
+        }
+      ]
+    },
+    {
+      "id": "E10",
+      "kind": "exact",
+      "keys": [
+        "64-G",
+        "70-G"
+      ],
+      "proposal": "REGROUPER",
+      "title": "Chignon central sur côtés courts",
+      "technical": "Même branche smoothBun tronquée localement, mêmes côtés courts et même implantation.",
+      "original": "F-64-G et F-70-G montrent le même petit chignon central et la même zone courte latérale. Bijoux, peintures et titres varient ; le léger tracé des plis ne prouve pas une autre attache.",
+      "lost": "Aucune différence capillaire majeure perdue identifiée entre ces G. La simplification des plis touche les deux.",
+      "reason": "Une seule entrée visible de cette structure est défendable, avec deux provenances et sans restriction de personnage.",
+      "sketch": "Aucune correction spécifique pour distinguer artificiellement les deux G.",
+      "principal": "64-G : premier témoin de la branche commune ; 70-G reste un rattachement de source, jamais une identité supprimée.",
+      "gain": "Une répétition de moins dans la présentation, même diversité d’attache.",
+      "risk": "Faible graphiquement ; ne pas transférer la décision aux arrangements D.",
+      "guard": "64-D est tressé ; 70-D a des longueurs libres. Ils ne sont pas des copies de ce groupe.",
+      "decision": "En attente",
+      "choices": [
+        {
+          "key": "64-G",
+          "style": "p5-064",
+          "arrangement": "G",
+          "source": {
+            "board": "F",
+            "position": "L1C1",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/132E23ED-C1DE-4311-8BAF-B56E09277B56.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-F.png",
+            "caseBox": [
+              5,
+              107,
+              503,
+              280
+            ],
+            "box": [
+              125,
+              131,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "9b9dc753076bb130444272e9386f2e667bae20547dcc576cd0b34370e59bf81c"
+        },
+        {
+          "key": "70-G",
+          "style": "p5-070",
+          "arrangement": "G",
+          "source": {
+            "board": "F",
+            "position": "L3C1",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/132E23ED-C1DE-4311-8BAF-B56E09277B56.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-F.png",
+            "caseBox": [
+              5,
+              683,
+              503,
+              280
+            ],
+            "box": [
+              125,
+              707,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "9b9dc753076bb130444272e9386f2e667bae20547dcc576cd0b34370e59bf81c"
+        }
+      ]
+    },
+    {
+      "id": "Q01",
+      "kind": "near",
+      "keys": [
+        "32-D",
+        "60-D"
+      ],
+      "proposal": "CONSERVER",
+      "title": "Deux nattes, avec ou sans mèches libres",
+      "technical": "60-D ajoute à 32-D les deux mèches libres de 28-D. IoU neutre 97,28 % Chromium ; 94,84–97,45 % dans les 32 états testés.",
+      "original": "B-32-D montre une couronne imposante et deux nattes. E-v1-60-D conserve les deux nattes mais détache des mèches ondulées auprès du visage.",
+      "lost": "L’ampleur du tressage supérieur est simplifiée dans les deux ; la différence de mèches libres existe déjà.",
+      "reason": "Les deux petites mèches sont des cheveux, pas des rubans. Elles justifient une variante d’arrangement sans prétendre à deux bases indépendantes.",
+      "sketch": "Aucune correction requise pour décider de leur conservation. Si une finition est demandée ensuite, clarifier le trajet libre des mèches sans grossir les nattes.",
+      "scale": "À 178 px de haut, les deux courbes sont discrètes ; dans le gros plan à 300 px elles se détachent des nattes. À 70 px elles deviennent peu fiables à distinguer.",
+      "principal": "32-D si regroupement préféré : structure commune et couronne explicite. Les mèches de 60-D seraient alors une variation abandonnée, à accepter explicitement.",
+      "gain": "Conserver une différence réelle d’arrangement plutôt que décider par IoU.",
+      "risk": "Faible si conservé ; lisibilité réduite en miniature.",
+      "guard": "Q01 ne regroupe ni les G ni 35-D/39-D (V04).",
+      "decision": "En attente",
+      "choices": [
+        {
+          "key": "32-D",
+          "style": "p5-032",
+          "arrangement": "D",
+          "source": {
+            "board": "B",
+            "position": "L2C2",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/0F3CDCE7-24D6-40E4-80D8-4BE2429238AF.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-B.png",
+            "caseBox": [
+              517,
+              395,
+              503,
+              280
+            ],
+            "box": [
+              827,
+              419,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "efa789158297c75e088665a4bc485eaa1bc7c5000e30ecce5c1fab10a62083a2"
+        },
+        {
+          "key": "60-D",
+          "style": "p5-060",
+          "arrangement": "D",
+          "source": {
+            "board": "E v1",
+            "position": "L2C3",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/B4099DCA-66B1-4415-8C50-53AA5CFA1C04.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-E-v1.png",
+            "caseBox": [
+              1029,
+              395,
+              503,
+              280
+            ],
+            "box": [
+              1339,
+              419,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "fff1075b8bcb16af743de9f294933b49a6810bdf4e05f2a5d6255e40641c826f"
+        }
+      ]
+    },
+    {
+      "id": "Q02",
+      "kind": "near",
+      "keys": [
+        "25-D",
+        "44-D"
+      ],
+      "proposal": "CONSERVER",
+      "title": "Tempe courte ou tempe tressée",
+      "technical": "Panneau asymétrique partagé ; 44-D ajoute trois routes tressées de tempe et modifie calotte/masque. IoU neutre 96,53 % ; 95,39–97,47 % sur les 32 états.",
+      "original": "A-25-D montre un côté court assez nu ; C-44-D expose des tresses courtes sur la tempe opposée à la nappe.",
+      "lost": "Les grosses mèches de la nappe sont simplifiées dans les deux. La différence de trajet tressé de la tempe est déjà programmée.",
+      "reason": "Le contour global reste proche, mais une zone de cheveux réellement tressée est une structure différente d’une tempe courte. Le masque de silhouette ignore une partie de cette information intérieure.",
+      "sketch": "Aucune correction imposée. Une éventuelle finition ferait ressortir les trois routes existantes par leur espacement et leur trajet, sans perle ni contraste de couleur.",
+      "scale": "Les trois tresses sont difficiles à compter à 178 px et presque confondues à 70 px ; le gros plan à 300 px permet d’examiner leur trajet. Un agrandissement d’audit ne prouve pas une lisibilité en miniature.",
+      "principal": "25-D si regroupement préféré : construction commune la plus simple ; la perte de la tempe tressée de 44-D devrait être un arbitrage explicite.",
+      "gain": "Garder une différence d’implantation capillaire, même avec une silhouette externe proche.",
+      "risk": "Faible en conservant ; détails fins sur petite échelle.",
+      "guard": "Ne pas confondre faible IoU discriminant et absence de différence. Aucun ajout d’accessoire.",
+      "decision": "En attente",
+      "choices": [
+        {
+          "key": "25-D",
+          "style": "p5-025",
+          "arrangement": "D",
+          "source": {
+            "board": "A",
+            "position": "L3C1",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/C7BEACBF-323B-4D6F-ABFF-92A988EC909F.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-A.png",
+            "caseBox": [
+              5,
+              683,
+              503,
+              280
+            ],
+            "box": [
+              315,
+              707,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "dc3259590d36b5c0238d9dd4ee60f1a5f34ea480621266d5c6f80f2e26dab58e"
+        },
+        {
+          "key": "44-D",
+          "style": "p5-044",
+          "arrangement": "D",
+          "source": {
+            "board": "C",
+            "position": "L3C2",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/7C197DD6-3733-4B37-A0B0-B265FF034BD8.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-C.png",
+            "caseBox": [
+              517,
+              683,
+              503,
+              280
+            ],
+            "box": [
+              827,
+              707,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "1de24760588719e0825ebb7dabab4ff2a1af97537c25da2f7782407a229b02b9"
+        }
+      ]
+    },
+    {
+      "id": "Q03",
+      "kind": "near",
+      "keys": [
+        "19-D",
+        "21-D"
+      ],
+      "proposal": "DIFFÉRENCIER",
+      "title": "Carré arrondi et carré plus net",
+      "technical": "bob(false/true), fin end+3/end+5 et bord inférieur différents. IoU neutre 95,79 % ; 92,89–97,09 % sur les 32 états.",
+      "original": "A-19-D a des panneaux bas arrondis et rentrants. A-21-D présente une ligne basse plus droite et un long panneau frontal oblique.",
+      "lost": "Le bord bas diffère déjà ; la grande mèche oblique est réduite au balayage générique court dans les deux.",
+      "reason": "Les sources soutiennent deux variantes de carré. Une différence locale du bord seul les rend peu lisibles dans le corps entier ; renforcer la distribution des panneaux est plus justifié que changer leur couleur.",
+      "sketch": "19-D : conserver des pointes rentrantes et une courbe latérale pleine. 21-D : panneau plus rectiligne et oblique, ligne basse nette, départ frontal plus continu. Recalculer les raccords avec les ancres existantes, sans changer le visage.",
+      "scale": "Le bord arrondi/droit se repère mieux à 300 px ; à 178 px l’écart de quelques unités est faible, à 70 px il n’est pas une distinction robuste. Le cas iPad accentue aussi certaines différences.",
+      "principal": "19-D si regroupement préféré : premier carré de cette paire ; préserver la provenance 21-D et reconnaître la perte de son bord propre.",
+      "gain": "Deux formes de panneaux identifiables à taille de catalogue.",
+      "risk": "Moyen : ne pas retrouver le défaut de recouvrement du crâne de P3.",
+      "guard": "Les G relèvent de E03 et peuvent être rapprochés sans regrouper les D.",
+      "decision": "En attente",
+      "choices": [
+        {
+          "key": "19-D",
+          "style": "p5-019",
+          "arrangement": "D",
+          "source": {
+            "board": "A",
+            "position": "L1C1",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/C7BEACBF-323B-4D6F-ABFF-92A988EC909F.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-A.png",
+            "caseBox": [
+              5,
+              107,
+              503,
+              280
+            ],
+            "box": [
+              315,
+              131,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "d819b5bf5c4537b511607a5c8557d2a78e1b8ca8902e57d856e9d0a1d077d34f"
+        },
+        {
+          "key": "21-D",
+          "style": "p5-021",
+          "arrangement": "D",
+          "source": {
+            "board": "A",
+            "position": "L1C3",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/C7BEACBF-323B-4D6F-ABFF-92A988EC909F.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-A.png",
+            "caseBox": [
+              1029,
+              107,
+              503,
+              280
+            ],
+            "box": [
+              1339,
+              131,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "52b742c4a0f230785cf43448a8d6e11cb78e6deb229ca6c1772e556e985e9941"
+        }
+      ]
+    },
+    {
+      "id": "Q04",
+      "kind": "near",
+      "keys": [
+        "31-D",
+        "58-D",
+        "68-D"
+      ],
+      "proposal": "DIFFÉRENCIER",
+      "title": "Un chignon différent ne suffit pas à reproduire trois fronts",
+      "technical": "58-D = 31-D. 68-D reprend leurs mèches/rouleaux et remplace le chignon par smoothBun. IoU 31-D/68-D neutre 95,18 % ; 94,70–95,84 % sur les 32 états.",
+      "original": "B-31-D : chignon haut et rouleaux étagés. E-v1-58-D : retour frontal plus central. F-68-D : grand balayage frontal à deux ailes et chignon plus compact ; lunettes et épingles exclues.",
+      "lost": "La variation actuelle porte surtout sur le petit volume supérieur. Les grands fronts des trois sources deviennent les mêmes rouleaux et mèches latérales.",
+      "reason": "Traiter ce dossier avec E05 : différencier les fronts visibles de 58-D et 68-D par rapport à 31-D, sans compter deux fois les copies 31-D/58-D ni imposer trois bases nouvelles.",
+      "sketch": "31-D : rouleaux latéraux étagés. 58-D : un grand retour central. 68-D : deux grandes ailes frontales courbes et un chignon compact ; garder les mèches pendantes si elles restent cohérentes avec chaque source.",
+      "scale": "Le changement de chignon se voit surtout dans le gros plan ; les côtés identiques dominent à 178 px. À 70 px le chignon lisse/roulé est un indice faible. Les deux copies 31-D/58-D restent égales dans toutes les tailles.",
+      "principal": "31-D : témoin de la recette commune. Ce choix est conditionnel si l’utilisateur préfère une seule variante ; les sources 58-D et 68-D restent conservées.",
+      "gain": "Des organisations frontales différentes plutôt qu’un simple remplacement de chignon.",
+      "risk": "Moyen : raccord frontal, sources partiellement masquées, cohérence des trois tailles.",
+      "guard": "Même arbitrage que E05 pour 31-D/58-D ; aucune addition naïve des gains.",
+      "decision": "En attente",
+      "choices": [
+        {
+          "key": "31-D",
+          "style": "p5-031",
+          "arrangement": "D",
+          "source": {
+            "board": "B",
+            "position": "L2C1",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/0F3CDCE7-24D6-40E4-80D8-4BE2429238AF.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-B.png",
+            "caseBox": [
+              5,
+              395,
+              503,
+              280
+            ],
+            "box": [
+              315,
+              419,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "03860afadb744734045e2442065ab72fe12b0320ee293aca1c977051bb54f569"
+        },
+        {
+          "key": "58-D",
+          "style": "p5-058",
+          "arrangement": "D",
+          "source": {
+            "board": "E v1",
+            "position": "L2C1",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/B4099DCA-66B1-4415-8C50-53AA5CFA1C04.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-E-v1.png",
+            "caseBox": [
+              5,
+              395,
+              503,
+              280
+            ],
+            "box": [
+              315,
+              419,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "03860afadb744734045e2442065ab72fe12b0320ee293aca1c977051bb54f569"
+        },
+        {
+          "key": "68-D",
+          "style": "p5-068",
+          "arrangement": "D",
+          "source": {
+            "board": "F",
+            "position": "L2C2",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/132E23ED-C1DE-4311-8BAF-B56E09277B56.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-F.png",
+            "caseBox": [
+              517,
+              395,
+              503,
+              280
+            ],
+            "box": [
+              827,
+              419,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "5b43f947e994a1597cf73d24295ac898624440626bfe2237217b52ebd88d340e"
+        }
+      ]
+    },
+    {
+      "id": "V01",
+      "kind": "variant",
+      "keys": [
+        "56-G",
+        "61-G"
+      ],
+      "proposal": "REGROUPER",
+      "title": "Petit chignon et deux mèches fines",
+      "technical": "Même smoothBun 14×10 ; 61-G ajoute deux mèches end+19. Géométries différentes, jamais déclarées copies exactes.",
+      "original": "E-v1-56-G et 61-G partagent un petit chignon haut et un front tiré. 61-G expose des mèches latérales plus longues ; son épingle n’est pas un cheveu.",
+      "lost": "Pas de nouvelle attache perdue. Les mèches qui distinguent les sources sont présentes dans le prototype.",
+      "reason": "Seul regroupement supplémentaire proposé : même organisation dominante du chignon et variante locale de mèches. Cela renonce à deux mèches visibles, et non à zéro différence ; l’utilisateur peut préférer CONSERVER.",
+      "sketch": "Aucune correction. Si regroupement accepté, garder une entrée principale et toutes les sources ; ne pas créer un nouveau sélecteur de mèches dans cette mission.",
+      "principal": "56-G : construction minimale sans mèches libres ; le caractère plus souple de 61-G resterait documenté. Ce choix est une proposition, pas une supériorité artistique.",
+      "gain": "Réduire une répétition de petit chignon en acceptant une perte locale explicitée.",
+      "risk": "Moyen artistiquement : suppression de deux mèches visibles si appliqué. Aucun effet ici.",
+      "guard": "56-D et 61-D diffèrent davantage ; voir V02. Ne pas regrouper les fiches entières.",
+      "decision": "En attente",
+      "choices": [
+        {
+          "key": "56-G",
+          "style": "p5-056",
+          "arrangement": "G",
+          "source": {
+            "board": "E v1",
+            "position": "L1C2",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/B4099DCA-66B1-4415-8C50-53AA5CFA1C04.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-E-v1.png",
+            "caseBox": [
+              517,
+              107,
+              503,
+              280
+            ],
+            "box": [
+              637,
+              131,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "106b9a4e1141c0ec45b8965b753b850d5f9675b96c2ef2fbd8255bcc0aba46ce"
+        },
+        {
+          "key": "61-G",
+          "style": "p5-061",
+          "arrangement": "G",
+          "source": {
+            "board": "E v1",
+            "position": "L3C1",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/B4099DCA-66B1-4415-8C50-53AA5CFA1C04.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-E-v1.png",
+            "caseBox": [
+              5,
+              683,
+              503,
+              280
+            ],
+            "box": [
+              125,
+              707,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "5fc6879dfcc2b6369041f5ea8100149fdfafc125ab15101fc78e0eb89c76c233"
+        }
+      ]
+    },
+    {
+      "id": "V02",
+      "kind": "variant",
+      "keys": [
+        "56-D",
+        "61-D"
+      ],
+      "proposal": "DIFFÉRENCIER",
+      "title": "Raie lisse et grand retour frontal",
+      "technical": "Grand chignon lisse, mais raie et déport x+9/swept différents ; deux compositions distinctes.",
+      "original": "E-v1-56-D montre deux panneaux lisses séparés au centre. 61-D montre un retour frontal plus large et un volume supérieur décentré.",
+      "lost": "61-D utilise la mèche S de 19-G plutôt qu’un grand rouleau propre ; le contraste de front avec 56-D est atténué.",
+      "reason": "La différence d’organisation frontale est visible dans les sources et ne dépend pas de la fleur ou des baguettes.",
+      "sketch": "Conserver la raie centrée et les panneaux de 56-D ; former pour 61-D un retour courbe plus large déporté, avec une jonction claire au chignon.",
+      "principal": "56-D si regroupement préféré : organisation centrée lisible, mais perte du déport de 61-D à accepter.",
+      "gain": "Deux arrangements frontaux de chignon lisibles sans épingle.",
+      "risk": "Moyen : recouvrement et continuité du rouleau.",
+      "guard": "V01 porte uniquement sur G.",
+      "decision": "En attente",
+      "choices": [
+        {
+          "key": "56-D",
+          "style": "p5-056",
+          "arrangement": "D",
+          "source": {
+            "board": "E v1",
+            "position": "L1C2",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/B4099DCA-66B1-4415-8C50-53AA5CFA1C04.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-E-v1.png",
+            "caseBox": [
+              517,
+              107,
+              503,
+              280
+            ],
+            "box": [
+              827,
+              131,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "0957d6920f62de96996253ada0393fa269418dd234292f8b3b0f6eb869348189"
+        },
+        {
+          "key": "61-D",
+          "style": "p5-061",
+          "arrangement": "D",
+          "source": {
+            "board": "E v1",
+            "position": "L3C1",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/B4099DCA-66B1-4415-8C50-53AA5CFA1C04.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-E-v1.png",
+            "caseBox": [
+              5,
+              683,
+              503,
+              280
+            ],
+            "box": [
+              315,
+              707,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "1a94d38987041f4994db8129f90174df0ca7de6b99e480d87700d4db92a05326"
+        }
+      ]
+    },
+    {
+      "id": "V03",
+      "kind": "variant",
+      "keys": [
+        "32-G",
+        "35-G"
+      ],
+      "proposal": "CONSERVER",
+      "title": "Natte large et natte fine",
+      "technical": "Même famille de trajet, mais largeur 6 contre 4 et flexion différente ; compositions distinctes.",
+      "original": "B-32-G a une natte plus épaisse ; B-35-G montre une natte plus fine dans la partie visible. Les perles ne participent pas à cette distinction.",
+      "lost": "Certains grands balayages sont simplifiés ; épaisseur et trajet de la natte restent différents sans bijoux.",
+      "reason": "Différence de cheveu suffisamment lisible pour conserver deux variantes d’une famille.",
+      "sketch": "Aucune correction imposée ; ne pas épaissir 35 pour le rapprocher de 32.",
+      "principal": "32-G si regroupement préféré, en reconnaissant la perte de finesse de 35-G.",
+      "gain": "Préserver un vrai contraste de trajet/épaisseur.",
+      "risk": "Faible ; vérifier les fines nattes aux petites tailles.",
+      "guard": "Pas de fusion parce que les deux utilisent strand/braid.",
+      "decision": "En attente",
+      "choices": [
+        {
+          "key": "32-G",
+          "style": "p5-032",
+          "arrangement": "G",
+          "source": {
+            "board": "B",
+            "position": "L2C2",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/0F3CDCE7-24D6-40E4-80D8-4BE2429238AF.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-B.png",
+            "caseBox": [
+              517,
+              395,
+              503,
+              280
+            ],
+            "box": [
+              637,
+              419,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "c39a970d0914fa1a5b6455923523494c80f67ad9f3d0b2b170b1824770492ef3"
+        },
+        {
+          "key": "35-G",
+          "style": "p5-035",
+          "arrangement": "G",
+          "source": {
+            "board": "B",
+            "position": "L3C2",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/0F3CDCE7-24D6-40E4-80D8-4BE2429238AF.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-B.png",
+            "caseBox": [
+              517,
+              683,
+              503,
+              280
+            ],
+            "box": [
+              637,
+              707,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "a4a2d2ceda56eda651ebec660feea707773fafdaf1e716fde6836129a19a7cfb"
+        }
+      ]
+    },
+    {
+      "id": "V04",
+      "kind": "variant",
+      "keys": [
+        "32-D",
+        "35-D",
+        "39-D"
+      ],
+      "proposal": "CONSERVER",
+      "title": "Deux nattes et trois organisations du sommet",
+      "technical": "35-D réduit la couronne et les brins ; 39-D supprime la couronne de 32-D et garde une raie simple.",
+      "original": "B-32-D : couronne ample ; B-35-D : tressage plus fin ; C-39-D : raie et deux nattes sans couronne.",
+      "lost": "Le détail de chaque entrelacs est simplifié, mais la présence/absence de couronne est conservée.",
+      "reason": "Retirer la couronne change l’organisation des racines ; largeur des brins et trajet sont aussi de vrais critères.",
+      "sketch": "Aucune correction imposée ; ne pas confondre bijoux en losange de 35-D et tresses.",
+      "principal": "32-D si regroupement préféré ; la couronne ne doit pas être ajoutée artificiellement à 39-D.",
+      "gain": "Préserver les types d’attache et la finesse.",
+      "risk": "Faible en conservant ; fort si une fusion efface les racines.",
+      "guard": "Q01 conserve aussi 60-D comme arrangement avec mèches libres, pas une nouvelle base garantie.",
+      "decision": "En attente",
+      "choices": [
+        {
+          "key": "32-D",
+          "style": "p5-032",
+          "arrangement": "D",
+          "source": {
+            "board": "B",
+            "position": "L2C2",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/0F3CDCE7-24D6-40E4-80D8-4BE2429238AF.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-B.png",
+            "caseBox": [
+              517,
+              395,
+              503,
+              280
+            ],
+            "box": [
+              827,
+              419,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "efa789158297c75e088665a4bc485eaa1bc7c5000e30ecce5c1fab10a62083a2"
+        },
+        {
+          "key": "35-D",
+          "style": "p5-035",
+          "arrangement": "D",
+          "source": {
+            "board": "B",
+            "position": "L3C2",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/0F3CDCE7-24D6-40E4-80D8-4BE2429238AF.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-B.png",
+            "caseBox": [
+              517,
+              683,
+              503,
+              280
+            ],
+            "box": [
+              827,
+              707,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "4f0ee1ef065b6cca0a060084b407a9879be47e01b7b49c129de025e91895bea9"
+        },
+        {
+          "key": "39-D",
+          "style": "p5-039",
+          "arrangement": "D",
+          "source": {
+            "board": "C",
+            "position": "L1C3",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/7C197DD6-3733-4B37-A0B0-B265FF034BD8.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-C.png",
+            "caseBox": [
+              1029,
+              107,
+              503,
+              280
+            ],
+            "box": [
+              1339,
+              131,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "0b784cda550134905b3a9ae16ca9fde2070928c00a43984bf6a7ef172b84d776"
+        }
+      ]
+    },
+    {
+      "id": "V05",
+      "kind": "variant",
+      "keys": [
+        "46-G",
+        "46-D",
+        "62-G"
+      ],
+      "proposal": "CONSERVER",
+      "title": "Trois implantations de crête",
+      "technical": "Implantation .31r/.48r/.69r et contours différents ; masques locaux de côtés dégagés.",
+      "original": "D-46-G : crête étroite verticale ; 46-D : éventail incliné ; E-v1-62-G : crête plus large et rayonnante.",
+      "lost": "Les mèches deviennent des pointes polygonales, mais les trois implantations restent différentes.",
+      "reason": "Largeur d’implantation et direction globale se distinguent sans couleur ; un helper partagé ne prouve pas un doublon.",
+      "sketch": "Aucune correction imposée ; une finition de courbes éventuelle ne remet pas en cause la conservation.",
+      "principal": "46-G uniquement si l’utilisateur souhaite volontairement une seule crête, ce qui perdrait de la diversité.",
+      "gain": "Garder trois profils frontaux de volume.",
+      "risk": "Faible en conservant.",
+      "guard": "62-D appartient à E09, pas à ces crêtes G.",
+      "decision": "En attente",
+      "choices": [
+        {
+          "key": "46-G",
+          "style": "p5-046",
+          "arrangement": "G",
+          "source": {
+            "board": "D",
+            "position": "L1C1",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/FAC68E60-6567-4D1A-B299-46A07B836D27.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-D.png",
+            "caseBox": [
+              5,
+              107,
+              503,
+              280
+            ],
+            "box": [
+              125,
+              131,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "9a3921b69359efb03d0356f3b6bbd942608d9183133c257619dabc2ab831ae4c"
+        },
+        {
+          "key": "46-D",
+          "style": "p5-046",
+          "arrangement": "D",
+          "source": {
+            "board": "D",
+            "position": "L1C1",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/FAC68E60-6567-4D1A-B299-46A07B836D27.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-D.png",
+            "caseBox": [
+              5,
+              107,
+              503,
+              280
+            ],
+            "box": [
+              315,
+              131,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "8276cec23f9ec068cdddd57ae93e9f6164778d59f2a25b1561f50e535d132100"
+        },
+        {
+          "key": "62-G",
+          "style": "p5-062",
+          "arrangement": "G",
+          "source": {
+            "board": "E v1",
+            "position": "L3C2",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/B4099DCA-66B1-4415-8C50-53AA5CFA1C04.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-E-v1.png",
+            "caseBox": [
+              517,
+              683,
+              503,
+              280
+            ],
+            "box": [
+              637,
+              707,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "dea92c21227f1833e1a2d3bf5c4adfea804afc91d417f6174b035f3a14750fb3"
+        }
+      ]
+    },
+    {
+      "id": "V06",
+      "kind": "variant",
+      "keys": [
+        "49-D",
+        "50-D"
+      ],
+      "proposal": "CONSERVER",
+      "title": "L’arrière change réellement",
+      "technical": "50-D possède un arrière supplémentaire end+44 ; 49-D a son panneau allongé end+53. Les cheveux ne sont pas égaux hors couleur.",
+      "original": "D-49-D accentue la pointe frontale et le côté court ; D-50-D laisse une masse arrière libre plus importante.",
+      "lost": "Les grands balayages sont simplifiés ; la masse arrière propre à 50-D est conservée.",
+      "reason": "Ne pas appliquer à ces D le regroupement coloré de E07. Le contour et la répartition arrière produisent une différence visible.",
+      "sketch": "Aucune correction imposée ; maintenir la masse arrière lors d’une éventuelle évolution de couleur.",
+      "principal": "Aucun témoin équivalent : choisir 49-D seulement serait accepter de perdre l’arrière de 50-D.",
+      "gain": "Préserver une distribution des longueurs distincte.",
+      "risk": "Faible si conservé.",
+      "guard": "E07 est limité à 47-G/50-G ; pas de fusion de tout 50.",
+      "decision": "En attente",
+      "choices": [
+        {
+          "key": "49-D",
+          "style": "p5-049",
+          "arrangement": "D",
+          "source": {
+            "board": "D",
+            "position": "L2C1",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/FAC68E60-6567-4D1A-B299-46A07B836D27.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-D.png",
+            "caseBox": [
+              5,
+              395,
+              503,
+              280
+            ],
+            "box": [
+              315,
+              419,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "b19ef539fc3a14500e5e6126955e3c101919ce2206ba386527fc49dc90fb6079"
+        },
+        {
+          "key": "50-D",
+          "style": "p5-050",
+          "arrangement": "D",
+          "source": {
+            "board": "D",
+            "position": "L2C2",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/FAC68E60-6567-4D1A-B299-46A07B836D27.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-D.png",
+            "caseBox": [
+              517,
+              395,
+              503,
+              280
+            ],
+            "box": [
+              827,
+              419,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "e585658e52a7cb376bf19929ef63fcc0430d77f535f258a8cfac6ac3075ec9aa"
+        }
+      ]
+    },
+    {
+      "id": "V07",
+      "kind": "variant",
+      "keys": [
+        "53-G",
+        "55-G",
+        "55-D"
+      ],
+      "proposal": "DIFFÉRENCIER",
+      "title": "Tresses fines trop régularisées",
+      "technical": "53-G : cinq rangées et deux retombées ; 55-G : sept rangées et six nattes ; 55-D : neuf rangées, chignon de spirales et quatre brins. Pas de copies.",
+      "original": "D-53-G montre quelques tresses larges plaquées ; E-v1-55 montre un réseau beaucoup plus dense de petites tresses et un chignon tressé en D.",
+      "lost": "La densité et l’irrégularité des trajets de 55 sont réduites à quelques rangées périodiques ; le chignon est remplacé par deux spirales concentriques.",
+      "reason": "Conserver les trois organisations, mais renforcer la spécificité des tresses fines de 55 plutôt que regrouper les modèles sur la primitive commune.",
+      "sketch": "Pour 55, mieux répartir des rangées fines et leurs départs ; distinguer les trajets jusqu’aux retombées G et à l’attache D ; donner au chignon des faisceaux entrelacés visibles plutôt que deux spirales uniformes. Pas de perles ajoutées.",
+      "principal": "Aucun regroupement recommandé ; 53-G n’est pas un équivalent de 55.",
+      "gain": "Une texture structurée et des racines plus proches de la source.",
+      "risk": "Moyen à élevé : surcharge de détails en miniature et continuité des attaches.",
+      "guard": "Description de cible seulement ; aucun nouveau système de densité libre.",
+      "decision": "En attente",
+      "choices": [
+        {
+          "key": "53-G",
+          "style": "p5-053",
+          "arrangement": "G",
+          "source": {
+            "board": "D",
+            "position": "L3C2",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/FAC68E60-6567-4D1A-B299-46A07B836D27.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-D.png",
+            "caseBox": [
+              517,
+              683,
+              503,
+              280
+            ],
+            "box": [
+              637,
+              707,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "e9400163f9e8dae454e3fe75e26ddb520c3941bfdf6140c522171eb09dff8674"
+        },
+        {
+          "key": "55-G",
+          "style": "p5-055",
+          "arrangement": "G",
+          "source": {
+            "board": "E v1",
+            "position": "L1C1",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/B4099DCA-66B1-4415-8C50-53AA5CFA1C04.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-E-v1.png",
+            "caseBox": [
+              5,
+              107,
+              503,
+              280
+            ],
+            "box": [
+              125,
+              131,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "ef7e827f971f2657083294edf0bf0dd01980aa9a67cbf93dfe7679f3e3dfc7cc"
+        },
+        {
+          "key": "55-D",
+          "style": "p5-055",
+          "arrangement": "D",
+          "source": {
+            "board": "E v1",
+            "position": "L1C1",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/B4099DCA-66B1-4415-8C50-53AA5CFA1C04.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-E-v1.png",
+            "caseBox": [
+              5,
+              107,
+              503,
+              280
+            ],
+            "box": [
+              315,
+              131,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "92683053063b33c0dded1fa17034fa46430cc3cc568b16377fd3902bf57921d3"
+        }
+      ]
+    },
+    {
+      "id": "V08",
+      "kind": "variant",
+      "keys": [
+        "66-D",
+        "67-D"
+      ],
+      "proposal": "À ARBITRER",
+      "title": "Des fragments ne prouvent pas une coupe complète",
+      "technical": "Raie et nattes partagées mais clips d’ouverture différents ; compositions partielles distinctes.",
+      "original": "F-66-D est sous capuche ; 67-D sous tissu noué. Deux nattes sont visibles, les racines et l’arrière restent masqués.",
+      "lost": "Aucune chevelure complète observable dans les sources ; aucune perte sous le tissu ne peut être affirmée.",
+      "reason": "Les fragments peuvent être mutualisables, mais ne justifient ni une nouvelle coupe complète ni leur assimilation à une autre coupe. L’arbitrage porte seulement sur la présentation des fragments.",
+      "sketch": "Aucune reconstruction des zones cachées. Un éventuel regroupement doit garder les deux ouvertures documentées et leur caractère partiel.",
+      "principal": "Aucun principal de chevelure complète. Pour les fragments seuls, 66-D est le premier témoin technique ; ne pas effacer le clip propre à 67-D.",
+      "gain": "Éviter de fabriquer de la diversité à partir d’une coiffe.",
+      "risk": "Inconnu sur les zones cachées ; regroupement complet injustifiable.",
+      "guard": "63-G reste entièrement inconnu et ne devient pas une coupe rasée ; 66-G est un autre fragment.",
+      "decision": "En attente",
+      "choices": [
+        {
+          "key": "66-D",
+          "style": "p5-066",
+          "arrangement": "D",
+          "source": {
+            "board": "F",
+            "position": "L1C3",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/132E23ED-C1DE-4311-8BAF-B56E09277B56.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-F.png",
+            "caseBox": [
+              1029,
+              107,
+              503,
+              280
+            ],
+            "box": [
+              1339,
+              131,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "6fb28ca21a021888c214a83076bdcbd0441af11511c3253f755852c38aab59ae"
+        },
+        {
+          "key": "67-D",
+          "style": "p5-067",
+          "arrangement": "D",
+          "source": {
+            "board": "F",
+            "position": "L2C1",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/132E23ED-C1DE-4311-8BAF-B56E09277B56.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-F.png",
+            "caseBox": [
+              5,
+              395,
+              503,
+              280
+            ],
+            "box": [
+              315,
+              419,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "62cc2dc42911cef9a029e5e6d42a1ca9dffc4681f616a3a6a46a7db561ba6bcc"
+        }
+      ]
+    },
+    {
+      "id": "V09",
+      "kind": "variant",
+      "keys": [
+        "29-G",
+        "34-G",
+        "51-G"
+      ],
+      "proposal": "DIFFÉRENCIER",
+      "title": "Éventails et grands rouleaux",
+      "technical": "fan(false), fan(true) et highFan ont des volumes différents, mais reposent sur de grands contours pointus proches.",
+      "original": "B-29-G montre un relèvement roulé ; B-34-G un haut mouvement souple ; D-51-G plusieurs grosses mèches roulées dressées.",
+      "lost": "La forme et l’orientation internes des gros rouleaux sont remplacées par des éventails plus rigides ; la hauteur seule porte trop de différence.",
+      "reason": "Ne pas regrouper des volumes déjà différents ; restituer leurs directions de mèches pour rendre la diversité des sources plus lisible.",
+      "sketch": "29-G : large rouleau de relèvement bas. 34-G : grande vague basculée. 51-G : plusieurs retours cylindriques ouverts, avec intervalles irréguliers ; conserver chaque implantation.",
+      "principal": "Aucun regroupement conseillé ; 29-G serait seulement le premier témoin de la famille.",
+      "gain": "Trois organisations de volumes au lieu d’un éventail à trois hauteurs.",
+      "risk": "Moyen : conserver les grands aplats et ne pas surdétailler.",
+      "guard": "Aucune nouvelle coiffure ni refonte de moteur demandée.",
+      "decision": "En attente",
+      "choices": [
+        {
+          "key": "29-G",
+          "style": "p5-029",
+          "arrangement": "G",
+          "source": {
+            "board": "B",
+            "position": "L1C2",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/0F3CDCE7-24D6-40E4-80D8-4BE2429238AF.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-B.png",
+            "caseBox": [
+              517,
+              107,
+              503,
+              280
+            ],
+            "box": [
+              637,
+              131,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "652d735af208aa92bb7769c62492b7b388802d68c1a5425c16c597fbb1ac74fc"
+        },
+        {
+          "key": "34-G",
+          "style": "p5-034",
+          "arrangement": "G",
+          "source": {
+            "board": "B",
+            "position": "L3C1",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/0F3CDCE7-24D6-40E4-80D8-4BE2429238AF.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-B.png",
+            "caseBox": [
+              5,
+              683,
+              503,
+              280
+            ],
+            "box": [
+              125,
+              707,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "30007a384dfcd88047be290952873c3e6e4655cc16d4e651744c85462a39d6da"
+        },
+        {
+          "key": "51-G",
+          "style": "p5-051",
+          "arrangement": "G",
+          "source": {
+            "board": "D",
+            "position": "L2C3",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/FAC68E60-6567-4D1A-B299-46A07B836D27.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-D.png",
+            "caseBox": [
+              1029,
+              395,
+              503,
+              280
+            ],
+            "box": [
+              1149,
+              419,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "e4819f66f78a3dae26224c54181f85838b3952db22e3edafe2a084fbd3f61622"
+        }
+      ]
+    },
+    {
+      "id": "V10",
+      "kind": "variant",
+      "keys": [
+        "23-D",
+        "54-D",
+        "69-D"
+      ],
+      "proposal": "CONSERVER",
+      "title": "Attaches irrégulières et volumes hauts",
+      "technical": "23-D : petit chignon et mèches ; 54-D : highFan et côtés de 23 ; 69-D : chignon irrégulier et mèches supplémentaires de 31-D.",
+      "original": "A-23-D montre une petite attache ; D-54-D un grand volume relevé ; F-69-D une attache irrégulière avec plusieurs retours libres.",
+      "lost": "Le mouvement souple est simplifié, mais position, volume et distribution des mèches restent distincts.",
+      "reason": "La réutilisation des côtés ne rend pas les assemblages équivalents. Les différences capillaires persistent sans plume ni lunettes.",
+      "sketch": "Aucune correction requise pour justifier la conservation ; ne pas qualifier highFan de chignon fermé.",
+      "principal": "Aucun témoin équivalent pour une fusion ; 23-D est seulement le plus compact.",
+      "gain": "Garder une réelle diversité de volumes et d’attaches.",
+      "risk": "Faible en conservant.",
+      "guard": "Les G exacts relèvent de E06 ; ne pas transférer leur diagnostic aux D.",
+      "decision": "En attente",
+      "choices": [
+        {
+          "key": "23-D",
+          "style": "p5-023",
+          "arrangement": "D",
+          "source": {
+            "board": "A",
+            "position": "L2C2",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/C7BEACBF-323B-4D6F-ABFF-92A988EC909F.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-A.png",
+            "caseBox": [
+              517,
+              395,
+              503,
+              280
+            ],
+            "box": [
+              827,
+              419,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "32692c6d6d65f0ca749b0708c1da521a64f23d46f7be635eb4f9fec065e310d2"
+        },
+        {
+          "key": "54-D",
+          "style": "p5-054",
+          "arrangement": "D",
+          "source": {
+            "board": "D",
+            "position": "L3C3",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/FAC68E60-6567-4D1A-B299-46A07B836D27.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-D.png",
+            "caseBox": [
+              1029,
+              683,
+              503,
+              280
+            ],
+            "box": [
+              1339,
+              707,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "f5d79ceeb178adcc9a694b68563bfd7821c3f28263dbf32beaac8e9bf9058ab5"
+        },
+        {
+          "key": "69-D",
+          "style": "p5-069",
+          "arrangement": "D",
+          "source": {
+            "board": "F",
+            "position": "L2C3",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/132E23ED-C1DE-4311-8BAF-B56E09277B56.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-F.png",
+            "caseBox": [
+              1029,
+              395,
+              503,
+              280
+            ],
+            "box": [
+              1339,
+              419,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "818bea953acebbc9a75b77fb80f62e9e3a0a277107c06b68078f997d8838d6df"
+        }
+      ]
+    },
+    {
+      "id": "V11",
+      "kind": "variant",
+      "keys": [
+        "27-D",
+        "30-G",
+        "30-D"
+      ],
+      "proposal": "DIFFÉRENCIER",
+      "title": "Boucles et rouleaux ne se réduisent pas à un ruban",
+      "technical": "halo/ribbon de 27-D ; sideRolls et curls trois/quatre tours de 30, chignon ajouté en 30-D. Compositions distinctes.",
+      "original": "A-27-D montre une ample cascade libre ; B-30-G des rouleaux ouverts et des boucles réparties autour du visage ; 30-D ajoute une attache et un grand balayage.",
+      "lost": "L’irrégularité des grandes boucles et leur distribution devient souvent deux rubans périodiques ; les rouleaux ouverts sont simplifiés.",
+      "reason": "Garder la cascade libre, les rouleaux ouverts et l’attache, mais différencier leur organisation locale. Le partage de courbes n’impose aucun regroupement.",
+      "sketch": "27-D : grosses masses libres déphasées. 30-G : quelques rouleaux ouverts aux tempes puis boucles de tailles variées. 30-D : préserver l’attache haute et décaler les retours de chaque côté, sans simple agrandissement uniforme.",
+      "principal": "Aucun regroupement recommandé : les attaches et longueurs sont déjà différentes.",
+      "gain": "Lire les types de boucles et leur organisation, pas seulement la longueur.",
+      "risk": "Moyen : détails fins et cohérence entre tête et entier.",
+      "guard": "Les pointes hors champ des posters ne donnent pas une longueur exacte mesurable.",
+      "decision": "En attente",
+      "choices": [
+        {
+          "key": "27-D",
+          "style": "p5-027",
+          "arrangement": "D",
+          "source": {
+            "board": "A",
+            "position": "L3C3",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/C7BEACBF-323B-4D6F-ABFF-92A988EC909F.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-A.png",
+            "caseBox": [
+              1029,
+              683,
+              503,
+              280
+            ],
+            "box": [
+              1339,
+              707,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "231cc7838225f796f986c1bf958646a60883b2172b73980b1331295020cf7e82"
+        },
+        {
+          "key": "30-G",
+          "style": "p5-030",
+          "arrangement": "G",
+          "source": {
+            "board": "B",
+            "position": "L1C3",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/0F3CDCE7-24D6-40E4-80D8-4BE2429238AF.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-B.png",
+            "caseBox": [
+              1029,
+              107,
+              503,
+              280
+            ],
+            "box": [
+              1149,
+              131,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "b3963d1fa7a62331a67cbe1e600679d0e74f25199bb5a612ef52529a97e61aff"
+        },
+        {
+          "key": "30-D",
+          "style": "p5-030",
+          "arrangement": "D",
+          "source": {
+            "board": "B",
+            "position": "L1C3",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/0F3CDCE7-24D6-40E4-80D8-4BE2429238AF.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-B.png",
+            "caseBox": [
+              1029,
+              107,
+              503,
+              280
+            ],
+            "box": [
+              1339,
+              131,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "6963dbe5e77d6f7579c11fc1cf0125feee327b8989a7befbfc45aeb4870aaf65"
+        }
+      ]
+    },
+    {
+      "id": "V12",
+      "kind": "variant",
+      "keys": [
+        "32-G",
+        "41-D"
+      ],
+      "proposal": "À ARBITRER",
+      "title": "Une natte et un second brin ambigu",
+      "technical": "41-D reprend la natte/racine de 32-G puis ajoute une mèche libre opposée ; compositions distinctes. La fiche #33 annonce pourtant deux nattes.",
+      "original": "B-32-G montre une natte nette. C-41-D montre une natte et un second brin dont le tressage n’est pas certain dans l’image frontale.",
+      "lost": "Écart certain entre fiche et code ; seconde natte non certaine dans l’illustration. Impossible d’attribuer automatiquement une natte manquante.",
+      "reason": "Ne pas regrouper sur la seule primitive commune et ne pas ajouter une seconde natte sur la seule fiche. Faire préciser l’intention du second brin.",
+      "sketch": "Aucune correction avant arbitrage. Si second brin libre confirmé, conserver sa courbe ; si natte confirmée, définir son départ et son trajet dans une mission ultérieure.",
+      "principal": "Aucun principal équivalent confirmé ; 32-G reste la provenance technique de la natte, pas un remplacement validé de 41-D.",
+      "gain": "Résoudre une ambiguïté documentaire avant toute correction artistique.",
+      "risk": "Incertitude sur le second brin ; invention si l’on tranche sans preuve.",
+      "guard": "41-G a une racine de nuque mais est peint au premier plan : le tag rear ne détermine pas sa profondeur.",
+      "decision": "En attente",
+      "choices": [
+        {
+          "key": "32-G",
+          "style": "p5-032",
+          "arrangement": "G",
+          "source": {
+            "board": "B",
+            "position": "L2C2",
+            "arrangement": "G",
+            "original": "docs/ai/visual-references/0F3CDCE7-24D6-40E4-80D8-4BE2429238AF.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-B.png",
+            "caseBox": [
+              517,
+              395,
+              503,
+              280
+            ],
+            "box": [
+              637,
+              419,
+              200,
+              256
+            ]
+          },
+          "auditGeometryHash": "c39a970d0914fa1a5b6455923523494c80f67ad9f3d0b2b170b1824770492ef3"
+        },
+        {
+          "key": "41-D",
+          "style": "p5-041",
+          "arrangement": "D",
+          "source": {
+            "board": "C",
+            "position": "L2C2",
+            "arrangement": "D",
+            "original": "docs/ai/visual-references/7C197DD6-3733-4B37-A0B0-B265FF034BD8.png",
+            "runtime": "preview/bio-vis-p5-i6/references/P5-C.png",
+            "caseBox": [
+              517,
+              395,
+              503,
+              280
+            ],
+            "box": [
+              827,
+              419,
+              193,
+              256
+            ]
+          },
+          "auditGeometryHash": "31980f457dee396657bc793b2233641e72bfd7b4a80745bf7fc54212c60095ee"
+        }
+      ]
+    }
+  ]
+}
