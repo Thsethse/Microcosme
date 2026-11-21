@@ -1,0 +1,19 @@
+name: BIO-VIS-P5-I5
+on:
+  pull_request:
+    paths: ['bio-vis-p5-i5/**', '.github/workflows/bio-vis-p5-i5.yml']
+permissions:
+  contents: read
+jobs:
+  lot-e-v1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: node --test bio-vis-p5-i5/model.test.mjs
+      - run: npx playwright install --with-deps chromium webkit
+      - run: node bio-vis-p5-i5/browser.test.cjs
