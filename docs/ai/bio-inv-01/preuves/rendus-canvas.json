@@ -1,0 +1,46 @@
+{
+  "engine": "151.0.7922.34",
+  "scales": [
+    300,
+    178,
+    70
+  ],
+  "b2Equivalent": [
+    true,
+    true,
+    true
+  ],
+  "t2Chest": [
+    true,
+    true,
+    true
+  ],
+  "t2Fur": [
+    true,
+    true,
+    true
+  ],
+  "t2EyeShapes": [
+    4,
+    4,
+    4
+  ],
+  "t3EyeSize": {
+    "tested": 101,
+    "unique": [
+      12,
+      12,
+      9
+    ]
+  },
+  "t3Dormant": [
+    true,
+    true,
+    true
+  ],
+  "t3Restored": [
+    true,
+    true,
+    true
+  ]
+}
