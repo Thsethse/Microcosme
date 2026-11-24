@@ -3,6 +3,7 @@ import {model} from '../preview/bio-vis-p5-i6/model.mjs';
 import {headMarkup} from '../preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/r1/p2/base/render.mjs';
 import {palette} from '../preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/r1/p2/base/model.mjs';
 import {eyeStroke, eyesFor, normalizeEyes} from './eyes.mjs';
+import {irisMarkup, pigmentCenters, solveIris} from './iris.mjs';
 
 function clipId(path, instance, index) {
   // Equal default IDs are safe for equal outlines. An explicit instance also
@@ -13,16 +14,19 @@ function clipId(path, instance, index) {
   return 'bio-yeux-' + prefix + '-' + index + '-' + (hash >>> 0).toString(36);
 }
 
-function replaceOpenings(face, shapes, instance) {
+function replaceOpenings(face, shapes, instance, drawIris) {
   let index = 0;
   // Each historical white is immediately followed by its pupil ellipse in the
   // shared face renderer. Preserve the pupil tag byte for byte inside the clip.
   const pairs = new RegExp(
     '(<ellipse [^>]*fill="' + palette.white + '"[^>]*\\/>)(<ellipse [^>]*fill="' + palette.pupil + '"[^>]*\\/>)', 'g');
   const result = face.replace(pairs, (_, white, pupil) => {
-    const {path} = shapes[index];
-    const id = clipId(path, instance, index++);
-    return `<g data-bio-eye="${index === 1 ? 'left' : 'right'}"><defs><clipPath id="${id}"><path d="${path}"/></clipPath></defs><path d="${path}" fill="${palette.white}" stroke="${palette.pupil}" stroke-width="${eyeStroke}" stroke-linejoin="round"/><g clip-path="url(#${id})">${pupil}</g></g>`;
+    const shape = shapes[index];
+    const ink = drawIris ? drawIris(index) : pupil;
+    const id = clipId(shape?.path ?? white, instance, index++);
+    if (!shape) return `${white}<defs><clipPath id="${id}">${white}</clipPath></defs><g clip-path="url(#${id})">${ink}</g>`;
+    const {path} = shape;
+    return `<g data-bio-eye="${index === 1 ? 'left' : 'right'}"><defs><clipPath id="${id}"><path d="${path}"/></clipPath></defs><path d="${path}" fill="${palette.white}" stroke="${palette.pupil}" stroke-width="${eyeStroke}" stroke-linejoin="round"/><g clip-path="url(#${id})">${ink}</g></g>`;
   });
   if (index !== 2) throw new Error('Ouvertures historiques introuvables');
   return result;
@@ -40,14 +44,18 @@ function guides({envelopes, nose, maxWidth, maxHeight}) {
 export function character(input = {}, options = {}) {
   const svg = inherited(input, options);
   const selected = normalizeEyes(options.eyes);
-  if (!selected && !options.eyeEnvelopes) return svg;
+  const hasIris = options.iris != null && options.iris !== 'historical';
+  if (!selected && !options.eyeEnvelopes && !hasIris) return svg;
   const geometry = eyesFor(input, selected);
   let result = svg;
-  if (selected) {
+  if (selected || hasIris) {
     const face = model(input);
     const originalFace = headMarkup(face.base).replace(/<path d="[^"]*"/, `<path d="${face.outline}"`);
     if (!svg.includes(originalFace)) throw new Error('Visage historique introuvable');
-    result = svg.replace(originalFace, replaceOpenings(originalFace, geometry.shapes, options.instance));
+    const iris = hasIris ? solveIris(geometry, options.iris) : null;
+    const centers = iris ? pigmentCenters(geometry) : [];
+    const drawIris = iris ? index => irisMarkup(iris, centers[index], index) : null;
+    result = svg.replace(originalFace, replaceOpenings(originalFace, geometry.shapes, options.instance, drawIris));
   }
   if (options.eyeEnvelopes) result = result.replace(/<\/svg>$/, guides(geometry.face) + '</svg>');
   return result;

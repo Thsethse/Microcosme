@@ -42,6 +42,11 @@ function integer(next, span) {
   throw new Error('Budget de conversion du tirage dépassé. Essayez une autre graine.');
 }
 
+export function seededIndex(seed) {
+  const next = generator(seed);
+  return span => integer(next, span);
+}
+
 export function drawEyes(input, seed, version = currentDraw) {
   if (typeof seed !== 'string') throw new TypeError('Graine textuelle requise.');
   if (version === legacyDraw) return {values: randomEyes(input, seed), attempts: null};

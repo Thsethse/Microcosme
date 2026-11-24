@@ -7,6 +7,7 @@ import {appearanceDocument, characterInput, parseAppearance} from './appearance.
 import {currentDraw, drawEyes, legacyDraw} from './draw.mjs';
 import {eyeChanges, eyeDomains, eyeProposal} from './eye-domain.mjs';
 import {availableOptions} from './availability.mjs';
+import {mountIrisEditor} from './iris-editor.mjs';
 import {eyeControls, eyePresets, eyesFor, normalizeEyes} from './eyes.mjs';
 
 const q = selector => document.querySelector(selector);
@@ -60,9 +61,9 @@ function inputFor(key) {
 }
 
 const frames = {head: '-30 -65 220 225', tile: '-40 -85 240 355', mini: '-35 -68 230 245'};
-function svg({key, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false} = {}) {
+function svg({key, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null} = {}) {
   const result = character(inputFor(key), {
-    eyes: value, eyeEnvelopes: guides, hairColor: hair, headOnly: view !== 'tile',
+    eyes: value, iris:pigment, eyeEnvelopes: guides, hairColor: hair, headOnly: view !== 'tile',
     smallScale: view === 'mini', instance: 'atelier-yeux-' + (++serial)
   }).replace(/viewBox="[^"]*"/, `viewBox="${frame}"`);
   return decorative ? result.replace('<svg ', '<svg aria-hidden="true" focusable="false" ') : result;
@@ -155,6 +156,7 @@ function renderEyes() {
   for (const button of document.querySelectorAll('[data-eye-form]')) {
     button.setAttribute('aria-pressed', String(button.dataset.eyeForm === selectedForm));
   }
+  irisEditor.refresh();
   renderComparison();
 }
 
@@ -165,10 +167,19 @@ function renderComparison() {
   comparison.dataset.eyes = selectedForm;
   comparison.className = 'comparison ' + q('#background').value;
   q('#guide-note').hidden = !guides;
-  const sizes = value => [['head', 'Tête · 300 px'], ['tile', 'Corps · 178 px'], ['mini', 'Miniature · 70 × 70 px']]
-    .map(([view, caption]) => `<figure><div class="surface ${view}">${svg({view, value, guides})}</div><figcaption>${caption}</figcaption></figure>`).join('');
+  const pigment=irisEditor.value();
+  const sameOpening=!!pigment&&q('#iris-before-mode').value==='same';
+  const sizes = (value,pigment) => [['head', 'Tête · 300 px'], ['tile', 'Corps · 178 px'], ['mini', 'Miniature · 70 × 70 px']]
+    .map(([view, caption]) => `<figure><div class="surface ${view}">${svg({view, value, guides, pigment})}</div><figcaption>${caption}</figcaption></figure>`).join('');
   const title = eyePresets[selectedForm]?.label ?? otherLabels[selectedForm];
-  comparison.innerHTML = `<article data-side="before"><h3>Historique</h3>${sizes(null)}</article><article data-side="after"><h3>${title}</h3>${sizes(eyes)}</article>`;
+  const before = sameOpening ? 'Pigments historiques' : 'Historique';
+  comparison.innerHTML = `<article data-side="before"><h3>${before}</h3>${sizes(sameOpening?eyes:null,null)}</article><article data-side="after"><h3>${pigment?'Iris personnalisés':title}</h3>${sizes(eyes,pigment)}</article>`;
+
+  const {envelopes:[left,right],maxWidth}=eyesFor(inputFor(),null).face;
+  const x=left.x-maxWidth/2-2, width=right.x+maxWidth/2+2-x;
+  const zoom=q('#iris-zoom');
+  zoom.className='surface '+q('#background').value;
+  zoom.innerHTML=svg({frame:`${x} ${left.y-8} ${width} 16`,pigment});
 }
 
 function renderChart() {
@@ -426,7 +437,7 @@ q('#reload').addEventListener('click', () => {
 });
 
 q('#appearance-export').addEventListener('click', () => {
-  const document = appearanceDocument(selection, {eyes, form: selectedForm, draw, colour, flat: q('#flat-mode').checked});
+  const document = appearanceDocument(selection, {eyes, form: selectedForm, draw, colour, flat: q('#flat-mode').checked, ...irisEditor.archiveSettings()});
   q('#appearance-json').value = JSON.stringify(document, null, 2);
   q('#appearance-error').textContent = '';
   q('#appearance-message').textContent = 'Apparence complète exportée.';
@@ -435,6 +446,7 @@ q('#appearance-import').addEventListener('click', () => {
   try {
     const restored = parseAppearance(q('#appearance-json').value);
     clearProposal();
+    irisEditor.restore(restored);
     ({selection, eyes, form: selectedForm, draw, colour} = restored);
     q('#flat-mode').checked = restored.flat;
     q('#seed').value = draw?.seed ?? q('#seed').defaultValue;
@@ -450,4 +462,5 @@ q('#appearance-import').addEventListener('click', () => {
   }
 });
 
+const irisEditor=mountIrisEditor({input:inputFor,eyes:()=>eyes,render:renderComparison});
 refreshCharacter();
