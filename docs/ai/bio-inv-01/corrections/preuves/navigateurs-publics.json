@@ -1,0 +1,179 @@
+{
+  "base": "https://thsethse.github.io/Microcosme/preview/bio-inv-01-corrections/",
+  "engines": [
+    {
+      "name": "chromium",
+      "version": "151.0.7922.34",
+      "archive": {
+        "restoreScales": 3,
+        "buttonMs": 94,
+        "timing": {
+          "seeds": 256,
+          "errors": 0,
+          "p50Ms": 0.8999999985098839,
+          "p95Ms": 3.7999999970197678,
+          "maxMs": 10,
+          "maxAttempts": 1340
+        }
+      },
+      "domains": {
+        "checkedPresets": 10,
+        "disjoint": "[-12,-10] ∪ [10,12]",
+        "confirmedWidth": 93.74603271484375
+      },
+      "options": {
+        "picked": 26,
+        "layouts": [
+          {
+            "width": 820,
+            "height": 1180,
+            "scrollWidth": 820,
+            "dimensions": [
+              [
+                300,
+                356.921875
+              ],
+              [
+                178,
+                356.921875
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 1180,
+            "height": 820,
+            "scrollWidth": 1180,
+            "dimensions": [
+              [
+                300,
+                338.875
+              ],
+              [
+                178,
+                338.875
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "scrollWidth": 390,
+            "dimensions": [
+              [
+                300,
+                163.5
+              ],
+              [
+                178,
+                163.5
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          }
+        ]
+      },
+      "catalogue": {
+        "cases": 144,
+        "mismatches": 0
+      }
+    },
+    {
+      "name": "webkit",
+      "version": "26.5",
+      "archive": {
+        "restoreScales": 3,
+        "buttonMs": 145,
+        "timing": {
+          "seeds": 256,
+          "errors": 0,
+          "p50Ms": 1,
+          "p95Ms": 5,
+          "maxMs": 12,
+          "maxAttempts": 1340
+        }
+      },
+      "domains": {
+        "checkedPresets": 10,
+        "disjoint": "[-12,-10] ∪ [10,12]",
+        "confirmedWidth": 93.74603271484375
+      },
+      "options": {
+        "picked": 26,
+        "layouts": [
+          {
+            "width": 820,
+            "height": 1180,
+            "scrollWidth": 820,
+            "dimensions": [
+              [
+                300,
+                356.921875
+              ],
+              [
+                178,
+                356.921875
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 1180,
+            "height": 820,
+            "scrollWidth": 1180,
+            "dimensions": [
+              [
+                300,
+                338.859375
+              ],
+              [
+                178,
+                338.859375
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "scrollWidth": 390,
+            "dimensions": [
+              [
+                300,
+                163.5
+              ],
+              [
+                178,
+                163.5
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          }
+        ]
+      },
+      "catalogue": {
+        "cases": 144,
+        "mismatches": 0
+      }
+    }
+  ]
+}
