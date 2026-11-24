@@ -119,3 +119,10 @@ button:disabled, input:disabled, select:disabled { opacity: .65; }
 #details-parameters summary:hover { color:var(--green); }
 #details-error { color:#893b2b; }
 .toolbar [hidden] { display:none; }
+
+#brows-parameters { padding:0; border:0; margin:0; min-width:0; }
+#brows-parameters summary { font-weight:600; }
+.brow-traits { display:flex; flex-wrap:wrap; gap:0 14px; }
+.brow-traits label { margin:0; }
+#brows-error { color:#893b2b; }
+#brow-chip[hidden], #brows-pigment:empty, #brows-error:empty { display:none; }
