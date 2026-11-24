@@ -4,15 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#f6f2e8">
-  <title>Microcosme · BIO-INV-01 · Atelier des apparences</title>
+  <title>Microcosme · BIO-YEUX-02 · Iris et pupilles</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="shell">
-  <p class="brand">Microcosme <span>BIO-INV-01</span></p>
-  <h1>Atelier des apparences</h1>
+  <p class="brand">Microcosme <span>BIO-YEUX-02</span></p>
+  <h1>Iris et pupilles</h1>
   <nav aria-label="Navigation dans l’atelier">
     <a href="#atelier">Atelier</a>
+    <a href="#iris">Iris et pupilles</a>
     <a href="#planche">Planche des formes</a>
     <a href="#personnage">Personnage et palette</a>
   </nav>
@@ -23,6 +24,7 @@
       <h2>Avant / après</h2>
       <div class="toolbar">
         <label>Fond<select id="background"><option value="light">Ivoire</option><option value="dark">Ardoise</option></select></label>
+        <label>Référence<select id="iris-before-mode"><option value="same">Ouverture actuelle</option><option value="historical">Ouverture historique</option></select></label>
         <label class="check"><input type="checkbox" id="eye-guides"> Afficher les enveloppes</label>
       </div>
       <div id="comparison" class="comparison"></div>
@@ -58,6 +60,37 @@
       <label>Version du tirage<select id="draw-version"></select></label>
       <p id="draw-error" role="alert"></p>
       <label>Graine du tirage<input id="seed" type="text" value="Microcosme" spellcheck="false"></label>
+    </div>
+  </section>
+
+  <section id="iris">
+    <h2>Iris et pupilles</h2>
+    <div class="iris-workspace">
+      <div class="card">
+        <label class="check"><input type="checkbox" id="iris-active"> Personnaliser les iris et les pupilles</label>
+        <fieldset id="iris-parameters" disabled>
+          <legend class="visually-hidden">Paramètres des iris</legend>
+          <div class="iris-selects">
+            <label>Nuance principale <span id="iris-chip-primary" class="iris-chip" aria-hidden="true"></span><select id="iris-primary"></select></label>
+            <label>Forme de la pupille<select id="iris-shape"></select></label>
+            <label>Hétérochromie<select id="iris-hetero"></select></label>
+            <label>Nuance secondaire <span id="iris-chip-secondary" class="iris-chip" aria-hidden="true"></span><select id="iris-secondary"></select></label>
+          </div>
+          <div id="iris-sliders"></div>
+        </fieldset>
+        <p id="iris-status" class="hint" role="status"></p>
+        <div class="actions">
+          <button class="primary" id="iris-random" type="button">Tirer iris et pupilles</button>
+          <button id="iris-reset" type="button">Rétablir les pigments historiques</button>
+        </div>
+        <label>Graine des iris<input id="iris-seed" type="text" value="Microcosme" spellcheck="false"></label>
+        <p id="iris-error" role="alert"></p>
+      </div>
+      <figure class="iris-zoom card">
+        <figcaption>Gros plan des yeux</figcaption>
+        <div id="iris-zoom" class="surface"></div>
+        <a href="#atelier">Comparer aux trois échelles</a>
+      </figure>
     </div>
   </section>
 
@@ -112,7 +145,7 @@
     <details id="series-panel"><summary>Une coiffure dans les 26 teintes</summary><div id="series-grid" class="palette-grid"></div></details>
     <details id="variety-panel"><summary>Une teinte sur plusieurs coiffures</summary><div id="variety-grid" class="palette-grid"></div></details>
   </section>
-  <footer><a href="https://github.com/Thsethse/Microcosme/blob/codex/bio-inv-01-corrections/docs/ai/bio-inv-01/corrections/RAPPORT.md">Rapport de réalisation et captures</a></footer>
+  <footer><a href="https://github.com/Thsethse/Microcosme/blob/codex/bio-yeux-02/docs/ai/bio-yeux-02/RAPPORT.md">Rapport de réalisation et captures</a></footer>
 </main>
 <script type="module" src="app.mjs"></script>
 </body>

@@ -34,6 +34,8 @@ jobs:
           done
           ARTIFACT_DIR="$ARTIFACT_DIR/historique-yeux" node "$legacy_preview/bio-yeux-01/tests/browser.cjs"
       - run: node --test bio-yeux-01/tests/corrections-*.test.mjs
+      - run: node --test bio-yeux-01/tests/iris.test.mjs
+      - run: ARTIFACT_DIR="$ARTIFACT_DIR/iris" node bio-yeux-01/tests/iris-browser.cjs
       - run: ARTIFACT_DIR="$ARTIFACT_DIR/corrections" node bio-yeux-01/tests/corrections-browser.cjs
       - run: ARTIFACT_DIR="$ARTIFACT_DIR/palettes" node bio-col-01/tests/browser.cjs
       - name: Récupérer les suites originales des lots 1 à 3
