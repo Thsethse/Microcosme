@@ -7,6 +7,7 @@ import {irisDrawVersion, normalizeIris, solveIris} from './iris.mjs';
 import {detailsDrawVersion, normalizeDetails, solveDetails} from './details.mjs';
 import {browDrawVersion, normalizeBrows, solveBrows} from './brows.mjs';
 import {mouthDrawVersion, normalizeMouth, solveMouth} from './mouth.mjs';
+import {noseDrawVersion, normalizeNose, solveNose} from './nose.mjs';
 
 export const appearanceSchema = 'microcosme.appearance';
 export const appearanceVersion = 1;
@@ -19,7 +20,9 @@ export const browAppearanceVersion = 4;
 export const browRenderVersion = 'bio-sourcils-01-svg@1';
 export const mouthAppearanceVersion = 5;
 export const mouthRenderVersion = 'bio-bouche-01-svg@1';
-const renderers = {1:renderVersion, 2:irisRenderVersion, 3:detailsRenderVersion, 4:browRenderVersion, 5:mouthRenderVersion};
+export const noseAppearanceVersion = 6;
+export const noseRenderVersion = 'bio-nez-01-svg@1';
+const renderers = {1:renderVersion, 2:irisRenderVersion, 3:detailsRenderVersion, 4:browRenderVersion, 5:mouthRenderVersion, 6:noseRenderVersion};
 
 export function characterInput(selection, key = selection.key) {
   const {style, arrangement} = choice(key);
@@ -34,7 +37,7 @@ function validDraw(draw) {
 }
 
 export function appearanceDocument(selection, {eyes, form, draw, colour, flat, iris, irisLatent, irisDraw,
-  details, detailsLatent, detailsDraw, brows, browsLatent, browsDraw, mouth, mouthLatent, mouthDraw}) {
+  details, detailsLatent, detailsDraw, brows, browsLatent, browsDraw, mouth, mouthLatent, mouthDraw, nose, noseLatent, noseDraw}) {
   const entry = choice(selection.key);
   const input = characterInput(selection);
   const applied = normalize(input);
@@ -74,7 +77,18 @@ export function appearanceDocument(selection, {eyes, form, draw, colour, flat, i
     }
     browAppearance.draw = {seed:browsDraw.seed,version:browsDraw.version};
   }
-  const mouthResult = mouth == null || mouth === 'historical' ? null : solveMouth(model(input),result,mouth);
+  const noseResult = nose == null || nose === 'historical' ? null : solveNose(model(input),result,nose,{mouth,eyeDetails:ornament});
+  const noseMemory = !noseResult && normalizeNose(noseLatent);
+  const noseAppearance = noseResult ? {mode:'custom',requested:noseResult.requested,effective:noseResult.effective,
+    anatomy:noseResult.geometry.anatomy} : noseMemory ? {mode:'historical',latent:noseMemory} : null;
+  if (noseDraw) {
+    if (typeof noseDraw.seed !== 'string' || noseDraw.version !== noseDrawVersion || !noseAppearance) {
+      throw new RangeError('Métadonnées du tirage du nez invalides.');
+    }
+    noseAppearance.draw = {seed:noseDraw.seed,version:noseDraw.version};
+  }
+  const mouthResult = mouth == null || mouth === 'historical' ? null : solveMouth(model(input),result,mouth,
+    {noseBounds:noseResult?.geometry.anatomy,preserveMouth:!!noseResult});
   const mouthMemory = !mouthResult && normalizeMouth(mouthLatent);
   const mouthAppearance = mouthResult ? {mode:'custom',requested:mouthResult.requested,effective:mouthResult.effective} :
     mouthMemory ? {mode:'historical',latent:mouthMemory} : null;
@@ -84,7 +98,7 @@ export function appearanceDocument(selection, {eyes, form, draw, colour, flat, i
     }
     mouthAppearance.draw = {seed:mouthDraw.seed,version:mouthDraw.version};
   }
-  const version = mouthAppearance ? mouthAppearanceVersion : browAppearance ? browAppearanceVersion :
+  const version = noseAppearance ? noseAppearanceVersion : mouthAppearance ? mouthAppearanceVersion : browAppearance ? browAppearanceVersion :
     eyeDetails ? detailsAppearanceVersion :
     ink ? irisAppearanceVersion : appearanceVersion;
   return {
@@ -107,6 +121,7 @@ export function appearanceDocument(selection, {eyes, form, draw, colour, flat, i
     ...(eyeDetails ? {details:eyeDetails} : {}),
     ...(browAppearance ? {brows:browAppearance} : {}),
     ...(mouthAppearance ? {mouth:mouthAppearance} : {}),
+    ...(noseAppearance ? {nose:noseAppearance} : {}),
     historicalSelection: structuredClone(selection.raw)
   };
 }
@@ -121,9 +136,10 @@ function identical(a, b) {
 export function parseAppearance(text) {
   const data = JSON.parse(text);
   if (data?.schema !== appearanceSchema) throw new Error('Document d’apparence requis. Utilisez la sélection historique pour un ancien JSON.');
-  if (![appearanceVersion, irisAppearanceVersion, detailsAppearanceVersion, browAppearanceVersion, mouthAppearanceVersion].includes(data.version) ||
+  if (![appearanceVersion, irisAppearanceVersion, detailsAppearanceVersion, browAppearanceVersion, mouthAppearanceVersion, noseAppearanceVersion].includes(data.version) ||
       (data.version === irisAppearanceVersion && !data.iris) || (data.version === detailsAppearanceVersion && !data.details) ||
-      (data.version === browAppearanceVersion && !data.brows) || (data.version === mouthAppearanceVersion && !data.mouth)) {
+      (data.version === browAppearanceVersion && !data.brows) || (data.version === mouthAppearanceVersion && !data.mouth) ||
+      (data.version === noseAppearanceVersion && !data.nose)) {
     throw new Error('Version du document d’apparence non prise en charge.');
   }
   if (data.renderer !== renderers[data.version]) throw new Error('Version de rendu non prise en charge.');
@@ -157,11 +173,17 @@ export function parseAppearance(text) {
     settings.browsLatent = data.brows.mode === 'historical' ? data.brows.latent : null;
     settings.browsDraw = data.brows.draw;
   }
-  if (data.version === mouthAppearanceVersion) {
+  if (data.version >= mouthAppearanceVersion && data.mouth) {
     if (!['custom','historical'].includes(data.mouth.mode)) throw new Error('Mode de bouche invalide.');
     settings.mouth = data.mouth.mode === 'custom' ? data.mouth.requested : null;
     settings.mouthLatent = data.mouth.mode === 'historical' ? data.mouth.latent : null;
     settings.mouthDraw = data.mouth.draw;
+  }
+  if (data.version === noseAppearanceVersion) {
+    if (!['custom','historical'].includes(data.nose.mode)) throw new Error('Mode de nez invalide.');
+    settings.nose = data.nose.mode === 'custom' ? data.nose.requested : null;
+    settings.noseLatent = data.nose.mode === 'historical' ? data.nose.latent : null;
+    settings.noseDraw = data.nose.draw;
   }
   const rebuilt = appearanceDocument(selection, settings);
   if (!identical(rebuilt, data)) throw new Error('Données effectives incompatibles avec la sélection et les demandes.');

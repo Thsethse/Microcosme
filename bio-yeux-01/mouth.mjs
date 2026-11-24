@@ -57,14 +57,18 @@ export function normalizeMouth(mouth) {
 
 // The approved lineage renders a filled triangle. Read its actual path and
 // painted extents. Future nose geometry can supply the same painted bounds.
-export function inheritedNoseBounds(face, markup=headMarkup(face.base)) {
+export function inheritedNose(face, markup=headMarkup(face.base)) {
   const [anchorX,anchorY]=face.base.anchors.nose;
   const matches=[...markup.matchAll(/<path d="M([^, ]+),([^ ]+) l([^, ]+),([^ ]+) h([^ ]+)Z" fill="[^"]+" stroke="none"[^>]*\/>/g)]
-    .map(match=>match.slice(1).map(Number))
-    .filter(([x,y,dx,dy,length])=>x===anchorX&&y<anchorY&&dx<0&&dy>0&&length>0);
+    .map(([tag,...coordinates])=>({tag,coordinates:coordinates.map(Number)}))
+    .filter(({coordinates:[x,y,dx,dy,length]})=>x===anchorX&&y<anchorY&&dx<0&&dy>0&&length>0);
   if (matches.length!==1) throw new Error('Limites du nez hérité introuvables. Arbitrage anatomique requis.');
-  const [x,y,dx,dy,length]=matches[0];
-  return {left:x+dx,right:x+dx+length,top:y,bottom:y+dy};
+  const {tag,coordinates:[x,y,dx,dy,length]}=matches[0];
+  return {tag,bounds:{left:x+dx,right:x+dx+length,top:y,bottom:y+dy}};
+}
+
+export function inheritedNoseBounds(face, markup) {
+  return inheritedNose(face,markup).bounds;
 }
 
 export function inheritedMouth(face, markup=headMarkup(face.base)) {
@@ -196,24 +200,42 @@ const visibleValues=value=>value.intensity===0?{...value,upper:0,lower:0}:value;
 const shapeBox=(frame,value)=>mouthBounds(frame,mouthProfile(frame,visibleValues(value)));
 const fits=(frame,value)=>mouthBreaches(frame,shapeBox(frame,value)).length===0;
 
-function recover(frame,request) {
+function approach(frame,fitted,key,goal) {
+  const start=fitted[key];
+  fitted[key]=goal;
+  if (fits(frame,fitted)) return;
+  let lo=0,hi=1;
+  // The feasible segment for each amplitude is convex. Face clearance
+  // also decreases monotonically as the half-span grows.
+  for (let i=0;i<34;i++) {
+    const middle=(lo+hi)/2;
+    fitted[key]=start+(goal-start)*middle;
+    if (fits(frame,fitted)) lo=middle;
+    else hi=middle;
+  }
+  fitted[key]=start+(goal-start)*lo;
+}
+
+function recover(frame,request,preserveMouth) {
   if (fits(frame,request)) return {...request};
+  if (preserveMouth) {
+    // Try a single change before solving a joint conflict. Reduce upper
+    // volume first to retain the commissures and lower lip wherever possible.
+    for (const [key,anchor] of [['upper',0],['thickness',50],['corners',0],
+      ['curvature',100],['lower',0],['width',60]]) {
+      const candidate={...request,[key]:anchor};
+      if (!fits(frame,candidate)) continue;
+      approach(frame,candidate,key,request[key]);
+      return candidate;
+    }
+  }
   const fitted={...request,...empty};
   if (!fits(frame,fitted)) throw new MouthFitError();
-  for (const key of recoveryOrder) {
-    const start=fitted[key], goal=request[key];
-    fitted[key]=goal;
-    if (fits(frame,fitted)) continue;
-    let lo=0,hi=1;
-    // The feasible segment for each amplitude is convex. Face clearance
-    // also decreases monotonically as the half-span grows.
-    for (let i=0;i<34;i++) {
-      const middle=(lo+hi)/2;
-      fitted[key]=start+(goal-start)*middle;
-      if (fits(frame,fitted)) lo=middle;
-      else hi=middle;
+  for (const key of recoveryOrder) approach(frame,fitted,key,request[key]);
+  if (preserveMouth) {
+    for (const key of recoveryOrder) {
+      if (fitted[key]!==request[key]) approach(frame,fitted,key,request[key]);
     }
-    fitted[key]=start+(goal-start)*lo;
   }
   return fitted;
 }
@@ -256,7 +278,7 @@ export function solveMouth(face,opening,mouth,options={}) {
   const requested=normalizeMouth(mouth);
   if (!requested) return null;
   const frame=mouthFrame(face,opening,options);
-  const recovered=recover(frame,requested);
+  const recovered=recover(frame,requested,options.preserveMouth);
   const applied=visibleValues(recovered);
   const upperVisible=applied.upper>0, hasPigment=upperVisible||applied.lower>0;
   const effective={...applied,upper:requested.intensity===0?null:applied.upper,

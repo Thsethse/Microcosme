@@ -347,6 +347,19 @@ function shading(window, value, skin) {
   return result;
 }
 
+// The nose solver uses these painted footprints before its own rendering.
+export function detailFootprints(result) {
+  if (!result) return [];
+  const {frame,scene,effective}=result;
+  const shapes=[scene.polygon,...shading(scene.lower,effective.shadows,'#dbbf88').map(mark=>mark.points),
+    ...folds(scene.lower,effective.lower,'#dbbf88',false).map(mark=>mark.points),
+    ...folds(scene.upper,effective.upper,'#dbbf88',true).map(mark=>mark.points)];
+  return frame.envelopes.flatMap(eye=>shapes.map(points=> {
+    const xx=points.map(([x])=>eye.x+eye.side*x), yy=points.map(([,y])=>eye.y+y);
+    return {left:Math.min(...xx),right:Math.max(...xx),top:Math.min(...yy),bottom:Math.max(...yy)};
+  }));
+}
+
 function plot(points, eye) {
   return 'M'+points.map(([x,y])=>[eye.x+eye.side*x,eye.y+y].map(n=>+n.toFixed(5)).join(',')).join('L')+'Z';
 }
