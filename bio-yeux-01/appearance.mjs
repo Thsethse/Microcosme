@@ -4,12 +4,16 @@ import {controls, normalize} from '../preview/bio-vis-p5-i6/model.mjs';
 import {eyePresets, eyesFor} from './eyes.mjs';
 import {currentDraw, legacyDraw} from './draw.mjs';
 import {irisDrawVersion, normalizeIris, solveIris} from './iris.mjs';
+import {detailsDrawVersion, normalizeDetails, solveDetails} from './details.mjs';
 
 export const appearanceSchema = 'microcosme.appearance';
 export const appearanceVersion = 1;
 export const renderVersion = 'bio-yeux-01-svg@1';
 export const irisAppearanceVersion = 2;
 export const irisRenderVersion = 'bio-yeux-02-svg@1';
+export const detailsAppearanceVersion = 3;
+export const detailsRenderVersion = 'bio-yeux-03-svg@1';
+const renderers = {1:renderVersion, 2:irisRenderVersion, 3:detailsRenderVersion};
 
 export function characterInput(selection, key = selection.key) {
   const {style, arrangement} = choice(key);
@@ -23,7 +27,8 @@ function validDraw(draw) {
   return draw && typeof draw.seed === 'string' && [currentDraw, legacyDraw].includes(draw.version);
 }
 
-export function appearanceDocument(selection, {eyes, form, draw, colour, flat, iris, irisLatent, irisDraw}) {
+export function appearanceDocument(selection, {eyes, form, draw, colour, flat, iris, irisLatent, irisDraw,
+  details, detailsLatent, detailsDraw}) {
   const entry = choice(selection.key);
   const input = characterInput(selection);
   const applied = normalize(input);
@@ -41,10 +46,21 @@ export function appearanceDocument(selection, {eyes, form, draw, colour, flat, i
   const ink = pigment ? {mode:'custom', requested:pigment.requested, effective:pigment.effective} :
     latent ? {mode:'historical', latent} : null;
   if (ink && irisDraw) ink.draw = {seed:irisDraw.seed, version:irisDraw.version};
+  const ornament = solveDetails(result,details);
+  const remembered = !ornament && normalizeDetails(detailsLatent);
+  const eyeDetails = ornament ? {mode:'custom',requested:ornament.requested,effective:ornament.effective} :
+    remembered ? {mode:'historical',latent:remembered} : null;
+  if (detailsDraw) {
+    if (typeof detailsDraw.seed !== 'string' || detailsDraw.version !== detailsDrawVersion || !eyeDetails) {
+      throw new RangeError('Métadonnées du tirage des détails invalides.');
+    }
+    eyeDetails.draw = {seed:detailsDraw.seed,version:detailsDraw.version};
+  }
+  const version = eyeDetails ? detailsAppearanceVersion : ink ? irisAppearanceVersion : appearanceVersion;
   return {
     schema: appearanceSchema,
-    version: ink ? irisAppearanceVersion : appearanceVersion,
-    renderer: ink ? irisRenderVersion : renderVersion,
+    version,
+    renderer: renderers[version],
     character: {
       style: entry.style, arrangement: entry.arrangement, body: applied.body,
       morphology: Object.fromEntries(Object.keys(controls).map(key => [key, applied[key]])),
@@ -58,6 +74,7 @@ export function appearanceDocument(selection, {eyes, form, draw, colour, flat, i
     } : {mode: 'historical'},
     palette: {colour, mode: flat ? 'flat' : 'historical'},
     ...(ink ? {iris:ink} : {}),
+    ...(eyeDetails ? {details:eyeDetails} : {}),
     historicalSelection: structuredClone(selection.raw)
   };
 }
@@ -72,11 +89,11 @@ function identical(a, b) {
 export function parseAppearance(text) {
   const data = JSON.parse(text);
   if (data?.schema !== appearanceSchema) throw new Error('Document d’apparence requis. Utilisez la sélection historique pour un ancien JSON.');
-  if (![appearanceVersion, irisAppearanceVersion].includes(data.version) || (data.version === irisAppearanceVersion && !data.iris)) {
+  if (![appearanceVersion, irisAppearanceVersion, detailsAppearanceVersion].includes(data.version) ||
+      (data.version === irisAppearanceVersion && !data.iris) || (data.version === detailsAppearanceVersion && !data.details)) {
     throw new Error('Version du document d’apparence non prise en charge.');
   }
-  const v2 = data.version === irisAppearanceVersion;
-  if (data.renderer !== (v2 ? irisRenderVersion : renderVersion)) throw new Error('Version de rendu non prise en charge.');
+  if (data.renderer !== renderers[data.version]) throw new Error('Version de rendu non prise en charge.');
   const selection = restoreSelection(data.historicalSelection);
   if (!data.eyes || !['historical', 'custom'].includes(data.eyes.mode) ||
       !data.palette || !['flat', 'historical'].includes(data.palette.mode)) {
@@ -89,11 +106,17 @@ export function parseAppearance(text) {
     colour: data.palette.colour,
     flat: data.palette.mode === 'flat'
   };
-  if (v2) {
+  if (data.version >= irisAppearanceVersion && data.iris) {
     if (!data.iris || !['custom','historical'].includes(data.iris.mode)) throw new Error('Mode des iris invalide.');
     settings.iris = data.iris.mode === 'custom' ? data.iris.requested : null;
     settings.irisLatent = data.iris.mode === 'historical' ? data.iris.latent : null;
     settings.irisDraw = data.iris.draw;
+  }
+  if (data.version === detailsAppearanceVersion) {
+    if (!['custom','historical'].includes(data.details.mode)) throw new Error('Mode des détails invalide.');
+    settings.details = data.details.mode === 'custom' ? data.details.requested : null;
+    settings.detailsLatent = data.details.mode === 'historical' ? data.details.latent : null;
+    settings.detailsDraw = data.details.draw;
   }
   const rebuilt = appearanceDocument(selection, settings);
   if (!identical(rebuilt, data)) throw new Error('Données effectives incompatibles avec la sélection et les demandes.');
