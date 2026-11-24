@@ -8,7 +8,7 @@ import {fileURLToPath} from 'node:url';
 const repository = fileURLToPath(new URL('..', import.meta.url));
 const [output, pagesRef = 'origin/main'] = process.argv.slice(2);
 assert(output && isAbsolute(output), 'Usage: node bio-yeux-01/build-preview.mjs /répertoire/absolu [révision-Pages]');
-const git = (...args) => execFileSync('git', args, {cwd: repository});
+const git = (...args) => execFileSync('git', args, {cwd: repository, maxBuffer: 32 * 1024 * 1024});
 const revision = ref => git('rev-parse', '--verify', ref + '^{commit}').toString().trim();
 const hash = data => createHash('sha256').update(data).digest('hex');
 const codeCommit = revision('HEAD');
