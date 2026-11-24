@@ -6,13 +6,13 @@
       "version": "151.0.7922.34",
       "archive": {
         "restoreScales": 3,
-        "buttonMs": 97,
+        "buttonMs": 94,
         "timing": {
           "seeds": 256,
           "errors": 0,
-          "p50Ms": 0.8000000007450581,
-          "p95Ms": 3.399999998509884,
-          "maxMs": 7.900000002235174,
+          "p50Ms": 0.8999999985098839,
+          "p95Ms": 3.7999999970197678,
+          "maxMs": 10,
           "maxAttempts": 1340
         }
       },

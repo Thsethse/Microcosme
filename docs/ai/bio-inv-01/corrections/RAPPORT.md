@@ -5,7 +5,7 @@ La PR #48 part de `docs/bio-inv-01-corrections` à `52293e9`. Les trois lots son
 | Lot | Commit | Résultat principal |
 | --- | --- | --- |
 | A · Fiabilité | `1ec6bef` | Archivage complet et tirage admissible sans repli forcé, avec rejeu versionné. |
-| B · Utilité | `02df1e0` | Domaines directs, confirmation des ajustements et options réellement disponibles. |
+| B · Utilité | `02df1e0`, `2da4ea2` | Domaines directs, confirmation des ajustements et options réellement disponibles. |
 | C · Catalogue | `3bdeb7a` | 65-D devient un alias historique de 48-D dans la navigation ordinaire. |
 
 ## A · Fiabilité
@@ -35,7 +35,7 @@ Chaque curseur d’œil présente les crans entiers directement admissibles en t
 - Le coin 159 expose **[−12, −10] ∪ [10, 12]**. À −9°, la largeur proposée passe de 94 à **93,74603271484375 %**. Dans les deux moteurs, annuler garde le rendu initial et appliquer rend cette largeur exacte. Le clavier et le tactile sautent les valeurs interdites dans le curseur direct.
 - La largeur de Rond sur le coin morphologique 2 reste à **79,30454349517822 %** lorsque sa tranche ne contient aucun entier. Le curseur est désactivé avec une explication. Un changement morphologique qui modifierait les valeurs des yeux est soumis à confirmation.
 - L’implantation capillaire est désactivée à crâne rasé, avec restauration de sa valeur lors du retour à une coupe qui l’utilise. Les six corps pilotent épaules, ventre et hanches. Les clés d’anciens JSON sont conservées.
-- Les 126 références sont testées. Au contexte historique neutre, 56 rendent les accessoires actifs, 3 le contraste, 124 la palette et 108 un choix G/D. Les essais contrôlent 38-G, 50-D, 63-G, Rasée, les 26 nuances et les six corps. Les contrôles inactifs gardent leur valeur pour les états qui leur redonnent un effet.
+- Les 126 références sont testées. Au contexte historique neutre, 56 rendent les accessoires actifs, 3 le contraste, 124 la palette et 108 un choix G/D. Les essais contrôlent 38-G, 50-D, 63-G, Rasée, les 26 nuances et les six corps. Les contrôles inactifs gardent leur valeur pour les états qui leur redonnent un effet. Le sélecteur réserve « Unique » aux références U et propose G/D pour les références qui ont les deux variantes.
 
 La disponibilité compare les SVG émis aux trois tailles avec le même état, en faisant varier une seule option. Ce critère détecte l’effet structurel sur les calques. Il ne garantit pas que chaque différence d’un cran soit perceptible en miniature. Le monochrome conserve ses priorités historiques dans la sélection des couches, dont la suppression de certains contrastes et accessoires. L’aplat peint les surfaces capillaires encore présentes et respecte les liens et couches de contraste protégés. Les essais avant/après réutilisent BIO-YEUX-01 au même état effectif, sur fond clair et sombre et aux trois tailles.
 
@@ -62,11 +62,11 @@ Le workflow rejoue également les suites navigateur historiques à leur révisio
 
 ## Publication vérifiée
 
-Le commit `2878b59038accee45a4506fd4d566d3506e19d98` contient exclusivement les 12 fichiers statiques de `preview/bio-inv-01-corrections/`, générés depuis le commit applicatif `c0ec79ea3837a479f8093ca5fe4b4d3e36bcc8fb`. Le mécanisme GitHub Pages, à partir de `main`, a été utilisé après l’autorisation explicite du porteur pour ce commit isolé. Les 12 fichiers de la preview et 145 fichiers hérités ont été vérifiés en HTTPS, pour 157 contrôles concordants. Le jeu, les anciennes previews et les autres chemins de `main` conservent leurs fichiers. [Ouvrir la preview](https://thsethse.github.io/Microcosme/preview/bio-inv-01-corrections/) · [Déploiement Pages](https://github.com/Thsethse/Microcosme/actions/runs/45414369416) · [Empreintes vérifiées](preuves/pages.json)
+Le commit `2878b59` ajoute les 12 fichiers statiques de `preview/bio-inv-01-corrections/`. La mise à jour `ec056ce134dec3edc1e7de30a4921aa6cdd6a7d7` ajuste le choix d’arrangement et le formulaire de demande conjointe dans ce dossier. La version finale est générée depuis `2da4ea2729abf233973781c7b57d30e609e0fae9`. Le mécanisme GitHub Pages, à partir de `main`, a été utilisé après l’autorisation explicite du porteur pour la publication statique isolée. Les 12 fichiers de la preview et 145 fichiers hérités ont été vérifiés en HTTPS, pour 157 contrôles concordants. Le jeu, les anciennes previews et les autres chemins de `main` conservent leurs fichiers. [Ouvrir la preview](https://thsethse.github.io/Microcosme/preview/bio-inv-01-corrections/) · [Déploiement Pages](https://github.com/Thsethse/Microcosme/actions/runs/45415691745) · [Empreintes vérifiées](preuves/pages.json)
 
 | Moteur public | Essais sur visage étroit et haut | P95 calcul | Maximum calcul | Bouton testé sur le cas d’archive |
 | --- | ---: | ---: | ---: | ---: |
-| Chromium 151.0.7922.34 | 256, zéro échec | 3,4 ms | 7,9 ms | 97 ms |
+| Chromium 151.0.7922.34 | 256, zéro échec | 3,8 ms | 10 ms | 94 ms |
 | WebKit 26.5 | 256, zéro échec | 5 ms | 12 ms | 145 ms |
 
 Les deux moteurs ont exécuté l’intégralité du parcours A/B/C sur l’URL publique, avec 144 comparaisons du lot C chacun et sans erreurs de page ni réponses HTTP en échec. Les temps du bouton incluent l’automatisation tactile et l’actualisation de l’interface. Le banc navigateur Linux utilise une exception de certificat pour le proxy du cloud. Le contrôle HTTPS indépendant des fichiers a utilisé le magasin système. Le premier passage en CI avait été arrêté par la vérification de propriété du dépôt lors de la lecture de la référence historique. Le banc indique désormais le seul checkout concerné à Git pour cette lecture. [Résultats navigateur](preuves/navigateurs-publics.json) · [Confirmation Chromium](preuves/chromium-confirmation.png) · [Confirmation WebKit](preuves/webkit-confirmation.png)
