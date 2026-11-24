@@ -1,0 +1,586 @@
+{
+  "mission": "BIO-YEUX-01",
+  "codeCommit": "13c57a9e7424bef1fe92b71dd4c036072050f050",
+  "pagesBaseline": "e31d578692526148c66450e10af132782965eb5d",
+  "contractCommit": "1e233664a046b0421f6c5d0269c39cf5e182fe7c",
+  "files": [
+    {
+      "path": "index.html",
+      "sha256": "6bea704e6f79587cc4b1ffe74271a8819d002bce9c2db7f183dea1b2e6be023a"
+    },
+    {
+      "path": "style.css",
+      "sha256": "5564dff12ef90ea52788a8be9f7e605974e5696f510cd038e3903f3bc18d9d0c"
+    },
+    {
+      "path": "app.mjs",
+      "sha256": "4a316014470fc0f903d9b6395be61eb825a073b74b9d9a91bed23b1dad7e501c"
+    },
+    {
+      "path": "render.mjs",
+      "sha256": "44a6b32fb8ea61b2469472b74d5842c5507dfe0861504175ba442fad4342b625"
+    },
+    {
+      "path": "eyes.mjs",
+      "sha256": "7f71eb0d69e9aee01ef67260af415be1e23d4f5724dbcb6c52172b64e590ced6"
+    },
+    {
+      "path": "bezier.mjs",
+      "sha256": "f3b646c59a322857c5783eb5c61872e788844bbdc9023033f504bd5ab563a03b"
+    }
+  ],
+  "inherited": [
+    {
+      "path": "preview/bio-vis-p5-i6/README.md",
+      "sha256": "19008f82bd79859f716c5defc69ac53abedcfb0850131b8d196afccc97d3fa5c"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/app.mjs",
+      "sha256": "ea568ed67722fb48cf7785f2b5259919fb4673869364fcc6f685b05841370660"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-lot-f-monochrome.png",
+      "sha256": "acb9f355da91f99873b8a8f0c668ed7408ebff866d1ad8c8863bff4d7d0c858a"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-lot-f.png",
+      "sha256": "744330c58528584f25248722833f3c47dbb8aae3e301c871cae073227ea11d73"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-064-D-comparison.png",
+      "sha256": "1635107e34796e0c2dc7d7978c62a732d2f871c8d0eb86b3f36c263c83139798"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-064-D-ipad.png",
+      "sha256": "6fa3f8c06125bfc58e5136530d04d65e2c0462ecbba5205f66ee8bc557b33f3e"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-064-D-priority.png",
+      "sha256": "5f78dd0778e72983b8920aa51fbc5d24ce766635156a05517261e563adba6b8c"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-064-G-comparison.png",
+      "sha256": "6bcac6e016be92f82555c4a5ff0dcbf270cee864cf25a51793afee83dae0e6cb"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-064-G-priority.png",
+      "sha256": "9efba066456d7cdf302195ea1208c338dddf7161c012f9c45c0217716356e6c9"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-065-D-comparison.png",
+      "sha256": "f3622bae53703865d55c5d5b7e82f437d633d78bed43365a568b49ce19393e79"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-065-G-comparison.png",
+      "sha256": "e67c1e0357a04009569e3e38afa848bf9ef1ccff3e18b6f5295e7f61400eb517"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-066-D-comparison.png",
+      "sha256": "9ca4ad62553f09968dd817207a608a790c1a789224b7ff620c89728f193e0d8a"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-066-D-fabric-off.png",
+      "sha256": "c6bc8878096c54693ac5c03dda936b1605d662ef9ebb06bd1b2601a4fb9fe55b"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-066-D-fabric-on.png",
+      "sha256": "1172f66342604f76540b68204123315292c6d85af2ef641587bdc8c270774d62"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-066-D-ipad.png",
+      "sha256": "129db7694f20181e25bf93358c5ae4e006cae318419511804a11f728239d7055"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-066-D-priority.png",
+      "sha256": "57fb2d1221bbacdcb1921c88a8efb20926871416fa912f47d62333285b2a23e3"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-066-G-comparison.png",
+      "sha256": "cbfe04a80a23d10149028dce2e63d2ba9344dae2f7c2cadfafc69f263ac9c39e"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-066-G-fabric-off.png",
+      "sha256": "a273b5017214e75335e3e75884905b528579eb4b8a61106ba01a5ee2844c9d9b"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-066-G-fabric-on.png",
+      "sha256": "51cb20f616ae16f968ea3484b2b692f4e9868153adb9a5c99f70d2a639f964ca"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-066-G-priority.png",
+      "sha256": "1d82ed9c7d89a320cc90e03193e890b84a2462b5d3b8e2afbbeb8fe3d27f1a27"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-067-D-comparison.png",
+      "sha256": "2cf399ca00d9940ff10a1ba7d409d96cd7acfa7663c7a4ba72e205dd6afb045c"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-067-D-fabric-off.png",
+      "sha256": "d95de7c116d530a119709f9e37d26c919ea3ff0f85c3d5c122c4d2ed5afca91a"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-067-D-fabric-on.png",
+      "sha256": "b8249a2862184c15897f1bacfa4d7c8f52ccfe0b263d11d61676d24d15339559"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-067-D-priority.png",
+      "sha256": "7390d3f772337a8d7c1266a4db43db3432684fc80a1bc59d95042fc716d74e38"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-067-G-comparison.png",
+      "sha256": "cc3b020aee2fde405377c51de43faf2ce1d122a4bc1dfacb4bdca75eb7eefcbe"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-067-G-priority.png",
+      "sha256": "34036f8513a13df826093ffa8e011987ce1b90d62820a2f52341afeb1aec5b39"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-068-D-comparison.png",
+      "sha256": "5fdc63efb93f3e47940c39869d8e84ea4bbcc3914a1db2d91e25c6c0dc759393"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-068-G-comparison.png",
+      "sha256": "1768f99be26363cd1ba622e554ef4325a479297e014d10a0d1420559dcb43d20"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-069-D-comparison.png",
+      "sha256": "1a42fc3cd3ed5b2d623848fe2e52d0bf1bd603fdccba67e3eaba2efa1a6957a5"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-069-G-comparison.png",
+      "sha256": "d0417628ff49e102fe87685c1edaad9d8a221753ab0039c8c74b0d4b04431bd1"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-070-D-comparison.png",
+      "sha256": "dc3c2a486f3fb71b5f4b01c7b437627689151426ea527afc5229bb6acc44375f"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-070-G-comparison.png",
+      "sha256": "3cec0767ee37c771a11acd12be1a74cc057a12bb9c1639eebe369e5addd966a0"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-071-D-comparison.png",
+      "sha256": "4916775c454953c3020a4a02687b8f4e717c6744512b5f8ec1be29cda569d021"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-071-D-priority.png",
+      "sha256": "ce6296002090195ca0e8e93355b966b72f9743af47c909d44762f3f9d824468b"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-071-G-comparison.png",
+      "sha256": "e41865137da465df3738e3e3337dbd2b218cc86c472e8de63f8b71068608da2e"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-072-D-comparison.png",
+      "sha256": "c32ca644459fed6b2d8285b7c4417e92005f3eff07c771dac2acc106089165ef"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-072-D-ipad.png",
+      "sha256": "ab35a3ac15d1d43e3bfa9f8d63656f6268ac890656a90ac741c30e424f1d47fe"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-072-D-priority.png",
+      "sha256": "af77b7987720465cc4b186291573c0e5bfd1b0be55c41d08a39ad874ee383026"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-p5-072-G-comparison.png",
+      "sha256": "1bddf2267d9e54aa454085d9944713d0ac58a95a51d0bf7ed6660d60a642d3bd"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/captures/webkit-six-bodies.png",
+      "sha256": "3c1503afe91ea27f56ec6b0ef35cceac03d39d0a9642a3b02f5194baeacd2761"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/catalogue.mjs",
+      "sha256": "0db04aa604b5e18390387bee6f67c4f57bff90779b3bbf38bdd36182c81ca2db"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/comparison.html",
+      "sha256": "fbde4d51af8fa90f11c4b95926fef4055c7f17619ed1ee8aeac3f9b6b2e080e6"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/comparison.mjs",
+      "sha256": "f3ec552c5883ac9f1443de0c621e3414771e1fbc9b0cae83e8d09e65dc35713b"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/hair.mjs",
+      "sha256": "b960e2ae38853d91a850da54e19dc325a7938f4f9d2364eb4d32bb2fa637f1e2"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/catalogue.mjs",
+      "sha256": "c06ab1b3392805fce00a1f00803979b1ff814990c7144caaddef9fc522206181"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/hair.mjs",
+      "sha256": "f0fab0f738da631186722e5fa5e11beb299cba86f92fd6e80065f9ad5ab6a319"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/catalogue.mjs",
+      "sha256": "15635feb8fbe399aac5427d4b0837b076f1fc381284626f2767209b7628fc2bb"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/hair.mjs",
+      "sha256": "a61483e84d8d91d0caadf250e82eb4cfcd7992030b4f8fe412ac929e94a9f35d"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/catalogue.mjs",
+      "sha256": "b1b6287860d54caa817aca5625245f14c6250c6d478ea1d6fabb185151aafa37"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/hair.mjs",
+      "sha256": "9f1595e62b93ef7ab30e92c46fb130467718ecc66c10e25a6f9bd29eef335223"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/i2/catalogue.mjs",
+      "sha256": "d02425d2a3af7a2d70fafa3faa2d7a3e66e47ea37380a5ab64354c87960f10e5"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/i2/hair.mjs",
+      "sha256": "f9b4d5d8ba96de393f1ee5aef9c0b633b4aac39221b46d9c4ececdfd47e130c8"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/app.mjs",
+      "sha256": "2c7e4752c9de27ec251593d4edb6911f4d8e6778471724b71abb4aac31d3b0f5"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/audit.mjs",
+      "sha256": "60babe3f26cf82713015fe77b3f2c442b46ddebc01d0dff0da151da8d5d63a9b"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/catalogue.mjs",
+      "sha256": "03ebf00049af10635d35e9d7dc62850f162e2fa9b9870abae70b880327792094"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/comparison.mjs",
+      "sha256": "2d7a5245c6a7c86b8c078f6c6ac4ee5a379e3f6691940a33ba6e611026389bd0"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/model.mjs",
+      "sha256": "45d0840d3d154dc32c26bc49135f99b2b55b02f7ccb01f8c9326bd0c88e6a41d"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/p4-render.mjs",
+      "sha256": "1eaf2efc90c9a8cb19c2b7ddb3bb7bc40ee78364f1cfdd601e944617a8b14769"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/r1/coverage.mjs",
+      "sha256": "00ea593da6503cf3a6159db48d0964be667f7cee7f720976fd7944a357423fee"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/r1/model.mjs",
+      "sha256": "51701f79042daa4f14ad49140191063dea30c80a6e816e7caab97910a7c1f0ca"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/r1/p2/base/model.mjs",
+      "sha256": "baa2c3e9b433d569b9689a64bc3cff2cfe81b4a5a272a13f65b98be11f3671be"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/r1/p2/base/render.mjs",
+      "sha256": "9b817cfb4877cb90fd62c85063a48caaf80b5d62b45f6f8cf40df64071bf7781"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/r1/p2/hair-model.mjs",
+      "sha256": "045f830010e2c68ded6e1472333bcb5405c5320adc4ea4ee621c638fcb245fb9"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/r1/p2/hair-render.mjs",
+      "sha256": "49de1b7943d19ed64a29cab0284dc01f671bb7a25e815230ccf9b53819da8d6d"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/r1/render.mjs",
+      "sha256": "11c0fe70f89f970a45384435e6563ec5b8407ad61d90a4e762e9a24067348c11"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/r1/source-render.mjs",
+      "sha256": "b686021278b6a0b0261790b1afcaccfd323e5fdbad80dacf049361cedddab47b"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/render.mjs",
+      "sha256": "9e7208dacc5b17a94d83559f460c20d1cb3c42331e6268f536f507e85e3cd490"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/catalogue.mjs",
+      "sha256": "4a0a50e9dbf258aa67fc832129c104a7b07305bd3d9192eb0b83485d6ea37667"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/hair.mjs",
+      "sha256": "c848f6544570d2b04852819cfe620c3b29f30b12194087283d43b254d9a556f9"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/model.mjs",
+      "sha256": "b5c9a699928441be9842241296fe0ba2be7d9f2d253b7a99288de91a8b98c31d"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/render.mjs",
+      "sha256": "fb13ff08c9fcd6ad549ce62ae50725111de6c2dbef26721f518eb3162f2105ad"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/i2/model.mjs",
+      "sha256": "accfec4e292f36503650ee4a13267b3099b2c5404450259762d1087ce8c37ae6"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/i2/render.mjs",
+      "sha256": "bd27d8b6fab933979552b67660f707d97a34a5d79edc8a3c09041fb3bba3a4b6"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/model.mjs",
+      "sha256": "1689e4489ab8a2560c57979b1874a4563589e137b0ea13bd23b2a31c1fe8f6b5"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/render.mjs",
+      "sha256": "eb2a566aa3e2b1085da6927287983dc3846f2d3355429f409671e26c174ae13d"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/i3/strand.mjs",
+      "sha256": "a12551087c4b14e0d59ad6f2af30bc23e6189156519bba57d9432e45e7841341"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/model.mjs",
+      "sha256": "010c0a3e51c73caef9a2ef81a78ffdfe18b6fd84aba2b88674aa45cbbefdd471"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/i4/render.mjs",
+      "sha256": "faaf809eb737c38c1e9df9da082e8a3a2a0b2bf0b640fff9236675c285ffbdee"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/model.mjs",
+      "sha256": "4443b9156335b3049256904ef877e96c0849f634f1e9c147036d47302f74ed53"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/i5/render.mjs",
+      "sha256": "509e7065e37f349ef49b039a4f83e696d47b9b6f33f4019c13942fe81ae740d5"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/index.html",
+      "sha256": "5e24cd9329edabce6dcef79d71f80d4cb4dc64adaf282ea9f7584b86938ce368"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/model.mjs",
+      "sha256": "3d9b7a8c4016809576013f3349c121a9f5c4b7f47e530585dfc3ae16c93cbae5"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/references/P5-A-alternative.png",
+      "sha256": "559099857af6fd418499bd0f1ab7bf933fff37c64a04a90c7621be39ffc126c6"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/references/P5-A.png",
+      "sha256": "1720d4d5e26b6bcbebc1b20176bd3163090d8deea1af96061befd43cc60030ae"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/references/P5-B.png",
+      "sha256": "34dfc2fd739c14fcd08dd37d34a60b702d63d84c35fc4a9193f1616eb51927e0"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/references/P5-C.png",
+      "sha256": "d8d6023dab3767e6ae7fe26e6c5354b750afa73e3b026f9addba686d125b0778"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/references/P5-D.png",
+      "sha256": "73fdd8bf3475c636499abdd5690731bbd93cc4a140f2b67f9a698dafb0827db5"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/references/P5-E-v1.png",
+      "sha256": "650f56f20c61d079939944f215751332a3fd07e578ea254aa2dbbcfb3a81f4f2"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/references/P5-F.png",
+      "sha256": "0a319475c39c7657ba37c65e4e6083d3778c7443ad23ebd5d5c0539688e6c5c7"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/references/catalogue-v1.png",
+      "sha256": "06dec2e59f34f195363cf482d51cae34808d4d3b3ff1e8863e8ba217bf571932"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/references/inhabitants.png",
+      "sha256": "ddb6a8515fcedd0bdc4493bdc3fe3afb32322706012186f481efa764875c3e06"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/render.mjs",
+      "sha256": "ff6acb5d9ad82a8081a14980a8c7ac7227c37d7d64d7a21dbe43df92cf40bf40"
+    },
+    {
+      "path": "preview/bio-vis-p5-i6/style.css",
+      "sha256": "fa8f77b2c963a435dc3d007fbd11d4a3e821890bd3ffba5bf23be86ea06a28e0"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-1/app.mjs",
+      "sha256": "2767740666c4e4c3c90947021a40b96b9242901c40dd8439832d9e4b4c6f5ac5"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-1/hair.mjs",
+      "sha256": "9fe36455251d4ccc2395a4640422e083354436de225a5ba6e97147555a0456ef"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-1/index.html",
+      "sha256": "bd12f5b08b85b19c8afed3b5008dd5436a8d4c3868c41e351499d52475494f9c"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-1/render.mjs",
+      "sha256": "f6149f59d72bb37550b7c885693720ae8709b2b5bb0a6fab55812ca4985aa813"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-1/style.css",
+      "sha256": "f3abb4810212099c0bb1645b0ec8fa7a184b1a385a067eb47d84b8d7f1607c17"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-1/version.json",
+      "sha256": "85d2620e36d4bc04aed71a2880bb009b76626c3b15e546ea9e4255b99f5d9d2c"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-2/app.mjs",
+      "sha256": "a325129f9a3766cd2e3bf41b7b4e30ef7e88acdf42b66d9b594d1e717f257637"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-2/catalogue.mjs",
+      "sha256": "20337597f536056c3d2989b69d204d7c9ee4c002061427ce2d874eb4c205b6a7"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-2/index.html",
+      "sha256": "e3f504a84f9ab68f39ef338ea9595c6f7ee70421b246d2f56a13772163a4e668"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-2/render.mjs",
+      "sha256": "01aabbf7d4c4cd8543e09f6fc77a3b875feb16c86dd3a31b53b795c7a7bb6c9a"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-2/selection.mjs",
+      "sha256": "a07ad2e1556ffa80c732294268490242ec2286fd9db88bcdc6aa2679a095cd92"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-2/style.css",
+      "sha256": "0a053675ab0baed348e180f7a3ee1c1571dfd116b1acc2a15afa32f947b52041"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-2/version.json",
+      "sha256": "00bd375d69d8d08ac1e87c8a25321245b3de6207d85757489bd8557a0d21948c"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-3/app.mjs",
+      "sha256": "c1f0c2389e9449288e4cfd9c5691b65f0fb6eec3e478b53f9f9b6e8162e0fa52"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-3/catalogue.mjs",
+      "sha256": "37c77ee528f7154523c17b92c2277f65e05efd9ce4d78bfa520b5a43902271f7"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-3/hair.mjs",
+      "sha256": "9f5a34b50fa9ef04afd3f9d2b60e9cc5e3f949ced4e3bfb074f1e36974c185b5"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-3/index.html",
+      "sha256": "6602116a6a3c1d1fe0d788384680af756bce303a69fbafab381d40816bdbee21"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-3/references/19-D.png",
+      "sha256": "2b37ca5978ab99749a24a1e661ae21975166b7c493740df2579baffd1ac3e511"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-3/references/21-D.png",
+      "sha256": "ce0d795bafab02acdb6bf89bc7fbab0083f9c0a13dc9cec7b1ad9295ada98b6e"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-3/references/29-G.png",
+      "sha256": "451b7e956d8d8570e66e757211688568da7661db2800f21487125154c0ef6659"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-3/references/34-G.png",
+      "sha256": "d063a8535a1c38d4b47de11324f3c32ef3a4efe59265d850a494d05bdb6da16e"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-3/references/38-G.png",
+      "sha256": "125d929df12a6659f453dbce8f898f712bfa825bec594d1e87d21eb9a26d4ce4"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-3/references/48-G.png",
+      "sha256": "455f0d681ee6dd0b3a93645794e30eb519464674c503b3dc077223ade272fdf6"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-3/references/49-G.png",
+      "sha256": "16efca5038db12078a4b51c7138a8ab7f2a8a9d908596072d48fcb481af78def"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-3/references/51-G.png",
+      "sha256": "facfd32edf84db73b04aec39835622292056b692ec4f0ecbb1f8521a1d83781e"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-3/references/54-G.png",
+      "sha256": "f8163eb9fd7f2fdf020e81448a0bad3b62ce7cf4a00c07a85ab4f57c9c11afb0"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-3/references/56-D.png",
+      "sha256": "ec8627bdeed8cc34f2038bdc978760ecff807ba00cf4008b80c4548b7d3deea1"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-3/references/61-D.png",
+      "sha256": "1a9c02d79341e6bf6592ac5b8a2f8321a80f68ec4db29442c257c18938ddf97b"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-3/references/62-D.png",
+      "sha256": "c9f203089efc5cd0f5b00d72b1f31f2817a8f8ff773560353894d762d2dab563"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-3/references/69-G.png",
+      "sha256": "a2258548a0b64648e4f9890030acc411b05339869bdfefb5ce26d9abfa149e1c"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-3/references/71-G.png",
+      "sha256": "d63d0ae5cbc61de2a6f4b2d9443f7e61270bfe5a7c4902dede9f1005e2929437"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-3/references/provenance.json",
+      "sha256": "9c1191dcdf4da2430692b3a6eee276a8f65bb8f7e1859074304c1a96dc60a07f"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-3/render.mjs",
+      "sha256": "8538c16b1a8eb50d0a87c88e866108f907956d0140c0f9f021a90d0dcccb9965"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-3/selection.mjs",
+      "sha256": "f51350147d50db6257b209a0b74fbcd4d8c10f8b6e2ae9af72e0de85772521fd"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-3/style.css",
+      "sha256": "d22e34ce227838282af7ba66fed6892536debf68e39bfe8b203b9854bc3639ff"
+    },
+    {
+      "path": "preview/bio-vis-dedup-lot-3/version.json",
+      "sha256": "c61ecb366c844e301c0bad75923e51e4a5ba785329c4b9a8ed1b8e62b29c2569"
+    },
+    {
+      "path": "preview/bio-col-01/index.html",
+      "sha256": "a2e8b1c11733e69dc6923f4a290bd99cc951268693627a0e8a79af5bbf9e46f3"
+    },
+    {
+      "path": "preview/bio-col-01/style.css",
+      "sha256": "69671b51512f3d7ff3c90920a0a484c29b63c98ae98224fdc33608252e9c72be"
+    },
+    {
+      "path": "preview/bio-col-01/app.mjs",
+      "sha256": "befc439a95686c36e623f5a98d18c801faeef21ec5ec5fdf182576be983b3f1f"
+    },
+    {
+      "path": "preview/bio-col-01/palette.mjs",
+      "sha256": "e4c305e0f4c9bea8eb4f81c15f8c9c250a9bf45e493d7144642bcdb522620b52"
+    },
+    {
+      "path": "preview/bio-col-01/paint.mjs",
+      "sha256": "f074f67b3bd4539089c0c0a7a8225eebf7f0b008e87f74377619fa1370919be7"
+    },
+    {
+      "path": "preview/bio-col-01/render.mjs",
+      "sha256": "8d2466f6a24f397b6b4f334dc28ee467fde977f9a67712225f6369e59f93dcfd"
+    },
+    {
+      "path": "preview/bio-col-01/catalogue.mjs",
+      "sha256": "69dcdb51e62278a2acf68815794dd91326051486cad21b2100b2b5947acb8cc3"
+    },
+    {
+      "path": "preview/bio-col-01/selection.mjs",
+      "sha256": "cd434fda83778b636534d5b3db4826a4ade2a3b7dcb5a017131406a181274fe2"
+    },
+    {
+      "path": "preview/bio-col-01/version.json",
+      "sha256": "cef8651980ef55e107a62ad759849a66d048939741485a972e1967511ef5c0e6"
+    }
+  ]
+}
