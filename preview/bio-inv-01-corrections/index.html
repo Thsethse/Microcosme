@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f6f2e8">
+  <title>Microcosme · BIO-INV-01 · Atelier des apparences</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="shell">
+  <p class="brand">Microcosme <span>BIO-INV-01</span></p>
+  <h1>Atelier des apparences</h1>
+  <nav aria-label="Navigation dans l’atelier">
+    <a href="#atelier">Atelier</a>
+    <a href="#planche">Planche des formes</a>
+    <a href="#personnage">Personnage et palette</a>
+  </nav>
+</header>
+<main class="shell">
+  <section class="workspace" id="atelier" aria-label="Atelier des yeux">
+    <div class="comparison-panel">
+      <h2>Avant / après</h2>
+      <div class="toolbar">
+        <label>Fond<select id="background"><option value="light">Ivoire</option><option value="dark">Ardoise</option></select></label>
+        <label class="check"><input type="checkbox" id="eye-guides"> Afficher les enveloppes</label>
+      </div>
+      <div id="comparison" class="comparison"></div>
+      <p id="guide-note" class="hint" hidden>Point fixe, zone de sécurité et segments indiquant les plafonds de largeur et de hauteur.</p>
+    </div>
+    <div class="workbench">
+      <h2>Réglages des yeux</h2>
+      <label>Forme<select id="eye-preset"></select></label>
+      <p class="hint">Les curseurs proposent les crans admissibles à partir des valeurs appliquées.</p>
+      <div id="eye-controls"></div>
+      <details id="eye-request-panel"><summary>Demander un ajustement conjoint</summary>
+        <form id="eye-request">
+          <label>Paramètre<select id="eye-request-axis"></select></label>
+          <label>Valeur demandée<input id="eye-request-value" type="number" step="1" required></label>
+          <button type="submit">Examiner la demande</button>
+        </form>
+      </details>
+      <section id="eye-proposal" class="eye-proposal" aria-labelledby="eye-proposal-title" hidden>
+        <h3 id="eye-proposal-title">Ajustement à confirmer</h3>
+        <p id="eye-proposal-status" role="status"></p>
+        <ul id="eye-proposal-values"></ul>
+        <div class="actions">
+          <button class="primary" id="eye-confirm" type="button">Appliquer l’ajustement</button>
+          <button id="eye-cancel" type="button">Annuler</button>
+        </div>
+      </section>
+      <p class="hint">Un angle positif relève le coin externe. Un décalage positif rapproche le sommet de la tempe.</p>
+      <p id="eye-status" class="hint" role="status"></p>
+      <div class="actions">
+        <button class="primary" id="random-eyes" type="button">Tirer les yeux</button>
+        <button id="reset-eyes" type="button">Yeux historiques</button>
+      </div>
+      <label>Version du tirage<select id="draw-version"></select></label>
+      <p id="draw-error" role="alert"></p>
+      <label>Graine du tirage<input id="seed" type="text" value="Microcosme" spellcheck="false"></label>
+    </div>
+  </section>
+
+  <section id="planche">
+    <h2>Planche des formes</h2>
+    <div id="shape-grid" class="shape-grid"></div>
+  </section>
+
+  <section id="personnage">
+    <h2>Personnage et palette</h2>
+    <div class="configuration">
+      <div class="card">
+        <label>Catalogue ordinaire<select id="ordinary"></select></label>
+        <button id="choose-ordinary" type="button">Choisir l’entrée ordinaire</button>
+        <label>Identifiants historiques<select id="historical"></select></label>
+        <button id="load-history" type="button">Ouvrir l’identifiant</button>
+        <p id="identity-note" class="hint"></p>
+        <label>Arrangement<select id="arrangement" aria-describedby="arrangement-note">
+          <option value="G">G</option><option value="D">D</option><option value="U">Unique</option>
+        </select></label>
+        <p id="arrangement-note" class="hint" hidden>Cette référence a un arrangement unique. Le dernier choix G ou D reste dans la sélection.</p>
+        <label>Corps<select id="body" aria-describedby="body-note"></select></label>
+        <p id="body-note" class="hint">Les six corps fixent les épaules, le ventre et les hanches. Les clés correspondantes d’un ancien JSON sont conservées.</p>
+        <label>Morphologie du visage<select id="morph"></select></label>
+        <details id="morph-panel"><summary>Ajuster les paramètres du visage</summary><div id="morph-controls"></div>
+          <p id="forehead-note" class="hint" hidden>L’implantation capillaire est sans effet sur ce rendu. Sa valeur est conservée.</p>
+        </details>
+        <label class="check"><input id="accessories" type="checkbox" aria-describedby="accessories-note" checked> Accessoires historiques</label>
+        <p id="accessories-note" class="hint" hidden>Ce contrôle ne change aucune couche d’accessoire dans le rendu courant.</p>
+        <label class="check"><input id="contrast" type="checkbox" aria-describedby="contrast-note" checked> Contrastes historiques</label>
+        <p id="contrast-note" class="hint" hidden>Ce contrôle ne change aucune couche de contraste dans le rendu courant.</p>
+      </div>
+      <div class="card">
+        <div class="actions" id="palette-tabs" aria-label="Familles de palettes">
+          <button type="button" data-category="natural" aria-pressed="true">Naturelles</button>
+          <button type="button" data-category="fantasy" aria-pressed="false">Fantaisie</button>
+        </div>
+        <div id="swatches" class="swatches"></div>
+        <p id="colour-info" class="hint"></p>
+        <label class="check"><input id="flat-mode" type="checkbox" aria-describedby="palette-note"> Appliquer l’aplat et le contour</label>
+        <p id="palette-note" class="hint" hidden>Ce rendu ne contient aucune surface capillaire colorable. La nuance et le mode restent mémorisés.</p>
+      </div>
+    </div>
+    <details id="appearance-panel"><summary>Exporter ou importer l’apparence complète</summary>
+      <label>Document d’apparence JSON<textarea id="appearance-json" rows="10" spellcheck="false"></textarea></label>
+      <div class="actions"><button id="appearance-export" type="button">Exporter l’apparence</button><button id="appearance-import" type="button">Importer l’apparence</button></div>
+      <p id="appearance-message" role="status"></p><p id="appearance-error" role="alert"></p>
+    </details>
+    <details id="json-panel"><summary>Données de la sélection historique</summary>
+      <label>Sélection JSON<textarea id="selection-json" rows="8" spellcheck="false"></textarea></label>
+      <div class="actions"><button id="export" type="button">Afficher les données conservées</button><button id="reload" type="button">Relire ces données</button></div>
+      <p id="selection-message" role="status"></p><p id="selection-error" role="alert"></p>
+    </details>
+    <details id="series-panel"><summary>Une coiffure dans les 26 teintes</summary><div id="series-grid" class="palette-grid"></div></details>
+    <details id="variety-panel"><summary>Une teinte sur plusieurs coiffures</summary><div id="variety-grid" class="palette-grid"></div></details>
+  </section>
+  <footer><a href="https://github.com/Thsethse/Microcosme/blob/codex/bio-inv-01-corrections/docs/ai/bio-inv-01/corrections/RAPPORT.md">Rapport de réalisation et captures</a></footer>
+</main>
+<script type="module" src="app.mjs"></script>
+</body>
+</html>
