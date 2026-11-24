@@ -1,0 +1,4 @@
+# Lot C — Redondance capillaire (P6)
+Validation utilisateur : 24 novembre 2026. Références ../BIO-INV-01.md et RAPPORT.md.
+Regrouper uniquement 48-D/65-D dans le catalogue ordinaire : 48-D proposé comme entrée canonique de navigation, 65-D alias historique toujours accessible/importable/exportable avec son identifiant exact. Préserver 65-G et tous les autres identifiants, groupes et différences validés. Ne pas modifier les tracés, palettes, ornements ou autres coiffures. Vérifier l'équivalence dans les contextes de l'audit avant regroupement ; si une différence utile apparaît, bloquer ce regroupement et rapporter le cas.
+Recette : rejouer les 72 comparaisons ciblées de l'audit (morphologies, options, vues, palettes), contrôler les trois tailles et les deux fonds, import/export exact 48-D et 65-D, accès 65-G, absence de régression sur 56-G/61-G et autres groupes distincts. Aucun nouveau nettoyage de catalogue hors périmètre.
