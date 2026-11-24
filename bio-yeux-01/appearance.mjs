@@ -1,6 +1,5 @@
-import {choice} from '../bio-col-01/catalogue.mjs';
+import {choice, restoreSelection} from './catalogue.mjs';
 import {swatch} from '../bio-col-01/palette.mjs';
-import {restoreSelection} from '../bio-col-01/selection.mjs';
 import {controls, normalize} from '../preview/bio-vis-p5-i6/model.mjs';
 import {eyePresets, eyesFor} from './eyes.mjs';
 import {currentDraw, legacyDraw} from './draw.mjs';

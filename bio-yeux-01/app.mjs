@@ -1,6 +1,5 @@
 import {palette, swatch} from '../bio-col-01/palette.mjs';
-import {choices, ordinaryChoices, choice} from '../bio-col-01/catalogue.mjs';
-import {restoreSelection, selectOrdinary, exportSelection} from '../bio-col-01/selection.mjs';
+import {choices, ordinaryChoices, choice, restoreSelection, selectOrdinary, exportSelection} from './catalogue.mjs';
 import {controls, bodies, presets} from '../preview/bio-vis-p5-i6/model.mjs';
 import {priorityCase} from '../preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/r1/coverage.mjs';
 import {character} from './render.mjs';
@@ -191,7 +190,8 @@ function syncSelection(updateJSON = true) {
   q('#ordinary').value = selection.visibleKey;
   q('#historical').value = selection.key;
   q('#arrangement').value = entry.arrangement;
-  q('#identity-note').textContent = `Identifiant ouvert · ${entry.label} · ${entry.name}`;
+  const ordinary = selection.visibleKey === selection.key ? '' : ` · Entrée ordinaire ${choice(selection.visibleKey).label}`;
+  q('#identity-note').textContent = `Identifiant ouvert · ${entry.label} · ${entry.name}${ordinary}`;
   q('#body').value = selection.state.body;
   q('#morph').value = morphForm;
   for (const key of ['accessories', 'contrast']) q('#' + key).checked = selection.raw[key] !== false;

@@ -300,6 +300,80 @@ async function testAvailability(page) {
   return {picked, layouts};
 }
 
+async function testCatalogue(page, base) {
+  assert.equal(await page.locator('#ordinary option').count(), 119);
+  assert.equal(await page.locator('#historical option').count(), 126);
+  assert.equal(await page.locator('#ordinary option[value="p5-065:D"]').count(), 0);
+  assert.equal(await page.locator('#ordinary option[value="p5-065:G"]').count(), 1);
+  await openHistory(page, 'p5-065:D');
+  assert.equal(await page.locator('#ordinary').inputValue(), 'p5-048:D');
+  assert.match(await page.locator('#identity-note').textContent(), /65-D.*48-D/);
+  const alias = await captureArchive(page);
+  assert.equal(alias.historicalSelection.style, 'p5-065');
+  assert.equal(alias.character.arrangement, 'D');
+  const archivedPixels = (await snapshot(page)).map(x => x.pixels);
+  await page.locator('#choose-ordinary').tap();
+  assert.equal(await page.locator('#historical').inputValue(), 'p5-048:D');
+  const ordinary = await captureArchive(page);
+  assert.equal(ordinary.historicalSelection.style, 'p5-048');
+  assert.equal(ordinary.character.arrangement, 'D');
+  assert.deepEqual((await snapshot(page)).map(x => x.pixels), archivedPixels);
+  for (const [archive, key] of [[alias,'p5-065:D'],[ordinary,'p5-048:D']]) {
+    await page.locator('#appearance-json').fill(JSON.stringify(archive));
+    await page.locator('#appearance-import').tap();
+    assert.equal(await page.locator('#historical').inputValue(), key);
+    assert.equal(await page.locator('#ordinary').inputValue(), 'p5-048:D');
+    await page.locator('#selection-json').fill(JSON.stringify(archive.historicalSelection));
+    await page.locator('#reload').tap();
+    assert.equal(await page.locator('#historical').inputValue(), key);
+  }
+  await openHistory(page, 'p5-065:G');
+  assert.equal(await page.locator('#ordinary').inputValue(), 'p5-065:G');
+  assert.notDeepEqual((await snapshot(page)).map(x => x.pixels), archivedPixels);
+  await openHistory(page, 'p5-061:G');
+  assert.equal(await page.locator('#ordinary').inputValue(), 'p5-056:G');
+  assert.equal(await page.locator('[data-side=after] .head [data-feature=loose-lock]').count(), 2);
+  await page.locator('#choose-ordinary').tap();
+  assert.equal(await page.locator('[data-side=after] .head [data-feature=loose-lock]').count(), 0);
+
+  const model = new URL(process.env.BASE_URL ? '../bio-vis-p5-i6/model.mjs' : '../preview/bio-vis-p5-i6/model.mjs', base).href;
+  const comparisons = await page.evaluate(async ({base, model}) => {
+    const {character} = await import(new URL('render.mjs', base));
+    const {presets} = await import(model);
+    const views = [
+      {size:300,frame:'-30 -65 220 225',headOnly:true},
+      {size:178,frame:'-40 -85 240 355',headOnly:false},
+      {size:70,frame:'-35 -68 230 245',headOnly:true,smallScale:true}
+    ];
+    const canvas = document.createElement('canvas'), ctx = canvas.getContext('2d');
+    async function draw(style, input, {size,frame,...opts}, hairColor, bg) {
+      const text = character({...input,style,arrangement:'D'}, {...opts,hairColor,instance:'test-c'})
+        .replace(/viewBox="[^"]*"/, `viewBox="${frame}" width="${size}" height="${size}"`);
+      const image = new Image();
+      image.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(text);
+      await image.decode();
+      canvas.width = canvas.height = size;
+      ctx.fillStyle = bg; ctx.fillRect(0,0,size,size); ctx.drawImage(image,0,0,size,size);
+      return canvas.toDataURL();
+    }
+    let cases = 0, mismatches = 0;
+    for (const morph of [{},presets.tall.values,presets.broad.values]) {
+      for (const accessories of [false,true]) for (const contrast of [false,true]) {
+        for (const view of views) for (const hairColor of ['historical','bleu-vif']) {
+          for (const bg of ['#fffdf8','#474c55']) {
+            const input = {...morph,accessories,contrast};
+            if (await draw('p5-048',input,view,hairColor,bg) !== await draw('p5-065',input,view,hairColor,bg)) mismatches++;
+            cases++;
+          }
+        }
+      }
+    }
+    return {cases,mismatches};
+  }, {base,model});
+  assert.deepEqual(comparisons, {cases:144,mismatches:0});
+  return comparisons;
+}
+
 (async () => {
   await mkdir(output, {recursive: true});
   const server = process.env.BASE_URL ? null : await localSite();
@@ -321,8 +395,9 @@ async function testAvailability(page) {
         const archive = await testArchive(page, base);
         const domains = await testDomains(page, base, name);
         const options = await testAvailability(page);
+        const catalogue = await testCatalogue(page, base);
         assert.deepEqual(errors, []);
-        const entry = {name, version: browser.version(), archive, domains, options};
+        const entry = {name, version: browser.version(), archive, domains, options, catalogue};
         result.engines.push(entry);
         console.log(JSON.stringify(entry));
       } finally {
