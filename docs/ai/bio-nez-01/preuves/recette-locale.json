@@ -1,0 +1,379 @@
+{
+  "T1": [
+    {
+      "checks": 2430,
+      "conflicts": 0
+    }
+  ],
+  "T3": [
+    {
+      "points": 1174,
+      "exampleTip": 163.23409446165897,
+      "domains": [
+        [
+          30,
+          163.23409447128859
+        ]
+      ]
+    }
+  ],
+  "T5": [
+    {
+      "cases": 1152,
+      "constrained": 739,
+      "minPupil": 4.3068415999999985,
+      "minEye": 0.24544593933136127,
+      "minMouth": 2.00348799999999,
+      "compatible": 126
+    }
+  ],
+  "T6": [
+    {
+      "cycles": 30,
+      "upperBefore": 180,
+      "upperConstrained": 67.11153162410483,
+      "upperRestored": 180,
+      "restrictedHistoricTip": 173.67515673511662
+    }
+  ],
+  "T8": [
+    {
+      "name": "neutre",
+      "seeds": 768,
+      "counts": {
+        "lengthMin": 4,
+        "lengthMax": 3,
+        "hiddenFills": 7,
+        "hiddenLines": 5
+      },
+      "lengths": 96,
+      "mouthAdjusted": 116,
+      "expectedLength": 8,
+      "expectedIntensity": 7.603960396039604
+    },
+    {
+      "name": "étroit",
+      "seeds": 768,
+      "counts": {
+        "lengthMin": 4,
+        "lengthMax": 6,
+        "hiddenFills": 8,
+        "hiddenLines": 7
+      },
+      "lengths": 96,
+      "mouthAdjusted": 120,
+      "expectedLength": 8,
+      "expectedIntensity": 7.603960396039604
+    },
+    {
+      "name": "large",
+      "seeds": 768,
+      "counts": {
+        "lengthMin": 8,
+        "lengthMax": 11,
+        "hiddenFills": 11,
+        "hiddenLines": 10
+      },
+      "lengths": 96,
+      "mouthAdjusted": 119,
+      "expectedLength": 8,
+      "expectedIntensity": 7.603960396039604
+    }
+  ],
+  "navigateurs": [
+    {
+      "name": "chromium",
+      "version": "151.0.7922.34",
+      "raster": {
+        "historic": 54,
+        "historicMismatches": 0,
+        "cases": 144,
+        "faceOutside": 0,
+        "faceStroke": 0,
+        "inEyes": 0,
+        "inMouth": 0,
+        "pupilOverflow": 0,
+        "nostrilOverflow": 0,
+        "forms": 9,
+        "levels": 3,
+        "skins": 4,
+        "subtle": [
+          19,
+          4,
+          0,
+          415
+        ]
+      },
+      "workshop": {
+        "cold": 3,
+        "touched": "59 %",
+        "upperBefore": 173,
+        "upperConstrained": 67.11153162596747,
+        "upperDomain": "0 à 67,11 %",
+        "layouts": [
+          {
+            "width": 820,
+            "height": 1180,
+            "background": "light",
+            "sizes": [
+              [
+                356.921875,
+                300
+              ],
+              [
+                356.921875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 820,
+            "height": 1180,
+            "background": "dark",
+            "sizes": [
+              [
+                356.921875,
+                300
+              ],
+              [
+                356.921875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 1180,
+            "height": 820,
+            "background": "light",
+            "sizes": [
+              [
+                338.875,
+                300
+              ],
+              [
+                338.875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 1180,
+            "height": 820,
+            "background": "dark",
+            "sizes": [
+              [
+                338.875,
+                300
+              ],
+              [
+                338.875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "background": "light",
+            "sizes": [
+              [
+                163.5,
+                300
+              ],
+              [
+                163.5,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "background": "dark",
+            "sizes": [
+              [
+                163.5,
+                300
+              ],
+              [
+                163.5,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "webkit",
+      "version": "26.5",
+      "raster": {
+        "historic": 54,
+        "historicMismatches": 0,
+        "cases": 144,
+        "faceOutside": 0,
+        "faceStroke": 0,
+        "inEyes": 0,
+        "inMouth": 0,
+        "pupilOverflow": 0,
+        "nostrilOverflow": 0,
+        "forms": 9,
+        "levels": 3,
+        "skins": 4,
+        "subtle": [
+          19,
+          4,
+          0,
+          420
+        ]
+      },
+      "workshop": {
+        "cold": 3,
+        "touched": "59 %",
+        "upperBefore": 173,
+        "upperConstrained": 67.11153162596747,
+        "upperDomain": "0 à 67,11 %",
+        "layouts": [
+          {
+            "width": 820,
+            "height": 1180,
+            "background": "light",
+            "sizes": [
+              [
+                356.921875,
+                300
+              ],
+              [
+                356.921875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 820,
+            "height": 1180,
+            "background": "dark",
+            "sizes": [
+              [
+                356.921875,
+                300
+              ],
+              [
+                356.921875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 1180,
+            "height": 820,
+            "background": "light",
+            "sizes": [
+              [
+                338.859375,
+                300
+              ],
+              [
+                338.859375,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 1180,
+            "height": 820,
+            "background": "dark",
+            "sizes": [
+              [
+                338.859375,
+                300
+              ],
+              [
+                338.859375,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "background": "light",
+            "sizes": [
+              [
+                163.5,
+                300
+              ],
+              [
+                163.5,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "background": "dark",
+            "sizes": [
+              [
+                163.5,
+                300
+              ],
+              [
+                163.5,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
