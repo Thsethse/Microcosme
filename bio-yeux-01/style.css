@@ -130,3 +130,7 @@ button:disabled, input:disabled, select:disabled { opacity: .65; }
 #mouth-parameters { padding:0; border:0; margin:0; min-width:0; }
 #mouth-error { color:#893b2b; }
 #mouth-error:empty { display:none; }
+
+#nose-parameters { padding:0; border:0; margin:0; min-width:0; }
+#nose-error { color:#893b2b; }
+#nose-error:empty { display:none; }

@@ -11,6 +11,7 @@ import {mountIrisEditor} from './iris-editor.mjs';
 import {mountDetailsEditor} from './details-editor.mjs';
 import {mountBrowsEditor} from './brows-editor.mjs';
 import {mountMouthEditor} from './mouth-editor.mjs';
+import {mountNoseEditor} from './nose-editor.mjs';
 import {eyeControls, eyePresets, eyesFor, normalizeEyes} from './eyes.mjs';
 
 const q = selector => document.querySelector(selector);
@@ -64,9 +65,9 @@ function inputFor(key) {
 }
 
 const frames = {head: '-30 -65 220 225', tile: '-40 -85 240 355', mini: '-35 -68 230 245'};
-function svg({key, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null} = {}) {
+function svg({key, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null} = {}) {
   const result = character(inputFor(key), {
-    eyes: value, iris:pigment, details, brows, mouth, eyeEnvelopes: guides, hairColor: hair, rememberedHairColor: colour, headOnly: view !== 'tile',
+    eyes: value, iris:pigment, details, brows, mouth, nose, eyeEnvelopes: guides, hairColor: hair, rememberedHairColor: colour, headOnly: view !== 'tile',
     smallScale: view === 'mini', instance: 'atelier-yeux-' + (++serial)
   }).replace(/viewBox="[^"]*"/, `viewBox="${frame}"`);
   return decorative ? result.replace('<svg ', '<svg aria-hidden="true" focusable="false" ') : result;
@@ -162,6 +163,7 @@ function renderEyes() {
   irisEditor.refresh();
   detailsEditor.refresh();
   browsEditor.refresh();
+  noseEditor.refresh();
   mouthEditor.refresh();
   renderComparison();
 }
@@ -177,23 +179,30 @@ function renderComparison() {
   const details = detailsEditor.value();
   const brows = browsEditor.value();
   const mouth = mouthEditor.value();
-  const compareMouth = !!mouth && q('#mouth-before-mode').value === 'same';
-  const compareBrows = !mouth && !!brows && q('#brows-before-mode').value === 'same';
-  const compareDetails = !mouth && !brows && !!details && q('#details-before-mode').value === 'same';
-  const sameOpening = !mouth && !brows && !details && !!pigment && q('#iris-before-mode').value === 'same';
-  q('#brows-before-wrap').hidden = !brows || !!mouth;
-  q('#details-before-wrap').hidden = !details || !!brows || !!mouth;
-  q('#iris-before-mode').parentElement.hidden = !!details || !!brows || !!mouth;
-  const sizes = (value, pigment, features, brows, mouth) => [['head', 'Tête · 300 px'], ['tile', 'Corps · 178 px'], ['mini', 'Miniature · 70 × 70 px']]
-    .map(([view, caption]) => `<figure><div class="surface ${view}">${svg({view, value, guides, pigment, details:features, brows, mouth})}</div><figcaption>${caption}</figcaption></figure>`).join('');
-  const title = mouth ? 'Bouche personnalisée' : brows ? 'Sourcils personnalisés' : details ? 'Détails personnalisés' :
-    pigment ? 'Iris personnalisés' : eyePresets[selectedForm]?.label ?? otherLabels[selectedForm];
-  const before = compareMouth ? 'Bouche historique' : compareBrows ? 'Sourcils historiques' :
+  const nose = noseEditor.value();
+  const compareNose = !!nose && q('#nose-before-mode').value === 'same';
+  const compareMouth = !nose && !!mouth && q('#mouth-before-mode').value === 'same';
+  const compareBrows = !nose && !mouth && !!brows && q('#brows-before-mode').value === 'same';
+  const compareDetails = !nose && !mouth && !brows && !!details && q('#details-before-mode').value === 'same';
+  const sameOpening = !nose && !mouth && !brows && !details && !!pigment && q('#iris-before-mode').value === 'same';
+  q('#mouth-before-wrap').hidden = !mouth || !!nose;
+  q('#brows-before-wrap').hidden = !brows || !!mouth || !!nose;
+  q('#details-before-wrap').hidden = !details || !!brows || !!mouth || !!nose;
+  q('#iris-before-mode').parentElement.hidden = !!details || !!brows || !!mouth || !!nose;
+  const sizes = settings => [['head', 'Tête · 300 px'], ['tile', 'Corps · 178 px'], ['mini', 'Miniature · 70 × 70 px']]
+    .map(([view, caption]) => `<figure><div class="surface ${view}">${svg({view, guides, ...settings})}</div><figcaption>${caption}</figcaption></figure>`).join('');
+  const title = nose ? 'Nez personnalisé' : mouth ? 'Bouche personnalisée' : brows ? 'Sourcils personnalisés' :
+    details ? 'Détails personnalisés' : pigment ? 'Iris personnalisés' : eyePresets[selectedForm]?.label ?? otherLabels[selectedForm];
+  const before = compareNose ? 'Nez historique' : compareMouth ? 'Bouche historique' : compareBrows ? 'Sourcils historiques' :
     compareDetails ? 'Contours historiques' : sameOpening ? 'Pigments historiques' : 'Historique';
-  const referenceSizes=sizes(compareMouth||compareBrows||compareDetails||sameOpening?eyes:null,
-    compareMouth||compareBrows||compareDetails?pigment:null,compareMouth||compareBrows?details:null,
-    compareMouth?brows:null,null);
-  comparison.innerHTML = `<article data-side="before"><h3>${before}</h3>${referenceSizes}</article><article data-side="after"><h3>${title}</h3>${sizes(eyes,pigment,details,brows,mouth)}</article>`;
+  const comparisonReference = {
+    value:compareNose||compareMouth||compareBrows||compareDetails||sameOpening?eyes:null,
+    pigment:compareNose||compareMouth||compareBrows||compareDetails?pigment:null,
+    details:compareNose||compareMouth||compareBrows?details:null,
+    brows:compareNose||compareMouth?brows:null,
+    mouth:compareNose?mouth:null
+  };
+  comparison.innerHTML = `<article data-side="before"><h3>${before}</h3>${sizes(comparisonReference)}</article><article data-side="after"><h3>${title}</h3>${sizes({value:eyes,pigment,details,brows,mouth,nose})}</article>`;
 
   const {envelopes:[left,right],maxWidth,reference}=eyesFor(inputFor(),null).face;
   const x=left.x-maxWidth/2-2, width=right.x+maxWidth/2+2-x;
@@ -214,7 +223,12 @@ function renderComparison() {
   const {base:{head,anchors},anchors:{chin}}=model(inputFor());
   const mouthTop=anchors.nose[1]-head.ry*.16, mouthBottom=chin[1]+2.5, mouthPad=head.rx*.68;
   mouthZoom.innerHTML=svg({frame:`${anchors.mouth[0]-mouthPad} ${mouthTop} ${mouthPad*2} ${mouthBottom-mouthTop}`,
-    pigment,details,brows,mouth});
+    pigment,details,brows,mouth,nose});
+  const noseZoom=q('#nose-zoom');
+  noseZoom.className='surface '+q('#background').value;
+  const noseTop=anchors.nose[1]-head.ry*.36, noseBottom=anchors.mouth[1]+head.ry*.16;
+  noseZoom.innerHTML=svg({frame:`${anchors.nose[0]-mouthPad} ${noseTop} ${mouthPad*2} ${noseBottom-noseTop}`,
+    pigment,details,brows,mouth,nose});
 
 }
 
@@ -474,7 +488,7 @@ q('#reload').addEventListener('click', () => {
 });
 
 q('#appearance-export').addEventListener('click', () => {
-  const document = appearanceDocument(selection, {eyes, form: selectedForm, draw, colour, flat: q('#flat-mode').checked, ...irisEditor.archiveSettings(), ...detailsEditor.archiveSettings(), ...browsEditor.archiveSettings(), ...mouthEditor.archiveSettings()});
+  const document = appearanceDocument(selection, {eyes, form: selectedForm, draw, colour, flat: q('#flat-mode').checked, ...irisEditor.archiveSettings(), ...detailsEditor.archiveSettings(), ...browsEditor.archiveSettings(), ...mouthEditor.archiveSettings(), ...noseEditor.archiveSettings()});
   q('#appearance-json').value = JSON.stringify(document, null, 2);
   q('#appearance-error').textContent = '';
   q('#appearance-message').textContent = 'Apparence complète exportée.';
@@ -487,6 +501,7 @@ q('#appearance-import').addEventListener('click', () => {
     detailsEditor.restore(restored);
     browsEditor.restore(restored);
     mouthEditor.restore(restored);
+    noseEditor.restore(restored);
     ({selection, eyes, form: selectedForm, draw, colour} = restored);
     q('#flat-mode').checked = restored.flat;
     q('#seed').value = draw?.seed ?? q('#seed').defaultValue;
@@ -503,8 +518,18 @@ q('#appearance-import').addEventListener('click', () => {
 });
 
 const irisEditor=mountIrisEditor({input:inputFor,eyes:()=>eyes,render:renderComparison});
-const detailsEditor=mountDetailsEditor({input:inputFor,eyes:()=>eyes,render:renderComparison});
+const detailsEditor=mountDetailsEditor({input:inputFor,eyes:()=>eyes,render:()=>{
+  noseEditor.refresh();
+  mouthEditor.refresh();
+  renderComparison();
+}});
 const browsEditor=mountBrowsEditor({input:inputFor,eyes:()=>eyes,
   colours:()=>({hairColor:activeColour(),rememberedHairColor:colour}),render:renderComparison});
-const mouthEditor=mountMouthEditor({input:inputFor,eyes:()=>eyes,render:renderComparison});
+const mouthEditor=mountMouthEditor({input:inputFor,eyes:()=>eyes,noseBounds:()=>noseEditor.bounds(),
+  noseBoundsForDraw:()=>noseEditor.boundsForCustomMouth(),refreshNose:()=>noseEditor.refresh(),render:renderComparison});
+const noseEditor=mountNoseEditor({input:inputFor,eyes:()=>eyes,details:()=>detailsEditor.value(),
+  mouth:()=>mouthEditor.intent(),render:()=>{
+    mouthEditor.refresh();
+    renderComparison();
+  }});
 refreshCharacter();

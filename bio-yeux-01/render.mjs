@@ -6,7 +6,8 @@ import {eyeStroke, eyesFor, normalizeEyes} from './eyes.mjs';
 import {irisMarkup, pigmentCenters, solveIris} from './iris.mjs';
 import {detailsMarkup, solveDetails} from './details.mjs';
 import {browMarkup, solveBrows} from './brows.mjs';
-import {inheritedMouth, mouthMarkup, solveMouth} from './mouth.mjs';
+import {inheritedMouth, inheritedNose, mouthMarkup, solveMouth} from './mouth.mjs';
+import {noseMarkup, solveNose} from './nose.mjs';
 
 function clipId(path, instance, index) {
   // Equal default IDs are safe for equal outlines. An explicit instance also
@@ -76,10 +77,11 @@ export function character(input = {}, options = {}) {
   const hasDetails = options.details != null && options.details !== 'historical';
   const hasBrows = options.brows != null && options.brows !== 'historical';
   const hasMouth = options.mouth != null && options.mouth !== 'historical';
-  if (!selected && !options.eyeEnvelopes && !hasIris && !hasDetails && !hasBrows && !hasMouth) return svg;
+  const hasNose = options.nose != null && options.nose !== 'historical';
+  if (!selected && !options.eyeEnvelopes && !hasIris && !hasDetails && !hasBrows && !hasMouth && !hasNose) return svg;
   const geometry = eyesFor(input, selected);
   let result = svg;
-  if (selected || hasIris || hasDetails || hasBrows || hasMouth) {
+  if (selected || hasIris || hasDetails || hasBrows || hasMouth || hasNose) {
     const face = model(input);
     const originalFace = headMarkup(face.base).replace(/<path d="[^"]*"/, `<path d="${face.outline}"`);
     if (!svg.includes(originalFace)) throw new Error('Visage historique introuvable');
@@ -89,9 +91,11 @@ export function character(input = {}, options = {}) {
     const details = hasDetails ? solveDetails(geometry, options.details) : null;
     const brows = hasBrows ? solveBrows(face,geometry,options.brows,{...options,source:svg}) : null;
     let updatedFace = brows ? replaceBrows(originalFace,face,browMarkup(brows)) : originalFace;
+    const nose = hasNose ? solveNose(face,geometry,options.nose,{mouth:options.mouth,eyeDetails:details,markup:originalFace}) : null;
+    if (nose) updatedFace = updatedFace.replace(inheritedNose(face,originalFace).tag,noseMarkup(nose));
     if (hasMouth) {
       const {tag} = inheritedMouth(face,originalFace);
-      const mouth = solveMouth(face,geometry,options.mouth,{markup:originalFace});
+      const mouth = solveMouth(face,geometry,options.mouth,{markup:originalFace,noseBounds:nose?.geometry.anatomy,preserveMouth:!!nose});
       updatedFace = updatedFace.replace(tag,mouthMarkup(mouth));
     }
     if (selected || hasIris || hasDetails) {
