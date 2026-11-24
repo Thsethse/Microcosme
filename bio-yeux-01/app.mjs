@@ -126,6 +126,7 @@ function renderEyes() {
   const result = eyesFor(inputFor(), eyes);
   editingValues = result.effective ?? eyeProposal(result.face, neutral).effective;
   const domains = eyeDomains(result.face, editingValues);
+  if (!q('#eye-request-panel').open) syncRequest();
   for (const [key, range] of Object.entries(eyeControls)) {
     const {intervals, points} = domains[key];
     const current = editingValues[key];
@@ -189,6 +190,8 @@ function syncSelection(updateJSON = true) {
   const entry = choice(selection.key);
   q('#ordinary').value = selection.visibleKey;
   q('#historical').value = selection.key;
+  const arrangements = entry.arrangement === 'U' ? [new Option('Unique', 'U')] : [new Option('G'), new Option('D')];
+  q('#arrangement').replaceChildren(...arrangements);
   q('#arrangement').value = entry.arrangement;
   const ordinary = selection.visibleKey === selection.key ? '' : ` · Entrée ordinaire ${choice(selection.visibleKey).label}`;
   q('#identity-note').textContent = `Identifiant ouvert · ${entry.label} · ${entry.name}${ordinary}`;
@@ -316,7 +319,6 @@ function syncRequest() {
   input.max = max;
   input.value = Math.round(editingValues?.[key] ?? defaultValue);
 }
-q('#eye-request-panel').addEventListener('toggle', syncRequest);
 q('#eye-request-axis').addEventListener('change', syncRequest);
 q('#eye-request').addEventListener('submit', event => {
   event.preventDefault();

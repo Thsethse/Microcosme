@@ -189,7 +189,7 @@ async function testDomains(page, base, engine) {
   await page.locator('#eye-request-axis').selectOption('tilt');
   await page.locator('#eye-request-value').fill('-9');
   await page.locator('#eye-request button').tap();
-  assert.equal(await isProposal(page), true);
+  await page.locator('#eye-proposal').waitFor({state: 'visible'});
   assert.match(await page.locator('#eye-proposal-values').textContent(), /Largeur · 94 → 93,746/);
   assert.deepEqual(await snapshot(page), unchanged);
   await page.locator('#eye-proposal').screenshot({path:path.join(output, engine+'-confirmation.png')});
@@ -258,12 +258,18 @@ async function testAvailability(page) {
   await openHistory(page, 'shaved:U');
   assert(await page.locator('#arrangement').isDisabled());
   assert.equal(await page.locator('#arrangement').inputValue(), 'U');
+  assert.equal(await page.locator('#arrangement option').count(), 1);
   assert(await front.isDisabled());
   assert.equal(await front.inputValue(), '1.18');
   assert.equal((await captureArchive(page)).historicalSelection.arrangement, 'D');
   assert.deepEqual((await captureArchive(page)).palette, latent);
   await openHistory(page, 'p5-050:D');
   assert(await page.locator('#arrangement').isEnabled());
+  assert.equal(await page.locator('#arrangement option[value=U]').count(), 0);
+  await page.locator('#arrangement').selectOption('G');
+  assert.equal(await page.locator('#historical').inputValue(), 'p5-050:G');
+  await page.locator('#arrangement').selectOption('D');
+  assert.equal(await page.locator('#historical').inputValue(), 'p5-050:D');
   assert(await front.isEnabled());
   assert.equal(await front.inputValue(), '1.18');
   assert.equal(await page.locator('#contrast').isChecked(), false);
