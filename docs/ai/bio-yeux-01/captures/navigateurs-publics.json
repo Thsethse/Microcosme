@@ -44,7 +44,7 @@
           "mini": 12
         },
         "minPupilPixels": {
-          "head": 103,
+          "head": 32,
           "tile": 4,
           "mini": 2
         },
@@ -100,8 +100,8 @@
           "mini": 12
         },
         "minPupilPixels": {
-          "head": 88,
-          "tile": 4,
+          "head": 40,
+          "tile": 9,
           "mini": 2
         },
         "signatures": {

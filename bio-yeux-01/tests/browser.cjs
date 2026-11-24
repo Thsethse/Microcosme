@@ -168,23 +168,29 @@ async function inspect(page, name, base) {
         svg.replaceChildren(...eyes);
         svg.setAttribute('width', width);
         svg.setAttribute('height', height);
-        const image = new Image();
-        image.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(svg));
-        await image.decode();
         const canvas = document.createElement('canvas');
         canvas.width = width;
         canvas.height = height;
         const ctx = canvas.getContext('2d');
-        ctx.drawImage(image, 0, 0);
-        const data = ctx.getImageData(0, 0, width, height).data;
+        const rasterize = async () => {
+          const image = new Image();
+          image.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(svg));
+          await image.decode();
+          ctx.clearRect(0, 0, width, height);
+          ctx.drawImage(image, 0, 0);
+          return ctx.getImageData(0, 0, width, height).data;
+        };
+        const outline = await rasterize();
+        signatures[view].add(canvas.toDataURL());
         let pixels = 0, pupilPixels = 0;
-        for (let i = 0; i < data.length; i += 4) {
-          if (data[i + 3] > 32) pixels++;
-          if (data[i + 3] > 128 && data[i] < 96) pupilPixels++;
-        }
+        for (let i = 3; i < outline.length; i += 4) if (outline[i] > 32) pixels++;
+        // Keep clipPath geometry, remove only the painted whites and strokes.
+        // The remaining dark pixels belong to the original, clipped pupils.
+        svg.querySelectorAll('[data-bio-eye] > path').forEach(path => path.remove());
+        const pupils = await rasterize();
+        for (let i = 3; i < pupils.length; i += 4) if (pupils[i] > 96) pupilPixels++;
         minPixels[view] = Math.min(pixels, minPixels[view]);
         minPupilPixels[view] = Math.min(pupilPixels, minPupilPixels[view]);
-        signatures[view].add(canvas.toDataURL());
         cases++;
       }
     }
