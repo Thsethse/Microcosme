@@ -6,6 +6,7 @@ import {eyeStroke, eyesFor, normalizeEyes} from './eyes.mjs';
 import {irisMarkup, pigmentCenters, solveIris} from './iris.mjs';
 import {detailsMarkup, solveDetails} from './details.mjs';
 import {browMarkup, solveBrows} from './brows.mjs';
+import {inheritedMouth, mouthMarkup, solveMouth} from './mouth.mjs';
 
 function clipId(path, instance, index) {
   // Equal default IDs are safe for equal outlines. An explicit instance also
@@ -74,10 +75,11 @@ export function character(input = {}, options = {}) {
   const hasIris = options.iris != null && options.iris !== 'historical';
   const hasDetails = options.details != null && options.details !== 'historical';
   const hasBrows = options.brows != null && options.brows !== 'historical';
-  if (!selected && !options.eyeEnvelopes && !hasIris && !hasDetails && !hasBrows) return svg;
+  const hasMouth = options.mouth != null && options.mouth !== 'historical';
+  if (!selected && !options.eyeEnvelopes && !hasIris && !hasDetails && !hasBrows && !hasMouth) return svg;
   const geometry = eyesFor(input, selected);
   let result = svg;
-  if (selected || hasIris || hasDetails || hasBrows) {
+  if (selected || hasIris || hasDetails || hasBrows || hasMouth) {
     const face = model(input);
     const originalFace = headMarkup(face.base).replace(/<path d="[^"]*"/, `<path d="${face.outline}"`);
     if (!svg.includes(originalFace)) throw new Error('Visage historique introuvable');
@@ -87,6 +89,11 @@ export function character(input = {}, options = {}) {
     const details = hasDetails ? solveDetails(geometry, options.details) : null;
     const brows = hasBrows ? solveBrows(face,geometry,options.brows,{...options,source:svg}) : null;
     let updatedFace = brows ? replaceBrows(originalFace,face,browMarkup(brows)) : originalFace;
+    if (hasMouth) {
+      const {tag} = inheritedMouth(face,originalFace);
+      const mouth = solveMouth(face,geometry,options.mouth,{markup:originalFace});
+      updatedFace = updatedFace.replace(tag,mouthMarkup(mouth));
+    }
     if (selected || hasIris || hasDetails) {
       updatedFace = replaceOpenings(updatedFace,geometry.shapes,options.instance,drawIris,details);
     }

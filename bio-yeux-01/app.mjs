@@ -1,6 +1,6 @@
 import {palette, swatch} from '../bio-col-01/palette.mjs';
 import {choices, ordinaryChoices, choice, restoreSelection, selectOrdinary, exportSelection} from './catalogue.mjs';
-import {controls, bodies, presets} from '../preview/bio-vis-p5-i6/model.mjs';
+import {controls, bodies, model, presets} from '../preview/bio-vis-p5-i6/model.mjs';
 import {priorityCase} from '../preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/r1/coverage.mjs';
 import {character} from './render.mjs';
 import {appearanceDocument, characterInput, parseAppearance} from './appearance.mjs';
@@ -10,6 +10,7 @@ import {availableOptions} from './availability.mjs';
 import {mountIrisEditor} from './iris-editor.mjs';
 import {mountDetailsEditor} from './details-editor.mjs';
 import {mountBrowsEditor} from './brows-editor.mjs';
+import {mountMouthEditor} from './mouth-editor.mjs';
 import {eyeControls, eyePresets, eyesFor, normalizeEyes} from './eyes.mjs';
 
 const q = selector => document.querySelector(selector);
@@ -63,9 +64,9 @@ function inputFor(key) {
 }
 
 const frames = {head: '-30 -65 220 225', tile: '-40 -85 240 355', mini: '-35 -68 230 245'};
-function svg({key, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null} = {}) {
+function svg({key, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null} = {}) {
   const result = character(inputFor(key), {
-    eyes: value, iris:pigment, details, brows, eyeEnvelopes: guides, hairColor: hair, rememberedHairColor: colour, headOnly: view !== 'tile',
+    eyes: value, iris:pigment, details, brows, mouth, eyeEnvelopes: guides, hairColor: hair, rememberedHairColor: colour, headOnly: view !== 'tile',
     smallScale: view === 'mini', instance: 'atelier-yeux-' + (++serial)
   }).replace(/viewBox="[^"]*"/, `viewBox="${frame}"`);
   return decorative ? result.replace('<svg ', '<svg aria-hidden="true" focusable="false" ') : result;
@@ -161,6 +162,7 @@ function renderEyes() {
   irisEditor.refresh();
   detailsEditor.refresh();
   browsEditor.refresh();
+  mouthEditor.refresh();
   renderComparison();
 }
 
@@ -174,20 +176,24 @@ function renderComparison() {
   const pigment=irisEditor.value();
   const details = detailsEditor.value();
   const brows = browsEditor.value();
-  const compareBrows = !!brows && q('#brows-before-mode').value === 'same';
-  const compareDetails = !brows && !!details && q('#details-before-mode').value === 'same';
-  const sameOpening = !brows && !details && !!pigment && q('#iris-before-mode').value === 'same';
-  q('#details-before-wrap').hidden = !details || !!brows;
-  q('#iris-before-mode').parentElement.hidden = !!details || !!brows;
-  const sizes = (value, pigment, features, brows) => [['head', 'Tête · 300 px'], ['tile', 'Corps · 178 px'], ['mini', 'Miniature · 70 × 70 px']]
-    .map(([view, caption]) => `<figure><div class="surface ${view}">${svg({view, value, guides, pigment, details:features, brows})}</div><figcaption>${caption}</figcaption></figure>`).join('');
-  const title = brows ? 'Sourcils personnalisés' : details ? 'Détails personnalisés' :
+  const mouth = mouthEditor.value();
+  const compareMouth = !!mouth && q('#mouth-before-mode').value === 'same';
+  const compareBrows = !mouth && !!brows && q('#brows-before-mode').value === 'same';
+  const compareDetails = !mouth && !brows && !!details && q('#details-before-mode').value === 'same';
+  const sameOpening = !mouth && !brows && !details && !!pigment && q('#iris-before-mode').value === 'same';
+  q('#brows-before-wrap').hidden = !brows || !!mouth;
+  q('#details-before-wrap').hidden = !details || !!brows || !!mouth;
+  q('#iris-before-mode').parentElement.hidden = !!details || !!brows || !!mouth;
+  const sizes = (value, pigment, features, brows, mouth) => [['head', 'Tête · 300 px'], ['tile', 'Corps · 178 px'], ['mini', 'Miniature · 70 × 70 px']]
+    .map(([view, caption]) => `<figure><div class="surface ${view}">${svg({view, value, guides, pigment, details:features, brows, mouth})}</div><figcaption>${caption}</figcaption></figure>`).join('');
+  const title = mouth ? 'Bouche personnalisée' : brows ? 'Sourcils personnalisés' : details ? 'Détails personnalisés' :
     pigment ? 'Iris personnalisés' : eyePresets[selectedForm]?.label ?? otherLabels[selectedForm];
-  const before = compareBrows ? 'Sourcils historiques' : compareDetails ? 'Contours historiques' :
-    sameOpening ? 'Pigments historiques' : 'Historique';
-  const referenceSizes=sizes(compareBrows||compareDetails||sameOpening?eyes:null,
-    compareBrows||compareDetails?pigment:null,compareBrows?details:null,null);
-  comparison.innerHTML = `<article data-side="before"><h3>${before}</h3>${referenceSizes}</article><article data-side="after"><h3>${title}</h3>${sizes(eyes,pigment,details,brows)}</article>`;
+  const before = compareMouth ? 'Bouche historique' : compareBrows ? 'Sourcils historiques' :
+    compareDetails ? 'Contours historiques' : sameOpening ? 'Pigments historiques' : 'Historique';
+  const referenceSizes=sizes(compareMouth||compareBrows||compareDetails||sameOpening?eyes:null,
+    compareMouth||compareBrows||compareDetails?pigment:null,compareMouth||compareBrows?details:null,
+    compareMouth?brows:null,null);
+  comparison.innerHTML = `<article data-side="before"><h3>${before}</h3>${referenceSizes}</article><article data-side="after"><h3>${title}</h3>${sizes(eyes,pigment,details,brows,mouth)}</article>`;
 
   const {envelopes:[left,right],maxWidth,reference}=eyesFor(inputFor(),null).face;
   const x=left.x-maxWidth/2-2, width=right.x+maxWidth/2+2-x;
@@ -203,6 +209,12 @@ function renderComparison() {
   browZoom.className='surface '+q('#background').value;
   const browTop=left.y-reference.height*2.18, browBottom=left.y+reference.height*.36;
   browZoom.innerHTML=svg({frame:`${left.x-pad} ${browTop} ${right.x-left.x+2*pad} ${browBottom-browTop}`,pigment,details,brows});
+  const mouthZoom=q('#mouth-zoom');
+  mouthZoom.className='surface '+q('#background').value;
+  const {base:{head,anchors},anchors:{chin}}=model(inputFor());
+  const mouthTop=anchors.nose[1]-head.ry*.16, mouthBottom=chin[1]+2.5, mouthPad=head.rx*.68;
+  mouthZoom.innerHTML=svg({frame:`${anchors.mouth[0]-mouthPad} ${mouthTop} ${mouthPad*2} ${mouthBottom-mouthTop}`,
+    pigment,details,brows,mouth});
 
 }
 
@@ -462,7 +474,7 @@ q('#reload').addEventListener('click', () => {
 });
 
 q('#appearance-export').addEventListener('click', () => {
-  const document = appearanceDocument(selection, {eyes, form: selectedForm, draw, colour, flat: q('#flat-mode').checked, ...irisEditor.archiveSettings(), ...detailsEditor.archiveSettings(), ...browsEditor.archiveSettings()});
+  const document = appearanceDocument(selection, {eyes, form: selectedForm, draw, colour, flat: q('#flat-mode').checked, ...irisEditor.archiveSettings(), ...detailsEditor.archiveSettings(), ...browsEditor.archiveSettings(), ...mouthEditor.archiveSettings()});
   q('#appearance-json').value = JSON.stringify(document, null, 2);
   q('#appearance-error').textContent = '';
   q('#appearance-message').textContent = 'Apparence complète exportée.';
@@ -474,6 +486,7 @@ q('#appearance-import').addEventListener('click', () => {
     irisEditor.restore(restored);
     detailsEditor.restore(restored);
     browsEditor.restore(restored);
+    mouthEditor.restore(restored);
     ({selection, eyes, form: selectedForm, draw, colour} = restored);
     q('#flat-mode').checked = restored.flat;
     q('#seed').value = draw?.seed ?? q('#seed').defaultValue;
@@ -493,4 +506,5 @@ const irisEditor=mountIrisEditor({input:inputFor,eyes:()=>eyes,render:renderComp
 const detailsEditor=mountDetailsEditor({input:inputFor,eyes:()=>eyes,render:renderComparison});
 const browsEditor=mountBrowsEditor({input:inputFor,eyes:()=>eyes,
   colours:()=>({hairColor:activeColour(),rememberedHairColor:colour}),render:renderComparison});
+const mouthEditor=mountMouthEditor({input:inputFor,eyes:()=>eyes,render:renderComparison});
 refreshCharacter();
