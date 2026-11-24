@@ -1,0 +1,37 @@
+name: BIO-YEUX-01 — Formes des yeux
+on:
+  pull_request:
+    paths:
+      - 'bio-yeux-01/**'
+      - '.github/workflows/bio-yeux-01.yml'
+permissions:
+  contents: read
+jobs:
+  yeux:
+    runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.56.1-noble
+    timeout-minutes: 20
+    env:
+      ARTIFACT_DIR: /tmp/microcosme-bio-yeux-01
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: node --test bio-col-01/tests/model.test.mjs bio-yeux-01/tests/model.test.mjs
+      - run: npx playwright install chromium webkit
+      - run: node bio-yeux-01/tests/browser.cjs
+      - run: ARTIFACT_DIR="$ARTIFACT_DIR/palettes" node bio-col-01/tests/browser.cjs
+      - name: Récupérer les suites originales des lots 1 à 3
+        run: git -c safe.directory="$GITHUB_WORKSPACE" fetch --no-tags --depth=1 origin 1ff931586776b3f7ed41bbdc5772b97e030aa4db 4156254ca5a9b4a52f138a558bd70d461f4d4c4e 576ee961b5be385e6cceb2f357ffe74341b0d05f
+      - run: node bio-col-01/tests/legacy.cjs
+      - run: npm run test:browser
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bio-yeux-01-comparaisons
+          path: /tmp/microcosme-bio-yeux-01
+          if-no-files-found: ignore
