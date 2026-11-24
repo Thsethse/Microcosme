@@ -89,3 +89,12 @@ footer { margin: 0 0 28px; }
   .head svg { width: 100%; }
   .shape-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
 }
+
+
+.eye-domain { display: block; margin: 0 0 6px; font-size: .81rem; font-weight: 400; color: var(--soft-ink); }
+.eye-proposal { margin: 12px 0; padding: 12px; border: 1px solid #a79b82; border-radius: 8px; background: var(--paper); }
+.eye-proposal ul { margin-block: 8px; padding-inline-start: 22px; overflow-wrap: anywhere; }
+#eye-request-value { display: block; width: 100%; min-height: 44px; margin-top: 5px; padding: 7px 10px; font: inherit; font-size: 1rem; }
+:disabled { cursor: default; }
+button:disabled, input:disabled, select:disabled { opacity: .65; }
+#appearance-error, #draw-error { color: #893b2b; }

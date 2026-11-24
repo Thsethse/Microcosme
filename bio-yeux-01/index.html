@@ -31,7 +31,24 @@
     <div class="workbench">
       <h2>Réglages des yeux</h2>
       <label>Forme<select id="eye-preset"></select></label>
+      <p class="hint">Les curseurs proposent les crans admissibles à partir des valeurs appliquées.</p>
       <div id="eye-controls"></div>
+      <details id="eye-request-panel"><summary>Demander un ajustement conjoint</summary>
+        <form id="eye-request">
+          <label>Paramètre<select id="eye-request-axis"></select></label>
+          <label>Valeur demandée<input id="eye-request-value" type="number" step="1" required></label>
+          <button type="submit">Examiner la demande</button>
+        </form>
+      </details>
+      <section id="eye-proposal" class="eye-proposal" aria-labelledby="eye-proposal-title" hidden>
+        <h3 id="eye-proposal-title">Ajustement à confirmer</h3>
+        <p id="eye-proposal-status" role="status"></p>
+        <ul id="eye-proposal-values"></ul>
+        <div class="actions">
+          <button class="primary" id="eye-confirm" type="button">Appliquer l’ajustement</button>
+          <button id="eye-cancel" type="button">Annuler</button>
+        </div>
+      </section>
       <p class="hint">Un angle positif relève le coin externe. Un décalage positif rapproche le sommet de la tempe.</p>
       <p id="eye-status" class="hint" role="status"></p>
       <div class="actions">
@@ -58,11 +75,20 @@
         <label>Identifiants historiques<select id="historical"></select></label>
         <button id="load-history" type="button">Ouvrir l’identifiant</button>
         <p id="identity-note" class="hint"></p>
-        <label>Corps<select id="body"></select></label>
+        <label>Arrangement<select id="arrangement" aria-describedby="arrangement-note">
+          <option value="G">G</option><option value="D">D</option><option value="U">Unique</option>
+        </select></label>
+        <p id="arrangement-note" class="hint" hidden>Cette référence a un arrangement unique. Le dernier choix G ou D reste dans la sélection.</p>
+        <label>Corps<select id="body" aria-describedby="body-note"></select></label>
+        <p id="body-note" class="hint">Les six corps fixent les épaules, le ventre et les hanches. Les clés correspondantes d’un ancien JSON sont conservées.</p>
         <label>Morphologie du visage<select id="morph"></select></label>
-        <details id="morph-panel"><summary>Ajuster les paramètres du visage</summary><div id="morph-controls"></div></details>
-        <label class="check"><input id="accessories" type="checkbox" checked> Accessoires historiques</label>
-        <label class="check"><input id="contrast" type="checkbox" checked> Contrastes historiques</label>
+        <details id="morph-panel"><summary>Ajuster les paramètres du visage</summary><div id="morph-controls"></div>
+          <p id="forehead-note" class="hint" hidden>L’implantation capillaire est sans effet sur ce rendu. Sa valeur est conservée.</p>
+        </details>
+        <label class="check"><input id="accessories" type="checkbox" aria-describedby="accessories-note" checked> Accessoires historiques</label>
+        <p id="accessories-note" class="hint" hidden>Ce contrôle ne change aucune couche d’accessoire dans le rendu courant.</p>
+        <label class="check"><input id="contrast" type="checkbox" aria-describedby="contrast-note" checked> Contrastes historiques</label>
+        <p id="contrast-note" class="hint" hidden>Ce contrôle ne change aucune couche de contraste dans le rendu courant.</p>
       </div>
       <div class="card">
         <div class="actions" id="palette-tabs" aria-label="Familles de palettes">
@@ -71,7 +97,8 @@
         </div>
         <div id="swatches" class="swatches"></div>
         <p id="colour-info" class="hint"></p>
-        <label class="check"><input id="flat-mode" type="checkbox"> Appliquer l’aplat et le contour</label>
+        <label class="check"><input id="flat-mode" type="checkbox" aria-describedby="palette-note"> Appliquer l’aplat et le contour</label>
+        <p id="palette-note" class="hint" hidden>Ce rendu ne contient aucune surface capillaire colorable. La nuance et le mode restent mémorisés.</p>
       </div>
     </div>
     <details id="appearance-panel"><summary>Exporter ou importer l’apparence complète</summary>
