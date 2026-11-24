@@ -56,7 +56,7 @@ async function snapshots(page, selector='[data-side=after]') {
 async function verifyRaster(page,base,baseline) {
   return page.evaluate(async ({base,baseline})=>{
     const modelUrl=new URL(base.includes('/preview/')?'../bio-vis-p5-i6/model.mjs':'../preview/bio-vis-p5-i6/model.mjs',base);
-    const paletteUrl=new URL(base.includes('/preview/')?'../../bio-col-01/palette.mjs':'../bio-col-01/palette.mjs',base);
+    const paletteUrl=new URL('../bio-col-01/palette.mjs',base);
     const [{character},{character:before},{eyePresets,eyesFor},{presets},{browPresets},{palette},{choices}]=await Promise.all([
       import(new URL('render.mjs',base)),import(baseline),import(new URL('eyes.mjs',base)),import(modelUrl),
       import(new URL('brows.mjs',base)),import(paletteUrl),import(new URL('catalogue.mjs',base))
