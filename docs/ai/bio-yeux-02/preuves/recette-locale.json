@@ -1,0 +1,444 @@
+{
+  "T2": [
+    {
+      "colours": 16,
+      "shapes": 6,
+      "minimumContourContrast": 1.625907210310236
+    }
+  ],
+  "T3": [
+    {
+      "ring": [
+        [
+          0,
+          25
+        ],
+        [
+          46,
+          80
+        ]
+      ],
+      "tight": 76.60254037844386
+    }
+  ],
+  "T4": [
+    {
+      "corners": 6912,
+      "catalog": 1134
+    }
+  ],
+  "T7": [
+    {
+      "name": "ancien",
+      "seeds": 2048,
+      "modes": {
+        "none": 673,
+        "complete": 690,
+        "central": 685
+      },
+      "shapes": {
+        "circle": 338,
+        "vertical": 330,
+        "horizontal": 344,
+        "diamond": 358,
+        "star": 326,
+        "ring": 352
+      },
+      "colours": {
+        "brun-sombre": 131,
+        "marron": 109,
+        "noisette": 138,
+        "ambre": 109,
+        "vert": 127,
+        "gris": 134,
+        "bleu": 104,
+        "bleu-clair": 122,
+        "rouge": 157,
+        "rose": 128,
+        "violet": 147,
+        "turquoise": 124,
+        "or": 128,
+        "argent": 130,
+        "orange": 127,
+        "blanc": 133
+      },
+      "ends": {
+        "irisSize": 25,
+        "irisRatio": 42,
+        "pupilSize": 24,
+        "outline": 192,
+        "secondarySize": 9
+      },
+      "expectedPupilMaximum": 31.06,
+      "expectedCentralMaximum": 15.68
+    },
+    {
+      "name": "haut",
+      "seeds": 2048,
+      "modes": {
+        "none": 682,
+        "complete": 633,
+        "central": 733
+      },
+      "shapes": {
+        "circle": 344,
+        "vertical": 362,
+        "horizontal": 325,
+        "diamond": 344,
+        "star": 330,
+        "ring": 343
+      },
+      "colours": {
+        "brun-sombre": 115,
+        "marron": 145,
+        "noisette": 117,
+        "ambre": 109,
+        "vert": 142,
+        "gris": 101,
+        "bleu": 153,
+        "bleu-clair": 126,
+        "rouge": 125,
+        "rose": 125,
+        "violet": 133,
+        "turquoise": 141,
+        "or": 136,
+        "argent": 145,
+        "orange": 124,
+        "blanc": 111
+      },
+      "ends": {
+        "irisSize": 22,
+        "irisRatio": 26,
+        "pupilSize": 35,
+        "outline": 180,
+        "secondarySize": 16
+      },
+      "expectedPupilMaximum": 31.06,
+      "expectedCentralMaximum": 15.73
+    },
+    {
+      "name": "étroit",
+      "seeds": 2048,
+      "modes": {
+        "none": 682,
+        "complete": 682,
+        "central": 684
+      },
+      "shapes": {
+        "circle": 337,
+        "vertical": 358,
+        "horizontal": 339,
+        "diamond": 337,
+        "star": 352,
+        "ring": 325
+      },
+      "colours": {
+        "brun-sombre": 128,
+        "marron": 124,
+        "noisette": 119,
+        "ambre": 138,
+        "vert": 104,
+        "gris": 142,
+        "bleu": 125,
+        "bleu-clair": 136,
+        "rouge": 136,
+        "rose": 136,
+        "violet": 142,
+        "turquoise": 124,
+        "or": 140,
+        "argent": 113,
+        "orange": 126,
+        "blanc": 115
+      },
+      "ends": {
+        "irisSize": 21,
+        "irisRatio": 42,
+        "pupilSize": 29,
+        "outline": 192,
+        "secondarySize": 13
+      },
+      "expectedPupilMaximum": 31.06,
+      "expectedCentralMaximum": 14.59
+    }
+  ],
+  "navigateurs": [
+    {
+      "name": "chromium",
+      "version": "151.0.7922.34",
+      "raster": {
+        "historic": 54,
+        "historicMismatches": 0,
+        "clips": 144,
+        "leaks": 0,
+        "forms": 6,
+        "colours": 16,
+        "subtle": [
+          14,
+          3,
+          1,
+          197
+        ]
+      },
+      "workshop": {
+        "cold": 3,
+        "domain": "0 à 25 % ou 46 à 80 %",
+        "irisAfterTouch": "63 %",
+        "layouts": [
+          {
+            "width": 820,
+            "height": 1180,
+            "background": "light",
+            "sizes": [
+              [
+                356.921875,
+                300
+              ],
+              [
+                356.921875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 820,
+            "height": 1180,
+            "background": "dark",
+            "sizes": [
+              [
+                356.921875,
+                300
+              ],
+              [
+                356.921875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 1180,
+            "height": 820,
+            "background": "light",
+            "sizes": [
+              [
+                338.875,
+                300
+              ],
+              [
+                338.875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 1180,
+            "height": 820,
+            "background": "dark",
+            "sizes": [
+              [
+                338.875,
+                300
+              ],
+              [
+                338.875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "background": "light",
+            "sizes": [
+              [
+                163.5,
+                300
+              ],
+              [
+                163.5,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "background": "dark",
+            "sizes": [
+              [
+                163.5,
+                300
+              ],
+              [
+                163.5,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "webkit",
+      "version": "26.5",
+      "raster": {
+        "historic": 54,
+        "historicMismatches": 0,
+        "clips": 144,
+        "leaks": 0,
+        "forms": 6,
+        "colours": 16,
+        "subtle": [
+          13,
+          3,
+          1,
+          192
+        ]
+      },
+      "workshop": {
+        "cold": 3,
+        "domain": "0 à 25 % ou 46 à 80 %",
+        "irisAfterTouch": "63 %",
+        "layouts": [
+          {
+            "width": 820,
+            "height": 1180,
+            "background": "light",
+            "sizes": [
+              [
+                356.921875,
+                300
+              ],
+              [
+                356.921875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 820,
+            "height": 1180,
+            "background": "dark",
+            "sizes": [
+              [
+                356.921875,
+                300
+              ],
+              [
+                356.921875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 1180,
+            "height": 820,
+            "background": "light",
+            "sizes": [
+              [
+                338.859375,
+                300
+              ],
+              [
+                338.859375,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 1180,
+            "height": 820,
+            "background": "dark",
+            "sizes": [
+              [
+                338.859375,
+                300
+              ],
+              [
+                338.859375,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "background": "light",
+            "sizes": [
+              [
+                163.5,
+                300
+              ],
+              [
+                163.5,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "background": "dark",
+            "sizes": [
+              [
+                163.5,
+                300
+              ],
+              [
+                163.5,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
