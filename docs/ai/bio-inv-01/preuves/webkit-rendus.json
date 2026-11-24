@@ -1,0 +1,2837 @@
+{
+  "engine": "webkit",
+  "version": "26.5",
+  "hair": {
+    "head": {
+      "count": 14,
+      "unique": 11,
+      "exact": [
+        [
+          "p5-019:G",
+          "p5-021:G"
+        ],
+        [
+          "p5-028:G",
+          "p5-059:G"
+        ],
+        [
+          "p5-064:G",
+          "p5-070:G"
+        ]
+      ],
+      "near": 0,
+      "nearest": [
+        {
+          "a": "p5-019:G",
+          "b": "p5-021:G",
+          "exact": true,
+          "changed": 0,
+          "foreground": 19070,
+          "fraction": 0,
+          "absolute": 0
+        },
+        {
+          "a": "p5-028:G",
+          "b": "p5-059:G",
+          "exact": true,
+          "changed": 0,
+          "foreground": 19974,
+          "fraction": 0,
+          "absolute": 0
+        },
+        {
+          "a": "p5-064:G",
+          "b": "p5-070:G",
+          "exact": true,
+          "changed": 0,
+          "foreground": 19412,
+          "fraction": 0,
+          "absolute": 0
+        },
+        {
+          "a": "p5-047:G",
+          "b": "p5-050:G",
+          "exact": false,
+          "changed": 1021,
+          "foreground": 19277,
+          "fraction": 0.052965,
+          "absolute": 77028
+        },
+        {
+          "a": "p5-049:G",
+          "b": "p5-062:D",
+          "exact": false,
+          "changed": 1321,
+          "foreground": 20859,
+          "fraction": 0.06333,
+          "absolute": 80835
+        },
+        {
+          "a": "p5-054:G",
+          "b": "p5-069:G",
+          "exact": false,
+          "changed": 1783,
+          "foreground": 20806,
+          "fraction": 0.085696,
+          "absolute": 146981
+        },
+        {
+          "a": "p5-056:G",
+          "b": "p5-061:G",
+          "exact": false,
+          "changed": 2080,
+          "foreground": 20671,
+          "fraction": 0.100624,
+          "absolute": 302857
+        }
+      ]
+    },
+    "body": {
+      "count": 14,
+      "unique": 11,
+      "exact": [
+        [
+          "p5-019:G",
+          "p5-021:G"
+        ],
+        [
+          "p5-028:G",
+          "p5-059:G"
+        ],
+        [
+          "p5-064:G",
+          "p5-070:G"
+        ]
+      ],
+      "near": 0,
+      "nearest": [
+        {
+          "a": "p5-019:G",
+          "b": "p5-021:G",
+          "exact": true,
+          "changed": 0,
+          "foreground": 4239,
+          "fraction": 0,
+          "absolute": 0
+        },
+        {
+          "a": "p5-028:G",
+          "b": "p5-059:G",
+          "exact": true,
+          "changed": 0,
+          "foreground": 4363,
+          "fraction": 0,
+          "absolute": 0
+        },
+        {
+          "a": "p5-064:G",
+          "b": "p5-070:G",
+          "exact": true,
+          "changed": 0,
+          "foreground": 4288,
+          "fraction": 0,
+          "absolute": 0
+        },
+        {
+          "a": "p5-047:G",
+          "b": "p5-050:G",
+          "exact": false,
+          "changed": 155,
+          "foreground": 4267,
+          "fraction": 0.036325,
+          "absolute": 10582
+        },
+        {
+          "a": "p5-049:G",
+          "b": "p5-062:D",
+          "exact": false,
+          "changed": 202,
+          "foreground": 4495,
+          "fraction": 0.044939,
+          "absolute": 11175
+        },
+        {
+          "a": "p5-054:G",
+          "b": "p5-069:G",
+          "exact": false,
+          "changed": 270,
+          "foreground": 4491,
+          "fraction": 0.06012,
+          "absolute": 20614
+        },
+        {
+          "a": "p5-056:G",
+          "b": "p5-061:G",
+          "exact": false,
+          "changed": 348,
+          "foreground": 4479,
+          "fraction": 0.077696,
+          "absolute": 41952
+        }
+      ]
+    },
+    "mini": {
+      "count": 14,
+      "unique": 11,
+      "exact": [
+        [
+          "p5-019:G",
+          "p5-021:G"
+        ],
+        [
+          "p5-028:G",
+          "p5-059:G"
+        ],
+        [
+          "p5-064:G",
+          "p5-070:G"
+        ]
+      ],
+      "near": 0,
+      "nearest": [
+        {
+          "a": "p5-019:G",
+          "b": "p5-021:G",
+          "exact": true,
+          "changed": 0,
+          "foreground": 1034,
+          "fraction": 0,
+          "absolute": 0
+        },
+        {
+          "a": "p5-028:G",
+          "b": "p5-059:G",
+          "exact": true,
+          "changed": 0,
+          "foreground": 1076,
+          "fraction": 0,
+          "absolute": 0
+        },
+        {
+          "a": "p5-064:G",
+          "b": "p5-070:G",
+          "exact": true,
+          "changed": 0,
+          "foreground": 1046,
+          "fraction": 0,
+          "absolute": 0
+        },
+        {
+          "a": "p5-047:G",
+          "b": "p5-050:G",
+          "exact": false,
+          "changed": 60,
+          "foreground": 1043,
+          "fraction": 0.057526,
+          "absolute": 3768
+        },
+        {
+          "a": "p5-049:G",
+          "b": "p5-062:D",
+          "exact": false,
+          "changed": 74,
+          "foreground": 1122,
+          "fraction": 0.065954,
+          "absolute": 3610
+        },
+        {
+          "a": "p5-054:G",
+          "b": "p5-069:G",
+          "exact": false,
+          "changed": 103,
+          "foreground": 1124,
+          "fraction": 0.091637,
+          "absolute": 6816
+        },
+        {
+          "a": "p5-056:G",
+          "b": "p5-061:G",
+          "exact": false,
+          "changed": 148,
+          "foreground": 1125,
+          "fraction": 0.131556,
+          "absolute": 13256
+        }
+      ]
+    }
+  },
+  "pairOnly": {
+    "head": [
+      {
+        "a": "p5-019:G",
+        "b": "p5-021:G",
+        "exact": true,
+        "changed": 0,
+        "foreground": 19070,
+        "fraction": 0,
+        "absolute": 0
+      },
+      {
+        "a": "p5-028:G",
+        "b": "p5-059:G",
+        "exact": true,
+        "changed": 0,
+        "foreground": 19974,
+        "fraction": 0,
+        "absolute": 0
+      },
+      {
+        "a": "p5-047:G",
+        "b": "p5-050:G",
+        "exact": false,
+        "changed": 1021,
+        "foreground": 19277,
+        "fraction": 0.052965,
+        "absolute": 77028
+      },
+      {
+        "a": "p5-049:G",
+        "b": "p5-062:D",
+        "exact": false,
+        "changed": 1321,
+        "foreground": 20859,
+        "fraction": 0.06333,
+        "absolute": 80835
+      },
+      {
+        "a": "p5-064:G",
+        "b": "p5-070:G",
+        "exact": true,
+        "changed": 0,
+        "foreground": 19412,
+        "fraction": 0,
+        "absolute": 0
+      },
+      {
+        "a": "p5-056:G",
+        "b": "p5-061:G",
+        "exact": false,
+        "changed": 2080,
+        "foreground": 20671,
+        "fraction": 0.100624,
+        "absolute": 302857
+      },
+      {
+        "a": "p5-054:G",
+        "b": "p5-069:G",
+        "exact": false,
+        "changed": 1783,
+        "foreground": 20806,
+        "fraction": 0.085696,
+        "absolute": 146981
+      }
+    ],
+    "body": [
+      {
+        "a": "p5-019:G",
+        "b": "p5-021:G",
+        "exact": true,
+        "changed": 0,
+        "foreground": 4239,
+        "fraction": 0,
+        "absolute": 0
+      },
+      {
+        "a": "p5-028:G",
+        "b": "p5-059:G",
+        "exact": true,
+        "changed": 0,
+        "foreground": 4363,
+        "fraction": 0,
+        "absolute": 0
+      },
+      {
+        "a": "p5-047:G",
+        "b": "p5-050:G",
+        "exact": false,
+        "changed": 155,
+        "foreground": 4267,
+        "fraction": 0.036325,
+        "absolute": 10582
+      },
+      {
+        "a": "p5-049:G",
+        "b": "p5-062:D",
+        "exact": false,
+        "changed": 202,
+        "foreground": 4495,
+        "fraction": 0.044939,
+        "absolute": 11175
+      },
+      {
+        "a": "p5-064:G",
+        "b": "p5-070:G",
+        "exact": true,
+        "changed": 0,
+        "foreground": 4288,
+        "fraction": 0,
+        "absolute": 0
+      },
+      {
+        "a": "p5-056:G",
+        "b": "p5-061:G",
+        "exact": false,
+        "changed": 348,
+        "foreground": 4479,
+        "fraction": 0.077696,
+        "absolute": 41952
+      },
+      {
+        "a": "p5-054:G",
+        "b": "p5-069:G",
+        "exact": false,
+        "changed": 270,
+        "foreground": 4491,
+        "fraction": 0.06012,
+        "absolute": 20614
+      }
+    ],
+    "mini": [
+      {
+        "a": "p5-019:G",
+        "b": "p5-021:G",
+        "exact": true,
+        "changed": 0,
+        "foreground": 1034,
+        "fraction": 0,
+        "absolute": 0
+      },
+      {
+        "a": "p5-028:G",
+        "b": "p5-059:G",
+        "exact": true,
+        "changed": 0,
+        "foreground": 1076,
+        "fraction": 0,
+        "absolute": 0
+      },
+      {
+        "a": "p5-047:G",
+        "b": "p5-050:G",
+        "exact": false,
+        "changed": 60,
+        "foreground": 1043,
+        "fraction": 0.057526,
+        "absolute": 3768
+      },
+      {
+        "a": "p5-049:G",
+        "b": "p5-062:D",
+        "exact": false,
+        "changed": 74,
+        "foreground": 1122,
+        "fraction": 0.065954,
+        "absolute": 3610
+      },
+      {
+        "a": "p5-064:G",
+        "b": "p5-070:G",
+        "exact": true,
+        "changed": 0,
+        "foreground": 1046,
+        "fraction": 0,
+        "absolute": 0
+      },
+      {
+        "a": "p5-056:G",
+        "b": "p5-061:G",
+        "exact": false,
+        "changed": 148,
+        "foreground": 1125,
+        "fraction": 0.131556,
+        "absolute": 13256
+      },
+      {
+        "a": "p5-054:G",
+        "b": "p5-069:G",
+        "exact": false,
+        "changed": 103,
+        "foreground": 1124,
+        "fraction": 0.091637,
+        "absolute": 6816
+      }
+    ]
+  },
+  "body": {
+    "head": {
+      "count": 6,
+      "unique": 6,
+      "exact": [],
+      "near": 0,
+      "nearest": [
+        {
+          "a": "standard",
+          "b": "broad",
+          "exact": false,
+          "changed": 1927,
+          "foreground": 18448,
+          "fraction": 0.104456,
+          "absolute": 149838
+        },
+        {
+          "a": "standard",
+          "b": "shoulders",
+          "exact": false,
+          "changed": 3010,
+          "foreground": 20440,
+          "fraction": 0.14726,
+          "absolute": 293190
+        },
+        {
+          "a": "narrow",
+          "b": "bust",
+          "exact": false,
+          "changed": 2632,
+          "foreground": 15781,
+          "fraction": 0.166783,
+          "absolute": 218743
+        },
+        {
+          "a": "broad",
+          "b": "shoulders",
+          "exact": false,
+          "changed": 3764,
+          "foreground": 20440,
+          "fraction": 0.184149,
+          "absolute": 345263
+        },
+        {
+          "a": "broad",
+          "b": "bust",
+          "exact": false,
+          "changed": 3868,
+          "foreground": 17764,
+          "fraction": 0.217744,
+          "absolute": 336276
+        },
+        {
+          "a": "broad",
+          "b": "narrow",
+          "exact": false,
+          "changed": 3881,
+          "foreground": 17764,
+          "fraction": 0.218476,
+          "absolute": 372814
+        },
+        {
+          "a": "standard",
+          "b": "narrow",
+          "exact": false,
+          "changed": 4101,
+          "foreground": 18104,
+          "fraction": 0.226525,
+          "absolute": 407945
+        },
+        {
+          "a": "standard",
+          "b": "bust",
+          "exact": false,
+          "changed": 4211,
+          "foreground": 18104,
+          "fraction": 0.232601,
+          "absolute": 376875
+        },
+        {
+          "a": "slim",
+          "b": "narrow",
+          "exact": false,
+          "changed": 3940,
+          "foreground": 14784,
+          "fraction": 0.266504,
+          "absolute": 386984
+        },
+        {
+          "a": "slim",
+          "b": "bust",
+          "exact": false,
+          "changed": 4567,
+          "foreground": 15210,
+          "fraction": 0.300263,
+          "absolute": 439622
+        },
+        {
+          "a": "narrow",
+          "b": "shoulders",
+          "exact": false,
+          "changed": 6437,
+          "foreground": 20440,
+          "fraction": 0.314922,
+          "absolute": 670761
+        },
+        {
+          "a": "shoulders",
+          "b": "bust",
+          "exact": false,
+          "changed": 6547,
+          "foreground": 20440,
+          "fraction": 0.320303,
+          "absolute": 639691
+        },
+        {
+          "a": "slim",
+          "b": "broad",
+          "exact": false,
+          "changed": 6919,
+          "foreground": 17764,
+          "fraction": 0.389496,
+          "absolute": 723814
+        },
+        {
+          "a": "standard",
+          "b": "slim",
+          "exact": false,
+          "changed": 7260,
+          "foreground": 18104,
+          "fraction": 0.401016,
+          "absolute": 762516
+        },
+        {
+          "a": "slim",
+          "b": "shoulders",
+          "exact": false,
+          "changed": 9596,
+          "foreground": 20440,
+          "fraction": 0.469472,
+          "absolute": 1025332
+        }
+      ]
+    },
+    "body": {
+      "count": 6,
+      "unique": 6,
+      "exact": [],
+      "near": 0,
+      "nearest": [
+        {
+          "a": "standard",
+          "b": "shoulders",
+          "exact": false,
+          "changed": 536,
+          "foreground": 4475,
+          "fraction": 0.119777,
+          "absolute": 46605
+        },
+        {
+          "a": "broad",
+          "b": "bust",
+          "exact": false,
+          "changed": 1423,
+          "foreground": 5456,
+          "fraction": 0.260814,
+          "absolute": 120511
+        },
+        {
+          "a": "narrow",
+          "b": "bust",
+          "exact": false,
+          "changed": 1343,
+          "foreground": 4771,
+          "fraction": 0.281492,
+          "absolute": 118264
+        },
+        {
+          "a": "standard",
+          "b": "narrow",
+          "exact": false,
+          "changed": 1392,
+          "foreground": 4622,
+          "fraction": 0.301168,
+          "absolute": 130390
+        },
+        {
+          "a": "broad",
+          "b": "narrow",
+          "exact": false,
+          "changed": 1830,
+          "foreground": 5446,
+          "fraction": 0.336026,
+          "absolute": 172954
+        },
+        {
+          "a": "narrow",
+          "b": "shoulders",
+          "exact": false,
+          "changed": 1766,
+          "foreground": 4996,
+          "fraction": 0.353483,
+          "absolute": 172211
+        },
+        {
+          "a": "standard",
+          "b": "broad",
+          "exact": false,
+          "changed": 2034,
+          "foreground": 5561,
+          "fraction": 0.365762,
+          "absolute": 192212
+        },
+        {
+          "a": "standard",
+          "b": "bust",
+          "exact": false,
+          "changed": 1884,
+          "foreground": 5046,
+          "fraction": 0.373365,
+          "absolute": 171398
+        },
+        {
+          "a": "broad",
+          "b": "shoulders",
+          "exact": false,
+          "changed": 2289,
+          "foreground": 5859,
+          "fraction": 0.390681,
+          "absolute": 215502
+        },
+        {
+          "a": "shoulders",
+          "b": "bust",
+          "exact": false,
+          "changed": 2258,
+          "foreground": 5420,
+          "fraction": 0.416605,
+          "absolute": 213219
+        },
+        {
+          "a": "slim",
+          "b": "narrow",
+          "exact": false,
+          "changed": 1919,
+          "foreground": 4052,
+          "fraction": 0.473593,
+          "absolute": 183673
+        },
+        {
+          "a": "standard",
+          "b": "slim",
+          "exact": false,
+          "changed": 1966,
+          "foreground": 4101,
+          "fraction": 0.479395,
+          "absolute": 186603
+        },
+        {
+          "a": "slim",
+          "b": "shoulders",
+          "exact": false,
+          "changed": 2340,
+          "foreground": 4475,
+          "fraction": 0.522905,
+          "absolute": 228424
+        },
+        {
+          "a": "slim",
+          "b": "bust",
+          "exact": false,
+          "changed": 2466,
+          "foreground": 4563,
+          "fraction": 0.540434,
+          "absolute": 243685
+        },
+        {
+          "a": "slim",
+          "b": "broad",
+          "exact": false,
+          "changed": 3343,
+          "foreground": 5430,
+          "fraction": 0.615654,
+          "absolute": 341000
+        }
+      ]
+    },
+    "mini": {
+      "count": 6,
+      "unique": 6,
+      "exact": [],
+      "near": 0,
+      "nearest": [
+        {
+          "a": "standard",
+          "b": "shoulders",
+          "exact": false,
+          "changed": 172,
+          "foreground": 1090,
+          "fraction": 0.157798,
+          "absolute": 14940
+        },
+        {
+          "a": "standard",
+          "b": "broad",
+          "exact": false,
+          "changed": 192,
+          "foreground": 1072,
+          "fraction": 0.179104,
+          "absolute": 15801
+        },
+        {
+          "a": "narrow",
+          "b": "bust",
+          "exact": false,
+          "changed": 166,
+          "foreground": 878,
+          "fraction": 0.189066,
+          "absolute": 14691
+        },
+        {
+          "a": "broad",
+          "b": "shoulders",
+          "exact": false,
+          "changed": 260,
+          "foreground": 1158,
+          "fraction": 0.224525,
+          "absolute": 23348
+        },
+        {
+          "a": "broad",
+          "b": "bust",
+          "exact": false,
+          "changed": 236,
+          "foreground": 1032,
+          "fraction": 0.228682,
+          "absolute": 22236
+        },
+        {
+          "a": "standard",
+          "b": "narrow",
+          "exact": false,
+          "changed": 237,
+          "foreground": 984,
+          "fraction": 0.240854,
+          "absolute": 21194
+        },
+        {
+          "a": "standard",
+          "b": "bust",
+          "exact": false,
+          "changed": 250,
+          "foreground": 1012,
+          "fraction": 0.247036,
+          "absolute": 21387
+        },
+        {
+          "a": "slim",
+          "b": "narrow",
+          "exact": false,
+          "changed": 206,
+          "foreground": 794,
+          "fraction": 0.259446,
+          "absolute": 20903
+        },
+        {
+          "a": "broad",
+          "b": "narrow",
+          "exact": false,
+          "changed": 291,
+          "foreground": 1032,
+          "fraction": 0.281977,
+          "absolute": 28259
+        },
+        {
+          "a": "slim",
+          "b": "bust",
+          "exact": false,
+          "changed": 258,
+          "foreground": 848,
+          "fraction": 0.304245,
+          "absolute": 27958
+        },
+        {
+          "a": "narrow",
+          "b": "shoulders",
+          "exact": false,
+          "changed": 345,
+          "foreground": 1092,
+          "fraction": 0.315934,
+          "absolute": 35042
+        },
+        {
+          "a": "shoulders",
+          "b": "bust",
+          "exact": false,
+          "changed": 358,
+          "foreground": 1120,
+          "fraction": 0.319643,
+          "absolute": 35235
+        },
+        {
+          "a": "standard",
+          "b": "slim",
+          "exact": false,
+          "changed": 394,
+          "foreground": 982,
+          "fraction": 0.401222,
+          "absolute": 40696
+        },
+        {
+          "a": "slim",
+          "b": "broad",
+          "exact": false,
+          "changed": 445,
+          "foreground": 1032,
+          "fraction": 0.431202,
+          "absolute": 47450
+        },
+        {
+          "a": "slim",
+          "b": "shoulders",
+          "exact": false,
+          "changed": 502,
+          "foreground": 1090,
+          "fraction": 0.46055,
+          "absolute": 54544
+        }
+      ]
+    }
+  },
+  "face": {
+    "head": {
+      "count": 6,
+      "unique": 6,
+      "exact": [],
+      "near": 0,
+      "nearest": [
+        {
+          "a": "ipad",
+          "b": "max",
+          "exact": false,
+          "changed": 2117,
+          "foreground": 22704,
+          "fraction": 0.093243,
+          "absolute": 137948
+        },
+        {
+          "a": "neutral",
+          "b": "tall",
+          "exact": false,
+          "changed": 3315,
+          "foreground": 18643,
+          "fraction": 0.177815,
+          "absolute": 220594
+        },
+        {
+          "a": "neutral",
+          "b": "broad",
+          "exact": false,
+          "changed": 4362,
+          "foreground": 20632,
+          "fraction": 0.211419,
+          "absolute": 383096
+        },
+        {
+          "a": "broad",
+          "b": "max",
+          "exact": false,
+          "changed": 5058,
+          "foreground": 22653,
+          "fraction": 0.223282,
+          "absolute": 358494
+        },
+        {
+          "a": "broad",
+          "b": "ipad",
+          "exact": false,
+          "changed": 5201,
+          "foreground": 22411,
+          "fraction": 0.232074,
+          "absolute": 381630
+        },
+        {
+          "a": "neutral",
+          "b": "min",
+          "exact": false,
+          "changed": 4598,
+          "foreground": 18104,
+          "fraction": 0.253977,
+          "absolute": 383724
+        },
+        {
+          "a": "tall",
+          "b": "min",
+          "exact": false,
+          "changed": 4913,
+          "foreground": 17972,
+          "fraction": 0.27337,
+          "absolute": 379699
+        },
+        {
+          "a": "tall",
+          "b": "ipad",
+          "exact": false,
+          "changed": 6108,
+          "foreground": 21950,
+          "fraction": 0.278269,
+          "absolute": 564913
+        },
+        {
+          "a": "neutral",
+          "b": "ipad",
+          "exact": false,
+          "changed": 6632,
+          "foreground": 21950,
+          "fraction": 0.302141,
+          "absolute": 564466
+        },
+        {
+          "a": "tall",
+          "b": "broad",
+          "exact": false,
+          "changed": 6517,
+          "foreground": 21155,
+          "fraction": 0.30806,
+          "absolute": 558508
+        },
+        {
+          "a": "tall",
+          "b": "max",
+          "exact": false,
+          "changed": 7219,
+          "foreground": 22641,
+          "fraction": 0.318846,
+          "absolute": 655149
+        },
+        {
+          "a": "neutral",
+          "b": "max",
+          "exact": false,
+          "changed": 7643,
+          "foreground": 22641,
+          "fraction": 0.337573,
+          "absolute": 653424
+        },
+        {
+          "a": "broad",
+          "b": "min",
+          "exact": false,
+          "changed": 7027,
+          "foreground": 20528,
+          "fraction": 0.342313,
+          "absolute": 676999
+        },
+        {
+          "a": "ipad",
+          "b": "min",
+          "exact": false,
+          "changed": 9116,
+          "foreground": 21950,
+          "fraction": 0.415308,
+          "absolute": 866448
+        },
+        {
+          "a": "min",
+          "b": "max",
+          "exact": false,
+          "changed": 10031,
+          "foreground": 22641,
+          "fraction": 0.443046,
+          "absolute": 949635
+        }
+      ]
+    },
+    "body": {
+      "count": 6,
+      "unique": 6,
+      "exact": [],
+      "near": 0,
+      "nearest": [
+        {
+          "a": "ipad",
+          "b": "max",
+          "exact": false,
+          "changed": 319,
+          "foreground": 4743,
+          "fraction": 0.067257,
+          "absolute": 19622
+        },
+        {
+          "a": "neutral",
+          "b": "tall",
+          "exact": false,
+          "changed": 509,
+          "foreground": 4183,
+          "fraction": 0.121683,
+          "absolute": 30609
+        },
+        {
+          "a": "neutral",
+          "b": "broad",
+          "exact": false,
+          "changed": 668,
+          "foreground": 4448,
+          "fraction": 0.15018,
+          "absolute": 53521
+        },
+        {
+          "a": "broad",
+          "b": "max",
+          "exact": false,
+          "changed": 733,
+          "foreground": 4731,
+          "fraction": 0.154936,
+          "absolute": 49216
+        },
+        {
+          "a": "broad",
+          "b": "ipad",
+          "exact": false,
+          "changed": 741,
+          "foreground": 4701,
+          "fraction": 0.157626,
+          "absolute": 52741
+        },
+        {
+          "a": "neutral",
+          "b": "min",
+          "exact": false,
+          "changed": 674,
+          "foreground": 4101,
+          "fraction": 0.16435,
+          "absolute": 53328
+        },
+        {
+          "a": "tall",
+          "b": "min",
+          "exact": false,
+          "changed": 688,
+          "foreground": 4072,
+          "fraction": 0.168959,
+          "absolute": 52491
+        },
+        {
+          "a": "tall",
+          "b": "ipad",
+          "exact": false,
+          "changed": 870,
+          "foreground": 4641,
+          "fraction": 0.18746,
+          "absolute": 77299
+        },
+        {
+          "a": "tall",
+          "b": "broad",
+          "exact": false,
+          "changed": 925,
+          "foreground": 4527,
+          "fraction": 0.20433,
+          "absolute": 77085
+        },
+        {
+          "a": "neutral",
+          "b": "ipad",
+          "exact": false,
+          "changed": 979,
+          "foreground": 4641,
+          "fraction": 0.210946,
+          "absolute": 78020
+        },
+        {
+          "a": "tall",
+          "b": "max",
+          "exact": false,
+          "changed": 1014,
+          "foreground": 4729,
+          "fraction": 0.214422,
+          "absolute": 89841
+        },
+        {
+          "a": "broad",
+          "b": "min",
+          "exact": false,
+          "changed": 989,
+          "foreground": 4429,
+          "fraction": 0.223301,
+          "absolute": 93036
+        },
+        {
+          "a": "neutral",
+          "b": "max",
+          "exact": false,
+          "changed": 1124,
+          "foreground": 4729,
+          "fraction": 0.237682,
+          "absolute": 90422
+        },
+        {
+          "a": "ipad",
+          "b": "min",
+          "exact": false,
+          "changed": 1318,
+          "foreground": 4641,
+          "fraction": 0.283991,
+          "absolute": 120330
+        },
+        {
+          "a": "min",
+          "b": "max",
+          "exact": false,
+          "changed": 1443,
+          "foreground": 4729,
+          "fraction": 0.305139,
+          "absolute": 131994
+        }
+      ]
+    },
+    "mini": {
+      "count": 6,
+      "unique": 6,
+      "exact": [],
+      "near": 0,
+      "nearest": [
+        {
+          "a": "ipad",
+          "b": "max",
+          "exact": false,
+          "changed": 95,
+          "foreground": 1186,
+          "fraction": 0.080101,
+          "absolute": 6013
+        },
+        {
+          "a": "neutral",
+          "b": "tall",
+          "exact": false,
+          "changed": 139,
+          "foreground": 1008,
+          "fraction": 0.137897,
+          "absolute": 9082
+        },
+        {
+          "a": "neutral",
+          "b": "broad",
+          "exact": false,
+          "changed": 201,
+          "foreground": 1096,
+          "fraction": 0.183394,
+          "absolute": 16775
+        },
+        {
+          "a": "broad",
+          "b": "max",
+          "exact": false,
+          "changed": 229,
+          "foreground": 1186,
+          "fraction": 0.193086,
+          "absolute": 15837
+        },
+        {
+          "a": "broad",
+          "b": "ipad",
+          "exact": false,
+          "changed": 247,
+          "foreground": 1173,
+          "fraction": 0.210571,
+          "absolute": 16552
+        },
+        {
+          "a": "tall",
+          "b": "min",
+          "exact": false,
+          "changed": 214,
+          "foreground": 970,
+          "fraction": 0.220619,
+          "absolute": 15916
+        },
+        {
+          "a": "neutral",
+          "b": "min",
+          "exact": false,
+          "changed": 219,
+          "foreground": 982,
+          "fraction": 0.223014,
+          "absolute": 16176
+        },
+        {
+          "a": "tall",
+          "b": "ipad",
+          "exact": false,
+          "changed": 288,
+          "foreground": 1155,
+          "fraction": 0.249351,
+          "absolute": 24633
+        },
+        {
+          "a": "tall",
+          "b": "broad",
+          "exact": false,
+          "changed": 299,
+          "foreground": 1122,
+          "fraction": 0.266488,
+          "absolute": 24663
+        },
+        {
+          "a": "neutral",
+          "b": "ipad",
+          "exact": false,
+          "changed": 308,
+          "foreground": 1155,
+          "fraction": 0.266667,
+          "absolute": 24636
+        },
+        {
+          "a": "tall",
+          "b": "max",
+          "exact": false,
+          "changed": 337,
+          "foreground": 1186,
+          "fraction": 0.284148,
+          "absolute": 28992
+        },
+        {
+          "a": "neutral",
+          "b": "max",
+          "exact": false,
+          "changed": 349,
+          "foreground": 1186,
+          "fraction": 0.294266,
+          "absolute": 28876
+        },
+        {
+          "a": "broad",
+          "b": "min",
+          "exact": false,
+          "changed": 325,
+          "foreground": 1092,
+          "fraction": 0.297619,
+          "absolute": 29279
+        },
+        {
+          "a": "ipad",
+          "b": "min",
+          "exact": false,
+          "changed": 424,
+          "foreground": 1155,
+          "fraction": 0.3671,
+          "absolute": 37801
+        },
+        {
+          "a": "min",
+          "b": "max",
+          "exact": false,
+          "changed": 462,
+          "foreground": 1186,
+          "fraction": 0.389545,
+          "absolute": 42010
+        }
+      ]
+    }
+  },
+  "eyes": {
+    "head": {
+      "count": 9,
+      "unique": 9,
+      "exact": [],
+      "near": 0,
+      "nearest": [
+        {
+          "a": "almond",
+          "b": "upturned",
+          "exact": false,
+          "changed": 195,
+          "foreground": 1984,
+          "fraction": 0.098286,
+          "absolute": 15164
+        },
+        {
+          "a": "almond",
+          "b": "downturned",
+          "exact": false,
+          "changed": 205,
+          "foreground": 1984,
+          "fraction": 0.103327,
+          "absolute": 17471
+        },
+        {
+          "a": "round",
+          "b": "oval",
+          "exact": false,
+          "changed": 211,
+          "foreground": 1984,
+          "fraction": 0.106351,
+          "absolute": 16110
+        },
+        {
+          "a": "oval",
+          "b": "almond",
+          "exact": false,
+          "changed": 222,
+          "foreground": 1984,
+          "fraction": 0.111895,
+          "absolute": 22185
+        },
+        {
+          "a": "oval",
+          "b": "upturned",
+          "exact": false,
+          "changed": 234,
+          "foreground": 1984,
+          "fraction": 0.117944,
+          "absolute": 22357
+        },
+        {
+          "a": "almond",
+          "b": "narrow",
+          "exact": false,
+          "changed": 240,
+          "foreground": 1984,
+          "fraction": 0.120968,
+          "absolute": 27594
+        },
+        {
+          "a": "round",
+          "b": "upturned",
+          "exact": false,
+          "changed": 241,
+          "foreground": 1984,
+          "fraction": 0.121472,
+          "absolute": 24287
+        },
+        {
+          "a": "upturned",
+          "b": "downturned",
+          "exact": false,
+          "changed": 245,
+          "foreground": 1984,
+          "fraction": 0.123488,
+          "absolute": 24573
+        },
+        {
+          "a": "oval",
+          "b": "downturned",
+          "exact": false,
+          "changed": 247,
+          "foreground": 1984,
+          "fraction": 0.124496,
+          "absolute": 25012
+        },
+        {
+          "a": "round",
+          "b": "almond",
+          "exact": false,
+          "changed": 251,
+          "foreground": 1984,
+          "fraction": 0.126512,
+          "absolute": 27083
+        },
+        {
+          "a": "round",
+          "b": "downturned",
+          "exact": false,
+          "changed": 253,
+          "foreground": 1984,
+          "fraction": 0.12752,
+          "absolute": 24766
+        },
+        {
+          "a": "historical",
+          "b": "round",
+          "exact": false,
+          "changed": 272,
+          "foreground": 1984,
+          "fraction": 0.137097,
+          "absolute": 31706
+        },
+        {
+          "a": "narrow",
+          "b": "heavy",
+          "exact": false,
+          "changed": 289,
+          "foreground": 1984,
+          "fraction": 0.145665,
+          "absolute": 29095
+        },
+        {
+          "a": "narrow",
+          "b": "crescent",
+          "exact": false,
+          "changed": 290,
+          "foreground": 1984,
+          "fraction": 0.146169,
+          "absolute": 32744
+        },
+        {
+          "a": "narrow",
+          "b": "upturned",
+          "exact": false,
+          "changed": 291,
+          "foreground": 1984,
+          "fraction": 0.146673,
+          "absolute": 33096
+        }
+      ]
+    },
+    "body": {
+      "count": 9,
+      "unique": 9,
+      "exact": [],
+      "near": 0,
+      "nearest": [
+        {
+          "a": "round",
+          "b": "oval",
+          "exact": false,
+          "changed": 22,
+          "foreground": 312,
+          "fraction": 0.070513,
+          "absolute": 942
+        },
+        {
+          "a": "almond",
+          "b": "upturned",
+          "exact": false,
+          "changed": 24,
+          "foreground": 312,
+          "fraction": 0.076923,
+          "absolute": 1103
+        },
+        {
+          "a": "almond",
+          "b": "downturned",
+          "exact": false,
+          "changed": 26,
+          "foreground": 312,
+          "fraction": 0.083333,
+          "absolute": 1234
+        },
+        {
+          "a": "round",
+          "b": "upturned",
+          "exact": false,
+          "changed": 33,
+          "foreground": 312,
+          "fraction": 0.105769,
+          "absolute": 1741
+        },
+        {
+          "a": "round",
+          "b": "downturned",
+          "exact": false,
+          "changed": 36,
+          "foreground": 312,
+          "fraction": 0.115385,
+          "absolute": 1733
+        },
+        {
+          "a": "oval",
+          "b": "almond",
+          "exact": false,
+          "changed": 38,
+          "foreground": 312,
+          "fraction": 0.121795,
+          "absolute": 1507
+        },
+        {
+          "a": "oval",
+          "b": "upturned",
+          "exact": false,
+          "changed": 40,
+          "foreground": 312,
+          "fraction": 0.128205,
+          "absolute": 1552
+        },
+        {
+          "a": "upturned",
+          "b": "downturned",
+          "exact": false,
+          "changed": 40,
+          "foreground": 312,
+          "fraction": 0.128205,
+          "absolute": 2151
+        },
+        {
+          "a": "oval",
+          "b": "downturned",
+          "exact": false,
+          "changed": 43,
+          "foreground": 312,
+          "fraction": 0.137821,
+          "absolute": 1619
+        },
+        {
+          "a": "round",
+          "b": "almond",
+          "exact": false,
+          "changed": 47,
+          "foreground": 312,
+          "fraction": 0.150641,
+          "absolute": 1979
+        },
+        {
+          "a": "almond",
+          "b": "narrow",
+          "exact": false,
+          "changed": 47,
+          "foreground": 312,
+          "fraction": 0.150641,
+          "absolute": 2682
+        },
+        {
+          "a": "narrow",
+          "b": "heavy",
+          "exact": false,
+          "changed": 49,
+          "foreground": 312,
+          "fraction": 0.157051,
+          "absolute": 3229
+        },
+        {
+          "a": "downturned",
+          "b": "crescent",
+          "exact": false,
+          "changed": 55,
+          "foreground": 312,
+          "fraction": 0.176282,
+          "absolute": 3080
+        },
+        {
+          "a": "narrow",
+          "b": "upturned",
+          "exact": false,
+          "changed": 56,
+          "foreground": 312,
+          "fraction": 0.179487,
+          "absolute": 3266
+        },
+        {
+          "a": "round",
+          "b": "heavy",
+          "exact": false,
+          "changed": 56,
+          "foreground": 312,
+          "fraction": 0.179487,
+          "absolute": 3514
+        }
+      ]
+    },
+    "mini": {
+      "count": 9,
+      "unique": 9,
+      "exact": [],
+      "near": 2,
+      "nearest": [
+        {
+          "a": "round",
+          "b": "oval",
+          "exact": false,
+          "changed": 0,
+          "foreground": 98,
+          "fraction": 0,
+          "absolute": 210
+        },
+        {
+          "a": "upturned",
+          "b": "downturned",
+          "exact": false,
+          "changed": 0,
+          "foreground": 98,
+          "fraction": 0,
+          "absolute": 251
+        },
+        {
+          "a": "almond",
+          "b": "downturned",
+          "exact": false,
+          "changed": 1,
+          "foreground": 98,
+          "fraction": 0.010204,
+          "absolute": 215
+        },
+        {
+          "a": "almond",
+          "b": "upturned",
+          "exact": false,
+          "changed": 2,
+          "foreground": 98,
+          "fraction": 0.020408,
+          "absolute": 168
+        },
+        {
+          "a": "oval",
+          "b": "almond",
+          "exact": false,
+          "changed": 4,
+          "foreground": 98,
+          "fraction": 0.040816,
+          "absolute": 332
+        },
+        {
+          "a": "round",
+          "b": "almond",
+          "exact": false,
+          "changed": 4,
+          "foreground": 98,
+          "fraction": 0.040816,
+          "absolute": 391
+        },
+        {
+          "a": "oval",
+          "b": "upturned",
+          "exact": false,
+          "changed": 8,
+          "foreground": 98,
+          "fraction": 0.081633,
+          "absolute": 395
+        },
+        {
+          "a": "oval",
+          "b": "downturned",
+          "exact": false,
+          "changed": 8,
+          "foreground": 98,
+          "fraction": 0.081633,
+          "absolute": 410
+        },
+        {
+          "a": "round",
+          "b": "upturned",
+          "exact": false,
+          "changed": 8,
+          "foreground": 98,
+          "fraction": 0.081633,
+          "absolute": 446
+        },
+        {
+          "a": "narrow",
+          "b": "crescent",
+          "exact": false,
+          "changed": 8,
+          "foreground": 98,
+          "fraction": 0.081633,
+          "absolute": 685
+        },
+        {
+          "a": "round",
+          "b": "downturned",
+          "exact": false,
+          "changed": 10,
+          "foreground": 98,
+          "fraction": 0.102041,
+          "absolute": 462
+        },
+        {
+          "a": "narrow",
+          "b": "heavy",
+          "exact": false,
+          "changed": 13,
+          "foreground": 98,
+          "fraction": 0.132653,
+          "absolute": 695
+        },
+        {
+          "a": "almond",
+          "b": "narrow",
+          "exact": false,
+          "changed": 14,
+          "foreground": 98,
+          "fraction": 0.142857,
+          "absolute": 532
+        },
+        {
+          "a": "narrow",
+          "b": "upturned",
+          "exact": false,
+          "changed": 14,
+          "foreground": 98,
+          "fraction": 0.142857,
+          "absolute": 533
+        },
+        {
+          "a": "upturned",
+          "b": "crescent",
+          "exact": false,
+          "changed": 15,
+          "foreground": 98,
+          "fraction": 0.153061,
+          "absolute": 556
+        }
+      ]
+    }
+  },
+  "palettes": {
+    "p5-038:G": {
+      "#fffdf8": {
+        "head": {
+          "count": 27,
+          "unique": 27,
+          "exact": [],
+          "near": 0,
+          "nearest": [
+            {
+              "a": "noir-profond",
+              "b": "noir-ebene",
+              "exact": false,
+              "changed": 2711,
+              "foreground": 19431,
+              "fraction": 0.139519,
+              "absolute": 61210
+            },
+            {
+              "a": "noir-ebene",
+              "b": "brun-sombre",
+              "exact": false,
+              "changed": 2730,
+              "foreground": 19431,
+              "fraction": 0.140497,
+              "absolute": 62285
+            },
+            {
+              "a": "historical",
+              "b": "blond-dore",
+              "exact": false,
+              "changed": 3181,
+              "foreground": 19429,
+              "fraction": 0.163724,
+              "absolute": 214549
+            },
+            {
+              "a": "chatain",
+              "b": "roux-auburn",
+              "exact": false,
+              "changed": 3951,
+              "foreground": 19431,
+              "fraction": 0.203335,
+              "absolute": 86790
+            },
+            {
+              "a": "brun-chocolat",
+              "b": "roux-auburn",
+              "exact": false,
+              "changed": 3963,
+              "foreground": 19431,
+              "fraction": 0.203952,
+              "absolute": 101436
+            },
+            {
+              "a": "brun-chocolat",
+              "b": "chatain",
+              "exact": false,
+              "changed": 3969,
+              "foreground": 19431,
+              "fraction": 0.204261,
+              "absolute": 107314
+            },
+            {
+              "a": "chatain-clair",
+              "b": "roux-cuivre",
+              "exact": false,
+              "changed": 3975,
+              "foreground": 19431,
+              "fraction": 0.20457,
+              "absolute": 108046
+            },
+            {
+              "a": "brun-sombre",
+              "b": "brun-chocolat",
+              "exact": false,
+              "changed": 3982,
+              "foreground": 19431,
+              "fraction": 0.20493,
+              "absolute": 108389
+            },
+            {
+              "a": "roux-auburn",
+              "b": "rouge-profond",
+              "exact": false,
+              "changed": 4004,
+              "foreground": 19431,
+              "fraction": 0.206062,
+              "absolute": 105250
+            },
+            {
+              "a": "noir-profond",
+              "b": "brun-sombre",
+              "exact": false,
+              "changed": 4007,
+              "foreground": 19431,
+              "fraction": 0.206217,
+              "absolute": 122432
+            },
+            {
+              "a": "turquoise-profond",
+              "b": "vert-emeraude",
+              "exact": false,
+              "changed": 4010,
+              "foreground": 19431,
+              "fraction": 0.206371,
+              "absolute": 134121
+            },
+            {
+              "a": "blond-cendre",
+              "b": "vert-sauge",
+              "exact": false,
+              "changed": 4012,
+              "foreground": 19427,
+              "fraction": 0.206517,
+              "absolute": 112985
+            },
+            {
+              "a": "chatain",
+              "b": "chatain-clair",
+              "exact": false,
+              "changed": 4016,
+              "foreground": 19431,
+              "fraction": 0.20668,
+              "absolute": 132332
+            },
+            {
+              "a": "gris-perle",
+              "b": "blanc-ivoire",
+              "exact": false,
+              "changed": 4038,
+              "foreground": 19413,
+              "fraction": 0.208005,
+              "absolute": 150434
+            },
+            {
+              "a": "blond-cendre",
+              "b": "blond-dore",
+              "exact": false,
+              "changed": 4045,
+              "foreground": 19429,
+              "fraction": 0.208194,
+              "absolute": 122957
+            }
+          ]
+        },
+        "body": {
+          "count": 27,
+          "unique": 27,
+          "exact": [],
+          "near": 0,
+          "nearest": [
+            {
+              "a": "noir-profond",
+              "b": "noir-ebene",
+              "exact": false,
+              "changed": 330,
+              "foreground": 4293,
+              "fraction": 0.076869,
+              "absolute": 8689
+            },
+            {
+              "a": "noir-ebene",
+              "b": "brun-sombre",
+              "exact": false,
+              "changed": 331,
+              "foreground": 4293,
+              "fraction": 0.077102,
+              "absolute": 8829
+            },
+            {
+              "a": "chatain",
+              "b": "roux-auburn",
+              "exact": false,
+              "changed": 528,
+              "foreground": 4293,
+              "fraction": 0.122991,
+              "absolute": 12228
+            },
+            {
+              "a": "historical",
+              "b": "blond-dore",
+              "exact": false,
+              "changed": 530,
+              "foreground": 4293,
+              "fraction": 0.123457,
+              "absolute": 30666
+            },
+            {
+              "a": "brun-chocolat",
+              "b": "roux-auburn",
+              "exact": false,
+              "changed": 545,
+              "foreground": 4293,
+              "fraction": 0.126951,
+              "absolute": 14511
+            },
+            {
+              "a": "brun-chocolat",
+              "b": "chatain",
+              "exact": false,
+              "changed": 546,
+              "foreground": 4293,
+              "fraction": 0.127184,
+              "absolute": 15365
+            },
+            {
+              "a": "brun-sombre",
+              "b": "brun-chocolat",
+              "exact": false,
+              "changed": 546,
+              "foreground": 4293,
+              "fraction": 0.127184,
+              "absolute": 15378
+            },
+            {
+              "a": "chatain-clair",
+              "b": "roux-cuivre",
+              "exact": false,
+              "changed": 547,
+              "foreground": 4293,
+              "fraction": 0.127417,
+              "absolute": 15388
+            },
+            {
+              "a": "roux-auburn",
+              "b": "rouge-profond",
+              "exact": false,
+              "changed": 552,
+              "foreground": 4293,
+              "fraction": 0.128581,
+              "absolute": 14652
+            },
+            {
+              "a": "noir-profond",
+              "b": "brun-sombre",
+              "exact": false,
+              "changed": 552,
+              "foreground": 4293,
+              "fraction": 0.128581,
+              "absolute": 17407
+            },
+            {
+              "a": "blond-cendre",
+              "b": "vert-sauge",
+              "exact": false,
+              "changed": 555,
+              "foreground": 4291,
+              "fraction": 0.12934,
+              "absolute": 15993
+            },
+            {
+              "a": "chatain",
+              "b": "chatain-clair",
+              "exact": false,
+              "changed": 558,
+              "foreground": 4293,
+              "fraction": 0.129979,
+              "absolute": 18812
+            },
+            {
+              "a": "turquoise-profond",
+              "b": "vert-emeraude",
+              "exact": false,
+              "changed": 559,
+              "foreground": 4293,
+              "fraction": 0.130212,
+              "absolute": 19123
+            },
+            {
+              "a": "blond-cendre",
+              "b": "blond-dore",
+              "exact": false,
+              "changed": 565,
+              "foreground": 4293,
+              "fraction": 0.13161,
+              "absolute": 16914
+            },
+            {
+              "a": "gris-perle",
+              "b": "blanc-ivoire",
+              "exact": false,
+              "changed": 567,
+              "foreground": 4290,
+              "fraction": 0.132168,
+              "absolute": 21470
+            }
+          ]
+        },
+        "mini": {
+          "count": 27,
+          "unique": 27,
+          "exact": [],
+          "near": 0,
+          "nearest": [
+            {
+              "a": "noir-profond",
+              "b": "noir-ebene",
+              "exact": false,
+              "changed": 87,
+              "foreground": 1055,
+              "fraction": 0.082464,
+              "absolute": 2847
+            },
+            {
+              "a": "noir-ebene",
+              "b": "brun-sombre",
+              "exact": false,
+              "changed": 97,
+              "foreground": 1055,
+              "fraction": 0.091943,
+              "absolute": 2910
+            },
+            {
+              "a": "chatain",
+              "b": "roux-auburn",
+              "exact": false,
+              "changed": 164,
+              "foreground": 1055,
+              "fraction": 0.15545,
+              "absolute": 3986
+            },
+            {
+              "a": "brun-chocolat",
+              "b": "roux-auburn",
+              "exact": false,
+              "changed": 172,
+              "foreground": 1055,
+              "fraction": 0.163033,
+              "absolute": 4752
+            },
+            {
+              "a": "brun-sombre",
+              "b": "brun-chocolat",
+              "exact": false,
+              "changed": 172,
+              "foreground": 1055,
+              "fraction": 0.163033,
+              "absolute": 5060
+            },
+            {
+              "a": "roux-auburn",
+              "b": "rouge-profond",
+              "exact": false,
+              "changed": 173,
+              "foreground": 1055,
+              "fraction": 0.163981,
+              "absolute": 4734
+            },
+            {
+              "a": "brun-chocolat",
+              "b": "chatain",
+              "exact": false,
+              "changed": 173,
+              "foreground": 1055,
+              "fraction": 0.163981,
+              "absolute": 5031
+            },
+            {
+              "a": "chatain-clair",
+              "b": "roux-cuivre",
+              "exact": false,
+              "changed": 173,
+              "foreground": 1055,
+              "fraction": 0.163981,
+              "absolute": 5063
+            },
+            {
+              "a": "blond-cendre",
+              "b": "vert-sauge",
+              "exact": false,
+              "changed": 173,
+              "foreground": 1055,
+              "fraction": 0.163981,
+              "absolute": 5244
+            },
+            {
+              "a": "noir-profond",
+              "b": "brun-sombre",
+              "exact": false,
+              "changed": 175,
+              "foreground": 1055,
+              "fraction": 0.165877,
+              "absolute": 5692
+            },
+            {
+              "a": "blond-cendre",
+              "b": "blond-dore",
+              "exact": false,
+              "changed": 177,
+              "foreground": 1055,
+              "fraction": 0.167773,
+              "absolute": 5466
+            },
+            {
+              "a": "chatain",
+              "b": "chatain-clair",
+              "exact": false,
+              "changed": 180,
+              "foreground": 1055,
+              "fraction": 0.170616,
+              "absolute": 6230
+            },
+            {
+              "a": "turquoise-profond",
+              "b": "vert-emeraude",
+              "exact": false,
+              "changed": 180,
+              "foreground": 1055,
+              "fraction": 0.170616,
+              "absolute": 6254
+            },
+            {
+              "a": "historical",
+              "b": "chatain-clair",
+              "exact": false,
+              "changed": 182,
+              "foreground": 1055,
+              "fraction": 0.172512,
+              "absolute": 5154
+            },
+            {
+              "a": "historical",
+              "b": "blond-dore",
+              "exact": false,
+              "changed": 185,
+              "foreground": 1055,
+              "fraction": 0.175355,
+              "absolute": 9978
+            }
+          ]
+        }
+      },
+      "#474c55": {
+        "head": {
+          "count": 27,
+          "unique": 27,
+          "exact": [],
+          "near": 0,
+          "nearest": [
+            {
+              "a": "noir-profond",
+              "b": "noir-ebene",
+              "exact": false,
+              "changed": 2711,
+              "foreground": 19392,
+              "fraction": 0.1398,
+              "absolute": 61214
+            },
+            {
+              "a": "noir-ebene",
+              "b": "brun-sombre",
+              "exact": false,
+              "changed": 2730,
+              "foreground": 19395,
+              "fraction": 0.140758,
+              "absolute": 62287
+            },
+            {
+              "a": "historical",
+              "b": "blond-dore",
+              "exact": false,
+              "changed": 3181,
+              "foreground": 19390,
+              "fraction": 0.164054,
+              "absolute": 214544
+            },
+            {
+              "a": "chatain",
+              "b": "roux-auburn",
+              "exact": false,
+              "changed": 3951,
+              "foreground": 19394,
+              "fraction": 0.203723,
+              "absolute": 86791
+            },
+            {
+              "a": "brun-chocolat",
+              "b": "roux-auburn",
+              "exact": false,
+              "changed": 3963,
+              "foreground": 19394,
+              "fraction": 0.204342,
+              "absolute": 101435
+            },
+            {
+              "a": "brun-chocolat",
+              "b": "chatain",
+              "exact": false,
+              "changed": 3969,
+              "foreground": 19393,
+              "fraction": 0.204661,
+              "absolute": 107312
+            },
+            {
+              "a": "chatain-clair",
+              "b": "roux-cuivre",
+              "exact": false,
+              "changed": 3976,
+              "foreground": 19393,
+              "fraction": 0.205022,
+              "absolute": 108038
+            },
+            {
+              "a": "brun-sombre",
+              "b": "brun-chocolat",
+              "exact": false,
+              "changed": 3983,
+              "foreground": 19395,
+              "fraction": 0.205362,
+              "absolute": 108395
+            },
+            {
+              "a": "roux-auburn",
+              "b": "rouge-profond",
+              "exact": false,
+              "changed": 4003,
+              "foreground": 19394,
+              "fraction": 0.206404,
+              "absolute": 105251
+            },
+            {
+              "a": "noir-profond",
+              "b": "brun-sombre",
+              "exact": false,
+              "changed": 4007,
+              "foreground": 19395,
+              "fraction": 0.2066,
+              "absolute": 122431
+            },
+            {
+              "a": "turquoise-profond",
+              "b": "vert-emeraude",
+              "exact": false,
+              "changed": 4011,
+              "foreground": 19390,
+              "fraction": 0.206859,
+              "absolute": 134125
+            },
+            {
+              "a": "chatain",
+              "b": "chatain-clair",
+              "exact": false,
+              "changed": 4016,
+              "foreground": 19393,
+              "fraction": 0.207085,
+              "absolute": 132337
+            },
+            {
+              "a": "blond-cendre",
+              "b": "vert-sauge",
+              "exact": false,
+              "changed": 4013,
+              "foreground": 19354,
+              "fraction": 0.207347,
+              "absolute": 112984
+            },
+            {
+              "a": "gris-perle",
+              "b": "blanc-ivoire",
+              "exact": false,
+              "changed": 4037,
+              "foreground": 19367,
+              "fraction": 0.208447,
+              "absolute": 150437
+            },
+            {
+              "a": "blond-cendre",
+              "b": "blond-dore",
+              "exact": false,
+              "changed": 4046,
+              "foreground": 19390,
+              "fraction": 0.208664,
+              "absolute": 122960
+            }
+          ]
+        },
+        "body": {
+          "count": 27,
+          "unique": 27,
+          "exact": [],
+          "near": 0,
+          "nearest": [
+            {
+              "a": "noir-profond",
+              "b": "noir-ebene",
+              "exact": false,
+              "changed": 330,
+              "foreground": 4221,
+              "fraction": 0.078181,
+              "absolute": 8699
+            },
+            {
+              "a": "noir-ebene",
+              "b": "brun-sombre",
+              "exact": false,
+              "changed": 331,
+              "foreground": 4222,
+              "fraction": 0.078399,
+              "absolute": 8830
+            },
+            {
+              "a": "historical",
+              "b": "blond-dore",
+              "exact": false,
+              "changed": 530,
+              "foreground": 4219,
+              "fraction": 0.125622,
+              "absolute": 30664
+            },
+            {
+              "a": "chatain",
+              "b": "roux-auburn",
+              "exact": false,
+              "changed": 531,
+              "foreground": 4222,
+              "fraction": 0.12577,
+              "absolute": 12227
+            },
+            {
+              "a": "brun-chocolat",
+              "b": "roux-auburn",
+              "exact": false,
+              "changed": 544,
+              "foreground": 4222,
+              "fraction": 0.128849,
+              "absolute": 14500
+            },
+            {
+              "a": "chatain-clair",
+              "b": "roux-cuivre",
+              "exact": false,
+              "changed": 546,
+              "foreground": 4223,
+              "fraction": 0.129292,
+              "absolute": 15384
+            },
+            {
+              "a": "brun-chocolat",
+              "b": "chatain",
+              "exact": false,
+              "changed": 546,
+              "foreground": 4222,
+              "fraction": 0.129323,
+              "absolute": 15360
+            },
+            {
+              "a": "brun-sombre",
+              "b": "brun-chocolat",
+              "exact": false,
+              "changed": 547,
+              "foreground": 4222,
+              "fraction": 0.129559,
+              "absolute": 15389
+            },
+            {
+              "a": "noir-profond",
+              "b": "brun-sombre",
+              "exact": false,
+              "changed": 551,
+              "foreground": 4222,
+              "fraction": 0.130507,
+              "absolute": 17415
+            },
+            {
+              "a": "roux-auburn",
+              "b": "rouge-profond",
+              "exact": false,
+              "changed": 552,
+              "foreground": 4222,
+              "fraction": 0.130744,
+              "absolute": 14646
+            },
+            {
+              "a": "turquoise-profond",
+              "b": "vert-emeraude",
+              "exact": false,
+              "changed": 557,
+              "foreground": 4220,
+              "fraction": 0.131991,
+              "absolute": 19126
+            },
+            {
+              "a": "chatain",
+              "b": "chatain-clair",
+              "exact": false,
+              "changed": 558,
+              "foreground": 4222,
+              "fraction": 0.132165,
+              "absolute": 18818
+            },
+            {
+              "a": "blond-cendre",
+              "b": "vert-sauge",
+              "exact": false,
+              "changed": 555,
+              "foreground": 4198,
+              "fraction": 0.132206,
+              "absolute": 15996
+            },
+            {
+              "a": "blond-cendre",
+              "b": "blond-dore",
+              "exact": false,
+              "changed": 565,
+              "foreground": 4219,
+              "fraction": 0.133918,
+              "absolute": 16919
+            },
+            {
+              "a": "gris-perle",
+              "b": "blanc-ivoire",
+              "exact": false,
+              "changed": 567,
+              "foreground": 4208,
+              "fraction": 0.134743,
+              "absolute": 21457
+            }
+          ]
+        },
+        "mini": {
+          "count": 27,
+          "unique": 27,
+          "exact": [],
+          "near": 0,
+          "nearest": [
+            {
+              "a": "noir-profond",
+              "b": "noir-ebene",
+              "exact": false,
+              "changed": 87,
+              "foreground": 1043,
+              "fraction": 0.083413,
+              "absolute": 2838
+            },
+            {
+              "a": "noir-ebene",
+              "b": "brun-sombre",
+              "exact": false,
+              "changed": 97,
+              "foreground": 1045,
+              "fraction": 0.092823,
+              "absolute": 2911
+            },
+            {
+              "a": "chatain",
+              "b": "roux-auburn",
+              "exact": false,
+              "changed": 164,
+              "foreground": 1045,
+              "fraction": 0.156938,
+              "absolute": 3988
+            },
+            {
+              "a": "brun-chocolat",
+              "b": "roux-auburn",
+              "exact": false,
+              "changed": 171,
+              "foreground": 1045,
+              "fraction": 0.163636,
+              "absolute": 4748
+            },
+            {
+              "a": "roux-auburn",
+              "b": "rouge-profond",
+              "exact": false,
+              "changed": 172,
+              "foreground": 1045,
+              "fraction": 0.164593,
+              "absolute": 4744
+            },
+            {
+              "a": "brun-chocolat",
+              "b": "chatain",
+              "exact": false,
+              "changed": 172,
+              "foreground": 1045,
+              "fraction": 0.164593,
+              "absolute": 5024
+            },
+            {
+              "a": "brun-sombre",
+              "b": "brun-chocolat",
+              "exact": false,
+              "changed": 173,
+              "foreground": 1045,
+              "fraction": 0.16555,
+              "absolute": 5063
+            },
+            {
+              "a": "chatain-clair",
+              "b": "roux-cuivre",
+              "exact": false,
+              "changed": 173,
+              "foreground": 1045,
+              "fraction": 0.16555,
+              "absolute": 5072
+            },
+            {
+              "a": "noir-profond",
+              "b": "brun-sombre",
+              "exact": false,
+              "changed": 174,
+              "foreground": 1045,
+              "fraction": 0.166507,
+              "absolute": 5684
+            },
+            {
+              "a": "blond-cendre",
+              "b": "vert-sauge",
+              "exact": false,
+              "changed": 174,
+              "foreground": 1030,
+              "fraction": 0.168932,
+              "absolute": 5264
+            },
+            {
+              "a": "blond-cendre",
+              "b": "blond-dore",
+              "exact": false,
+              "changed": 177,
+              "foreground": 1043,
+              "fraction": 0.169703,
+              "absolute": 5475
+            },
+            {
+              "a": "turquoise-profond",
+              "b": "vert-emeraude",
+              "exact": false,
+              "changed": 178,
+              "foreground": 1043,
+              "fraction": 0.170662,
+              "absolute": 6261
+            },
+            {
+              "a": "chatain",
+              "b": "chatain-clair",
+              "exact": false,
+              "changed": 180,
+              "foreground": 1045,
+              "fraction": 0.172249,
+              "absolute": 6235
+            },
+            {
+              "a": "historical",
+              "b": "chatain-clair",
+              "exact": false,
+              "changed": 180,
+              "foreground": 1043,
+              "fraction": 0.172579,
+              "absolute": 5155
+            },
+            {
+              "a": "historical",
+              "b": "blond-dore",
+              "exact": false,
+              "changed": 185,
+              "foreground": 1043,
+              "fraction": 0.177373,
+              "absolute": 9984
+            }
+          ]
+        }
+      }
+    }
+  },
+  "flags": {
+    "p5-038:G": {
+      "contrast": {
+        "head": {
+          "exact": true,
+          "changed": 0,
+          "foreground": 19429,
+          "fraction": 0,
+          "absolute": 0
+        },
+        "body": {
+          "exact": true,
+          "changed": 0,
+          "foreground": 4292,
+          "fraction": 0,
+          "absolute": 0
+        },
+        "mini": {
+          "exact": true,
+          "changed": 0,
+          "foreground": 1055,
+          "fraction": 0,
+          "absolute": 0
+        }
+      },
+      "accessories": {
+        "head": {
+          "exact": true,
+          "changed": 0,
+          "foreground": 19429,
+          "fraction": 0,
+          "absolute": 0
+        },
+        "body": {
+          "exact": true,
+          "changed": 0,
+          "foreground": 4292,
+          "fraction": 0,
+          "absolute": 0
+        },
+        "mini": {
+          "exact": true,
+          "changed": 0,
+          "foreground": 1055,
+          "fraction": 0,
+          "absolute": 0
+        }
+      }
+    },
+    "p5-050:G": {
+      "contrast": {
+        "head": {
+          "exact": false,
+          "changed": 1021,
+          "foreground": 19277,
+          "fraction": 0.052965,
+          "absolute": 77028
+        },
+        "body": {
+          "exact": false,
+          "changed": 155,
+          "foreground": 4267,
+          "fraction": 0.036325,
+          "absolute": 10582
+        },
+        "mini": {
+          "exact": false,
+          "changed": 60,
+          "foreground": 1043,
+          "fraction": 0.057526,
+          "absolute": 3768
+        }
+      }
+    },
+    "p5-050:D": {
+      "contrast": {
+        "head": {
+          "exact": false,
+          "changed": 1333,
+          "foreground": 21755,
+          "fraction": 0.061273,
+          "absolute": 102457
+        },
+        "body": {
+          "exact": false,
+          "changed": 212,
+          "foreground": 4614,
+          "fraction": 0.045947,
+          "absolute": 14637
+        },
+        "mini": {
+          "exact": false,
+          "changed": 81,
+          "foreground": 1166,
+          "fraction": 0.069468,
+          "absolute": 4884
+        }
+      }
+    },
+    "p5-062:D": {
+      "contrast": {
+        "head": {
+          "exact": false,
+          "changed": 1321,
+          "foreground": 20859,
+          "fraction": 0.06333,
+          "absolute": 80835
+        },
+        "body": {
+          "exact": false,
+          "changed": 202,
+          "foreground": 4495,
+          "fraction": 0.044939,
+          "absolute": 11175
+        },
+        "mini": {
+          "exact": false,
+          "changed": 74,
+          "foreground": 1122,
+          "fraction": 0.065954,
+          "absolute": 3610
+        }
+      }
+    },
+    "p5-063:G": {
+      "accessories": {
+        "head": {
+          "exact": false,
+          "changed": 4348,
+          "foreground": 21296,
+          "fraction": 0.20417,
+          "absolute": 488932
+        },
+        "body": {
+          "exact": false,
+          "changed": 688,
+          "foreground": 4562,
+          "fraction": 0.150811,
+          "absolute": 66551
+        },
+        "mini": {
+          "exact": false,
+          "changed": 254,
+          "foreground": 1138,
+          "fraction": 0.223199,
+          "absolute": 21831
+        }
+      }
+    },
+    "shaved:U": {
+      "contrast": {
+        "head": {
+          "exact": true,
+          "changed": 0,
+          "foreground": 18104,
+          "fraction": 0,
+          "absolute": 0
+        },
+        "body": {
+          "exact": true,
+          "changed": 0,
+          "foreground": 4101,
+          "fraction": 0,
+          "absolute": 0
+        },
+        "mini": {
+          "exact": true,
+          "changed": 0,
+          "foreground": 982,
+          "fraction": 0,
+          "absolute": 0
+        }
+      },
+      "accessories": {
+        "head": {
+          "exact": true,
+          "changed": 0,
+          "foreground": 18104,
+          "fraction": 0,
+          "absolute": 0
+        },
+        "body": {
+          "exact": true,
+          "changed": 0,
+          "foreground": 4101,
+          "fraction": 0,
+          "absolute": 0
+        },
+        "mini": {
+          "exact": true,
+          "changed": 0,
+          "foreground": 982,
+          "fraction": 0,
+          "absolute": 0
+        }
+      }
+    }
+  },
+  "faceSweep": {},
+  "eyeSweep": {},
+  "persistenceUI": {
+    "json": {
+      "style": "p5-061",
+      "arrangement": "G",
+      "body": "bust",
+      "accessories": true,
+      "contrast": true,
+      "skull_width": 0.94,
+      "skull_height": 1.16,
+      "forehead_width": 0.96,
+      "forehead_height": 1.17,
+      "temple_width": 0.95,
+      "cheek_width": 0.94,
+      "jowls": 0.88,
+      "jaw_width": 0.94
+    },
+    "before": "4b57cb9c8ea9add6377fb955e5ad0704a19d49e29fcb19f48a81f354d88c2d06",
+    "memoryReload": "4b57cb9c8ea9add6377fb955e5ad0704a19d49e29fcb19f48a81f354d88c2d06",
+    "coldReload": "f5183ae94615effffbe4477f3bdfd5ab1a4c1d8bb3212ad26145fb139290b299",
+    "formAfterReload": "historical",
+    "paletteAfterReload": false,
+    "errors": []
+  }
+}
