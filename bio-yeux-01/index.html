@@ -38,6 +38,8 @@
         <button class="primary" id="random-eyes" type="button">Tirer les yeux</button>
         <button id="reset-eyes" type="button">Yeux historiques</button>
       </div>
+      <label>Version du tirage<select id="draw-version"></select></label>
+      <p id="draw-error" role="alert"></p>
       <label>Graine du tirage<input id="seed" type="text" value="Microcosme" spellcheck="false"></label>
     </div>
   </section>
@@ -72,6 +74,11 @@
         <label class="check"><input id="flat-mode" type="checkbox"> Appliquer l’aplat et le contour</label>
       </div>
     </div>
+    <details id="appearance-panel"><summary>Exporter ou importer l’apparence complète</summary>
+      <label>Document d’apparence JSON<textarea id="appearance-json" rows="10" spellcheck="false"></textarea></label>
+      <div class="actions"><button id="appearance-export" type="button">Exporter l’apparence</button><button id="appearance-import" type="button">Importer l’apparence</button></div>
+      <p id="appearance-message" role="status"></p><p id="appearance-error" role="alert"></p>
+    </details>
     <details id="json-panel"><summary>Données de la sélection historique</summary>
       <label>Sélection JSON<textarea id="selection-json" rows="8" spellcheck="false"></textarea></label>
       <div class="actions"><button id="export" type="button">Afficher les données conservées</button><button id="reload" type="button">Relire ces données</button></div>

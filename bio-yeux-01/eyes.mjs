@@ -108,6 +108,10 @@ function fits(shape, eye, face) {
     (bottom <= face.nose.top || right <= face.nose.left || left >= face.nose.right);
 }
 
+export function acceptsEyes(face, values) {
+  return face.envelopes.every(eye => fits(makeShape(eye, face.reference, values), eye, face));
+}
+
 function pathOf(curves) {
   return 'M' + curves[0][0].join(',') + curves.map(curve =>
     ' C' + curve.slice(1).map(point => point.join(',')).join(' ')).join('') + 'Z';
@@ -172,7 +176,7 @@ export function randomEyes(input, seed) {
       state = (Math.imul(1664525, state) + 1013904223) >>> 0;
       return [key, min + Math.floor(state / 2 ** 32 * (max - min + 1))];
     }));
-    if (face.envelopes.every(eye => fits(makeShape(eye, face.reference, sample), eye, face))) return sample;
+    if (acceptsEyes(face, sample)) return sample;
   }
   return {...sample, width: eyeControls.width.min, height: eyeControls.height.min, tilt: 0};
 }

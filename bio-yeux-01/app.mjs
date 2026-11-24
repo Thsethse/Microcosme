@@ -4,7 +4,9 @@ import {restoreSelection, selectOrdinary, exportSelection} from '../bio-col-01/s
 import {controls, bodies, presets} from '../preview/bio-vis-p5-i6/model.mjs';
 import {priorityCase} from '../preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/r1/coverage.mjs';
 import {character} from './render.mjs';
-import {eyeControls, eyePresets, eyesFor, normalizeEyes, randomEyes} from './eyes.mjs';
+import {appearanceDocument, characterInput, parseAppearance} from './appearance.mjs';
+import {currentDraw, drawEyes, legacyDraw} from './draw.mjs';
+import {eyeControls, eyePresets, eyesFor, normalizeEyes} from './eyes.mjs';
 
 const q = selector => document.querySelector(selector);
 const format = new Intl.NumberFormat('fr-FR', {maximumFractionDigits: 2});
@@ -26,7 +28,7 @@ const variety = ['p5-038:G','p5-048:G','curls:U','waist_waves:U','braids:U','p5-
   'p5-071:G','p5-029:G','p5-034:G','p5-051:G','p5-058:G','p5-068:G','p5-024:D','p5-058:D'];
 let selection = restoreSelection({style: 'p5-038', arrangement: 'G', body: 'standard', accessories: true, contrast: true});
 let eyes = null, selectedForm = 'historical', colour = 'chatain-clair', category = 'natural';
-let serial = 0, queued = false;
+let serial = 0, queued = false, draw = null;
 
 function options(selector, entries) {
   for (const [value, text] of entries) q(selector).add(new Option(text, value));
@@ -42,10 +44,8 @@ function sliders(selector, entries, step, changed, type) {
   }
 }
 
-function inputFor(key = selection.key) {
-  const {style, arrangement} = choice(key);
-  return {...selection.state, style, arrangement: arrangement === 'U' ? 'G' : arrangement,
-    accessories: selection.raw.accessories !== false, contrast: selection.raw.contrast !== false};
+function inputFor(key) {
+  return characterInput(selection, key);
 }
 
 const frames = {head: '-30 -65 220 225', tile: '-40 -85 240 355', mini: '-35 -68 230 245'};
@@ -65,7 +65,8 @@ function displayValue(key, value) {
   return format.format(value) + (eyeControls[key].unit === '°' ? '°' : ' %');
 }
 
-function setEyes(form, value = normalizeEyes(form)) {
+function setEyes(form, value = normalizeEyes(form), origin = null) {
+  draw = origin;
   selectedForm = form;
   eyes = value;
   renderEyes();
@@ -202,6 +203,7 @@ options('#historical', choices.map(e => [e.key, e.label + ' · ' + e.name]));
 options('#body', Object.entries(bodies).map(([key, body]) => [key, body.name]));
 
 sliders('#eye-controls', Object.entries(eyeControls), '1', (key, value) => {
+  draw = null;
   eyes = {...(eyes ?? neutral), [key]: value};
   selectedForm = 'custom';
   nextFrame(renderEyes);
@@ -225,7 +227,17 @@ q('#shape-grid').addEventListener('click', event => {
   }
 });
 q('#reset-eyes').addEventListener('click', () => setEyes('historical'));
-q('#random-eyes').addEventListener('click', () => setEyes('custom', randomEyes(inputFor(), q('#seed').value)));
+options('#draw-version', [[currentDraw, 'Admissible · version actuelle'], [legacyDraw, 'Historique · rejeu v1']]);
+q('#random-eyes').addEventListener('click', () => {
+  const seed = q('#seed').value, version = q('#draw-version').value;
+  try {
+    const result = drawEyes(inputFor(), seed, version);
+    q('#draw-error').textContent = '';
+    setEyes('custom', result.values, {seed, version});
+  } catch (error) {
+    q('#draw-error').textContent = error.message;
+  }
+});
 q('#eye-guides').addEventListener('change', renderComparison);
 q('#background').addEventListener('change', () => { renderComparison(); renderPaletteStudies(); });
 q('#flat-mode').addEventListener('change', () => { renderComparison(); renderChart(); renderPaletteStudies(); });
@@ -278,6 +290,31 @@ q('#reload').addEventListener('click', () => {
     q('#selection-message').textContent = 'Sélection historique relue.';
   } catch (error) {
     q('#selection-error').textContent = 'Sélection non chargée · ' + error.message;
+  }
+});
+
+q('#appearance-export').addEventListener('click', () => {
+  const document = appearanceDocument(selection, {eyes, form: selectedForm, draw, colour, flat: q('#flat-mode').checked});
+  q('#appearance-json').value = JSON.stringify(document, null, 2);
+  q('#appearance-error').textContent = '';
+  q('#appearance-message').textContent = 'Apparence complète exportée.';
+});
+q('#appearance-import').addEventListener('click', () => {
+  try {
+    const restored = parseAppearance(q('#appearance-json').value);
+    ({selection, eyes, form: selectedForm, draw, colour} = restored);
+    q('#flat-mode').checked = restored.flat;
+    q('#seed').value = draw?.seed ?? q('#seed').defaultValue;
+    q('#draw-version').value = draw?.version ?? currentDraw;
+    q('#morph').value = 'custom';
+    category = swatch(colour).category;
+    q('#appearance-error').textContent = '';
+    q('#appearance-message').textContent = 'Apparence complète restaurée.';
+    renderSwatches();
+    refreshCharacter();
+  } catch (error) {
+    q('#appearance-message').textContent = '';
+    q('#appearance-error').textContent = 'Apparence non chargée · ' + error.message;
   }
 });
 
