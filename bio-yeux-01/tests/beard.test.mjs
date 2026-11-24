@@ -8,7 +8,7 @@ import {choices,restoreSelection} from '../catalogue.mjs';
 import {eyePresets,eyesFor} from '../eyes.mjs';
 import {character} from '../render.mjs';
 import {palette,swatch} from '../../bio-col-01/palette.mjs';
-import {controls,model,presets} from '../../preview/bio-vis-p5-i6/model.mjs';
+import {bodies,controls,model,presets} from '../../preview/bio-vis-p5-i6/model.mjs';
 
 const reference='58d0b37a448ed5248b753a7c8e62fb1b4f77db4d';
 const root=fileURLToPath(new URL('../..',import.meta.url)).replace(/\/$/,'');
@@ -257,4 +257,20 @@ test('T8 · sauvegarde froide, graines reproductibles et échantillonnage condit
     assert(Math.abs(n-eligible/2)<3.5*Math.sqrt(eligible/4),key);
   }
   console.log('T8',JSON.stringify({count,masks:masks.size,colours:colours.size,eligibleMoustaches,zones:observed}));
+});
+
+
+test('T9 · 126 coiffures et six corps compatibles avec la pilosité aux trois échelles',()=>{
+  const catalogue=choices.map(({style,arrangement})=>({style,arrangement}));
+  const corpora=Object.keys(bodies).map(body=>({body,style:'p5-038',arrangement:'G'}));
+  const sizes=[{headOnly:true},{},{headOnly:true,smallScale:true}];
+  let renders=0;
+  for (const input of [...catalogue,...corpora]) for (const scale of sizes) {
+    const options={...scale,eyes:'narrow',hairColor:'turquoise-profond',brows,instance:'coiffures'};
+    const current=character(input,{...options,beard:full});
+    assert.match(current,/data-bio-facial-hair/);
+    assert.equal(stripBeard(current),character(input,options));
+    renders++;
+  }
+  console.log('T9',JSON.stringify({coiffures:catalogue.length,corps:corpora.length,renders}));
 });
