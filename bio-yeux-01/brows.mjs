@@ -162,11 +162,14 @@ function applyBounds(frame, requested) {
   return applied;
 }
 
-function browPigment(face, value, {hairColor, rememberedHairColor, source}) {
+export function hasRenderedHair(source) {
+  return /<g data-layer="(?:back|rear|front|volume|texture|lengths|sides)">(?!<\/g>)/.test(source);
+}
+
+export function facialPigment(face, value, {hairColor, rememberedHairColor, source}) {
   if (value.colourMode==='independent') return {fill:swatch(value.colour).fill,source:'independent'};
   const applied=hairColor&&hairColor!=='historical'?hairColor:null;
-  const layers=/<g data-layer="(?:back|rear|front|volume|texture|lengths|sides)">(?!<\/g>)/;
-  const visible=layers.test(source??inherited(face.state,{hairColor}));
+  const visible=hasRenderedHair(source??inherited(face.state,{hairColor}));
   const memory=rememberedHairColor||applied;
   const base=visible?(applied?swatch(applied).fill:face.cut.color):
     memory?swatch(memory).fill:historicalPalette.hair;
@@ -191,7 +194,7 @@ export function solveBrows(face, opening, value, colours={}, withDomains=false) 
   ])):null;
   const effective={...applied,summit:noArc?null:applied.summit,angularity:noArc?null:applied.angularity,
     colour:applied.colourMode==='independent'?applied.colour:null};
-  return {requested,effective,frame,domains,pigment:browPigment(face,applied,colours)};
+  return {requested,effective,frame,domains,pigment:facialPigment(face,applied,colours)};
 }
 
 export function browsFor(input, eyes, value, colours={}, withDomains=false) {

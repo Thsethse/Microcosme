@@ -12,6 +12,7 @@ import {mountDetailsEditor} from './details-editor.mjs';
 import {mountBrowsEditor} from './brows-editor.mjs';
 import {mountMouthEditor} from './mouth-editor.mjs';
 import {mountNoseEditor} from './nose-editor.mjs';
+import {mountBeardEditor} from './beard-editor.mjs';
 import {eyeControls, eyePresets, eyesFor, normalizeEyes} from './eyes.mjs';
 
 const q = selector => document.querySelector(selector);
@@ -65,9 +66,9 @@ function inputFor(key) {
 }
 
 const frames = {head: '-30 -65 220 225', tile: '-40 -85 240 355', mini: '-35 -68 230 245'};
-function svg({key, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null} = {}) {
+function svg({key, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null, beard = null, beardCategory} = {}) {
   const result = character(inputFor(key), {
-    eyes: value, iris:pigment, details, brows, mouth, nose, eyeEnvelopes: guides, hairColor: hair, rememberedHairColor: colour, headOnly: view !== 'tile',
+    eyes: value, iris:pigment, details, brows, mouth, nose, beard, beardCategory, eyeEnvelopes: guides, hairColor: hair, rememberedHairColor: colour, headOnly: view !== 'tile',
     smallScale: view === 'mini', instance: 'atelier-yeux-' + (++serial)
   }).replace(/viewBox="[^"]*"/, `viewBox="${frame}"`);
   return decorative ? result.replace('<svg ', '<svg aria-hidden="true" focusable="false" ') : result;
@@ -180,29 +181,34 @@ function renderComparison() {
   const brows = browsEditor.value();
   const mouth = mouthEditor.value();
   const nose = noseEditor.value();
-  const compareNose = !!nose && q('#nose-before-mode').value === 'same';
-  const compareMouth = !nose && !!mouth && q('#mouth-before-mode').value === 'same';
-  const compareBrows = !nose && !mouth && !!brows && q('#brows-before-mode').value === 'same';
-  const compareDetails = !nose && !mouth && !brows && !!details && q('#details-before-mode').value === 'same';
-  const sameOpening = !nose && !mouth && !brows && !details && !!pigment && q('#iris-before-mode').value === 'same';
-  q('#mouth-before-wrap').hidden = !mouth || !!nose;
-  q('#brows-before-wrap').hidden = !brows || !!mouth || !!nose;
-  q('#details-before-wrap').hidden = !details || !!brows || !!mouth || !!nose;
-  q('#iris-before-mode').parentElement.hidden = !!details || !!brows || !!mouth || !!nose;
+  beardEditor.refresh();
+  const beard=beardEditor.value(), beardCategory=beardEditor.category();
+  const compareBeard=!!beard && q('#beard-before-mode').value==='same';
+  q('#nose-before-wrap').hidden=!nose || !!beard;
+  const compareNose = !beard && !!nose && q('#nose-before-mode').value === 'same';
+  const compareMouth = !beard && !nose && !!mouth && q('#mouth-before-mode').value === 'same';
+  const compareBrows = !beard && !nose && !mouth && !!brows && q('#brows-before-mode').value === 'same';
+  const compareDetails = !beard && !nose && !mouth && !brows && !!details && q('#details-before-mode').value === 'same';
+  const sameOpening = !beard && !nose && !mouth && !brows && !details && !!pigment && q('#iris-before-mode').value === 'same';
+  q('#mouth-before-wrap').hidden = !mouth || !!nose || !!beard;
+  q('#brows-before-wrap').hidden = !brows || !!mouth || !!nose || !!beard;
+  q('#details-before-wrap').hidden = !details || !!brows || !!mouth || !!nose || !!beard;
+  q('#iris-before-mode').parentElement.hidden = !!details || !!brows || !!mouth || !!nose || !!beard;
   const sizes = settings => [['head', 'Tête · 300 px'], ['tile', 'Corps · 178 px'], ['mini', 'Miniature · 70 × 70 px']]
     .map(([view, caption]) => `<figure><div class="surface ${view}">${svg({view, guides, ...settings})}</div><figcaption>${caption}</figcaption></figure>`).join('');
-  const title = nose ? 'Nez personnalisé' : mouth ? 'Bouche personnalisée' : brows ? 'Sourcils personnalisés' :
+  const title = beard ? 'Pilosité personnalisée' : nose ? 'Nez personnalisé' : mouth ? 'Bouche personnalisée' : brows ? 'Sourcils personnalisés' :
     details ? 'Détails personnalisés' : pigment ? 'Iris personnalisés' : eyePresets[selectedForm]?.label ?? otherLabels[selectedForm];
-  const before = compareNose ? 'Nez historique' : compareMouth ? 'Bouche historique' : compareBrows ? 'Sourcils historiques' :
+  const before = compareBeard ? 'Visage actuel, imberbe' : compareNose ? 'Nez historique' : compareMouth ? 'Bouche historique' : compareBrows ? 'Sourcils historiques' :
     compareDetails ? 'Contours historiques' : sameOpening ? 'Pigments historiques' : 'Historique';
   const comparisonReference = {
-    value:compareNose||compareMouth||compareBrows||compareDetails||sameOpening?eyes:null,
-    pigment:compareNose||compareMouth||compareBrows||compareDetails?pigment:null,
-    details:compareNose||compareMouth||compareBrows?details:null,
-    brows:compareNose||compareMouth?brows:null,
-    mouth:compareNose?mouth:null
+    value:compareBeard||compareNose||compareMouth||compareBrows||compareDetails||sameOpening?eyes:null,
+    pigment:compareBeard||compareNose||compareMouth||compareBrows||compareDetails?pigment:null,
+    details:compareBeard||compareNose||compareMouth||compareBrows?details:null,
+    brows:compareBeard||compareNose||compareMouth?brows:null,
+    mouth:compareBeard||compareNose?mouth:null,
+    nose:compareBeard?nose:null
   };
-  comparison.innerHTML = `<article data-side="before"><h3>${before}</h3>${sizes(comparisonReference)}</article><article data-side="after"><h3>${title}</h3>${sizes({value:eyes,pigment,details,brows,mouth,nose})}</article>`;
+  comparison.innerHTML = `<article data-side="before"><h3>${before}</h3>${sizes(comparisonReference)}</article><article data-side="after"><h3>${title}</h3>${sizes({value:eyes,pigment,details,brows,mouth,nose,beard,beardCategory})}</article>`;
 
   const {envelopes:[left,right],maxWidth,reference}=eyesFor(inputFor(),null).face;
   const x=left.x-maxWidth/2-2, width=right.x+maxWidth/2+2-x;
@@ -229,7 +235,11 @@ function renderComparison() {
   const noseTop=anchors.nose[1]-head.ry*.36, noseBottom=anchors.mouth[1]+head.ry*.16;
   noseZoom.innerHTML=svg({frame:`${anchors.nose[0]-mouthPad} ${noseTop} ${mouthPad*2} ${noseBottom-noseTop}`,
     pigment,details,brows,mouth,nose});
-
+  const beardZoom=q('#beard-zoom');
+  beardZoom.className='surface '+q('#background').value;
+  const beardTop=head.cy-head.ry*.27, beardBottom=chin[1]+head.ry*.52, beardHalf=head.rx*1.25;
+  beardZoom.innerHTML=svg({frame:`${head.cx-beardHalf} ${beardTop} ${beardHalf*2} ${beardBottom-beardTop}`,
+    pigment,details,brows,mouth,nose,beard,beardCategory});
 }
 
 function renderChart() {
@@ -488,7 +498,7 @@ q('#reload').addEventListener('click', () => {
 });
 
 q('#appearance-export').addEventListener('click', () => {
-  const document = appearanceDocument(selection, {eyes, form: selectedForm, draw, colour, flat: q('#flat-mode').checked, ...irisEditor.archiveSettings(), ...detailsEditor.archiveSettings(), ...browsEditor.archiveSettings(), ...mouthEditor.archiveSettings(), ...noseEditor.archiveSettings()});
+  const document = appearanceDocument(selection, {eyes, form: selectedForm, draw, colour, flat: q('#flat-mode').checked, ...irisEditor.archiveSettings(), ...detailsEditor.archiveSettings(), ...browsEditor.archiveSettings(), ...mouthEditor.archiveSettings(), ...noseEditor.archiveSettings(), ...beardEditor.archiveSettings()});
   q('#appearance-json').value = JSON.stringify(document, null, 2);
   q('#appearance-error').textContent = '';
   q('#appearance-message').textContent = 'Apparence complète exportée.';
@@ -502,6 +512,7 @@ q('#appearance-import').addEventListener('click', () => {
     browsEditor.restore(restored);
     mouthEditor.restore(restored);
     noseEditor.restore(restored);
+    beardEditor.restore(restored);
     ({selection, eyes, form: selectedForm, draw, colour} = restored);
     q('#flat-mode').checked = restored.flat;
     q('#seed').value = draw?.seed ?? q('#seed').defaultValue;
@@ -532,4 +543,7 @@ const noseEditor=mountNoseEditor({input:inputFor,eyes:()=>eyes,details:()=>detai
     mouthEditor.refresh();
     renderComparison();
   }});
+const beardEditor=mountBeardEditor({input:inputFor,eyes:()=>eyes,
+  context:()=>({details:detailsEditor.value(),nose:noseEditor.value(),mouth:mouthEditor.value(),
+    hairColor:activeColour(),rememberedHairColor:colour}),render:renderComparison});
 refreshCharacter();
