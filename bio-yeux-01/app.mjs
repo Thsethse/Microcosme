@@ -8,6 +8,7 @@ import {currentDraw, drawEyes, legacyDraw} from './draw.mjs';
 import {eyeChanges, eyeDomains, eyeProposal} from './eye-domain.mjs';
 import {availableOptions} from './availability.mjs';
 import {mountIrisEditor} from './iris-editor.mjs';
+import {mountDetailsEditor} from './details-editor.mjs';
 import {eyeControls, eyePresets, eyesFor, normalizeEyes} from './eyes.mjs';
 
 const q = selector => document.querySelector(selector);
@@ -61,9 +62,9 @@ function inputFor(key) {
 }
 
 const frames = {head: '-30 -65 220 225', tile: '-40 -85 240 355', mini: '-35 -68 230 245'};
-function svg({key, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null} = {}) {
+function svg({key, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null} = {}) {
   const result = character(inputFor(key), {
-    eyes: value, iris:pigment, eyeEnvelopes: guides, hairColor: hair, headOnly: view !== 'tile',
+    eyes: value, iris:pigment, details, eyeEnvelopes: guides, hairColor: hair, headOnly: view !== 'tile',
     smallScale: view === 'mini', instance: 'atelier-yeux-' + (++serial)
   }).replace(/viewBox="[^"]*"/, `viewBox="${frame}"`);
   return decorative ? result.replace('<svg ', '<svg aria-hidden="true" focusable="false" ') : result;
@@ -157,6 +158,7 @@ function renderEyes() {
     button.setAttribute('aria-pressed', String(button.dataset.eyeForm === selectedForm));
   }
   irisEditor.refresh();
+  detailsEditor.refresh();
   renderComparison();
 }
 
@@ -168,18 +170,27 @@ function renderComparison() {
   comparison.className = 'comparison ' + q('#background').value;
   q('#guide-note').hidden = !guides;
   const pigment=irisEditor.value();
-  const sameOpening=!!pigment&&q('#iris-before-mode').value==='same';
-  const sizes = (value,pigment) => [['head', 'Tête · 300 px'], ['tile', 'Corps · 178 px'], ['mini', 'Miniature · 70 × 70 px']]
-    .map(([view, caption]) => `<figure><div class="surface ${view}">${svg({view, value, guides, pigment})}</div><figcaption>${caption}</figcaption></figure>`).join('');
-  const title = eyePresets[selectedForm]?.label ?? otherLabels[selectedForm];
-  const before = sameOpening ? 'Pigments historiques' : 'Historique';
-  comparison.innerHTML = `<article data-side="before"><h3>${before}</h3>${sizes(sameOpening?eyes:null,null)}</article><article data-side="after"><h3>${pigment?'Iris personnalisés':title}</h3>${sizes(eyes,pigment)}</article>`;
+  const details = detailsEditor.value();
+  const compareDetails = !!details && q('#details-before-mode').value === 'same';
+  const sameOpening = !details && !!pigment && q('#iris-before-mode').value === 'same';
+  q('#iris-before-mode').parentElement.hidden = !!details;
+  const sizes = (value, pigment, features) => [['head', 'Tête · 300 px'], ['tile', 'Corps · 178 px'], ['mini', 'Miniature · 70 × 70 px']]
+    .map(([view, caption]) => `<figure><div class="surface ${view}">${svg({view, value, guides, pigment, details:features})}</div><figcaption>${caption}</figcaption></figure>`).join('');
+  const title = details ? 'Détails personnalisés' : pigment ? 'Iris personnalisés' : eyePresets[selectedForm]?.label ?? otherLabels[selectedForm];
+  const before = compareDetails ? 'Contours historiques' : sameOpening ? 'Pigments historiques' : 'Historique';
+  comparison.innerHTML = `<article data-side="before"><h3>${before}</h3>${sizes(compareDetails||sameOpening?eyes:null,compareDetails?pigment:null,null)}</article><article data-side="after"><h3>${title}</h3>${sizes(eyes,pigment,details)}</article>`;
 
-  const {envelopes:[left,right],maxWidth}=eyesFor(inputFor(),null).face;
+  const {envelopes:[left,right],maxWidth,reference}=eyesFor(inputFor(),null).face;
   const x=left.x-maxWidth/2-2, width=right.x+maxWidth/2+2-x;
   const zoom=q('#iris-zoom');
   zoom.className='surface '+q('#background').value;
   zoom.innerHTML=svg({frame:`${x} ${left.y-8} ${width} 16`,pigment});
+  const detailZoom=q('#details-zoom');
+  detailZoom.className='surface '+q('#background').value;
+  const top=Math.min(left.top,right.top)-1.5, bottom=Math.max(left.bottom,right.bottom)+.7;
+  const pad=Math.max(maxWidth,reference.width)*.65+2.35;
+  detailZoom.innerHTML=svg({frame:`${left.x-pad} ${top} ${right.x-left.x+2*pad} ${bottom-top}`,pigment,details});
+
 }
 
 function renderChart() {
@@ -437,7 +448,7 @@ q('#reload').addEventListener('click', () => {
 });
 
 q('#appearance-export').addEventListener('click', () => {
-  const document = appearanceDocument(selection, {eyes, form: selectedForm, draw, colour, flat: q('#flat-mode').checked, ...irisEditor.archiveSettings()});
+  const document = appearanceDocument(selection, {eyes, form: selectedForm, draw, colour, flat: q('#flat-mode').checked, ...irisEditor.archiveSettings(), ...detailsEditor.archiveSettings()});
   q('#appearance-json').value = JSON.stringify(document, null, 2);
   q('#appearance-error').textContent = '';
   q('#appearance-message').textContent = 'Apparence complète exportée.';
@@ -447,6 +458,7 @@ q('#appearance-import').addEventListener('click', () => {
     const restored = parseAppearance(q('#appearance-json').value);
     clearProposal();
     irisEditor.restore(restored);
+    detailsEditor.restore(restored);
     ({selection, eyes, form: selectedForm, draw, colour} = restored);
     q('#flat-mode').checked = restored.flat;
     q('#seed').value = draw?.seed ?? q('#seed').defaultValue;
@@ -463,4 +475,5 @@ q('#appearance-import').addEventListener('click', () => {
 });
 
 const irisEditor=mountIrisEditor({input:inputFor,eyes:()=>eyes,render:renderComparison});
+const detailsEditor=mountDetailsEditor({input:inputFor,eyes:()=>eyes,render:renderComparison});
 refreshCharacter();

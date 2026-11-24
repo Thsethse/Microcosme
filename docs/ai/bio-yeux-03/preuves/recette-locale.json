@@ -1,0 +1,464 @@
+{
+  "T3": [
+    {
+      "cases": 576
+    }
+  ],
+  "T5": [
+    {
+      "ticks": 1859,
+      "visibleChanges": 1859,
+      "narrowed": 11,
+      "tightLength": 10.080675330156817,
+      "tightSpacing": [
+        [
+          0,
+          48
+        ]
+      ]
+    }
+  ],
+  "T6": [
+    {
+      "cases": 216
+    }
+  ],
+  "T8": [
+    {
+      "name": "historique",
+      "seeds": 1024,
+      "observed": {
+        "upper": [
+          474,
+          481,
+          69
+        ],
+        "lower": [
+          359,
+          327,
+          338
+        ],
+        "lashes": [
+          251,
+          245,
+          251,
+          277
+        ],
+        "topMax": 5,
+        "bottomMax": 8,
+        "lengthMax": 87
+      },
+      "expected": {
+        "upper": [
+          478.833333333332,
+          478.833333333332,
+          66.33333333333347
+        ],
+        "lower": [
+          341.3333333333314,
+          341.3333333333314,
+          341.3333333333314
+        ],
+        "lashes": [
+          256,
+          256,
+          256,
+          256
+        ],
+        "topMax": 5.094527363184149,
+        "bottomMax": 6.781456953642255,
+        "lengthMax": 81.75519480519557
+      }
+    },
+    {
+      "name": "étroit",
+      "seeds": 1024,
+      "observed": {
+        "upper": [
+          355,
+          339,
+          330
+        ],
+        "lower": [
+          344,
+          324,
+          356
+        ],
+        "lashes": [
+          242,
+          281,
+          255,
+          246
+        ],
+        "topMax": 3,
+        "bottomMax": 1,
+        "lengthMax": 66
+      },
+      "expected": {
+        "upper": [
+          341.3333333333314,
+          341.3333333333314,
+          341.3333333333314
+        ],
+        "lower": [
+          341.3333333333314,
+          341.3333333333314,
+          341.3333333333314
+        ],
+        "lashes": [
+          256,
+          256,
+          256,
+          256
+        ],
+        "topMax": 5.094527363184149,
+        "bottomMax": 6.781456953642255,
+        "lengthMax": 71.09090909091009
+      }
+    },
+    {
+      "name": "demi-lune",
+      "seeds": 1024,
+      "observed": {
+        "upper": [
+          526,
+          498,
+          0
+        ],
+        "lower": [
+          343,
+          336,
+          345
+        ],
+        "lashes": [
+          272,
+          250,
+          254,
+          248
+        ],
+        "topMax": 8,
+        "bottomMax": 9,
+        "lengthMax": 68
+      },
+      "expected": {
+        "upper": [
+          512,
+          512,
+          0
+        ],
+        "lower": [
+          341.3333333333314,
+          341.3333333333314,
+          341.3333333333314
+        ],
+        "lashes": [
+          256,
+          256,
+          256,
+          256
+        ],
+        "topMax": 5.094527363184149,
+        "bottomMax": 6.781456953642255,
+        "lengthMax": 77.51497113997213
+      }
+    }
+  ],
+  "navigateurs": [
+    {
+      "name": "chromium",
+      "version": "151.0.7922.34",
+      "raster": {
+        "historic": 54,
+        "historicMismatches": 0,
+        "cases": 288,
+        "outside": 0,
+        "inAperture": 0,
+        "apertureEdgePixels": 116,
+        "maxIsolated": 1,
+        "failures": [],
+        "connected": {
+          "0": 72,
+          "1": 72,
+          "2": 72,
+          "3": 72
+        },
+        "subtle": [
+          17,
+          1,
+          0,
+          2166
+        ],
+        "lashes": 4,
+        "shadows": 4
+      },
+      "workshop": {
+        "cold": 3,
+        "touched": "5 %",
+        "layouts": [
+          {
+            "width": 820,
+            "height": 1180,
+            "background": "light",
+            "sizes": [
+              [
+                356.921875,
+                300
+              ],
+              [
+                356.921875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 820,
+            "height": 1180,
+            "background": "dark",
+            "sizes": [
+              [
+                356.921875,
+                300
+              ],
+              [
+                356.921875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 1180,
+            "height": 820,
+            "background": "light",
+            "sizes": [
+              [
+                338.875,
+                300
+              ],
+              [
+                338.875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 1180,
+            "height": 820,
+            "background": "dark",
+            "sizes": [
+              [
+                338.875,
+                300
+              ],
+              [
+                338.875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "background": "light",
+            "sizes": [
+              [
+                163.5,
+                300
+              ],
+              [
+                163.5,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "background": "dark",
+            "sizes": [
+              [
+                163.5,
+                300
+              ],
+              [
+                163.5,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "webkit",
+      "version": "26.5",
+      "raster": {
+        "historic": 54,
+        "historicMismatches": 0,
+        "cases": 288,
+        "outside": 0,
+        "inAperture": 0,
+        "apertureEdgePixels": 188,
+        "maxIsolated": 1,
+        "failures": [],
+        "connected": {
+          "0": 72,
+          "1": 72,
+          "2": 72,
+          "3": 72
+        },
+        "subtle": [
+          17,
+          1,
+          0,
+          2166
+        ],
+        "lashes": 4,
+        "shadows": 4
+      },
+      "workshop": {
+        "cold": 3,
+        "touched": "5 %",
+        "layouts": [
+          {
+            "width": 820,
+            "height": 1180,
+            "background": "light",
+            "sizes": [
+              [
+                356.921875,
+                300
+              ],
+              [
+                356.921875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 820,
+            "height": 1180,
+            "background": "dark",
+            "sizes": [
+              [
+                356.921875,
+                300
+              ],
+              [
+                356.921875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 1180,
+            "height": 820,
+            "background": "light",
+            "sizes": [
+              [
+                338.859375,
+                300
+              ],
+              [
+                338.859375,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 1180,
+            "height": 820,
+            "background": "dark",
+            "sizes": [
+              [
+                338.859375,
+                300
+              ],
+              [
+                338.859375,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "background": "light",
+            "sizes": [
+              [
+                163.5,
+                300
+              ],
+              [
+                163.5,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "background": "dark",
+            "sizes": [
+              [
+                163.5,
+                300
+              ],
+              [
+                163.5,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

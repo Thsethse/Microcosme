@@ -4,6 +4,7 @@ import {headMarkup} from '../preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/r1/p2/bas
 import {palette} from '../preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/r1/p2/base/model.mjs';
 import {eyeStroke, eyesFor, normalizeEyes} from './eyes.mjs';
 import {irisMarkup, pigmentCenters, solveIris} from './iris.mjs';
+import {detailsMarkup, solveDetails} from './details.mjs';
 
 function clipId(path, instance, index) {
   // Equal default IDs are safe for equal outlines. An explicit instance also
@@ -14,7 +15,12 @@ function clipId(path, instance, index) {
   return 'bio-yeux-' + prefix + '-' + index + '-' + (hash >>> 0).toString(36);
 }
 
-function replaceOpenings(face, shapes, instance, drawIris) {
+function ellipsePath(ellipse) {
+  const [,x,y,rx,ry]=ellipse.match(/cx="([^"]+)" cy="([^"]+)" rx="([^"]+)" ry="([^"]+)"/);
+  return `M${x},${y}m${-rx},0 a${rx},${ry} 0 1 0 ${2*rx},0 a${rx},${ry} 0 1 0 ${-2*rx},0Z`;
+}
+
+function replaceOpenings(face, shapes, instance, drawIris, details) {
   let index = 0;
   // Each historical white is immediately followed by its pupil ellipse in the
   // shared face renderer. Preserve the pupil tag byte for byte inside the clip.
@@ -23,10 +29,16 @@ function replaceOpenings(face, shapes, instance, drawIris) {
   const result = face.replace(pairs, (_, white, pupil) => {
     const shape = shapes[index];
     const ink = drawIris ? drawIris(index) : pupil;
-    const id = clipId(shape?.path ?? white, instance, index++);
-    if (!shape) return `${white}<defs><clipPath id="${id}">${white}</clipPath></defs><g clip-path="url(#${id})">${ink}</g>`;
-    const {path} = shape;
-    return `<g data-bio-eye="${index === 1 ? 'left' : 'right'}"><defs><clipPath id="${id}"><path d="${path}"/></clipPath></defs><path d="${path}" fill="${palette.white}" stroke="${palette.pupil}" stroke-width="${eyeStroke}" stroke-linejoin="round"/><g clip-path="url(#${id})">${ink}</g></g>`;
+    const id = clipId(shape?.path ?? white, instance, index);
+    const aperture = shape ? `<path d="${shape.path}"/>` : white;
+    const outside = details ? detailsMarkup(details, index, shape?.path ?? ellipsePath(white), id, palette.skin) : '';
+    index++;
+    if (!shape) {
+      if (!drawIris) return outside + white + pupil;
+      return `${outside}${white}<defs><clipPath id="${id}">${white}</clipPath></defs><g clip-path="url(#${id})">${ink}</g>`;
+    }
+    const stroke = details ? '' : ` stroke="${palette.pupil}" stroke-width="${eyeStroke}" stroke-linejoin="round"`;
+    return `<g data-bio-eye="${index === 1 ? 'left' : 'right'}"><defs><clipPath id="${id}">${aperture}</clipPath></defs>${outside}<path d="${shape.path}" fill="${palette.white}"${stroke}/><g clip-path="url(#${id})">${ink}</g></g>`;
   });
   if (index !== 2) throw new Error('Ouvertures historiques introuvables');
   return result;
@@ -45,17 +57,19 @@ export function character(input = {}, options = {}) {
   const svg = inherited(input, options);
   const selected = normalizeEyes(options.eyes);
   const hasIris = options.iris != null && options.iris !== 'historical';
-  if (!selected && !options.eyeEnvelopes && !hasIris) return svg;
+  const hasDetails = options.details != null && options.details !== 'historical';
+  if (!selected && !options.eyeEnvelopes && !hasIris && !hasDetails) return svg;
   const geometry = eyesFor(input, selected);
   let result = svg;
-  if (selected || hasIris) {
+  if (selected || hasIris || hasDetails) {
     const face = model(input);
     const originalFace = headMarkup(face.base).replace(/<path d="[^"]*"/, `<path d="${face.outline}"`);
     if (!svg.includes(originalFace)) throw new Error('Visage historique introuvable');
     const iris = hasIris ? solveIris(geometry, options.iris) : null;
     const centers = iris ? pigmentCenters(geometry) : [];
     const drawIris = iris ? index => irisMarkup(iris, centers[index], index) : null;
-    result = svg.replace(originalFace, replaceOpenings(originalFace, geometry.shapes, options.instance, drawIris));
+    const details = hasDetails ? solveDetails(geometry, options.details) : null;
+    result = svg.replace(originalFace, replaceOpenings(originalFace, geometry.shapes, options.instance, drawIris, details));
   }
   if (options.eyeEnvelopes) result = result.replace(/<\/svg>$/, guides(geometry.face) + '</svg>');
   return result;

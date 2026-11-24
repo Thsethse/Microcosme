@@ -4,14 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#f6f2e8">
-  <title>Microcosme · BIO-YEUX-02 · Iris et pupilles</title>
+  <title>Microcosme · BIO-YEUX-03 · Paupières, cils et contours</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="shell">
-  <p class="brand">Microcosme <span>BIO-YEUX-02</span></p>
-  <h1>Iris et pupilles</h1>
+  <p class="brand">Microcosme <span>BIO-YEUX-03</span></p>
+  <h1>Paupières, cils et contours</h1>
   <nav aria-label="Navigation dans l’atelier">
+    <a href="#details">Paupières et cils</a>
     <a href="#atelier">Atelier</a>
     <a href="#iris">Iris et pupilles</a>
     <a href="#planche">Planche des formes</a>
@@ -25,6 +26,7 @@
       <div class="toolbar">
         <label>Fond<select id="background"><option value="light">Ivoire</option><option value="dark">Ardoise</option></select></label>
         <label>Référence<select id="iris-before-mode"><option value="same">Ouverture actuelle</option><option value="historical">Ouverture historique</option></select></label>
+        <label id="details-before-wrap" hidden>Référence<select id="details-before-mode"><option value="same">Ouverture et iris actuels</option><option value="historical">Ouverture et iris historiques</option></select></label>
         <label class="check"><input type="checkbox" id="eye-guides"> Afficher les enveloppes</label>
       </div>
       <div id="comparison" class="comparison"></div>
@@ -60,6 +62,35 @@
       <label>Version du tirage<select id="draw-version"></select></label>
       <p id="draw-error" role="alert"></p>
       <label>Graine du tirage<input id="seed" type="text" value="Microcosme" spellcheck="false"></label>
+    </div>
+  </section>
+
+  <section id="details">
+    <h2>Paupières, cils et contours</h2>
+    <div class="iris-workspace">
+      <div class="card">
+        <label class="check"><input type="checkbox" id="details-active"> Personnaliser les détails des yeux</label>
+        <fieldset id="details-parameters" disabled>
+          <legend class="visually-hidden">Réglages des détails des yeux</legend>
+          <details open><summary>Cils</summary><div id="detail-axes-lashes"></div></details>
+          <details><summary>Contours</summary><div id="detail-axes-contours"></div></details>
+          <details><summary>Paupière supérieure</summary><div id="detail-axes-upper"></div></details>
+          <details><summary>Paupière inférieure</summary><div id="detail-axes-lower"></div></details>
+          <details><summary>Cernes et poches</summary><div id="detail-axes-shadows"></div></details>
+        </fieldset>
+        <p id="details-status" class="hint" role="status"></p>
+        <div class="actions">
+          <button class="primary" id="details-random" type="button">Tirer les détails</button>
+          <button id="details-reset" type="button">Rétablir les contours historiques</button>
+        </div>
+        <label>Graine des détails<input id="details-seed" type="text" value="Microcosme" spellcheck="false"></label>
+        <p id="details-error" role="alert"></p>
+      </div>
+      <figure class="iris-zoom card">
+        <figcaption>Gros plan des contours</figcaption>
+        <div id="details-zoom" class="surface"></div>
+        <a href="#atelier">Comparer aux trois échelles</a>
+      </figure>
     </div>
   </section>
 
@@ -145,7 +176,7 @@
     <details id="series-panel"><summary>Une coiffure dans les 26 teintes</summary><div id="series-grid" class="palette-grid"></div></details>
     <details id="variety-panel"><summary>Une teinte sur plusieurs coiffures</summary><div id="variety-grid" class="palette-grid"></div></details>
   </section>
-  <footer><a href="https://github.com/Thsethse/Microcosme/blob/codex/bio-yeux-02/docs/ai/bio-yeux-02/RAPPORT.md">Rapport de réalisation et captures</a></footer>
+  <footer><a href="https://github.com/Thsethse/Microcosme/blob/codex/bio-yeux-03/docs/ai/bio-yeux-03/RAPPORT.md">Rapport de réalisation et captures</a></footer>
 </main>
 <script type="module" src="app.mjs"></script>
 </body>

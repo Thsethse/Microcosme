@@ -112,3 +112,10 @@ button:disabled, input:disabled, select:disabled { opacity: .65; }
 .visually-hidden { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
 @media (max-width:720px) { .iris-workspace { grid-template-columns:minmax(0,1fr); } .iris-zoom { position:static; grid-row:1; } }
 @media (max-width:420px) { .iris-selects { grid-template-columns:minmax(0,1fr); } }
+
+#details-parameters { padding:0; border:0; margin:0; min-width:0; }
+#details-parameters details { margin:0; border-bottom:1px solid var(--line); }
+#details-parameters summary { font-weight:600; }
+#details-parameters summary:hover { color:var(--green); }
+#details-error { color:#893b2b; }
+.toolbar [hidden] { display:none; }
