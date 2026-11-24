@@ -61,7 +61,7 @@ export function normalizeNose(nose) {
     [key,Number.isFinite(nose[key])?clamp(nose[key],min,max):neutral]));
 }
 
-function eyeObstacles(opening,details,painted) {
+export function eyeObstacles(opening,details,painted) {
   const {width,height}=opening.face.reference;
   const openings=opening.face.envelopes.map(({x,y},i)=>{
     const box=opening.shapes[i]?.bounds??[[x-width/2,x+width/2],[y-height/2,y+height/2]];

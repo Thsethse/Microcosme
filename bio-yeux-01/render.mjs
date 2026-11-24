@@ -8,6 +8,7 @@ import {detailsMarkup, solveDetails} from './details.mjs';
 import {browMarkup, solveBrows} from './brows.mjs';
 import {inheritedMouth, inheritedNose, mouthMarkup, solveMouth} from './mouth.mjs';
 import {noseMarkup, solveNose} from './nose.mjs';
+import {beardCategoryOf, beardMarkup, solveBeard} from './beard.mjs';
 
 function clipId(path, instance, index) {
   // Equal default IDs are safe for equal outlines. An explicit instance also
@@ -78,10 +79,12 @@ export function character(input = {}, options = {}) {
   const hasBrows = options.brows != null && options.brows !== 'historical';
   const hasMouth = options.mouth != null && options.mouth !== 'historical';
   const hasNose = options.nose != null && options.nose !== 'historical';
-  if (!selected && !options.eyeEnvelopes && !hasIris && !hasDetails && !hasBrows && !hasMouth && !hasNose) return svg;
+  const category = options.beardCategory ?? input.beardCategory;
+  const hasBeard = options.beard != null && options.beard !== 'historical' && beardCategoryOf(category) !== 'F';
+  if (!selected && !options.eyeEnvelopes && !hasIris && !hasDetails && !hasBrows && !hasMouth && !hasNose && !hasBeard) return svg;
   const geometry = eyesFor(input, selected);
   let result = svg;
-  if (selected || hasIris || hasDetails || hasBrows || hasMouth || hasNose) {
+  if (selected || hasIris || hasDetails || hasBrows || hasMouth || hasNose || hasBeard) {
     const face = model(input);
     const originalFace = headMarkup(face.base).replace(/<path d="[^"]*"/, `<path d="${face.outline}"`);
     if (!svg.includes(originalFace)) throw new Error('Visage historique introuvable');
@@ -93,14 +96,14 @@ export function character(input = {}, options = {}) {
     let updatedFace = brows ? replaceBrows(originalFace,face,browMarkup(brows)) : originalFace;
     const nose = hasNose ? solveNose(face,geometry,options.nose,{mouth:options.mouth,eyeDetails:details,markup:originalFace}) : null;
     if (nose) updatedFace = updatedFace.replace(inheritedNose(face,originalFace).tag,noseMarkup(nose));
-    if (hasMouth) {
-      const {tag} = inheritedMouth(face,originalFace);
-      const mouth = solveMouth(face,geometry,options.mouth,{markup:originalFace,noseBounds:nose?.geometry.anatomy,preserveMouth:!!nose});
-      updatedFace = updatedFace.replace(tag,mouthMarkup(mouth));
-    }
+    const mouth = hasMouth ? solveMouth(face,geometry,options.mouth,
+      {markup:originalFace,noseBounds:nose?.geometry.anatomy,preserveMouth:!!nose}) : null;
+    if (mouth) updatedFace = updatedFace.replace(inheritedMouth(face,originalFace).tag,mouthMarkup(mouth));
     if (selected || hasIris || hasDetails) {
       updatedFace = replaceOpenings(updatedFace,geometry.shapes,options.instance,drawIris,details);
     }
+    if (hasBeard) updatedFace += beardMarkup(solveBeard(face,geometry,options.beard,
+      {...options,category,source:svg,markup:originalFace,detailResult:details,noseResult:nose,mouthResult:mouth}));
     result = svg.replace(originalFace,updatedFace);
   }
   if (options.eyeEnvelopes) result = result.replace(/<\/svg>$/, guides(geometry.face) + '</svg>');

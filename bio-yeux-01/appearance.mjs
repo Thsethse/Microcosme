@@ -8,6 +8,7 @@ import {detailsDrawVersion, normalizeDetails, solveDetails} from './details.mjs'
 import {browDrawVersion, normalizeBrows, solveBrows} from './brows.mjs';
 import {mouthDrawVersion, normalizeMouth, solveMouth} from './mouth.mjs';
 import {noseDrawVersion, normalizeNose, solveNose} from './nose.mjs';
+import {beardCategoryOf, beardDrawVersion, normalizeBeard, solveBeard} from './beard.mjs';
 
 export const appearanceSchema = 'microcosme.appearance';
 export const appearanceVersion = 1;
@@ -22,7 +23,9 @@ export const mouthAppearanceVersion = 5;
 export const mouthRenderVersion = 'bio-bouche-01-svg@1';
 export const noseAppearanceVersion = 6;
 export const noseRenderVersion = 'bio-nez-01-svg@1';
-const renderers = {1:renderVersion, 2:irisRenderVersion, 3:detailsRenderVersion, 4:browRenderVersion, 5:mouthRenderVersion, 6:noseRenderVersion};
+export const beardAppearanceVersion = 7;
+export const beardRenderVersion = 'bio-pilosite-01-svg@1';
+const renderers = {1:renderVersion, 2:irisRenderVersion, 3:detailsRenderVersion, 4:browRenderVersion, 5:mouthRenderVersion, 6:noseRenderVersion, 7:beardRenderVersion};
 
 export function characterInput(selection, key = selection.key) {
   const {style, arrangement} = choice(key);
@@ -37,7 +40,7 @@ function validDraw(draw) {
 }
 
 export function appearanceDocument(selection, {eyes, form, draw, colour, flat, iris, irisLatent, irisDraw,
-  details, detailsLatent, detailsDraw, brows, browsLatent, browsDraw, mouth, mouthLatent, mouthDraw, nose, noseLatent, noseDraw}) {
+  details, detailsLatent, detailsDraw, brows, browsLatent, browsDraw, mouth, mouthLatent, mouthDraw, nose, noseLatent, noseDraw, beard, beardLatent, beardDraw, beardCategory}) {
   const entry = choice(selection.key);
   const input = characterInput(selection);
   const applied = normalize(input);
@@ -98,7 +101,22 @@ export function appearanceDocument(selection, {eyes, form, draw, colour, flat, i
     }
     mouthAppearance.draw = {seed:mouthDraw.seed,version:mouthDraw.version};
   }
-  const version = noseAppearance ? noseAppearanceVersion : mouthAppearance ? mouthAppearanceVersion : browAppearance ? browAppearanceVersion :
+  const category = beardCategoryOf(beardCategory);
+  const beardResult = normalizeBeard(beard) && solveBeard(model(input),result,beard,{
+    category,hairColor:flat?colour:'historical',rememberedHairColor:colour,
+    detailResult:ornament,noseResult,mouthResult
+  });
+  const beardMemory = !beardResult && normalizeBeard(beardLatent);
+  const facialHair = beardResult ? {mode:'custom',category,requested:beardResult.requested,
+    effective:beardResult.effective,pigment:beardResult.pigment} :
+    beardMemory || category!=='H' ? {mode:'historical',category,...(beardMemory?{latent:beardMemory}:{})} : null;
+  if (beardDraw) {
+    if (typeof beardDraw.seed !== 'string' || beardDraw.version !== beardDrawVersion || !(beardMemory||beardResult)) {
+      throw new RangeError('Métadonnées du tirage de la pilosité invalides.');
+    }
+    facialHair.draw = {seed:beardDraw.seed,version:beardDraw.version};
+  }
+  const version = facialHair ? beardAppearanceVersion : noseAppearance ? noseAppearanceVersion : mouthAppearance ? mouthAppearanceVersion : browAppearance ? browAppearanceVersion :
     eyeDetails ? detailsAppearanceVersion :
     ink ? irisAppearanceVersion : appearanceVersion;
   return {
@@ -122,6 +140,7 @@ export function appearanceDocument(selection, {eyes, form, draw, colour, flat, i
     ...(browAppearance ? {brows:browAppearance} : {}),
     ...(mouthAppearance ? {mouth:mouthAppearance} : {}),
     ...(noseAppearance ? {nose:noseAppearance} : {}),
+    ...(facialHair ? {facialHair} : {}),
     historicalSelection: structuredClone(selection.raw)
   };
 }
@@ -136,10 +155,10 @@ function identical(a, b) {
 export function parseAppearance(text) {
   const data = JSON.parse(text);
   if (data?.schema !== appearanceSchema) throw new Error('Document d’apparence requis. Utilisez la sélection historique pour un ancien JSON.');
-  if (![appearanceVersion, irisAppearanceVersion, detailsAppearanceVersion, browAppearanceVersion, mouthAppearanceVersion, noseAppearanceVersion].includes(data.version) ||
+  if (![appearanceVersion, irisAppearanceVersion, detailsAppearanceVersion, browAppearanceVersion, mouthAppearanceVersion, noseAppearanceVersion, beardAppearanceVersion].includes(data.version) ||
       (data.version === irisAppearanceVersion && !data.iris) || (data.version === detailsAppearanceVersion && !data.details) ||
       (data.version === browAppearanceVersion && !data.brows) || (data.version === mouthAppearanceVersion && !data.mouth) ||
-      (data.version === noseAppearanceVersion && !data.nose)) {
+      (data.version === noseAppearanceVersion && !data.nose) || (data.version === beardAppearanceVersion && !data.facialHair)) {
     throw new Error('Version du document d’apparence non prise en charge.');
   }
   if (data.renderer !== renderers[data.version]) throw new Error('Version de rendu non prise en charge.');
@@ -179,11 +198,18 @@ export function parseAppearance(text) {
     settings.mouthLatent = data.mouth.mode === 'historical' ? data.mouth.latent : null;
     settings.mouthDraw = data.mouth.draw;
   }
-  if (data.version === noseAppearanceVersion) {
+  if (data.version >= noseAppearanceVersion && data.nose) {
     if (!['custom','historical'].includes(data.nose.mode)) throw new Error('Mode de nez invalide.');
     settings.nose = data.nose.mode === 'custom' ? data.nose.requested : null;
     settings.noseLatent = data.nose.mode === 'historical' ? data.nose.latent : null;
     settings.noseDraw = data.nose.draw;
+  }
+  if (data.version === beardAppearanceVersion) {
+    if (!['historical','custom'].includes(data.facialHair.mode)) throw new Error('Mode de pilosité invalide.');
+    settings.beard = data.facialHair.mode === 'custom' ? data.facialHair.requested : null;
+    settings.beardLatent = data.facialHair.mode === 'historical' ? data.facialHair.latent : null;
+    settings.beardDraw = data.facialHair.draw;
+    settings.beardCategory = beardCategoryOf(data.facialHair.category);
   }
   const rebuilt = appearanceDocument(selection, settings);
   if (!identical(rebuilt, data)) throw new Error('Données effectives incompatibles avec la sélection et les demandes.');

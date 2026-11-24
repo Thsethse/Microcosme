@@ -4,14 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#f6f2e8">
-  <title>Microcosme · BIO-NEZ-01 · Nez</title>
+  <title>Microcosme · BIO-PILOSITE-01 · Barbes, moustaches et favoris</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="shell">
-  <p class="brand">Microcosme <span>BIO-NEZ-01</span></p>
-  <h1>Nez</h1>
+  <p class="brand">Microcosme <span>BIO-PILOSITE-01</span></p>
+  <h1>Barbes, moustaches et favoris</h1>
   <nav aria-label="Navigation dans l’atelier">
+    <a href="#beard">Pilosité faciale</a>
     <a href="#nose">Nez</a>
     <a href="#mouth">Bouche et lèvres</a>
     <a href="#brows">Sourcils</a>
@@ -23,12 +24,13 @@
   </nav>
 </header>
 <main class="shell">
-  <section class="workspace" id="atelier" aria-label="Atelier des yeux">
+  <section class="workspace" id="atelier" aria-label="Atelier du visage">
     <div class="comparison-panel">
       <h2>Avant / après</h2>
       <div class="toolbar">
         <label>Fond<select id="background"><option value="light">Ivoire</option><option value="dark">Ardoise</option></select></label>
         <label>Référence<select id="iris-before-mode"><option value="same">Ouverture actuelle</option><option value="historical">Ouverture historique</option></select></label>
+        <label id="beard-before-wrap" hidden>Référence<select id="beard-before-mode"><option value="same">Visage actuel, imberbe</option><option value="historical">Détails du visage historiques</option></select></label>
         <label id="nose-before-wrap" hidden>Référence<select id="nose-before-mode"><option value="same">Nez historique</option><option value="historical">Détails du visage historiques</option></select></label>
         <label id="mouth-before-wrap" hidden>Référence<select id="mouth-before-mode"><option value="same">Bouche historique seule</option><option value="historical">Détails du visage historiques</option></select></label>
         <label id="brows-before-wrap" hidden>Référence<select id="brows-before-mode"><option value="same">Sourcils historiques seuls</option><option value="historical">Détails du visage historiques</option></select></label>
@@ -68,6 +70,37 @@
       <label>Version du tirage<select id="draw-version"></select></label>
       <p id="draw-error" role="alert"></p>
       <label>Graine du tirage<input id="seed" type="text" value="Microcosme" spellcheck="false"></label>
+    </div>
+  </section>
+
+  <section id="beard">
+    <h2>Pilosité faciale</h2>
+    <div class="iris-workspace">
+      <div class="card">
+        <label>Catégorie<select id="beard-category"><option>H</option><option>F</option><option>T</option></select></label>
+        <label class="check"><input type="checkbox" id="beard-active"> Personnaliser la pilosité</label>
+        <fieldset id="beard-parameters" disabled>
+          <legend class="visually-hidden">Réglages de la pilosité</legend>
+          <label>Silhouette de référence<select id="beard-preset"></select></label>
+          <fieldset><legend>Zones</legend><div id="beard-zones"></div></fieldset>
+          <div id="beard-axes"></div>
+          <p class="hint">Une courbure positive relève les pointes de la moustache.</p>
+          <label>Coloration<select id="beard-colour-mode"><option value="hair">Identique aux cheveux</option><option value="darker">Cheveux légèrement assombris</option><option value="independent">Indépendante</option></select></label>
+          <label>Couleur indépendante<select id="beard-colour"></select></label>
+        </fieldset>
+        <p id="beard-status" class="hint" role="status"></p>
+        <div class="actions">
+          <button class="primary" id="beard-random" type="button">Tirer la pilosité</button>
+          <button id="beard-reset" type="button">Rétablir la pilosité historique</button>
+        </div>
+        <label>Graine de la pilosité<input id="beard-seed" type="text" value="Microcosme" spellcheck="false"></label>
+        <p id="beard-error" role="alert"></p>
+      </div>
+      <figure class="iris-zoom card">
+        <figcaption>Gros plan du bas du visage</figcaption>
+        <div id="beard-zoom" class="surface"></div>
+        <a href="#atelier">Comparer aux trois échelles</a>
+      </figure>
     </div>
   </section>
 

@@ -134,3 +134,5 @@ button:disabled, input:disabled, select:disabled { opacity: .65; }
 #nose-parameters { padding:0; border:0; margin:0; min-width:0; }
 #nose-error { color:#893b2b; }
 #nose-error:empty { display:none; }
+#beard-zones{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.6rem,1fr));gap:.1rem 1rem}
+#beard-zones label{min-height:44px}
