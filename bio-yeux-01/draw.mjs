@@ -35,9 +35,11 @@ function generator(seed) {
 
 function integer(next, span) {
   const limit = uint32 - (uint32 % span);
-  let value;
-  do { value = next(); } while (value >= limit);
-  return value % span;
+  for (let attempt = 0; attempt < 32; attempt++) {
+    const value = next();
+    if (value < limit) return value % span;
+  }
+  throw new Error('Budget de conversion du tirage dépassé. Essayez une autre graine.');
 }
 
 export function drawEyes(input, seed, version = currentDraw) {

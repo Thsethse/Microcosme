@@ -10,11 +10,13 @@ jobs:
   yeux:
     runs-on: ubuntu-latest
     container: mcr.microsoft.com/playwright:v1.56.1-noble
-    timeout-minutes: 20
+    timeout-minutes: 25
     env:
       ARTIFACT_DIR: /tmp/microcosme-bio-yeux-01
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -23,7 +25,16 @@ jobs:
       - run: npm test
       - run: node --test bio-col-01/tests/model.test.mjs bio-yeux-01/tests/model.test.mjs
       - run: npx playwright install chromium webkit
-      - run: node bio-yeux-01/tests/browser.cjs
+      - name: Rejouer l’interface BIO-YEUX-01 publiée avant A/B/C
+        run: |
+          legacy_preview=$(mktemp -d)
+          git -c safe.directory="$GITHUB_WORKSPACE" archive 0ccaee3f9f8b22541f7ef1f98a35c6882116d718 bio-yeux-01 | tar -x -C "$legacy_preview"
+          for directory in bio-col-01 preview node_modules; do
+            ln -s "$GITHUB_WORKSPACE/$directory" "$legacy_preview/$directory"
+          done
+          ARTIFACT_DIR="$ARTIFACT_DIR/historique-yeux" node "$legacy_preview/bio-yeux-01/tests/browser.cjs"
+      - run: node --test bio-yeux-01/tests/corrections-*.test.mjs
+      - run: ARTIFACT_DIR="$ARTIFACT_DIR/corrections" node bio-yeux-01/tests/corrections-browser.cjs
       - run: ARTIFACT_DIR="$ARTIFACT_DIR/palettes" node bio-col-01/tests/browser.cjs
       - name: Récupérer les suites originales des lots 1 à 3
         run: git -c safe.directory="$GITHUB_WORKSPACE" fetch --no-tags --depth=1 origin 1ff931586776b3f7ed41bbdc5772b97e030aa4db 4156254ca5a9b4a52f138a558bd70d461f4d4c4e 576ee961b5be385e6cceb2f357ffe74341b0d05f
