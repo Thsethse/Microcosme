@@ -5,6 +5,7 @@ import {palette} from '../preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/r1/p2/base/m
 import {eyeStroke, eyesFor, normalizeEyes} from './eyes.mjs';
 import {irisMarkup, pigmentCenters, solveIris} from './iris.mjs';
 import {detailsMarkup, solveDetails} from './details.mjs';
+import {browMarkup, solveBrows} from './brows.mjs';
 
 function clipId(path, instance, index) {
   // Equal default IDs are safe for equal outlines. An explicit instance also
@@ -44,6 +45,20 @@ function replaceOpenings(face, shapes, instance, drawIris, details) {
   return result;
 }
 
+function replaceBrows(face, model, markup) {
+  const {head:{rx},anchors:{browLeft,browRight},parameters}=model.base;
+  const sharp=parameters.eyes==='sharp', width=rx*.26;
+  const starts=[browLeft,browRight].map(([x,y],i)=>sharp?
+    `${x-width},${y-2*(i===0?1:-1)}`:`${x-width*.9},${y}`);
+  let count=0;
+  const result=face.replace(/<path d="M([^ ]+) [^"]+" fill="none" stroke="[^"]+" stroke-width="2\.[26]"[^>]*\/>/g,(tag,start)=>{
+    if (!starts.includes(start)) return tag;
+    return count++===0?markup:'';
+  });
+  if (count!==2) throw new Error('Sourcils historiques introuvables.');
+  return result;
+}
+
 function guides({envelopes, nose, maxWidth, maxHeight}) {
   const lines = envelopes.map(({x, y, left, top, right, bottom}) => {
     const cross = `M${x - 1.6},${y}h3.2 M${x},${y - 1.6}v3.2`;
@@ -58,10 +73,11 @@ export function character(input = {}, options = {}) {
   const selected = normalizeEyes(options.eyes);
   const hasIris = options.iris != null && options.iris !== 'historical';
   const hasDetails = options.details != null && options.details !== 'historical';
-  if (!selected && !options.eyeEnvelopes && !hasIris && !hasDetails) return svg;
+  const hasBrows = options.brows != null && options.brows !== 'historical';
+  if (!selected && !options.eyeEnvelopes && !hasIris && !hasDetails && !hasBrows) return svg;
   const geometry = eyesFor(input, selected);
   let result = svg;
-  if (selected || hasIris || hasDetails) {
+  if (selected || hasIris || hasDetails || hasBrows) {
     const face = model(input);
     const originalFace = headMarkup(face.base).replace(/<path d="[^"]*"/, `<path d="${face.outline}"`);
     if (!svg.includes(originalFace)) throw new Error('Visage historique introuvable');
@@ -69,7 +85,12 @@ export function character(input = {}, options = {}) {
     const centers = iris ? pigmentCenters(geometry) : [];
     const drawIris = iris ? index => irisMarkup(iris, centers[index], index) : null;
     const details = hasDetails ? solveDetails(geometry, options.details) : null;
-    result = svg.replace(originalFace, replaceOpenings(originalFace, geometry.shapes, options.instance, drawIris, details));
+    const brows = hasBrows ? solveBrows(face,geometry,options.brows,{...options,source:svg}) : null;
+    let updatedFace = brows ? replaceBrows(originalFace,face,browMarkup(brows)) : originalFace;
+    if (selected || hasIris || hasDetails) {
+      updatedFace = replaceOpenings(updatedFace,geometry.shapes,options.instance,drawIris,details);
+    }
+    result = svg.replace(originalFace,updatedFace);
   }
   if (options.eyeEnvelopes) result = result.replace(/<\/svg>$/, guides(geometry.face) + '</svg>');
   return result;

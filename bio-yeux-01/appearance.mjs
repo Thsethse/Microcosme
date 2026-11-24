@@ -1,10 +1,11 @@
 import {choice, restoreSelection} from './catalogue.mjs';
 import {swatch} from '../bio-col-01/palette.mjs';
-import {controls, normalize} from '../preview/bio-vis-p5-i6/model.mjs';
+import {controls, model, normalize} from '../preview/bio-vis-p5-i6/model.mjs';
 import {eyePresets, eyesFor} from './eyes.mjs';
 import {currentDraw, legacyDraw} from './draw.mjs';
 import {irisDrawVersion, normalizeIris, solveIris} from './iris.mjs';
 import {detailsDrawVersion, normalizeDetails, solveDetails} from './details.mjs';
+import {browDrawVersion, normalizeBrows, solveBrows} from './brows.mjs';
 
 export const appearanceSchema = 'microcosme.appearance';
 export const appearanceVersion = 1;
@@ -13,7 +14,9 @@ export const irisAppearanceVersion = 2;
 export const irisRenderVersion = 'bio-yeux-02-svg@1';
 export const detailsAppearanceVersion = 3;
 export const detailsRenderVersion = 'bio-yeux-03-svg@1';
-const renderers = {1:renderVersion, 2:irisRenderVersion, 3:detailsRenderVersion};
+export const browAppearanceVersion = 4;
+export const browRenderVersion = 'bio-sourcils-01-svg@1';
+const renderers = {1:renderVersion, 2:irisRenderVersion, 3:detailsRenderVersion, 4:browRenderVersion};
 
 export function characterInput(selection, key = selection.key) {
   const {style, arrangement} = choice(key);
@@ -28,7 +31,7 @@ function validDraw(draw) {
 }
 
 export function appearanceDocument(selection, {eyes, form, draw, colour, flat, iris, irisLatent, irisDraw,
-  details, detailsLatent, detailsDraw}) {
+  details, detailsLatent, detailsDraw, brows, browsLatent, browsDraw}) {
   const entry = choice(selection.key);
   const input = characterInput(selection);
   const applied = normalize(input);
@@ -56,7 +59,20 @@ export function appearanceDocument(selection, {eyes, form, draw, colour, flat, i
     }
     eyeDetails.draw = {seed:detailsDraw.seed,version:detailsDraw.version};
   }
-  const version = eyeDetails ? detailsAppearanceVersion : ink ? irisAppearanceVersion : appearanceVersion;
+  const browResult = brows == null || brows === 'historical' ? null : solveBrows(model(input),result,brows,
+    {hairColor:flat?colour:'historical',rememberedHairColor:colour});
+  const browMemory = !browResult && normalizeBrows(browsLatent);
+  const browAppearance = browResult ? {mode:'custom',requested:browResult.requested,
+    effective:browResult.effective,pigment:browResult.pigment} :
+    browMemory ? {mode:'historical',latent:browMemory} : null;
+  if (browsDraw) {
+    if (typeof browsDraw.seed !== 'string' || browsDraw.version !== browDrawVersion || !browAppearance) {
+      throw new RangeError('Métadonnées du tirage des sourcils invalides.');
+    }
+    browAppearance.draw = {seed:browsDraw.seed,version:browsDraw.version};
+  }
+  const version = browAppearance ? browAppearanceVersion : eyeDetails ? detailsAppearanceVersion :
+    ink ? irisAppearanceVersion : appearanceVersion;
   return {
     schema: appearanceSchema,
     version,
@@ -75,6 +91,7 @@ export function appearanceDocument(selection, {eyes, form, draw, colour, flat, i
     palette: {colour, mode: flat ? 'flat' : 'historical'},
     ...(ink ? {iris:ink} : {}),
     ...(eyeDetails ? {details:eyeDetails} : {}),
+    ...(browAppearance ? {brows:browAppearance} : {}),
     historicalSelection: structuredClone(selection.raw)
   };
 }
@@ -89,8 +106,9 @@ function identical(a, b) {
 export function parseAppearance(text) {
   const data = JSON.parse(text);
   if (data?.schema !== appearanceSchema) throw new Error('Document d’apparence requis. Utilisez la sélection historique pour un ancien JSON.');
-  if (![appearanceVersion, irisAppearanceVersion, detailsAppearanceVersion].includes(data.version) ||
-      (data.version === irisAppearanceVersion && !data.iris) || (data.version === detailsAppearanceVersion && !data.details)) {
+  if (![appearanceVersion, irisAppearanceVersion, detailsAppearanceVersion, browAppearanceVersion].includes(data.version) ||
+      (data.version === irisAppearanceVersion && !data.iris) || (data.version === detailsAppearanceVersion && !data.details) ||
+      (data.version === browAppearanceVersion && !data.brows)) {
     throw new Error('Version du document d’apparence non prise en charge.');
   }
   if (data.renderer !== renderers[data.version]) throw new Error('Version de rendu non prise en charge.');
@@ -112,11 +130,17 @@ export function parseAppearance(text) {
     settings.irisLatent = data.iris.mode === 'historical' ? data.iris.latent : null;
     settings.irisDraw = data.iris.draw;
   }
-  if (data.version === detailsAppearanceVersion) {
+  if (data.version >= detailsAppearanceVersion && data.details) {
     if (!['custom','historical'].includes(data.details.mode)) throw new Error('Mode des détails invalide.');
     settings.details = data.details.mode === 'custom' ? data.details.requested : null;
     settings.detailsLatent = data.details.mode === 'historical' ? data.details.latent : null;
     settings.detailsDraw = data.details.draw;
+  }
+  if (data.version === browAppearanceVersion) {
+    if (!['custom','historical'].includes(data.brows.mode)) throw new Error('Mode des sourcils invalide.');
+    settings.brows = data.brows.mode === 'custom' ? data.brows.requested : null;
+    settings.browsLatent = data.brows.mode === 'historical' ? data.brows.latent : null;
+    settings.browsDraw = data.brows.draw;
   }
   const rebuilt = appearanceDocument(selection, settings);
   if (!identical(rebuilt, data)) throw new Error('Données effectives incompatibles avec la sélection et les demandes.');

@@ -1,0 +1,494 @@
+{
+  "T2": [
+    {
+      "distinct": 9,
+      "recurve": [
+        -4.84,
+        1.802666625976562
+      ],
+      "secondDifference": [
+        -0.09204389648437494,
+        0.20684205566406177
+      ]
+    }
+  ],
+  "T3": [
+    {
+      "points": 878,
+      "limited": {
+        "length": 108.46525270409394,
+        "thickness": 220,
+        "arc": 100,
+        "summit": 78,
+        "tilt": -20,
+        "angularity": 20,
+        "height": 58.41868133538199,
+        "taper": 0,
+        "spacing": 100,
+        "absent": false,
+        "monobrow": false,
+        "slit": false,
+        "colourMode": "independent",
+        "colour": "brun-chocolat"
+      },
+      "lengthDomain": [
+        [
+          50,
+          108
+        ]
+      ]
+    }
+  ],
+  "T6": [
+    {
+      "extremes": 1728,
+      "compatible": 126
+    }
+  ],
+  "T8": [
+    {
+      "name": "rasé",
+      "seeds": 1024,
+      "modes": {
+        "linked": 347,
+        "darker": 343,
+        "independent": 334
+      },
+      "combinations": [
+        201,
+        204,
+        228,
+        178,
+        213
+      ],
+      "colours": {
+        "noir-profond": 43,
+        "noir-ebene": 55,
+        "brun-sombre": 38,
+        "brun-chocolat": 34,
+        "chatain": 33,
+        "chatain-clair": 37,
+        "blond-cendre": 40,
+        "blond-dore": 35,
+        "blond-pale": 36,
+        "roux-cuivre": 31,
+        "roux-auburn": 46,
+        "gris-acier": 53,
+        "gris-perle": 45,
+        "blanc-ivoire": 43,
+        "rouge-vif": 42,
+        "rouge-profond": 37,
+        "rose-clair": 40,
+        "rose-framboise": 36,
+        "violet-amethyste": 36,
+        "violet-profond": 39,
+        "bleu-vif": 30,
+        "bleu-nuit": 40,
+        "turquoise-clair": 40,
+        "turquoise-profond": 42,
+        "vert-emeraude": 43,
+        "vert-sauge": 30
+      },
+      "maxHeight": 4,
+      "expectedMax": 3.385879513952631
+    },
+    {
+      "name": "étroit",
+      "seeds": 1024,
+      "modes": {
+        "linked": 345,
+        "darker": 357,
+        "independent": 322
+      },
+      "combinations": [
+        203,
+        187,
+        198,
+        213,
+        223
+      ],
+      "colours": {
+        "noir-profond": 37,
+        "noir-ebene": 47,
+        "brun-sombre": 49,
+        "brun-chocolat": 45,
+        "chatain": 37,
+        "chatain-clair": 29,
+        "blond-cendre": 46,
+        "blond-dore": 40,
+        "blond-pale": 28,
+        "roux-cuivre": 36,
+        "roux-auburn": 32,
+        "gris-acier": 39,
+        "gris-perle": 48,
+        "blanc-ivoire": 36,
+        "rouge-vif": 36,
+        "rouge-profond": 36,
+        "rose-clair": 38,
+        "rose-framboise": 36,
+        "violet-amethyste": 31,
+        "violet-profond": 45,
+        "bleu-vif": 51,
+        "bleu-nuit": 38,
+        "turquoise-clair": 37,
+        "turquoise-profond": 32,
+        "vert-emeraude": 50,
+        "vert-sauge": 45
+      },
+      "maxHeight": 4,
+      "expectedMax": 3.410813905875764
+    },
+    {
+      "name": "large",
+      "seeds": 1024,
+      "modes": {
+        "linked": 342,
+        "darker": 357,
+        "independent": 325
+      },
+      "combinations": [
+        200,
+        214,
+        218,
+        203,
+        189
+      ],
+      "colours": {
+        "noir-profond": 42,
+        "noir-ebene": 42,
+        "brun-sombre": 42,
+        "brun-chocolat": 40,
+        "chatain": 43,
+        "chatain-clair": 27,
+        "blond-cendre": 35,
+        "blond-dore": 48,
+        "blond-pale": 39,
+        "roux-cuivre": 31,
+        "roux-auburn": 46,
+        "gris-acier": 38,
+        "gris-perle": 39,
+        "blanc-ivoire": 35,
+        "rouge-vif": 31,
+        "rouge-profond": 32,
+        "rose-clair": 39,
+        "rose-framboise": 43,
+        "violet-amethyste": 37,
+        "violet-profond": 52,
+        "bleu-vif": 40,
+        "bleu-nuit": 47,
+        "turquoise-clair": 32,
+        "turquoise-profond": 39,
+        "vert-emeraude": 49,
+        "vert-sauge": 36
+      },
+      "maxHeight": 1,
+      "expectedMax": 3.7024326186721863
+    }
+  ],
+  "navigateurs": [
+    {
+      "name": "chromium",
+      "version": "151.0.7922.34",
+      "raster": {
+        "historic": 54,
+        "historicMismatches": 0,
+        "cases": 144,
+        "outside": 0,
+        "inEyes": 0,
+        "forms": 9,
+        "colours": 26,
+        "topology": [
+          2,
+          3,
+          1,
+          2,
+          0
+        ],
+        "visibility": {
+          "visible": 126,
+          "partial": 21,
+          "hidden": [],
+          "candidates": 126
+        },
+        "subtle": [
+          24,
+          0,
+          6,
+          408
+        ]
+      },
+      "workshop": {
+        "cold": 3,
+        "touched": "54 %",
+        "layouts": [
+          {
+            "width": 820,
+            "height": 1180,
+            "background": "light",
+            "sizes": [
+              [
+                356.921875,
+                300
+              ],
+              [
+                356.921875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 820,
+            "height": 1180,
+            "background": "dark",
+            "sizes": [
+              [
+                356.921875,
+                300
+              ],
+              [
+                356.921875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 1180,
+            "height": 820,
+            "background": "light",
+            "sizes": [
+              [
+                338.875,
+                300
+              ],
+              [
+                338.875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 1180,
+            "height": 820,
+            "background": "dark",
+            "sizes": [
+              [
+                338.875,
+                300
+              ],
+              [
+                338.875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "background": "light",
+            "sizes": [
+              [
+                163.5,
+                300
+              ],
+              [
+                163.5,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "background": "dark",
+            "sizes": [
+              [
+                163.5,
+                300
+              ],
+              [
+                163.5,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "webkit",
+      "version": "26.5",
+      "raster": {
+        "historic": 54,
+        "historicMismatches": 0,
+        "cases": 144,
+        "outside": 0,
+        "inEyes": 0,
+        "forms": 9,
+        "colours": 26,
+        "topology": [
+          2,
+          3,
+          1,
+          2,
+          0
+        ],
+        "visibility": {
+          "visible": 126,
+          "partial": 21,
+          "hidden": [],
+          "candidates": 126
+        },
+        "subtle": [
+          24,
+          0,
+          6,
+          408
+        ]
+      },
+      "workshop": {
+        "cold": 3,
+        "touched": "53 %",
+        "layouts": [
+          {
+            "width": 820,
+            "height": 1180,
+            "background": "light",
+            "sizes": [
+              [
+                356.921875,
+                300
+              ],
+              [
+                356.921875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 820,
+            "height": 1180,
+            "background": "dark",
+            "sizes": [
+              [
+                356.921875,
+                300
+              ],
+              [
+                356.921875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 1180,
+            "height": 820,
+            "background": "light",
+            "sizes": [
+              [
+                338.859375,
+                300
+              ],
+              [
+                338.859375,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 1180,
+            "height": 820,
+            "background": "dark",
+            "sizes": [
+              [
+                338.859375,
+                300
+              ],
+              [
+                338.859375,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "background": "light",
+            "sizes": [
+              [
+                163.5,
+                300
+              ],
+              [
+                163.5,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "background": "dark",
+            "sizes": [
+              [
+                163.5,
+                300
+              ],
+              [
+                163.5,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
