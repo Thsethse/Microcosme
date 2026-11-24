@@ -13,7 +13,7 @@ const types = {'.html': 'text/html', '.mjs': 'text/javascript', '.css': 'text/cs
 async function localSite() {
   const frozen = new Map(['render.mjs','eyes.mjs','bezier.mjs'].map(file => [
     '/baseline-eyes/' + file,
-    execFileSync('git', ['show', '13c57a9e7424bef1fe92b71dd4c036072050f050:bio-yeux-01/' + file], {cwd:root})
+    execFileSync('git', ['-c', `safe.directory=${root}`, 'show', '13c57a9e7424bef1fe92b71dd4c036072050f050:bio-yeux-01/' + file], {cwd:root})
   ]));
   const server = createServer(async (request, response) => {
     try {
