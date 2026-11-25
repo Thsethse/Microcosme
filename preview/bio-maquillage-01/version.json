@@ -1,7 +1,7 @@
 {
   "mission": "BIO-MAQUILLAGE-01",
-  "codeCommit": "a0cda853d29376afc11d7b8d7f80891dd5314872",
-  "pagesBaseline": "519a742aae7d9dfa8c82a16323058d9543d0b0a4",
+  "codeCommit": "70ed8ae4b8ec6ebbc16b9fd761147df2fca88a67",
+  "pagesBaseline": "17963156641bce1866990cdc76077476b791e861",
   "startup": "atelier-4bc7fbe90e6425cf.js",
   "contractCommit": "a267b5c",
   "files": [
@@ -11,7 +11,7 @@
     },
     {
       "path": "style.css",
-      "sha256": "1f507a71ca92461082bd33ecc5280fa7cd3debd118db0cb8fbaf87d65ac56313"
+      "sha256": "972b1220c5e37365debb9fac2e350f7d4a331009d598316a6de27324f30e1893"
     },
     {
       "path": "app.mjs",

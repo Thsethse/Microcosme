@@ -163,7 +163,7 @@ button:disabled, input:disabled, select:disabled { opacity: .65; }
 
 .makeup-workspace { display: grid; grid-template-columns: minmax(16rem, 27rem) minmax(15rem, 1fr); gap: clamp(1rem, 4vw, 3rem); align-items: start; }
 .makeup-options, #makeup-paint-panel, #makeup-controls > div, #makeup-library[open] { display: grid; gap: .65rem; }
-.makeup-options [hidden], #makeup-controls [hidden] { display: none; }
+.makeup-options [hidden], #makeup-paint-panel[hidden], #makeup-controls [hidden] { display: none; }
 .makeup-actions { display: flex; flex-wrap: wrap; align-items: end; gap: .5rem; }
 #makeup button, #makeup select { min-height: 44px; }
 .makeup-portrait { margin: 0; max-width: 335px; }
