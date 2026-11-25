@@ -1,0 +1,977 @@
+{
+  "base": "https://thsethse.github.io/Microcosme/preview/bio-cicatrices-01/",
+  "engines": [
+    {
+      "name": "chromium",
+      "version": "151.0.7922.34",
+      "raster": {
+        "historic": 54,
+        "anatomical": 72,
+        "outside": 0,
+        "forbidden": 0,
+        "painted": 457401,
+        "removed": {
+          "eyes": 114928,
+          "lips": 16164,
+          "nostrils": 1998
+        },
+        "brow": 15,
+        "beforeEye": 260,
+        "afterEye": 255,
+        "hiding": {
+          "cheveux": 150,
+          "barbe": 449
+        },
+        "artist": [
+          {
+            "portrait": "Neutre · Miel · Amande",
+            "measurement": [
+              {
+                "name": "Linéaire",
+                "pixels": [
+                  61,
+                  18,
+                  8
+                ]
+              },
+              {
+                "name": "Courbe",
+                "pixels": [
+                  89,
+                  21,
+                  8
+                ]
+              },
+              {
+                "name": "Irrégulière",
+                "pixels": [
+                  97,
+                  22,
+                  11
+                ]
+              },
+              {
+                "name": "Multiple",
+                "pixels": [
+                  127,
+                  30,
+                  12
+                ]
+              },
+              {
+                "name": "Suturée",
+                "pixels": [
+                  83,
+                  18,
+                  8
+                ]
+              },
+              {
+                "name": "Surfacique",
+                "pixels": [
+                  196,
+                  33,
+                  15
+                ]
+              },
+              {
+                "name": "Récente",
+                "pixels": [
+                  100,
+                  21,
+                  9
+                ]
+              },
+              {
+                "name": "Intermédiaire",
+                "pixels": [
+                  100,
+                  21,
+                  9
+                ]
+              },
+              {
+                "name": "Ancienne",
+                "pixels": [
+                  96,
+                  20,
+                  9
+                ]
+              },
+              {
+                "name": "Très ancienne",
+                "pixels": [
+                  88,
+                  20,
+                  9
+                ]
+              }
+            ]
+          },
+          {
+            "portrait": "Visage long · Rosée · Iris",
+            "measurement": [
+              {
+                "name": "Linéaire",
+                "pixels": [
+                  66,
+                  18,
+                  9
+                ]
+              },
+              {
+                "name": "Courbe",
+                "pixels": [
+                  96,
+                  27,
+                  11
+                ]
+              },
+              {
+                "name": "Irrégulière",
+                "pixels": [
+                  102,
+                  23,
+                  12
+                ]
+              },
+              {
+                "name": "Multiple",
+                "pixels": [
+                  133,
+                  33,
+                  13
+                ]
+              },
+              {
+                "name": "Suturée",
+                "pixels": [
+                  84,
+                  19,
+                  9
+                ]
+              },
+              {
+                "name": "Surfacique",
+                "pixels": [
+                  195,
+                  32,
+                  12
+                ]
+              },
+              {
+                "name": "Récente",
+                "pixels": [
+                  100,
+                  23,
+                  10
+                ]
+              },
+              {
+                "name": "Intermédiaire",
+                "pixels": [
+                  100,
+                  23,
+                  10
+                ]
+              },
+              {
+                "name": "Ancienne",
+                "pixels": [
+                  98,
+                  22,
+                  10
+                ]
+              },
+              {
+                "name": "Très ancienne",
+                "pixels": [
+                  84,
+                  18,
+                  10
+                ]
+              }
+            ]
+          },
+          {
+            "portrait": "Visage large · Cuivrée · Argile",
+            "measurement": [
+              {
+                "name": "Linéaire",
+                "pixels": [
+                  81,
+                  20,
+                  10
+                ]
+              },
+              {
+                "name": "Courbe",
+                "pixels": [
+                  98,
+                  25,
+                  12
+                ]
+              },
+              {
+                "name": "Irrégulière",
+                "pixels": [
+                  122,
+                  28,
+                  12
+                ]
+              },
+              {
+                "name": "Multiple",
+                "pixels": [
+                  154,
+                  38,
+                  16
+                ]
+              },
+              {
+                "name": "Suturée",
+                "pixels": [
+                  115,
+                  24,
+                  11
+                ]
+              },
+              {
+                "name": "Surfacique",
+                "pixels": [
+                  290,
+                  50,
+                  18
+                ]
+              },
+              {
+                "name": "Récente",
+                "pixels": [
+                  129,
+                  27,
+                  13
+                ]
+              },
+              {
+                "name": "Intermédiaire",
+                "pixels": [
+                  129,
+                  27,
+                  13
+                ]
+              },
+              {
+                "name": "Ancienne",
+                "pixels": [
+                  127,
+                  25,
+                  12
+                ]
+              },
+              {
+                "name": "Très ancienne",
+                "pixels": [
+                  114,
+                  22,
+                  10
+                ]
+              }
+            ]
+          },
+          {
+            "portrait": "Pommettes marquées · Brune · Sienne",
+            "measurement": [
+              {
+                "name": "Linéaire",
+                "pixels": [
+                  74,
+                  18,
+                  10
+                ]
+              },
+              {
+                "name": "Courbe",
+                "pixels": [
+                  100,
+                  27,
+                  10
+                ]
+              },
+              {
+                "name": "Irrégulière",
+                "pixels": [
+                  110,
+                  27,
+                  14
+                ]
+              },
+              {
+                "name": "Multiple",
+                "pixels": [
+                  154,
+                  38,
+                  16
+                ]
+              },
+              {
+                "name": "Suturée",
+                "pixels": [
+                  96,
+                  21,
+                  11
+                ]
+              },
+              {
+                "name": "Surfacique",
+                "pixels": [
+                  227,
+                  40,
+                  16
+                ]
+              },
+              {
+                "name": "Récente",
+                "pixels": [
+                  116,
+                  24,
+                  11
+                ]
+              },
+              {
+                "name": "Intermédiaire",
+                "pixels": [
+                  116,
+                  24,
+                  11
+                ]
+              },
+              {
+                "name": "Ancienne",
+                "pixels": [
+                  113,
+                  22,
+                  10
+                ]
+              },
+              {
+                "name": "Très ancienne",
+                "pixels": [
+                  109,
+                  22,
+                  9
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "workshop": {
+        "layouts": [
+          {
+            "width": 820,
+            "height": 1180,
+            "background": "light",
+            "dimensions": [
+              [
+                356.921875,
+                300
+              ],
+              [
+                356.921875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 820,
+            "height": 1180,
+            "background": "dark",
+            "dimensions": [
+              [
+                356.921875,
+                300
+              ],
+              [
+                356.921875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 1180,
+            "height": 820,
+            "background": "light",
+            "dimensions": [
+              [
+                338.875,
+                300
+              ],
+              [
+                338.875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 1180,
+            "height": 820,
+            "background": "dark",
+            "dimensions": [
+              [
+                338.875,
+                300
+              ],
+              [
+                338.875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "background": "light",
+            "dimensions": [
+              [
+                163.5,
+                300
+              ],
+              [
+                163.5,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "background": "dark",
+            "dimensions": [
+              [
+                163.5,
+                300
+              ],
+              [
+                163.5,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          }
+        ],
+        "cold": true,
+        "tactile": true
+      },
+      "errors": []
+    },
+    {
+      "name": "webkit",
+      "version": "26.5",
+      "raster": {
+        "historic": 54,
+        "anatomical": 72,
+        "outside": 0,
+        "forbidden": 0,
+        "painted": 459545,
+        "removed": {
+          "eyes": 114948,
+          "lips": 16164,
+          "nostrils": 1980
+        },
+        "brow": 15,
+        "beforeEye": 261,
+        "afterEye": 257,
+        "hiding": {
+          "cheveux": 150,
+          "barbe": 449
+        },
+        "artist": [
+          {
+            "portrait": "Neutre · Miel · Amande",
+            "measurement": [
+              {
+                "name": "Linéaire",
+                "pixels": [
+                  64,
+                  17,
+                  8
+                ]
+              },
+              {
+                "name": "Courbe",
+                "pixels": [
+                  92,
+                  21,
+                  10
+                ]
+              },
+              {
+                "name": "Irrégulière",
+                "pixels": [
+                  99,
+                  22,
+                  13
+                ]
+              },
+              {
+                "name": "Multiple",
+                "pixels": [
+                  132,
+                  32,
+                  12
+                ]
+              },
+              {
+                "name": "Suturée",
+                "pixels": [
+                  83,
+                  19,
+                  9
+                ]
+              },
+              {
+                "name": "Surfacique",
+                "pixels": [
+                  198,
+                  32,
+                  12
+                ]
+              },
+              {
+                "name": "Récente",
+                "pixels": [
+                  104,
+                  21,
+                  11
+                ]
+              },
+              {
+                "name": "Intermédiaire",
+                "pixels": [
+                  102,
+                  20,
+                  11
+                ]
+              },
+              {
+                "name": "Ancienne",
+                "pixels": [
+                  98,
+                  20,
+                  11
+                ]
+              },
+              {
+                "name": "Très ancienne",
+                "pixels": [
+                  91,
+                  20,
+                  10
+                ]
+              }
+            ]
+          },
+          {
+            "portrait": "Visage long · Rosée · Iris",
+            "measurement": [
+              {
+                "name": "Linéaire",
+                "pixels": [
+                  74,
+                  21,
+                  9
+                ]
+              },
+              {
+                "name": "Courbe",
+                "pixels": [
+                  103,
+                  27,
+                  12
+                ]
+              },
+              {
+                "name": "Irrégulière",
+                "pixels": [
+                  110,
+                  27,
+                  15
+                ]
+              },
+              {
+                "name": "Multiple",
+                "pixels": [
+                  147,
+                  35,
+                  16
+                ]
+              },
+              {
+                "name": "Suturée",
+                "pixels": [
+                  87,
+                  21,
+                  11
+                ]
+              },
+              {
+                "name": "Surfacique",
+                "pixels": [
+                  204,
+                  34,
+                  12
+                ]
+              },
+              {
+                "name": "Récente",
+                "pixels": [
+                  105,
+                  26,
+                  12
+                ]
+              },
+              {
+                "name": "Intermédiaire",
+                "pixels": [
+                  104,
+                  25,
+                  12
+                ]
+              },
+              {
+                "name": "Ancienne",
+                "pixels": [
+                  97,
+                  23,
+                  11
+                ]
+              },
+              {
+                "name": "Très ancienne",
+                "pixels": [
+                  90,
+                  20,
+                  10
+                ]
+              }
+            ]
+          },
+          {
+            "portrait": "Visage large · Cuivrée · Argile",
+            "measurement": [
+              {
+                "name": "Linéaire",
+                "pixels": [
+                  78,
+                  19,
+                  10
+                ]
+              },
+              {
+                "name": "Courbe",
+                "pixels": [
+                  89,
+                  21,
+                  10
+                ]
+              },
+              {
+                "name": "Irrégulière",
+                "pixels": [
+                  119,
+                  26,
+                  12
+                ]
+              },
+              {
+                "name": "Multiple",
+                "pixels": [
+                  153,
+                  35,
+                  16
+                ]
+              },
+              {
+                "name": "Suturée",
+                "pixels": [
+                  105,
+                  20,
+                  10
+                ]
+              },
+              {
+                "name": "Surfacique",
+                "pixels": [
+                  288,
+                  50,
+                  18
+                ]
+              },
+              {
+                "name": "Récente",
+                "pixels": [
+                  127,
+                  27,
+                  14
+                ]
+              },
+              {
+                "name": "Intermédiaire",
+                "pixels": [
+                  127,
+                  25,
+                  14
+                ]
+              },
+              {
+                "name": "Ancienne",
+                "pixels": [
+                  128,
+                  26,
+                  12
+                ]
+              },
+              {
+                "name": "Très ancienne",
+                "pixels": [
+                  121,
+                  25,
+                  11
+                ]
+              }
+            ]
+          },
+          {
+            "portrait": "Pommettes marquées · Brune · Sienne",
+            "measurement": [
+              {
+                "name": "Linéaire",
+                "pixels": [
+                  61,
+                  16,
+                  8
+                ]
+              },
+              {
+                "name": "Courbe",
+                "pixels": [
+                  84,
+                  23,
+                  10
+                ]
+              },
+              {
+                "name": "Irrégulière",
+                "pixels": [
+                  94,
+                  23,
+                  12
+                ]
+              },
+              {
+                "name": "Multiple",
+                "pixels": [
+                  120,
+                  35,
+                  14
+                ]
+              },
+              {
+                "name": "Suturée",
+                "pixels": [
+                  83,
+                  18,
+                  8
+                ]
+              },
+              {
+                "name": "Surfacique",
+                "pixels": [
+                  220,
+                  34,
+                  12
+                ]
+              },
+              {
+                "name": "Récente",
+                "pixels": [
+                  114,
+                  24,
+                  9
+                ]
+              },
+              {
+                "name": "Intermédiaire",
+                "pixels": [
+                  108,
+                  22,
+                  9
+                ]
+              },
+              {
+                "name": "Ancienne",
+                "pixels": [
+                  112,
+                  24,
+                  11
+                ]
+              },
+              {
+                "name": "Très ancienne",
+                "pixels": [
+                  111,
+                  24,
+                  9
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "workshop": {
+        "layouts": [
+          {
+            "width": 820,
+            "height": 1180,
+            "background": "light",
+            "dimensions": [
+              [
+                356.921875,
+                300
+              ],
+              [
+                356.921875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 820,
+            "height": 1180,
+            "background": "dark",
+            "dimensions": [
+              [
+                356.921875,
+                300
+              ],
+              [
+                356.921875,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 1180,
+            "height": 820,
+            "background": "light",
+            "dimensions": [
+              [
+                338.859375,
+                300
+              ],
+              [
+                338.859375,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 1180,
+            "height": 820,
+            "background": "dark",
+            "dimensions": [
+              [
+                338.859375,
+                300
+              ],
+              [
+                338.859375,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "background": "light",
+            "dimensions": [
+              [
+                163.5,
+                300
+              ],
+              [
+                163.5,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "background": "dark",
+            "dimensions": [
+              [
+                163.5,
+                300
+              ],
+              [
+                163.5,
+                178
+              ],
+              [
+                70,
+                70
+              ]
+            ]
+          }
+        ],
+        "cold": true,
+        "tactile": true
+      },
+      "errors": []
+    }
+  ]
+}
