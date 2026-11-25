@@ -94,10 +94,9 @@ async function verifyPublishedFiles(page, base, version) {
   for (let i = 0; i < assets.length; i += 6) {
     const batch = assets.slice(i,i+6);
     const results = await page.evaluate(async urls => Promise.all(urls.map(async url => {
-      let response;
       for (let attempt = 1; attempt <= 4; attempt++) {
         try {
-          response = await fetch(url,{cache:attempt > 1 ? 'reload' : 'default',signal:AbortSignal.timeout(15000)});
+          const response = await fetch(url,{cache:attempt > 1 ? 'reload' : 'default',signal:AbortSignal.timeout(15000)});
           if (![429, 502, 503, 504].includes(response.status) || attempt === 4) {
             const bytes = await crypto.subtle.digest('SHA-256',await response.arrayBuffer());
             return {status:response.status, mime:response.headers.get('content-type'), retries:attempt - 1,
@@ -295,6 +294,7 @@ async function exercise(context, base, engine, browserVersion, assetReport) {
   assert.equal(await q('#makeup-study-palette .makeup-chip').count(),32);
   if (engine === 'chromium') await q('#planche-maquillage').screenshot({path:path.join(output,'planche-maquillage.png')});
   assert.deepEqual(errors,[]);
+  const functionalErrors = [...errors];
   if (!assetReport.verified && !local) {
     Object.assign(assetReport,await verifyPublishedFiles(page,base,version));
     assetReport.manifestSha256 = digest(manifest.text);
@@ -302,7 +302,7 @@ async function exercise(context, base, engine, browserVersion, assetReport) {
   await page.close();
   return {engine,browserVersion,menus,sliders,initialization,inherited,effects,board,
     protectedPixels:natural[0].protectedPixels.length,exactRemoval:true,coldReplay:true,touchPlacement:true,
-    codeCommit:version.codeCommit,startup:version.startup,errors};
+    codeCommit:version.codeCommit,startup:version.startup,errors:functionalErrors};
 }
 
 async function retry(context, base) {
