@@ -297,7 +297,7 @@ async function checkCorpulence(page, old, url, name) {
   assert.equal(await q('#corpulence-references [data-corpulence-specimen]').count(),18);
   assert.equal(await q('#corpulence-combinations [data-corpulence-example]').count(),10);
   assert.equal(await q('#corpulence-combinations [data-corpulence-specimen]').count(),20);
-  assert.equal(await q('#planche-corpulence [data-reference="shaved"]').count(),38);
+  assert.equal(await q('#planche-corpulence svg[aria-label^="Rasée ·"]').count(),38);
   for (const [scale,height] of [['head',300],['mini',70],['tile',178]]) {
     await q('#corpulence-study-scale').selectOption(scale);
     const sizes = await q('#corpulence-references svg').evaluateAll(nodes =>
