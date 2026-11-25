@@ -2,7 +2,7 @@ import {
   drawMakeup, hasMakeup, inactiveFields, makeupDocument, makeupFamilies, makeupMirrorUseful, makeupPalette,
   maxPaintElements, normalizeMakeup, paintShapes, parseMakeup
 } from './makeup.mjs';
-import {makeupCoordinates, makeupPlane} from './makeup-render.mjs';
+import {makeupCoordinates, makeupFor, makeupPlane} from './makeup-render.mjs';
 import {sceneCoordinates} from './surface.mjs';
 
 const storageKey = 'microcosme.bio-maquillage-01.compositions';
@@ -26,7 +26,7 @@ const references = {
   ]
 };
 
-export function mountMakeupEditor({input, eyes, render}) {
+export function mountMakeupEditor({input, eyes, context, render}) {
   const q = id => document.getElementById('makeup-' + id);
   const family = q('family'), show = q('show'), enabled = q('enabled'), zoom = q('zoom');
   const paintPanel = q('paint-panel'), kind = q('paint-kind'), shape = q('paint-shape'), list = q('paint-list');
@@ -104,7 +104,11 @@ export function mountMakeupEditor({input, eyes, render}) {
   function refresh() {
     const key = family.value, isPaint = key === 'paint';
     const element = edited(), active = shown && familyValue().enabled;
-    const off = element ? inactiveFields(key, element) : [];
+    let off = element ? inactiveFields(key, element) : [];
+    if (key === 'lips' && active) {
+      const layout = makeupFor(input(), eyes(), {lips: {...element, intensity: 100, coverage: 100}}, context());
+      if (!layout.effective.lips) off = Object.keys(makeupFamilies.lips.fields);
+    }
     show.checked = shown;
     enabled.checked = familyValue().enabled;
     q('enabled-text').textContent = isPaint ? 'Afficher les peintures faciales' : 'Afficher cette famille';
@@ -116,7 +120,10 @@ export function mountMakeupEditor({input, eyes, render}) {
         input.value = element[field] ?? '';
         input.disabled = !active || off.includes(field);
         if (pigment) output.style.backgroundColor = element[field] ?? '';
-        else output.value = element[field] + (unit === '°' ? '°' : ' %');
+        else {
+          output.value = element[field] + (unit === '°' ? '°' : ' %');
+          input.setAttribute('aria-valuetext', output.value);
+        }
       }
     }
     presets.parentElement.hidden = !references[key];

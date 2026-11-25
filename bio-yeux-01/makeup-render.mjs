@@ -31,7 +31,10 @@ function lipGeometry(face, options) {
     const mouth = mouthMarkup(mouthResult);
     const paths = tags(mouth, /<path data-mouth-part="(?:upper|lower)"[^>]*\/>/g).map(tagPath);
     const seam = tagPath(mouth.match(/<path data-mouth-part="line"[^>]*\/>/)[0]);
-    return {paths, separator: path(seam, 'fill="black"'), box: mouthResult.box};
+    const {frame, effective} = mouthResult;
+    const volumes = ['upper', 'lower'].filter(side => mouthResult.geometry[side])
+      .map(side => frame[side] * unit(effective[side]));
+    return {paths, volumes, separator: path(seam, 'fill="black"'), box: mouthResult.box};
   }
   const {curve, tag, stroke} = inheritedMouth(face, markup);
   const {ry} = face.base.head;
@@ -44,7 +47,7 @@ function lipGeometry(face, options) {
   });
   const paths = [polygon([...samples.map(p => [p.x, p.upper]), ...samples.slice().reverse().map(p => [p.x, p.y])]),
     polygon([...samples.map(p => [p.x, p.y]), ...samples.slice().reverse().map(p => [p.x, p.lower])])];
-  return {paths, separator: black(tag), box: {left: samples[0].x, right: samples.at(-1).x,
+  return {paths, volumes: [ry * .032, ry * .048], separator: black(tag), box: {left: samples[0].x, right: samples.at(-1).x,
     top: Math.min(...samples.map(p => p.upper)), bottom: Math.max(...samples.map(p => p.lower))}};
 }
 
@@ -135,9 +138,9 @@ export function solveMakeup(face, opening, value, options = {}) {
   const {lips, shadow, liner, blush, paint} = requested;
   if (lips.enabled && lips.intensity && (lips.coverage || lips.edge)) {
     geometry.lips = lipGeometry(face, options);
-    const {paths, box} = geometry.lips;
+    const {paths, box, volumes} = geometry.lips;
     if (paths.length) effective.lips = {
-      width: n(box.right - box.left), coverage: lips.coverage, edge: n(lips.edge * face.base.head.ry * .00046)
+      width: n(box.right - box.left), coverage: lips.coverage, edges: volumes.map(volume => n(volume * .60 * unit(lips.edge)))
     };
   }
   if (shadow.enabled && shadow.intensity && shadow.height && shadow.extent || liner.enabled && liner.intensity && (liner.top || liner.bottom || liner.wing)) {
@@ -189,7 +192,8 @@ function drawLips(result, id, mask) {
   const coverage = unit(lips.coverage);
   const transform = `translate(${cx} ${cy}) scale(${lerp(.41, 1, coverage)} ${lerp(.49, 1, coverage)}) translate(${-cx} ${-cy})`;
   const ink = paths.map((d, i) => path(d, `fill="${lips.colour}" opacity="${i ? .82 : .96}"`)).join('');
-  const outline = paths.map(d => path(d, `fill="none" stroke="${lips.edgeColour}" stroke-width="${2 * effective.lips.edge}" stroke-linejoin="round"`)).join('');
+  const outline = paths.map((d, i) => path(d,
+    `fill="none" stroke="${lips.edgeColour}" stroke-width="${2 * effective.lips.edges[i]}" stroke-linejoin="round"`)).join('');
   return `<g data-makeup-family="lips" mask="url(#${id}-base)"><defs><clipPath id="${id}-lips">${paths.map(d => path(d, '')).join('')}</clipPath>
     ${mask(id + '-seam', separator)}</defs><g clip-path="url(#${id}-lips)"><g mask="url(#${id}-seam)" opacity="${unit(lips.intensity)}">
     ${lips.coverage ? `<g transform="${transform}">${ink}</g>` : ''}${lips.edge ? outline : ''}</g></g></g>`;

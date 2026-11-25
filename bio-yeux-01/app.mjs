@@ -594,7 +594,8 @@ const marksEditor=mountMarksEditor({input:inputFor,eyes:()=>eyes,
   render:renderComparison});
 const scarsEditor=mountScarsEditor({input:inputFor,eyes:()=>eyes,
   context:()=>({details:detailsEditor.value(),nose:noseEditor.value(),mouth:mouthEditor.value()}),render:renderComparison});
-const makeupEditor = mountMakeupEditor({input:inputFor,eyes:()=>eyes,render:renderComparison});
+const makeupEditor = mountMakeupEditor({input:inputFor,eyes:()=>eyes,
+  context:()=>({details:detailsEditor.value(),nose:noseEditor.value(),mouth:mouthEditor.value()}),render:renderComparison});
 mountMakeupStudy();
 mountFreckleStudy();
 mountScarStudy();
