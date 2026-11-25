@@ -84,7 +84,8 @@ export function character(input = {}, options = {}) {
   const inheritedSvg = inherited(input, options);
   const adultFace = isAdultBody(input.body) ? model(input) : null;
   const svg = adultFace ? inheritedSvg.replace(/<g class="body-shape">[^]*?<\/g>/,
-    () => adultBodyMarkup(input.body, adultFace.anchors.chin, palette, input.structure, input.corpulence, options.beforeCorpulenceCorrection)) : inheritedSvg;
+    () => adultBodyMarkup(input.body, adultFace.anchors.chin, palette, input.structure, input.corpulence,
+      options.beforeCorpulenceCorrection, input.chest, options.chestStudySkin)) : inheritedSvg;
   const selected = normalizeEyes(options.eyes);
   const hasIris = options.iris != null && options.iris !== 'historical';
   const hasDetails = options.details != null && options.details !== 'historical';

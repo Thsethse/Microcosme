@@ -1,5 +1,6 @@
 import {referenceStructure, validateStructure} from './body-structure.mjs';
 import {corpulenceEnvelope, previousCorpulence, referenceCorpulence} from './body-corpulence.mjs';
+import {chestMarkup} from './chest.mjs';
 
 export const anatomyLevels = Object.freeze([
   {id: 'neck', label: 'Base du cou', height: 0},
@@ -35,6 +36,18 @@ function tangents(points) {
     const before = slopes[index - 1], after = slopes[index] ?? before;
     return before * after > 0 ? 2 * before * after / (before + after) : 0;
   });
+}
+
+// The horizontal controls of the cubic cropped to [lo, hi] bound the entire
+// span. Its vertical coordinate is linear in t for all anatomical spans.
+function minimumWidth(spans, from, to) {
+  return Math.min(...spans.filter(({a,b})=>a.y<=to && b.y>=from).map(({a,start,end,b})=>{
+    const lo = Math.max(0,(from-a.y)/(b.y-a.y)), hi = Math.min(1,(to-a.y)/(b.y-a.y));
+    const x0=a.width, x1=start.width, x2=end.width, x3=b.width;
+    const at=t=>x0*(1-t)**3+3*x1*t*(1-t)**2+3*x2*t*t*(1-t)+x3*t**3;
+    const thirdSlope=t=>(x1-x0)*(1-t)**2+2*(x2-x1)*t*(1-t)+(x3-x2)*t*t;
+    return Math.min(at(lo), at(lo)+thirdSlope(lo)*(hi-lo), at(hi)-thirdSlope(hi)*(hi-lo), at(hi));
+  }));
 }
 
 const [, , , waist, abdomen, hips] = anatomyLevels;
@@ -98,10 +111,11 @@ export function adultBodyGeometry(key, [axis, chinY], structure = referenceStruc
     `C${pair(axis - neck.width, neckY - 4)} ${pair(axis + neck.width, neckY - 4)} ${at(1, neck)}Z`
   ].join(' ');
 
-  return {levels, ground, height, path};
+  return {levels, ground, height, path, minimumWidth:(from,to)=>minimumWidth(spans,from,to)};
 }
 
-export function adultBodyMarkup(key, chin, {skin, contour}, structure, corpulence, beforeCorrection) {
-  const {path} = adultBodyGeometry(key, chin, structure, corpulence, beforeCorrection);
-  return `<g class="body-shape" data-adult-body="${key}"><path d="${path}" fill="${skin}" stroke="${contour}" stroke-width="4.2" stroke-linejoin="round"/></g>`;
+export function adultBodyMarkup(key, chin, {skin, contour}, structure, corpulence, beforeCorrection, chest, studySkin = skin) {
+  const body = adultBodyGeometry(key, chin, structure, corpulence, beforeCorrection);
+  const surface = key === 'adult-f' && chest ? chestMarkup(body, chest, corpulence, studySkin) : '';
+  return `<g class="body-shape" data-adult-body="${key}"><path d="${body.path}" fill="${skin}" stroke="${contour}" stroke-width="4.2" stroke-linejoin="round"/></g>${surface}`;
 }
