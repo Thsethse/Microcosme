@@ -1,3 +1,4 @@
+import {isAdultBody} from './adult-body.mjs';
 import {groups as inheritedGroups, ordinaryChoices as inheritedOrdinary} from '../bio-col-01/catalogue.mjs';
 import {restoreSelection as restoreHistorical, selectOrdinary as selectHistoricalOrdinary} from '../bio-col-01/selection.mjs';
 
@@ -11,8 +12,10 @@ const alias = Object.freeze({
 export const groups = Object.freeze([...inheritedGroups, alias]);
 export const ordinaryChoices = Object.freeze(inheritedOrdinary.filter(entry => entry.key !== alias.secondary));
 
-export function restoreSelection(raw) {
+export function restoreSelection(raw, body) {
   const selection = restoreHistorical(raw);
+  // Only an explicit editor choice or a versioned appearance can select an adult base.
+  if (isAdultBody(body)) selection.state.body = body;
   if (selection.key !== alias.secondary) return selection;
   return {...selection, visibleKey: alias.primary, group: alias};
 }

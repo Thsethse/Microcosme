@@ -25,6 +25,7 @@
     <a href="#brows">Sourcils</a>
     <a href="#details">Paupières et cils</a>
     <a href="#atelier">Atelier</a>
+    <a href="#planche-corps">Planche des corps</a>
     <a href="#iris">Iris et pupilles</a>
     <a href="#planche">Planche des formes</a>
     <a href="#personnage">Personnage et palette</a>
@@ -427,6 +428,21 @@
     <div id="shape-grid" class="shape-grid"></div>
   </section>
 
+  <section aria-label="Planche des corps">
+    <details class="card" id="planche-corps">
+      <summary>Planche des corps</summary>
+      <p class="hint">La planche reprend le visage et la coiffure sélectionnés dans l’atelier.</p>
+      <div class="body-construction">
+        <div id="body-diagrams" class="body-diagrams"></div>
+        <div class="body-legend">
+          <h3>Repères anatomiques</h3>
+          <ol id="body-level-list"></ol>
+          <p>La base du pion prolonge la silhouette sous le repère 7. Le point central marque l’ancrage inférieur.</p>
+        </div>
+      </div>
+      <div id="body-comparison" class="body-comparison"></div>
+    </details>
+  </section>
   <section id="personnage">
     <h2>Personnage et palette</h2>
     <div class="configuration">
@@ -439,7 +455,7 @@
         <label>Arrangement<select id="arrangement" aria-describedby="arrangement-note"></select></label>
         <p id="arrangement-note" class="hint" hidden>Cette référence a un arrangement unique. Le dernier choix G ou D reste dans la sélection.</p>
         <label>Corps<select id="body" aria-describedby="body-note"></select></label>
-        <p id="body-note" class="hint">Les six corps fixent les épaules, le ventre et les hanches. Les clés correspondantes d’un ancien JSON sont conservées.</p>
+        <p id="body-note" class="hint">Six silhouettes historiques et deux bases adultes.</p>
         <label>Morphologie du visage<select id="morph"></select></label>
         <details id="morph-panel"><summary>Ajuster les paramètres du visage</summary><div id="morph-controls"></div>
           <p id="forehead-note" class="hint" hidden>L’implantation capillaire est sans effet sur ce rendu. Sa valeur est conservée.</p>
@@ -466,6 +482,7 @@
       <p id="appearance-message" role="status"></p><p id="appearance-error" role="alert"></p>
     </details>
     <details id="json-panel"><summary>Données de la sélection historique</summary>
+      <p id="adult-archive-note" class="hint" hidden>Pour conserver la base adulte sélectionnée, exportez l’apparence complète.</p>
       <label>Sélection JSON<textarea id="selection-json" rows="8" spellcheck="false"></textarea></label>
       <div class="actions"><button id="export" type="button">Afficher les données conservées</button><button id="reload" type="button">Relire ces données</button></div>
       <p id="selection-message" role="status"></p><p id="selection-error" role="alert"></p>

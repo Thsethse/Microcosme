@@ -1,3 +1,4 @@
+import {adultBodyMarkup, isAdultBody} from './adult-body.mjs';
 import {character as inherited} from '../bio-col-01/render.mjs';
 import {model} from '../preview/bio-vis-p5-i6/model.mjs';
 import {headMarkup} from '../preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/r1/p2/base/render.mjs';
@@ -80,7 +81,10 @@ function guides({envelopes, nose, maxWidth, maxHeight}) {
 }
 
 export function character(input = {}, options = {}) {
-  const svg = inherited(input, options);
+  const inheritedSvg = inherited(input, options);
+  const adultFace = isAdultBody(input.body) ? model(input) : null;
+  const svg = adultFace ? inheritedSvg.replace(/<g class="body-shape">[^]*?<\/g>/,
+    () => adultBodyMarkup(input.body, adultFace.anchors.chin, palette)) : inheritedSvg;
   const selected = normalizeEyes(options.eyes);
   const hasIris = options.iris != null && options.iris !== 'historical';
   const hasDetails = options.details != null && options.details !== 'historical';
@@ -98,7 +102,7 @@ export function character(input = {}, options = {}) {
   const geometry = eyesFor(input, selected);
   let result = svg;
   if (natural || selected || hasIris || hasDetails || hasBrows || hasMouth || hasNose || hasBeard || hasMarks || hasScars || hasCosmetics) {
-    const face = model(input);
+    const face = adultFace ?? model(input);
     const originalFace = headMarkup(face.base).replace(/<path d="[^"]*"/, `<path d="${face.outline}"`);
     if (!svg.includes(originalFace)) throw new Error('Visage historique introuvable');
     const iris = hasIris ? solveIris(geometry, options.iris) : null;

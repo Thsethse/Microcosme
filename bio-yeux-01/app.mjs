@@ -3,6 +3,8 @@ import {choices, ordinaryChoices, choice, restoreSelection, selectOrdinary, expo
 import {controls, bodies, model, presets} from '../preview/bio-vis-p5-i6/model.mjs';
 import {priorityCase} from '../preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/r1/coverage.mjs';
 import {character} from './render.mjs';
+import {adultBodies, isAdultBody} from './adult-body.mjs';
+import {mountBodyStudy, renderBodyStudy} from './body-study.mjs';
 import {appearanceDocument, characterInput, parseAppearance} from './appearance.mjs';
 import {currentDraw, drawEyes, legacyDraw} from './draw.mjs';
 import {eyeChanges, eyeDomains, eyeProposal} from './eye-domain.mjs';
@@ -74,8 +76,10 @@ function inputFor(key) {
 }
 
 const frames = {head: '-30 -65 220 225', tile: '-40 -85 240 355', mini: '-35 -68 230 245'};
-function svg({key, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null, beard = null, beardCategory, marks = null, scars = null, makeup = null} = {}) {
-  const result = character(inputFor(key), {
+function svg({key, body, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null, beard = null, beardCategory, marks = null, scars = null, makeup = null} = {}) {
+  const input = inputFor(key);
+  if (body !== undefined) input.body = body;
+  const result = character(input, {
     eyes: value, iris:pigment, details, brows, mouth, nose, beard, beardCategory, marks, scars, makeup, eyeEnvelopes: guides, hairColor: hair, rememberedHairColor: colour, headOnly: view !== 'tile',
     smallScale: view === 'mini', naturalEyes, instance: 'atelier-yeux-' + (++serial)
   }).replace(/viewBox="[^"]*"/, `viewBox="${frame}"`);
@@ -236,6 +240,14 @@ function renderComparison() {
   const referenceSettings = compareMakeup ? current : makeup ? {value:null} : comparisonReference;
   comparison.innerHTML = `<article data-side="before"><h3>${before}</h3>${sizes(referenceSettings)}</article><article data-side="after"><h3>${title}</h3>${sizes({...current,makeup})}</article>`;
 
+  const bodyStudy = q('#planche-corps');
+  if (bodyStudy.open) {
+    renderBodyStudy(bodyStudy, {
+      render: settings => svg({...current, makeup, ...settings}),
+      chin: model(inputFor()).anchors.chin, bodies, background: q('#background').value
+    });
+  }
+
   const {envelopes:[left,right],maxWidth,reference}=eyesFor(inputFor(),null).face;
   const x=left.x-maxWidth/2-2, width=right.x+maxWidth/2+2-x;
   const zoom=q('#iris-zoom');
@@ -314,6 +326,7 @@ function syncSelection(updateJSON = true) {
     q('#morph-' + key).value = selection.state[key];
     q(`output[for="morph-${key}"]`).textContent = format.format(selection.state[key]);
   }
+  q('#adult-archive-note').hidden = !isAdultBody(selection.state.body);
   if (updateJSON) q('#selection-json').value = exportSelection(selection);
 }
 
@@ -339,8 +352,8 @@ function refreshCharacter() {
   renderPaletteStudies();
 }
 
-function setSelection(raw, form = morphForm, trigger = document.activeElement, onApply) {
-  const next = restoreSelection(raw);
+function setSelection(raw, form = morphForm, trigger = document.activeElement, {onApply, body = selection.state.body} = {}) {
+  const next = restoreSelection(raw, body);
   const apply = () => {
     clearProposal();
     selection = next;
@@ -409,7 +422,7 @@ options('#morph', [...Object.entries(morphs).map(([key, p]) => [key, p.name]), [
 q('#morph option[value=custom]').disabled = true;
 options('#ordinary', ordinaryChoices.map(e => [e.key, e.label + ' · ' + e.name]));
 options('#historical', choices.map(e => [e.key, e.label + ' · ' + e.name]));
-options('#body', Object.entries(bodies).map(([key, body]) => [key, body.name]));
+options('#body', Object.entries({...bodies, ...adultBodies}).map(([key, body]) => [key, body.name]));
 
 sliders('#eye-controls', Object.entries(eyeControls), '1', (key, index) => {
   const value = eyePoints[key]?.[index];
@@ -496,7 +509,11 @@ function openKey(key, trigger) {
 }
 q('#load-history').addEventListener('click', event => openKey(q('#historical').value, event.currentTarget));
 q('#arrangement').addEventListener('change', event => openKey(selection.state.style + ':' + event.target.value, event.target));
-q('#body').addEventListener('change', event => setSelection({...selection.raw, body: event.target.value}, morphForm, event.target));
+q('#body').addEventListener('change', event => {
+  const body = event.target.value;
+  const raw = isAdultBody(body) ? selection.raw : {...selection.raw, body};
+  setSelection(raw, morphForm, event.target, {body});
+});
 q('#morph').addEventListener('change', event => {
   const form = event.target.value;
   const raw = {...selection.raw};
@@ -530,8 +547,8 @@ q('#export').addEventListener('click', () => {
 q('#reload').addEventListener('click', () => {
   try {
     const message = q('#selection-message');
-    const applied = setSelection(JSON.parse(q('#selection-json').value), 'custom', q('#reload'), () => {
-      message.textContent = 'Sélection historique relue.';
+    const applied = setSelection(JSON.parse(q('#selection-json').value), 'custom', q('#reload'), {
+      body: null, onApply: () => { message.textContent = 'Sélection historique relue.'; }
     });
     if (!applied) message.textContent = 'Sélection en attente de confirmation.';
   } catch (error) {
@@ -602,6 +619,7 @@ mountMakeupStudy(naturalEyes);
 mountFreckleStudy(naturalEyes);
 mountScarStudy(naturalEyes);
 if (naturalEyes) mountEyeContourStudy();
+mountBodyStudy(q('#planche-corps'), renderComparison);
 refreshCharacter();
 q('#atelier').dataset.startup = 'ready';
 q('#atelier-startup').hidden = true;
