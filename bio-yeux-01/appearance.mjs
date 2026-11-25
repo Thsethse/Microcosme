@@ -9,6 +9,7 @@ import {browDrawVersion, normalizeBrows, solveBrows} from './brows.mjs';
 import {mouthDrawVersion, normalizeMouth, solveMouth} from './mouth.mjs';
 import {noseDrawVersion, normalizeNose, solveNose} from './nose.mjs';
 import {beardCategoryOf, beardDrawVersion, normalizeBeard, solveBeard} from './beard.mjs';
+import {normalizeMarks, solveMarks} from './marks.mjs';
 
 export const appearanceSchema = 'microcosme.appearance';
 export const appearanceVersion = 1;
@@ -25,7 +26,9 @@ export const noseAppearanceVersion = 6;
 export const noseRenderVersion = 'bio-nez-01-svg@1';
 export const beardAppearanceVersion = 7;
 export const beardRenderVersion = 'bio-pilosite-01-svg@1';
-const renderers = {1:renderVersion, 2:irisRenderVersion, 3:detailsRenderVersion, 4:browRenderVersion, 5:mouthRenderVersion, 6:noseRenderVersion, 7:beardRenderVersion};
+export const marksAppearanceVersion = 8;
+export const marksRenderVersion = 'bio-marques-01-svg@1';
+const renderers = {1:renderVersion, 2:irisRenderVersion, 3:detailsRenderVersion, 4:browRenderVersion, 5:mouthRenderVersion, 6:noseRenderVersion, 7:beardRenderVersion, 8:marksRenderVersion};
 
 export function characterInput(selection, key = selection.key) {
   const {style, arrangement} = choice(key);
@@ -40,7 +43,7 @@ function validDraw(draw) {
 }
 
 export function appearanceDocument(selection, {eyes, form, draw, colour, flat, iris, irisLatent, irisDraw,
-  details, detailsLatent, detailsDraw, brows, browsLatent, browsDraw, mouth, mouthLatent, mouthDraw, nose, noseLatent, noseDraw, beard, beardLatent, beardDraw, beardCategory}) {
+  details, detailsLatent, detailsDraw, brows, browsLatent, browsDraw, mouth, mouthLatent, mouthDraw, nose, noseLatent, noseDraw, beard, beardLatent, beardDraw, beardCategory, marks, marksLatent}) {
   const entry = choice(selection.key);
   const input = characterInput(selection);
   const applied = normalize(input);
@@ -116,7 +119,11 @@ export function appearanceDocument(selection, {eyes, form, draw, colour, flat, i
     }
     facialHair.draw = {seed:beardDraw.seed,version:beardDraw.version};
   }
-  const version = facialHair ? beardAppearanceVersion : noseAppearance ? noseAppearanceVersion : mouthAppearance ? mouthAppearanceVersion : browAppearance ? browAppearanceVersion :
+  const marksResult = normalizeMarks(marks).length ? solveMarks(model(input),result,marks,{noseResult,mouthResult}) : null;
+  const marksMemory = marksResult ? [] : normalizeMarks(marksLatent);
+  const cutaneousMarks = marksResult ? {mode:'custom',requested:marksResult.requested,effective:marksResult.effective} :
+    marksMemory.length ? {mode:'historical',latent:marksMemory} : null;
+  const version = cutaneousMarks ? marksAppearanceVersion : facialHair ? beardAppearanceVersion : noseAppearance ? noseAppearanceVersion : mouthAppearance ? mouthAppearanceVersion : browAppearance ? browAppearanceVersion :
     eyeDetails ? detailsAppearanceVersion :
     ink ? irisAppearanceVersion : appearanceVersion;
   return {
@@ -141,6 +148,7 @@ export function appearanceDocument(selection, {eyes, form, draw, colour, flat, i
     ...(mouthAppearance ? {mouth:mouthAppearance} : {}),
     ...(noseAppearance ? {nose:noseAppearance} : {}),
     ...(facialHair ? {facialHair} : {}),
+    ...(cutaneousMarks ? {marks:cutaneousMarks} : {}),
     historicalSelection: structuredClone(selection.raw)
   };
 }
@@ -155,10 +163,10 @@ function identical(a, b) {
 export function parseAppearance(text) {
   const data = JSON.parse(text);
   if (data?.schema !== appearanceSchema) throw new Error('Document d’apparence requis. Utilisez la sélection historique pour un ancien JSON.');
-  if (![appearanceVersion, irisAppearanceVersion, detailsAppearanceVersion, browAppearanceVersion, mouthAppearanceVersion, noseAppearanceVersion, beardAppearanceVersion].includes(data.version) ||
+  if (![appearanceVersion, irisAppearanceVersion, detailsAppearanceVersion, browAppearanceVersion, mouthAppearanceVersion, noseAppearanceVersion, beardAppearanceVersion, marksAppearanceVersion].includes(data.version) ||
       (data.version === irisAppearanceVersion && !data.iris) || (data.version === detailsAppearanceVersion && !data.details) ||
       (data.version === browAppearanceVersion && !data.brows) || (data.version === mouthAppearanceVersion && !data.mouth) ||
-      (data.version === noseAppearanceVersion && !data.nose) || (data.version === beardAppearanceVersion && !data.facialHair)) {
+      (data.version === noseAppearanceVersion && !data.nose) || (data.version === beardAppearanceVersion && !data.facialHair) || (data.version === marksAppearanceVersion && !data.marks)) {
     throw new Error('Version du document d’apparence non prise en charge.');
   }
   if (data.renderer !== renderers[data.version]) throw new Error('Version de rendu non prise en charge.');
@@ -204,12 +212,17 @@ export function parseAppearance(text) {
     settings.noseLatent = data.nose.mode === 'historical' ? data.nose.latent : null;
     settings.noseDraw = data.nose.draw;
   }
-  if (data.version === beardAppearanceVersion) {
+  if (data.version >= beardAppearanceVersion && data.facialHair) {
     if (!['historical','custom'].includes(data.facialHair.mode)) throw new Error('Mode de pilosité invalide.');
     settings.beard = data.facialHair.mode === 'custom' ? data.facialHair.requested : null;
     settings.beardLatent = data.facialHair.mode === 'historical' ? data.facialHair.latent : null;
     settings.beardDraw = data.facialHair.draw;
     settings.beardCategory = beardCategoryOf(data.facialHair.category);
+  }
+  if (data.version === marksAppearanceVersion) {
+    if (!['historical','custom'].includes(data.marks.mode)) throw new Error('Mode des marques cutanées invalide.');
+    settings.marks = data.marks.mode === 'custom' ? data.marks.requested : null;
+    settings.marksLatent = data.marks.mode === 'historical' ? data.marks.latent : null;
   }
   const rebuilt = appearanceDocument(selection, settings);
   if (!identical(rebuilt, data)) throw new Error('Données effectives incompatibles avec la sélection et les demandes.');

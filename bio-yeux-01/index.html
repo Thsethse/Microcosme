@@ -4,14 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#f6f2e8">
-  <title>Microcosme · BIO-PILOSITE-01 · Barbes, moustaches et favoris</title>
+  <title>Microcosme · BIO-MARQUES-01 · Marques cutanées</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="shell">
-  <p class="brand">Microcosme <span>BIO-PILOSITE-01</span></p>
-  <h1>Barbes, moustaches et favoris</h1>
+  <p class="brand">Microcosme <span>BIO-MARQUES-01</span></p>
+  <h1>Marques cutanées</h1>
   <nav aria-label="Navigation dans l’atelier">
+    <a href="#marks">Marques cutanées</a>
+    <a href="#planche-rousseur">Planche de rousseur</a>
     <a href="#beard">Pilosité faciale</a>
     <a href="#nose">Nez</a>
     <a href="#mouth">Bouche et lèvres</a>
@@ -30,6 +32,7 @@
       <div class="toolbar">
         <label>Fond<select id="background"><option value="light">Ivoire</option><option value="dark">Ardoise</option></select></label>
         <label>Référence<select id="iris-before-mode"><option value="same">Ouverture actuelle</option><option value="historical">Ouverture historique</option></select></label>
+        <label id="marks-before-wrap" hidden>Référence<select id="marks-before-mode"><option value="same">Visage actuel sans marques</option><option value="historical">Détails du visage historiques</option></select></label>
         <label id="beard-before-wrap" hidden>Référence<select id="beard-before-mode"><option value="same">Visage actuel, imberbe</option><option value="historical">Détails du visage historiques</option></select></label>
         <label id="nose-before-wrap" hidden>Référence<select id="nose-before-mode"><option value="same">Nez historique</option><option value="historical">Détails du visage historiques</option></select></label>
         <label id="mouth-before-wrap" hidden>Référence<select id="mouth-before-mode"><option value="same">Bouche historique seule</option><option value="historical">Détails du visage historiques</option></select></label>
@@ -71,6 +74,45 @@
       <p id="draw-error" role="alert"></p>
       <label>Graine du tirage<input id="seed" type="text" value="Microcosme" spellcheck="false"></label>
     </div>
+  </section>
+
+  <section id="marks">
+    <h2>Marques cutanées</h2>
+    <div class="iris-workspace">
+      <div class="card">
+        <div class="actions">
+          <label>Type de marque<select id="marks-type"></select></label>
+          <button class="primary" id="marks-add" type="button">Ajouter</button>
+        </div>
+        <label>Marque à modifier<select id="marks-list" disabled></select></label>
+        <label class="check"><input type="checkbox" id="marks-show" checked> Afficher les marques</label>
+        <fieldset id="marks-edit" hidden>
+          <legend class="visually-hidden">Réglages de la marque</legend>
+          <label>Forme<select id="marks-shape"></select></label>
+          <label>Teinte<select id="marks-tone"></select></label>
+          <label id="marks-seed-label">Graine du groupe<input id="marks-seed" type="text" maxlength="128" spellcheck="false"></label>
+          <fieldset id="marks-zones-wrap"><legend>Zones du groupe</legend><div id="marks-zones"></div></fieldset>
+          <div id="marks-axes"></div>
+        </fieldset>
+        <p id="marks-status" class="hint" role="status"></p>
+        <div class="actions">
+          <button id="marks-remove" type="button">Supprimer la marque</button>
+          <button id="marks-reset" type="button">Rétablir la peau historique</button>
+        </div>
+      </div>
+      <figure class="iris-zoom card">
+        <figcaption>Gros plan du visage</figcaption>
+        <div id="marks-zoom" class="surface"></div>
+        <button id="marks-place" type="button" aria-pressed="false">Placer sur le visage</button>
+      </figure>
+    </div>
+  </section>
+
+  <section id="planche-rousseur">
+    <h2>Planche de rousseur</h2>
+    <label>Cas d’étude<select id="freckle-case"></select></label>
+    <p class="hint">Les variations de carnation s’appliquent aux portraits de cette planche.</p>
+    <div id="freckle-study"></div>
   </section>
 
   <section id="beard">
@@ -303,7 +345,7 @@
     <details id="series-panel"><summary>Une coiffure dans les 26 teintes</summary><div id="series-grid" class="palette-grid"></div></details>
     <details id="variety-panel"><summary>Une teinte sur plusieurs coiffures</summary><div id="variety-grid" class="palette-grid"></div></details>
   </section>
-  <footer><a href="https://github.com/Thsethse/Microcosme/blob/codex/bio-nez-01/docs/ai/bio-nez-01/RAPPORT.md">Rapport de réalisation et captures</a></footer>
+  <footer><a href="https://github.com/Thsethse/Microcosme/blob/codex/bio-marques-01/docs/ai/bio-marques-01/RAPPORT.md">Rapport de réalisation et captures</a></footer>
 </main>
 <script type="module" src="app.mjs"></script>
 </body>
