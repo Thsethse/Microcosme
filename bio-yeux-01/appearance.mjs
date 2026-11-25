@@ -1,6 +1,7 @@
 import {isAdultBody} from './adult-body.mjs';
 import {validateStructure} from './body-structure.mjs';
 import {validateCorpulence} from './body-corpulence.mjs';
+import {validateChest} from './chest.mjs';
 import {choice, restoreSelection} from './catalogue.mjs';
 import {swatch} from '../bio-col-01/palette.mjs';
 import {controls, model, normalize} from '../preview/bio-vis-p5-i6/model.mjs';
@@ -44,7 +45,9 @@ export const structureAppearanceVersion = 12;
 export const structureRenderVersion = 'bio-corps-02-svg@1';
 export const corpulenceAppearanceVersion = 13;
 export const corpulenceRenderVersion = 'bio-corps-03-svg@1';
-const renderers = {1:renderVersion, 2:irisRenderVersion, 3:detailsRenderVersion, 4:browRenderVersion, 5:mouthRenderVersion, 6:noseRenderVersion, 7:beardRenderVersion, 8:marksRenderVersion, 9:scarRenderVersion, 10:makeupRenderVersion, 11:bodyRenderVersion, 12:structureRenderVersion, 13:corpulenceRenderVersion};
+export const chestAppearanceVersion = 14;
+export const chestRenderVersion = 'bio-corps-04-a-svg@1';
+const renderers = {1:renderVersion, 2:irisRenderVersion, 3:detailsRenderVersion, 4:browRenderVersion, 5:mouthRenderVersion, 6:noseRenderVersion, 7:beardRenderVersion, 8:marksRenderVersion, 9:scarRenderVersion, 10:makeupRenderVersion, 11:bodyRenderVersion, 12:structureRenderVersion, 13:corpulenceRenderVersion, 14:chestRenderVersion};
 
 export function characterInput(selection, key = selection.key) {
   const {style, arrangement} = choice(key);
@@ -149,7 +152,8 @@ export function appearanceDocument(selection, {eyes, form, draw, colour, flat, i
   const adult = isAdultBody(input.body);
   const structure = adult && input.structure;
   const corpulence = adult ? input.corpulence : undefined;
-  const version = corpulence !== undefined ? corpulenceAppearanceVersion : structure ? structureAppearanceVersion : adult ? bodyAppearanceVersion : cosmeticAppearance ? makeupAppearanceVersion : healedScars ? scarAppearanceVersion : cutaneousMarks ? marksAppearanceVersion : facialHair ? beardAppearanceVersion : noseAppearance ? noseAppearanceVersion : mouthAppearance ? mouthAppearanceVersion : browAppearance ? browAppearanceVersion :
+  const chest = input.body === 'adult-f' ? input.chest : undefined;
+  const version = chest ? chestAppearanceVersion : corpulence !== undefined ? corpulenceAppearanceVersion : structure ? structureAppearanceVersion : adult ? bodyAppearanceVersion : cosmeticAppearance ? makeupAppearanceVersion : healedScars ? scarAppearanceVersion : cutaneousMarks ? marksAppearanceVersion : facialHair ? beardAppearanceVersion : noseAppearance ? noseAppearanceVersion : mouthAppearance ? mouthAppearanceVersion : browAppearance ? browAppearanceVersion :
     eyeDetails ? detailsAppearanceVersion :
     ink ? irisAppearanceVersion : appearanceVersion;
   return {
@@ -160,6 +164,7 @@ export function appearanceDocument(selection, {eyes, form, draw, colour, flat, i
       style: entry.style, arrangement: entry.arrangement, body: adult ? input.body : applied.body,
       ...(structure ? {structure: {...structure}} : {}),
       ...(corpulence !== undefined ? {corpulence} : {}),
+      ...(chest ? {chest:{...chest}} : {}),
       morphology: Object.fromEntries(Object.keys(controls).map(key => [key, applied[key]])),
       options: {accessories: input.accessories, contrast: input.contrast, monochrome: input.monochrome === true},
       effectiveOptions: {accessories: applied.accessories !== false, contrast: applied.contrast !== false,
@@ -193,7 +198,7 @@ function identical(a, b) {
 export function parseAppearance(text) {
   const data = JSON.parse(text);
   if (data?.schema !== appearanceSchema) throw new Error('Document d’apparence requis. Utilisez la sélection historique pour un ancien JSON.');
-  if (![appearanceVersion, irisAppearanceVersion, detailsAppearanceVersion, browAppearanceVersion, mouthAppearanceVersion, noseAppearanceVersion, beardAppearanceVersion, marksAppearanceVersion, scarAppearanceVersion, makeupAppearanceVersion, bodyAppearanceVersion, structureAppearanceVersion, corpulenceAppearanceVersion].includes(data.version) ||
+  if (!Number.isInteger(data.version) || !Object.hasOwn(renderers,data.version) ||
       (data.version === irisAppearanceVersion && !data.iris) || (data.version === detailsAppearanceVersion && !data.details) ||
       (data.version === browAppearanceVersion && !data.brows) || (data.version === mouthAppearanceVersion && !data.mouth) ||
       (data.version === noseAppearanceVersion && !data.nose) || (data.version === beardAppearanceVersion && !data.facialHair) || (data.version === marksAppearanceVersion && !data.marks) || (data.version === scarAppearanceVersion && !data.scars) || (data.version === makeupAppearanceVersion && !data.makeup)) {
@@ -206,10 +211,14 @@ export function parseAppearance(text) {
     throw new Error('Base adulte du document d’apparence inconnue.');
   }
   const hasStructure = data.version === structureAppearanceVersion ||
-    (data.version === corpulenceAppearanceVersion && Object.hasOwn(data.character, 'structure'));
+    (data.version >= corpulenceAppearanceVersion && Object.hasOwn(data.character, 'structure'));
   const structure = hasStructure ? validateStructure(data.character.structure) : undefined;
-  const corpulence = data.version === corpulenceAppearanceVersion ? validateCorpulence(data.character.corpulence) : undefined;
-  const selection = restoreSelection(data.historicalSelection, adultBody, structure, corpulence);
+  const hasCorpulence = data.version === corpulenceAppearanceVersion ||
+    (data.version === chestAppearanceVersion && Object.hasOwn(data.character,'corpulence'));
+  const corpulence = hasCorpulence ? validateCorpulence(data.character.corpulence) : undefined;
+  if (data.version === chestAppearanceVersion && adultBody !== 'adult-f') throw new Error('Poitrine indisponible pour cette base.');
+  const chest = data.version === chestAppearanceVersion ? validateChest(data.character.chest) : undefined;
+  const selection = restoreSelection(data.historicalSelection, adultBody, structure, corpulence, chest);
   if (!data.eyes || !['historical', 'custom'].includes(data.eyes.mode) ||
       !data.palette || !['flat', 'historical'].includes(data.palette.mode)) {
     throw new Error('Mode des yeux ou de la palette invalide.');

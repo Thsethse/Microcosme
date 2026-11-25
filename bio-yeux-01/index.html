@@ -28,6 +28,7 @@
     <a href="#planche-corps">Planche des corps</a>
     <a href="#planche-ossature">Planche de l’ossature</a>
     <a href="#planche-corpulence">Planche de la corpulence</a>
+    <a href="#planche-poitrine">Planche de la poitrine</a>
     <a href="#iris">Iris et pupilles</a>
     <a href="#planche">Planche des formes</a>
     <a href="#personnage">Personnage et palette</a>
@@ -469,6 +470,21 @@
       <div id="corpulence-references" class="structure-study-grid"></div>
     </details>
   </section>
+  <section aria-label="Planche de la poitrine">
+    <details class="card" id="planche-poitrine">
+      <summary>Poitrine féminine adulte</summary>
+      <div class="corpulence-study-controls">
+        <label class="structure-scale">Échelle<select id="chest-study-scale">
+          <option value="tile">Corps · 178 px</option><option value="head">Tête · 300 px</option><option value="mini">Miniature · 70 × 70 px</option>
+          <option value="detail">Thorax · détail</option>
+        </select></label>
+        <label class="structure-scale">Teinte de peau<select id="chest-study-skin"></select></label>
+      </div>
+      <h3>Formes et volumes</h3><div id="chest-form-cases"></div>
+      <h3>Volumes et corpulence</h3><div id="chest-corpulence-cases"></div>
+      <h3>Volumes et ossature</h3><div id="chest-structure-cases"></div>
+    </details>
+  </section>
   <section id="personnage">
     <h2>Personnage et palette</h2>
     <div class="configuration">
@@ -496,6 +512,13 @@
               <p class="hint">Les largeurs sont exprimées en pourcentage de la base sélectionnée.</p>
               <div id="structure-controls"></div>
               <button id="structure-reset" type="button">Réinitialiser les largeurs</button>
+              <fieldset id="chest-panel" hidden>
+                <legend>Poitrine</legend>
+                <label>Forme de référence<select id="chest-preset"></select></label>
+                <p class="hint" id="chest-flat-note">Augmenter le volume pour régler la forme. Les réglages restent mémorisés à 0 %.</p>
+                <div id="chest-controls"></div>
+                <button id="chest-reset" type="button">Réinitialiser la poitrine</button>
+              </fieldset>
             </div>
             <div id="structure-live" class="surface tile"></div>
           </div>

@@ -6,13 +6,14 @@ const path = require('node:path');
 const {chromium, webkit, devices} = require('playwright');
 
 const mission = process.env.PREVIEW_MISSION ?? 'BIO-CORPS-01';
-const corpulenceCorrection = mission === 'BIO-CORPS-03-R01';
+const chestPreview = mission === 'BIO-CORPS-04-A';
+const corpulenceCorrection = mission === 'BIO-CORPS-03-R01' || chestPreview;
 const corpulencePreview = mission === 'BIO-CORPS-03' || corpulenceCorrection;
 const structurePreview = mission === 'BIO-CORPS-02' || corpulencePreview;
 const pages = 'https://thsethse.github.io/Microcosme/preview/';
 const output = process.env.ARTIFACT_DIR ?? '/tmp/microcosme-' + mission.toLowerCase();
 const published = pages + mission.toLowerCase() + '/';
-const predecessors = {'BIO-CORPS-03-R01':'bio-corps-03/', 'BIO-CORPS-03':'bio-corps-02/', 'BIO-CORPS-02':'bio-corps-01/'};
+const predecessors = {'BIO-CORPS-04-A':'bio-corps-03-r01/', 'BIO-CORPS-03-R01':'bio-corps-03/', 'BIO-CORPS-03':'bio-corps-02/', 'BIO-CORPS-02':'bio-corps-01/'};
 const referenceURL = process.env.REFERENCE_URL ?? pages + (predecessors[mission] ?? 'bio-yeux-r01/');
 const local = process.env.PREVIEW_DIR;
 const engines = {chromium, webkit};
@@ -365,6 +366,115 @@ async function checkCorpulence(page, old, url, name) {
   return {samples,neutralExact,unchangedVertical,restored,studySamples};
 }
 
+async function checkChest(page, url, name) {
+  const {chestControls,chestPresets,referenceChest}=await import('../chest.mjs');
+  const q=selector=>page.locator(selector);
+  const layer=/<g data-chest="adult-f"[^>]*>[^]*?<\/g>/;
+  const paths=()=>q('#structure-live [data-chest] path').evaluateAll(nodes=>nodes.map(node=>node.getAttribute('d')));
+  const enabled=()=>q('#chest-controls input:enabled').count();
+  await page.setViewportSize({width:1180,height:820});
+  await ready(page,url);
+  for(const body of specimens.filter(body=>body!=='adult-f')) {
+    await q('#body').selectOption(body);
+    assert(!await q('#chest-panel').isVisible());
+  }
+  await q('#historical').selectOption('p5-061:G');
+  await q('#load-history').evaluate(button=>button.click());
+  await q('#body').selectOption('adult-f');
+  assert(await q('#chest-panel').isVisible());
+  assert.equal(await q('#chest-controls input').count(),8);
+  assert.equal(await enabled(),1);
+  const baseline=await compare(page);
+  const names=chestPresets.map(([id])=>id);
+  assert.deepEqual(await q('#chest-preset option').evaluateAll(options=>options.slice(1).map(({value})=>value)),names);
+  const variants=new Set();
+  for(const preset of names) {
+    await q('#chest-preset').selectOption(preset);
+    const shape=await paths();
+    assert.equal(shape.length,8);
+    variants.add(shape.join(' '));
+    assert.equal(await enabled(),8);
+    assert.equal(await q('#chest-volume').inputValue(),'53');
+  }
+  assert.equal(variants.size,6);
+  await q('#chest-reset').evaluate(button=>button.click());
+  await setRange(page,'chest-volume',53);
+  let edits=0;
+  for(const [key,{min,max,neutral}] of Object.entries(chestControls)) {
+    const slider=q('#chest-'+key);
+    assert.equal(Number(await slider.getAttribute('min')),min);
+    assert.equal(Number(await slider.getAttribute('max')),max);
+    await slider.press('Home');
+    assert.equal(Number(await slider.inputValue()),min);
+    const low=await paths();
+    await slider.press('End');
+    assert.equal(Number(await slider.inputValue()),max);
+    assert.notDeepEqual(await paths(),low,key);
+    await setRange(page,'chest-'+key,key==='volume' ? 53 : neutral);
+    edits++;
+  }
+  const changed=await compare(page);
+  assert(changed.every((image,i)=>image.original.replace(layer,'')===baseline[i].original));
+  assert(changed.every((image,i)=>image.raster!==baseline[i].raster));
+  await setRange(page,'corpulence',83.125);
+  await setRange(page,'structure-thorax',76);
+  await setRange(page,'chest-divergence',-32.75);
+  await setRange(page,'chest-volume',0);
+  assert.equal(await enabled(),1);
+  const flat=await exportAppearance(page), document=JSON.parse(flat);
+  assert.equal(document.version,14);
+  assert.deepEqual(document.character.chest,{...referenceChest,divergence:-32.75});
+  assert.equal(document.character.structure.thorax,76);
+  assert.equal(document.character.corpulence,83.125);
+  await q('#body').selectOption('adult-h');
+  await q('#body').selectOption('adult-f');
+  assert.equal(await q('#chest-divergence').inputValue(),'-32.75');
+  await ready(page,url);
+  await importAppearance(page,flat);
+  assert.equal(await enabled(),1);
+  assert.equal(await q('#chest-divergence').inputValue(),'-32.75');
+  await setRange(page,'chest-volume',92);
+  const raised=await paths();
+  const active=await exportAppearance(page);
+  await ready(page,url);
+  await importAppearance(page,active);
+  assert.deepEqual(await paths(),raised);
+  assert.equal(await q('#chest-volume').inputValue(),'92');
+
+  await q('nav a[href="#planche-poitrine"]').click();
+  const panel=q('#planche-poitrine');
+  await panel.locator('[data-chest-case]').first().waitFor({state:'attached'});
+  assert.deepEqual(await Promise.all(['form','corpulence','structure'].map(kind=>q(`#chest-${kind}-cases figure`).count())),[19,9,9]);
+  assert.equal(await panel.locator('[data-chest]').count(),36);
+  assert.equal(await panel.locator('[data-chest-case="flat"] [data-chest]').count(),0);
+  const palette=q('#chest-study-skin');
+  const skins=await palette.locator('option').evaluateAll(options=>options.map(({value})=>value));
+  assert.equal(skins.length,4);
+  const colours=new Set();
+  for(const skin of skins) {
+    await palette.selectOption(skin);
+    assert.equal(await panel.locator('.body-shape path').first().getAttribute('fill'),skin);
+    colours.add(await panel.locator('[data-chest] path').first().getAttribute('fill'));
+    for(const [scale,height] of [['head',300],['mini',70],['tile',178]]) {
+      await q('#chest-study-scale').selectOption(scale);
+      const heights=await panel.locator('svg').evaluateAll(nodes=>nodes.map(node=>node.getBoundingClientRect().height));
+      assert.equal(heights.length,37);
+      assert(heights.every(value=>value===height));
+    }
+  }
+  assert.equal(colours.size,4);
+  await q('#chest-study-scale').selectOption('detail');
+  await palette.selectOption(skins[0]);
+  for(const id of ['round-88','cone-53','low-88','corpulence-0-88','corpulence-100-26']) {
+    await panel.locator(`[data-chest-case="${id}"]`).screenshot({path:path.join(output,`${name}-chest-${id}.png`)});
+  }
+  for(const width of [390,820,1180]) {
+    await page.setViewportSize({width,height:920});
+    assert(await page.evaluate(w=>document.documentElement.scrollWidth<=w+1,width));
+  }
+  return {edits,presets:variants.size,cases:37,skins:skins.length,scales:3,restored:2};
+}
+
 async function exercise(context, url, name, version) {
   const [page, old] = await Promise.all([context.newPage(), context.newPage()]);
   const errors = [];
@@ -466,10 +576,11 @@ async function exercise(context, url, name, version) {
   }
   const structure = structurePreview ? await checkStructure(page,url,name) : undefined;
   const corpulence = corpulencePreview ? await checkCorpulence(page,old,url,name) : undefined;
+  const chest = chestPreview ? await checkChest(page,url,name) : undefined;
   assert.deepEqual(errors,[]);
   return {name, version, historicalExact:historicalBodies.length*3, rasterBySize:[8,8,8],
     fittings:cases.length*2, coldImports:2, guidedLandmarks:14, ...(structure ? {structure} : {}),
-    ...(corpulence ? {corpulence} : {})};
+    ...(corpulence ? {corpulence} : {}), ...(chest ? {chest} : {})};
 }
 
 async function files(url) {
