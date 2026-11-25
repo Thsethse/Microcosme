@@ -48,7 +48,9 @@ function watch(page) {
 }
 
 async function ready(page, base) {
-  const response = await page.goto(new URL('#atelier',base).href, {waitUntil:'load'});
+  const url = new URL('#atelier',base).href;
+  const response = page.url() === url ? await page.reload({waitUntil:'load'}) :
+    await page.goto(url, {waitUntil:'load'});
   assert.equal(response.status(),200);
   await page.waitForFunction(()=>document.querySelector('#atelier').dataset.startup !== 'pending');
   assert.equal(await page.locator('#atelier').getAttribute('data-startup'),'ready',
