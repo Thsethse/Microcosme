@@ -1,6 +1,6 @@
 {
   "mission": "BIO-MARQUES-01",
-  "codeCommit": "6dc075e4200ca0d4ef7287dce0f2d6879c6e2540",
+  "codeCommit": "a7735b01ad127badfb4613ec45c148afe186d4bd",
   "pagesBaseline": "a3644c21562ce18b3f32278cd00861064ad00da7",
   "contractCommit": "41e41f1",
   "files": [
@@ -10,7 +10,7 @@
     },
     {
       "path": "style.css",
-      "sha256": "48fc923c62ac79599ceb0ec81adf1071b64ae3f0beb7091ad80c1ce477800818"
+      "sha256": "8693a1d8e55da69cdcd594e51ef8544bbf9e546b09f3447c98cf76ba8d5bb7d1"
     },
     {
       "path": "app.mjs",
