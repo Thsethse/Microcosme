@@ -443,6 +443,7 @@ async function checkChest(page, url, name) {
 
   await q('nav a[href="#planche-poitrine"]').click();
   const panel=q('#planche-poitrine');
+  await panel.locator('[data-chest-case]').first().waitFor({state:'attached'});
   assert.deepEqual(await Promise.all(['form','corpulence','structure'].map(kind=>q(`#chest-${kind}-cases figure`).count())),[19,9,9]);
   assert.equal(await panel.locator('[data-chest]').count(),36);
   assert.equal(await panel.locator('[data-chest-case="flat"] [data-chest]').count(),0);
