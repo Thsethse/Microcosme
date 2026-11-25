@@ -583,3 +583,5 @@ const scarsEditor=mountScarsEditor({input:inputFor,eyes:()=>eyes,
 mountFreckleStudy();
 mountScarStudy();
 refreshCharacter();
+q('#atelier').dataset.startup = 'ready';
+q('#atelier-startup').hidden = true;
