@@ -86,11 +86,19 @@ export function marksFrame(face,opening,{noseResult,mouthResult,markup}={}) {
   return {rx,ry,plane,obstruction,eyes,lips,nostrils};
 }
 
-function polygon(points) {
+export function cutaneousOutline(points) {
   const xy=([x,y])=>precise(x)+','+precise(y);
   const mid=([x,y],[a,b])=>xy([(x+a)/2,(y+b)/2]);
   return 'M'+mid(points.at(-1),points[0])+points.map((p,i)=>
     'Q'+xy(p)+' '+mid(p,points[(i+1)%points.length])).join('')+'Z';
+}
+
+export function cutaneousRim(w,h,irregularity,variation) {
+  return variation.map((n,i)=>{
+    const t=i*2*Math.PI/variation.length;
+    const scale=1+irregularity/100*.51*(n-.5);
+    return [w*Math.cos(t)*scale,h*Math.sin(t)*scale];
+  });
 }
 
 function silhouette(x,y,r,{shape,elongation,angle,irregularity},variation) {
@@ -98,17 +106,13 @@ function silhouette(x,y,r,{shape,elongation,angle,irregularity},variation) {
   const direction=shape==='irregular'&&irregularity?angle:angle%180;
   const tilt=direction*Math.PI/180, a=Math.cos(tilt), b=Math.sin(tilt);
   const w=r, h=r*ratio;
-  const path=irregularity&&shape==='irregular'?variation.map((n,i)=>{
-    const t=i*2*Math.PI/variation.length;
-    const scale=1+irregularity/100*.51*(n-.5);
-    const u=w*Math.cos(t)*scale,v=h*Math.sin(t)*scale;
-    return [x+a*u-b*v,y+b*u+a*v];
-  }):null;
+  const path=irregularity&&shape==='irregular'?cutaneousRim(w,h,irregularity,variation)
+    .map(([u,v])=>[x+a*u-b*v,y+b*u+a*v]):null;
   const dx=Math.hypot(a*w,b*h),dy=Math.hypot(b*w,a*h);
   const box=path?{left:Math.min(...path.map(p=>p[0])),right:Math.max(...path.map(p=>p[0])),
       top:Math.min(...path.map(p=>p[1])),bottom:Math.max(...path.map(p=>p[1]))}:
     {left:x-dx,right:x+dx,top:y-dy,bottom:y+dy};
-  return {x,y,r,box,ink:(fill,scale=1)=>path?`<path d="${polygon(path)}" fill="${fill}"/>`:
+  return {x,y,r,box,ink:(fill,scale=1)=>path?`<path d="${cutaneousOutline(path)}" fill="${fill}"/>`:
     `<ellipse cx="${precise(x)}" cy="${precise(y)}" rx="${precise(w*scale)}" ry="${precise(h*scale)}"${ratio!==1&&direction?
       ` transform="rotate(${precise(direction)} ${precise(x)} ${precise(y)})"`:''} fill="${fill}"/>`};
 }

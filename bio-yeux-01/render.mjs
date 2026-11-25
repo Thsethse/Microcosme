@@ -10,6 +10,7 @@ import {inheritedMouth, inheritedNose, mouthMarkup, solveMouth} from './mouth.mj
 import {noseMarkup, solveNose} from './nose.mjs';
 import {beardCategoryOf, beardMarkup, solveBeard} from './beard.mjs';
 import {marksMarkup, solveMarks} from './marks.mjs';
+import {scarsMarkup, solveScars} from './scars.mjs';
 
 function clipId(path, instance, index) {
   // Equal default IDs are safe for equal outlines. An explicit instance also
@@ -83,10 +84,11 @@ export function character(input = {}, options = {}) {
   const category = options.beardCategory ?? input.beardCategory;
   const hasBeard = options.beard != null && options.beard !== 'historical' && beardCategoryOf(category) !== 'F';
   const hasMarks = options.marks != null && options.marks !== 'historical' && options.marks.length !== 0;
-  if (!selected && !options.eyeEnvelopes && !hasIris && !hasDetails && !hasBrows && !hasMouth && !hasNose && !hasBeard && !hasMarks) return svg;
+  const hasScars = options.scars != null && options.scars !== 'historical' && options.scars.length !== 0;
+  if (!selected && !options.eyeEnvelopes && !hasIris && !hasDetails && !hasBrows && !hasMouth && !hasNose && !hasBeard && !hasMarks && !hasScars) return svg;
   const geometry = eyesFor(input, selected);
   let result = svg;
-  if (selected || hasIris || hasDetails || hasBrows || hasMouth || hasNose || hasBeard || hasMarks) {
+  if (selected || hasIris || hasDetails || hasBrows || hasMouth || hasNose || hasBeard || hasMarks || hasScars) {
     const face = model(input);
     const originalFace = headMarkup(face.base).replace(/<path d="[^"]*"/, `<path d="${face.outline}"`);
     if (!svg.includes(originalFace)) throw new Error('Visage historique introuvable');
@@ -107,6 +109,13 @@ export function character(input = {}, options = {}) {
     if (hasMarks) updatedFace += marksMarkup(solveMarks(face,geometry,options.marks,
       {markup:originalFace,noseResult:nose,mouthResult:mouth}),
       {skin:options.markStudySkin,scale:options.smallScale?'mini':options.headOnly?'head':'body'});
+    if (hasScars) {
+      const anatomy={markup:originalFace,noseResult:nose,mouthResult:mouth};
+      updatedFace += scarsMarkup(solveScars(face,geometry,options.scars,anatomy),{
+        face,opening:geometry,...anatomy,instance:options.instance,skin:options.scarStudySkin,
+        scale:options.smallScale?'mini':options.headOnly?'head':'body'
+      });
+    }
     if (hasBeard) updatedFace += beardMarkup(solveBeard(face,geometry,options.beard,
       {...options,category,source:svg,markup:originalFace,detailResult:details,noseResult:nose,mouthResult:mouth}));
     result = svg.replace(originalFace,updatedFace);

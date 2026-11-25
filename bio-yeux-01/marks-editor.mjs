@@ -1,3 +1,4 @@
+import {sceneCoordinates} from './surface.mjs';
 import {groupMarkAxes,individualMarkAxes,marksFor,markShapes,markTones,markTypes,markZones,normalizeMarks} from './marks.mjs';
 
 const format=new Intl.NumberFormat('fr-FR',{maximumFractionDigits:3});
@@ -131,13 +132,7 @@ export function mountMarksEditor({input,eyes,context,render}) {
   q('zoom').addEventListener('click',event=>{
     const svg=q('zoom').querySelector('svg');
     if(!placing||!svg||!result) return;
-    const p=svg.createSVGPoint();
-    p.x=event.clientX;
-    p.y=event.clientY;
-    const ctm=svg.getScreenCTM();
-    if(!ctm) return;
-    const {x,y}=p.matrixTransform(ctm.inverse());
-    const coords=result.frame.plane.coordinates(x,y);
+    const coords=sceneCoordinates(svg,event.clientX,event.clientY,result.frame.plane);
     if(!coords) return;
     stopPlacing();
     edit({x:Math.round(coords[0]*10)/10,y:Math.round(coords[1]*10)/10});
