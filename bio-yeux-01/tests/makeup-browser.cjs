@@ -85,21 +85,38 @@ async function snapshot(page, selector = after) {
   })));
 }
 
-async function verifyPublishedFiles(context, base, version) {
+async function verifyPublishedFiles(page, base, version) {
   const assets = [
     ...version.files.map(({path,sha256})=>[new URL(path,base).href,sha256]),
     ...version.inherited.map(({path,sha256})=>[new URL('../../'+path,base).href,sha256])
   ];
-  for (let i = 0; i < assets.length; i += 12) {
-    await Promise.all(assets.slice(i,i+12).map(async ([url, sha]) => {
-      const response = await context.request.get(url, {timeout:30000, maxRetries:2});
-      assert.equal(response.status(),200,url);
-      assert.equal(digest(await response.body()),sha,url);
-      if (/\.m?js$/.test(url)) assert.match(response.headers()['content-type'],/javascript/,url);
-      await response.dispose();
-    }));
+  let retries = 0;
+  for (let i = 0; i < assets.length; i += 6) {
+    const batch = assets.slice(i,i+6);
+    const results = await page.evaluate(async urls => Promise.all(urls.map(async url => {
+      let response;
+      for (let attempt = 1; attempt <= 4; attempt++) {
+        try {
+          response = await fetch(url,{cache:attempt > 1 ? 'reload' : 'default',signal:AbortSignal.timeout(15000)});
+          if (![429, 502, 503, 504].includes(response.status) || attempt === 4) {
+            const bytes = await crypto.subtle.digest('SHA-256',await response.arrayBuffer());
+            return {status:response.status, mime:response.headers.get('content-type'), retries:attempt - 1,
+              sha:[...new Uint8Array(bytes)].map(n=>n.toString(16).padStart(2,'0')).join('')};
+          }
+        } catch (error) {
+          if (attempt === 4) throw error;
+        }
+        await new Promise(resolve=>setTimeout(resolve,250 * attempt));
+      }
+    })),batch.map(([url])=>url));
+    for (const [j, [url, sha]] of batch.entries()) {
+      assert.equal(results[j].status,200,url);
+      assert.equal(results[j].sha,sha,url);
+      retries += results[j].retries;
+      if (/\.m?js$/.test(url)) assert.match(results[j].mime,/javascript/,url);
+    }
   }
-  return assets.length;
+  return {verified:assets.length,retries};
 }
 
 async function exercise(context, base, engine, browserVersion, assetReport) {
@@ -107,9 +124,12 @@ async function exercise(context, base, engine, browserVersion, assetReport) {
   const {errors, scripts} = watch(page);
   const q = selector => page.locator(selector);
   await ready(page,base);
-  const response = await context.request.get(new URL('version.json',base).href);
-  assert.equal(response.status(),200);
-  const version = await response.json();
+  const manifest = await page.evaluate(async url => {
+    const response = await fetch(url);
+    return {status:response.status, text:await response.text()};
+  },new URL('version.json',base).href);
+  assert.equal(manifest.status,200);
+  const version = JSON.parse(manifest.text);
   assert.equal(version.mission,'BIO-MAQUILLAGE-01');
   if (process.env.EXPECT_COMMIT) assert.equal(version.codeCommit,process.env.EXPECT_COMMIT);
   assert.equal(scripts.length,1);
@@ -128,6 +148,7 @@ async function exercise(context, base, engine, browserVersion, assetReport) {
     if (id.startsWith('makeup-')) assert.equal(menus[id],count,id);
     else assert(menus[id]>=count,id);
   }
+  assert.equal(await q('#makeup-paint-panel').isVisible(),false);
   const sliders = {};
   for (const [name, selector, count] of [
     ['eyes','#eye-controls',8],['scars','#scars-axes',11],['makeup','#makeup-controls',24]
@@ -192,6 +213,7 @@ async function exercise(context, base, engine, browserVersion, assetReport) {
   }
 
   await q('#makeup-family').selectOption('paint');
+  assert.equal(await q('#makeup-paint-panel').isVisible(),true);
   for (const shape of shapeNames) {
     await q('#makeup-paint-kind').selectOption(shape);
     await q('#makeup-add').click();
@@ -274,8 +296,8 @@ async function exercise(context, base, engine, browserVersion, assetReport) {
   if (engine === 'chromium') await q('#planche-maquillage').screenshot({path:path.join(output,'planche-maquillage.png')});
   assert.deepEqual(errors,[]);
   if (!assetReport.verified && !local) {
-    assetReport.verified = await verifyPublishedFiles(context,base,version);
-    assetReport.manifestSha256 = digest(await response.body());
+    Object.assign(assetReport,await verifyPublishedFiles(page,base,version));
+    assetReport.manifestSha256 = digest(manifest.text);
   }
   await page.close();
   return {engine,browserVersion,menus,sliders,initialization,inherited,effects,board,

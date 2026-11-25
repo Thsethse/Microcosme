@@ -9,11 +9,11 @@ import {bodies, model, presets} from '../../preview/bio-vis-p5-i6/model.mjs';
 import {appearanceDocument, characterInput, parseAppearance} from '../appearance.mjs';
 import {beardPresets} from '../beard.mjs';
 import {restoreSelection} from '../catalogue.mjs';
-import {eyePresets} from '../eyes.mjs';
+import {eyePresets, eyesFor} from '../eyes.mjs';
 import {
   drawMakeup, hasMakeup, inactiveFields, makeupDocument, makeupPalette, normalizeMakeup, paintShapes, parseMakeup
 } from '../makeup.mjs';
-import {makeupFor} from '../makeup-render.mjs';
+import {makeupFor, solveMakeup} from '../makeup-render.mjs';
 import {character} from '../render.mjs';
 
 const scales = [{headOnly:true}, {}, {headOnly:true,smallScale:true}];
@@ -191,15 +191,21 @@ test('T9 · les trois catégories, six corps et les extrêmes morphologiques ren
   for (const body of Object.keys(bodies)) {
     for (const beardCategory of ['H','F','T']) {
       for (const morph of [{},presets.tall.values,presets.broad.values]) {
-        for (const age of ['child','adult','elder']) {
-          for (const scale of scales) {
-            const svg = character({...neutral,...morph,body,age},{...scale,beardCategory,makeup:sample});
-            assert.equal((svg.match(/data-makeup-family=/g)??[]).length,5);
-            checked++;
-          }
+        for (const scale of scales) {
+          const svg = character({...neutral,...morph,body},{...scale,beardCategory,makeup:sample});
+          assert.equal((svg.match(/data-makeup-family=/g)??[]).length,5);
+          checked++;
         }
       }
     }
   }
-  assert.equal(checked,486);
+  assert.equal(checked,162);
+
+  const face = model(neutral), opening = eyesFor(neutral,'almond');
+  const adult = solveMakeup(face,opening,sample).effective;
+  for (const age of ['child','elder']) {
+    const aged = structuredClone(face);
+    aged.base.parameters.age = age;
+    assert.deepEqual(solveMakeup(aged,opening,sample).effective,adult);
+  }
 });
