@@ -237,7 +237,7 @@ button:disabled, input:disabled, select:disabled { opacity: .65; }
 #structure-panel .hint { margin: 0 0 8px; }
 .structure-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(72px, .42fr); gap: 8px; align-items: center; }
 #structure-live { border-radius: 7px; }
-#planche-ossature > summary { font: 1.8rem/1.1 Georgia, serif; }
+#planche-ossature > summary, #planche-corpulence > summary { font: 1.8rem/1.1 Georgia, serif; }
 .structure-scale { max-width: 260px; }
 .structure-study-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 10px 0 20px; }
 .structure-study-grid:last-child { margin-bottom: 0; }
@@ -253,3 +253,5 @@ button:disabled, input:disabled, select:disabled { opacity: .65; }
   .structure-study-grid { grid-template-columns: minmax(0, 1fr); }
   .structure-layout { grid-template-columns: minmax(0, 1fr) minmax(72px, .42fr); }
 }
+
+.body-structure-heading { margin: 16px 0 5px; }

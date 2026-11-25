@@ -6,6 +6,8 @@ import {character} from './render.mjs';
 import {adultBodies, isAdultBody} from './adult-body.mjs';
 import {mountBodyStudy, mountStudyPanel, renderBodyStudy} from './body-study.mjs';
 import {referenceStructure, structureControls} from './body-structure.mjs';
+import {corpulenceStops, referenceCorpulence} from './body-corpulence.mjs';
+import {renderCorpulenceStudy} from './corpulence-study.mjs';
 import {renderStructureStudy} from './structure-study.mjs';
 import {appearanceDocument, characterInput, parseAppearance} from './appearance.mjs';
 import {currentDraw, drawEyes, legacyDraw} from './draw.mjs';
@@ -43,7 +45,7 @@ const morphs = {
   min: {name: 'Tous les minima', values: Object.fromEntries(axes.map(key => [key, controls[key].min]))},
   max: {name: 'Tous les maxima', values: Object.fromEntries(axes.map(key => [key, controls[key].max]))}
 };
-const structurePreferences = new Map();
+const bodyPreferences = new Map();
 const variety = ['p5-038:G','p5-048:G','curls:U','waist_waves:U','braids:U','p5-041:G','p5-056:D','p5-061:D',
   'p5-071:G','p5-029:G','p5-034:G','p5-051:G','p5-058:G','p5-068:G','p5-024:D','p5-058:D'];
 let selection = restoreSelection({style: 'p5-038', arrangement: 'G', body: 'standard', accessories: true, contrast: true});
@@ -79,11 +81,12 @@ function inputFor(key) {
 }
 
 const frames = {head: '-30 -65 220 225', tile: '-40 -85 240 355', mini: '-35 -68 230 245'};
-function svg({key, body, structure, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null, beard = null, beardCategory, marks = null, scars = null, makeup = null} = {}) {
+function svg({key, body, structure, corpulence, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null, beard = null, beardCategory, marks = null, scars = null, makeup = null} = {}) {
   const input = inputFor(key);
   if (body !== undefined) {
     input.body = body;
     input.structure = structure;
+    input.corpulence = corpulence;
   }
   const result = character(input, {
     eyes: value, iris:pigment, details, brows, mouth, nose, beard, beardCategory, marks, scars, makeup, eyeEnvelopes: guides, hairColor: hair, rememberedHairColor: colour, headOnly: view !== 'tile',
@@ -259,6 +262,8 @@ function renderComparison() {
   }
   const structureStudy = q('#planche-ossature');
   if (structureStudy.open) renderStructureStudy(structureStudy, {render:renderBody, background});
+  const corpulenceStudy = q('#planche-corpulence');
+  if (corpulenceStudy.open) renderCorpulenceStudy(corpulenceStudy, {render:renderBody, background});
 
   const {envelopes:[left,right],maxWidth,reference}=eyesFor(inputFor(),null).face;
   const x=left.x-maxWidth/2-2, width=right.x+maxWidth/2+2-x;
@@ -322,17 +327,24 @@ function renderChart() {
     `<button data-eye-form="${id}" type="button" aria-pressed="${id === selectedForm}">${svg({value, frame, decorative: true})}<span class="caption">${label}</span></button>`).join('');
 }
 
-function rememberStructure() {
-  const {body, structure} = selection.state;
+function rememberBody() {
+  const {body, structure, corpulence} = selection.state;
   if (!isAdultBody(body)) return;
-  if (structure) structurePreferences.set(body, structure);
-  else structurePreferences.delete(body);
+  if (structure || corpulence !== undefined) bodyPreferences.set(body, {structure, corpulence});
+  else bodyPreferences.delete(body);
 }
 
-function syncStructure() {
+function syncBodyControls() {
   const active = isAdultBody(selection.state.body);
   q('#structure-panel').hidden = !active;
   if (!active) return;
+  const corpulence = selection.state.corpulence ?? referenceCorpulence;
+  const range = q('#corpulence');
+  const stop = corpulenceStops.find(({value}) => value === corpulence);
+  const description = `${format.format(corpulence)} %${stop ? ' · ' + stop.label : ''}`;
+  range.value = corpulence;
+  range.setAttribute('aria-valuetext', description);
+  q('#corpulence-value').textContent = description;
   const values = selection.state.structure ?? referenceStructure;
   for (const [key,value] of Object.entries(values)) {
     const slider = q('#structure-' + key);
@@ -353,7 +365,7 @@ function syncSelection(updateJSON = true) {
   const ordinary = selection.visibleKey === selection.key ? '' : ` · Entrée ordinaire ${choice(selection.visibleKey).label}`;
   q('#identity-note').textContent = `Identifiant ouvert · ${entry.label} · ${entry.name}${ordinary}`;
   q('#body').value = selection.state.body;
-  syncStructure();
+  syncBodyControls();
   q('#morph').value = morphForm;
   for (const key of ['accessories', 'contrast']) q('#' + key).checked = selection.raw[key] !== false;
   for (const key of axes) {
@@ -387,13 +399,14 @@ function refreshCharacter() {
 }
 
 function setSelection(raw, form = morphForm, trigger = document.activeElement, {
-  onApply, body = selection.state.body, structure = structurePreferences.get(body)
+  onApply, body = selection.state.body, structure = bodyPreferences.get(body)?.structure,
+  corpulence = bodyPreferences.get(body)?.corpulence
 } = {}) {
-  const next = restoreSelection(raw, body, structure);
+  const next = restoreSelection(raw, body, structure, corpulence);
   const apply = () => {
     clearProposal();
     selection = next;
-    rememberStructure();
+    rememberBody();
     morphForm = form;
     q('#selection-error').textContent = '';
     refreshCharacter();
@@ -479,6 +492,12 @@ sliders('#structure-controls', Object.entries(structureControls), '1', (key, val
 q('#structure-reset').addEventListener('click', event =>
   setSelection(selection.raw, morphForm, event.target, {structure:null}));
 q('#structure-study-scale').addEventListener('change', renderComparison);
+q('#corpulence-study-scale').addEventListener('change', renderComparison);
+for (const {label,value} of corpulenceStops) q('#corpulence-stops').append(new Option(label, value));
+q('#corpulence').addEventListener('input', event =>
+  setSelection(selection.raw, morphForm, event.target, {corpulence:event.target.valueAsNumber}));
+q('#corpulence-reset').addEventListener('click', event =>
+  setSelection(selection.raw, morphForm, event.target, {corpulence:null}));
 
 options('#eye-request-axis', Object.entries(eyeControls).map(([key, range]) => [key, range.label]));
 function syncRequest() {
@@ -620,7 +639,7 @@ q('#appearance-import').addEventListener('click', () => {
     scarsEditor.restore(restored);
     makeupEditor.restore(restored);
     ({selection, eyes, form: selectedForm, draw, colour} = restored);
-    rememberStructure();
+    rememberBody();
     q('#flat-mode').checked = restored.flat;
     q('#seed').value = draw?.seed ?? q('#seed').defaultValue;
     q('#draw-version').value = draw?.version ?? currentDraw;
@@ -666,6 +685,7 @@ mountScarStudy(naturalEyes);
 if (naturalEyes) mountEyeContourStudy();
 mountBodyStudy(q('#planche-corps'), renderComparison);
 mountStudyPanel(q('#planche-ossature'), renderComparison);
+mountStudyPanel(q('#planche-corpulence'), renderComparison);
 refreshCharacter();
 q('#atelier').dataset.startup = 'ready';
 q('#atelier-startup').hidden = true;

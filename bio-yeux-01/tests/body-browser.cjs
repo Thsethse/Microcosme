@@ -6,11 +6,12 @@ const path = require('node:path');
 const {chromium, webkit, devices} = require('playwright');
 
 const mission = process.env.PREVIEW_MISSION ?? 'BIO-CORPS-01';
-const structurePreview = mission === 'BIO-CORPS-02';
+const corpulencePreview = mission === 'BIO-CORPS-03';
+const structurePreview = mission === 'BIO-CORPS-02' || corpulencePreview;
 const pages = 'https://thsethse.github.io/Microcosme/preview/';
 const output = process.env.ARTIFACT_DIR ?? '/tmp/microcosme-' + mission.toLowerCase();
 const published = pages + mission.toLowerCase() + '/';
-const referenceURL = process.env.REFERENCE_URL ?? pages + (structurePreview ? 'bio-corps-01/' : 'bio-yeux-r01/');
+const referenceURL = process.env.REFERENCE_URL ?? pages + (corpulencePreview ? 'bio-corps-02/' : structurePreview ? 'bio-corps-01/' : 'bio-yeux-r01/');
 const local = process.env.PREVIEW_DIR;
 const engines = {chromium, webkit};
 const specimens = ['standard','slim','broad','narrow','shoulders','bust','adult-h','adult-f'];
@@ -53,12 +54,16 @@ async function compare(page) {
     const canvas = document.createElement('canvas');
     canvas.width = Math.round(width);
     canvas.height = height;
-    canvas.getContext('2d').drawImage(img,0,0);
+    const context = canvas.getContext('2d');
+    context.drawImage(img,0,0);
+    const rgba = context.getImageData(0,0,canvas.width,canvas.height).data;
+    let pixels = 0;
+    for (let index=3; index<rgba.length; index+=4) if (rgba[index]>127) pixels++;
     const silhouette = clone.querySelector('.body-shape');
     if (!silhouette) throw new Error('Calque corporel introuvable.');
     const body = silhouette.outerHTML;
     silhouette.remove();
-    return {width:Math.round(width),height,original,body,outside:serialize(),raster:canvas.toDataURL()};
+    return {width:Math.round(width),height,original,body,outside:serialize(),raster:canvas.toDataURL(),pixels};
   })));
 }
 
@@ -73,23 +78,25 @@ async function importAppearance(page, document) {
   assert.equal(await page.locator('#appearance-error').textContent(),'');
 }
 
+const bodyVertical = page => page.locator('#comparison [data-side="after"] .tile .body-shape path').evaluate(path => {
+  const box = path.getBBox();
+  const y = [...path.getAttribute('d').matchAll(/,-?([0-9]+(?:\.[0-9]+)?)/g)].map(match=>match[0]);
+  return {height:box.height, top:box.y, controlsY:y};
+});
+const setRange = (page, id, value) => page.locator('#' + id).evaluate((input, number) => {
+  input.value = number;
+  input.dispatchEvent(new Event('input',{bubbles:true}));
+},value);
+
 async function checkStructure(page, url, name) {
   const {referenceStructure, structureControls} = await import('../body-structure.mjs');
   const q = selector => page.locator(selector);
   const axes = Object.entries(structureControls);
-  const frame = '#comparison [data-side="after"] .tile svg';
   const values = async () => Object.fromEntries(await Promise.all(axes.map(async ([key]) =>
     [key,Number(await q('#structure-' + key).inputValue())])));
-  const geometry = () => q(frame + ' .body-shape path').evaluate(path => {
-    const box = path.getBBox();
-    const y = [...path.getAttribute('d').matchAll(/,-?([0-9]+(?:\.[0-9]+)?)/g)].map(match=>match[0]);
-    return {height:box.height, top:box.y, controlsY:y};
-  });
+  const geometry = () => bodyVertical(page);
   const reset = () => q('#structure-reset').evaluate(button => button.click());
-  const set = (key, value) => q('#structure-' + key).evaluate((input, number) => {
-    input.value = number;
-    input.dispatchEvent(new Event('input',{bubbles:true}));
-  },value);
+  const set = (key, value) => setRange(page,'structure-' + key,value);
   const sample = {neck:83, shoulders:129, thorax:78, waist:114, pelvis:128, base:72};
   const other = {neck:129, shoulders:73, thorax:130, waist:77, pelvis:72, base:130};
   let isolatedRasters = 0;
@@ -186,6 +193,122 @@ async function checkStructure(page, url, name) {
       document.documentElement.scrollWidth<=w+1,width));
   }
   return {isolatedRasters, unchangedVertical, restored, studySamples:38};
+}
+
+async function checkCorpulence(page, old, url, name) {
+  const {referenceStructure} = await import('../body-structure.mjs');
+  const {corpulenceStops} = await import('../body-corpulence.mjs');
+  const q = selector => page.locator(selector);
+  const inputs = page => page.locator('#structure-controls input').evaluateAll(elements =>
+    Object.fromEntries(elements.map(input=>[input.id.replace('structure-',''),input.valueAsNumber])));
+  const choices = [
+    {neck:72, shoulders:129, thorax:82, waist:121, pelvis:73, base:123},
+    {neck:130, shoulders:130, thorax:130, waist:125, pelvis:130, base:130}
+  ];
+  const amounts = [37.125,87.5];
+  const styles = ['p5-061:G','waist_waves:U'];
+  const samples = [];
+  let neutralExact=0, unchangedVertical=0, restored=0;
+  const slider = q('#corpulence');
+
+  await Promise.all([ready(page,url),ready(old,referenceURL)]);
+  assert(!await slider.isVisible());
+  assert.deepEqual(await q('#corpulence-stops option').evaluateAll(options =>
+    options.map(option=>Number(option.value))),corpulenceStops.map(({value})=>value));
+  for (const [index,body] of specimens.slice(6).entries()) {
+    const structure=choices[index], amount=amounts[index];
+    for (const target of [page,old]) {
+      await target.locator('#historical').selectOption(styles[index]);
+      await target.locator('#load-history').evaluate(button=>button.click());
+      await target.locator('#morph').selectOption(index ? 'max' : 'tall');
+      await target.locator('#body').selectOption(body);
+      for (const [key,value] of Object.entries(structure)) await setRange(target,'structure-'+key,value);
+    }
+    assert(await slider.isVisible());
+    assert.equal(await slider.inputValue(),'50');
+    assert.equal(await slider.getAttribute('step'),'any');
+    const base = await compare(page);
+    assert.deepEqual(base,await compare(old));
+    neutralExact += base.length;
+    const geometry = await bodyVertical(page);
+    const profile=[];
+    for (const {value,label} of corpulenceStops) {
+      await setRange(page,'corpulence',value);
+      assert.equal(Number(await slider.inputValue()),value);
+      assert.match(await slider.getAttribute('aria-valuetext'),new RegExp(label));
+      assert.deepEqual(await inputs(page),structure);
+      assert.deepEqual(await bodyVertical(page),geometry);
+      unchangedVertical++;
+      const images = await compare(page);
+      for (let i=0; i<images.length; i++) assert.equal(images[i].outside,base[i].outside);
+      if (value===50) assert.deepEqual(images,base);
+      profile.push(images);
+    }
+    const bodyPixels = profile.map(images=>images[1].pixels);
+    assert(bodyPixels.every((pixels,i)=>i===0 || pixels>bodyPixels[i-1]));
+    const distinct = base.map((_,i)=>new Set(profile.map(images=>images[i].raster)).size);
+    assert.deepEqual(distinct,[9,9,9]);
+    samples.push({body,distinct,bodyPixels});
+
+    await setRange(page,'corpulence',amount);
+    const image = await compare(page);
+    const json = await exportAppearance(page);
+    const archive=JSON.parse(json);
+    assert.equal(archive.version,13);
+    assert.deepEqual(archive.character.structure,structure);
+    assert.equal(archive.character.corpulence,amount);
+    await q('#body').selectOption('broad');
+    assert(!await slider.isVisible());
+    await q('#body').selectOption(body);
+    assert.deepEqual(await compare(page),image);
+    await ready(page,url);
+    await importAppearance(page,json);
+    assert.equal(Number(await slider.inputValue()),amount);
+    assert.deepEqual(await inputs(page),structure);
+    assert.deepEqual(await compare(page),image);
+    assert.deepEqual(JSON.parse(await exportAppearance(page)),archive);
+    restored++;
+
+    await q('#corpulence-reset').evaluate(button=>button.click());
+    assert.equal(await slider.inputValue(),'50');
+    assert.deepEqual(await inputs(page),structure);
+    assert.deepEqual(await compare(page),base);
+    assert.equal(JSON.parse(await exportAppearance(page)).version,12);
+    await setRange(page,'corpulence',amount);
+    await q('#structure-reset').evaluate(button=>button.click());
+    assert.equal(Number(await slider.inputValue()),amount);
+    assert.deepEqual(await inputs(page),referenceStructure);
+  }
+
+  await q('#body').selectOption('adult-h');
+  await setRange(page,'corpulence',amounts[0]);
+  await q('#body').selectOption('adult-f');
+  assert.equal(Number(await slider.inputValue()),amounts[1]);
+  await q('#body').selectOption('adult-h');
+  assert.equal(Number(await slider.inputValue()),amounts[0]);
+  await q('nav a[href="#planche-corpulence"]').click();
+  await q('#corpulence-references [data-corpulence-specimen]').first().waitFor({state:'attached'});
+  assert.equal(await q('#corpulence-references [data-corpulence-example]').count(),9);
+  assert.equal(await q('#corpulence-references [data-corpulence-specimen]').count(),18);
+  assert.equal(await q('#corpulence-combinations [data-corpulence-example]').count(),10);
+  assert.equal(await q('#corpulence-combinations [data-corpulence-specimen]').count(),20);
+  for (const [scale,height] of [['head',300],['mini',70],['tile',178]]) {
+    await q('#corpulence-study-scale').selectOption(scale);
+    const sizes = await q('#corpulence-references svg').evaluateAll(nodes =>
+      [...new Set(nodes.map(node=>node.getBoundingClientRect().height))]);
+    assert.deepEqual(sizes,[height]);
+  }
+  for (const [container,id] of [['references','0'],['references','100'],['combinations','max-100']]) {
+    await q(`#corpulence-${container} [data-corpulence-example="${id}"]`).screenshot({
+      path:path.join(output,`${name}-corpulence-${id}.png`)
+    });
+  }
+  for (const width of [1180,820,390]) {
+    await page.setViewportSize({width,height:920});
+    assert(await page.evaluate(w => document.querySelector('#planche-corpulence').getBoundingClientRect().right <= w &&
+      document.documentElement.scrollWidth<=w+1,width));
+  }
+  return {samples,neutralExact,unchangedVertical,restored,studySamples:38};
 }
 
 async function exercise(context, url, name, version) {
@@ -288,9 +411,11 @@ async function exercise(context, url, name, version) {
       document.documentElement.scrollWidth<=w+1,width));
   }
   const structure = structurePreview ? await checkStructure(page,url,name) : undefined;
+  const corpulence = corpulencePreview ? await checkCorpulence(page,old,url,name) : undefined;
   assert.deepEqual(errors,[]);
   return {name, version, historicalExact:historicalBodies.length*3, rasterBySize:[8,8,8],
-    fittings:cases.length*2, coldImports:2, guidedLandmarks:14, ...(structure ? {structure} : {})};
+    fittings:cases.length*2, coldImports:2, guidedLandmarks:14, ...(structure ? {structure} : {}),
+    ...(corpulence ? {corpulence} : {})};
 }
 
 async function files(url) {
