@@ -46,8 +46,12 @@ export function mountBodyStudy(panel, repaint) {
     item.textContent = label;
     return item;
   }));
+  mountStudyPanel(panel, repaint);
+}
+
+export function mountStudyPanel(panel, repaint) {
   panel.addEventListener('toggle', () => { if (panel.open) repaint(); });
-  const link = document.querySelector('nav a[href="#planche-corps"]');
-  link.addEventListener('click', () => { panel.open = true; });
-  if (window.location.hash === '#planche-corps') panel.open = true;
+  const fragment = '#' + panel.id;
+  document.querySelector(`nav a[href="${fragment}"]`)?.addEventListener('click', () => { panel.open = true; });
+  if (window.location.hash === fragment) panel.open = true;
 }

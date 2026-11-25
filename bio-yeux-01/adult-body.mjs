@@ -1,3 +1,5 @@
+import {referenceStructure, validateStructure} from './body-structure.mjs';
+
 export const anatomyLevels = Object.freeze([
   {id: 'neck', label: 'Base du cou', height: 0},
   {id: 'shoulders', label: 'Épaules', height: .12},
@@ -34,18 +36,26 @@ function tangents(points) {
   });
 }
 
-export function adultBodyGeometry(key, [axis, chinY]) {
+const [, , , waist, abdomen, hips] = anatomyLevels;
+const abdomenWeight = (abdomen.height - waist.height) / (hips.height - waist.height);
+
+export function adultBodyGeometry(key, [axis, chinY], structure = referenceStructure) {
+  validateStructure(structure);
   const profile = adultBodies[key];
   const ground = {x: axis, y: 249};
   const neckY = chinY - 4;
   const height = ground.y - neckY;
+  // The abdomen bridges two structural widths. Its reference width and
+  // height stay independent of any future surface or volume layer.
+  const abdomenScale = structure.waist + (structure.pelvis - structure.waist) * abdomenWeight;
+  const scales = {...structure, abdomen: abdomenScale, hips: structure.pelvis};
   const levels = anatomyLevels.map((level, index) => ({
-    ...level, y: neckY + level.height * height, width: profile.widths[index]
+    ...level, y: neckY + level.height * height, width: profile.widths[index] * (scales[level.id] / 100)
   }));
 
   // The point on the lower flank controls the rounding. It is part of the
   // continuous pawn base and carries no anatomical landmark.
-  const flank = {y: ground.y - 8, width: profile.baseWidth};
+  const flank = {y: ground.y - 8, width: profile.baseWidth * (structure.base / 100)};
   const points = [...levels, flank];
   const dx = tangents(points);
   const spans = points.slice(1).map((b, index) => {
@@ -76,7 +86,7 @@ export function adultBodyGeometry(key, [axis, chinY]) {
   return {levels, ground, height, path};
 }
 
-export function adultBodyMarkup(key, chin, {skin, contour}) {
-  const {path} = adultBodyGeometry(key, chin);
+export function adultBodyMarkup(key, chin, {skin, contour}, structure) {
+  const {path} = adultBodyGeometry(key, chin, structure);
   return `<g class="body-shape" data-adult-body="${key}"><path d="${path}" fill="${skin}" stroke="${contour}" stroke-width="4.2" stroke-linejoin="round"/></g>`;
 }

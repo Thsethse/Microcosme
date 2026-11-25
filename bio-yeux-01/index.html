@@ -26,6 +26,7 @@
     <a href="#details">Paupières et cils</a>
     <a href="#atelier">Atelier</a>
     <a href="#planche-corps">Planche des corps</a>
+    <a href="#planche-ossature">Planche de l’ossature</a>
     <a href="#iris">Iris et pupilles</a>
     <a href="#planche">Planche des formes</a>
     <a href="#personnage">Personnage et palette</a>
@@ -443,6 +444,18 @@
       <div id="body-comparison" class="body-comparison"></div>
     </details>
   </section>
+  <section aria-label="Planche de l’ossature">
+    <details class="card" id="planche-ossature">
+      <summary>Planche de l’ossature</summary>
+      <label class="structure-scale">Échelle<select id="structure-study-scale">
+        <option value="tile">Corps · 178 px</option><option value="head">Tête · 300 px</option><option value="mini">Miniature · 70 × 70 px</option>
+      </select></label>
+      <h3>Référence et combinaisons</h3>
+      <div id="structure-combinations" class="structure-study-grid"></div>
+      <h3>Extrêmes de chaque largeur</h3>
+      <div id="structure-extremes" class="structure-study-grid"></div>
+    </details>
+  </section>
   <section id="personnage">
     <h2>Personnage et palette</h2>
     <div class="configuration">
@@ -456,6 +469,15 @@
         <p id="arrangement-note" class="hint" hidden>Cette référence a un arrangement unique. Le dernier choix G ou D reste dans la sélection.</p>
         <label>Corps<select id="body" aria-describedby="body-note"></select></label>
         <p id="body-note" class="hint">Six silhouettes historiques et deux bases adultes.</p>
+        <fieldset id="structure-panel" hidden>
+          <legend>Ossature</legend>
+          <p class="hint">Les largeurs sont exprimées en pourcentage de la base sélectionnée.</p>
+          <div class="structure-layout">
+            <div id="structure-controls"></div>
+            <div id="structure-live" class="surface tile"></div>
+          </div>
+          <button id="structure-reset" type="button">Réinitialiser les largeurs</button>
+        </fieldset>
         <label>Morphologie du visage<select id="morph"></select></label>
         <details id="morph-panel"><summary>Ajuster les paramètres du visage</summary><div id="morph-controls"></div>
           <p id="forehead-note" class="hint" hidden>L’implantation capillaire est sans effet sur ce rendu. Sa valeur est conservée.</p>
@@ -482,7 +504,7 @@
       <p id="appearance-message" role="status"></p><p id="appearance-error" role="alert"></p>
     </details>
     <details id="json-panel"><summary>Données de la sélection historique</summary>
-      <p id="adult-archive-note" class="hint" hidden>Pour conserver la base adulte sélectionnée, exportez l’apparence complète.</p>
+      <p id="adult-archive-note" class="hint" hidden>Pour conserver la base adulte et ses largeurs, exportez l’apparence complète.</p>
       <label>Sélection JSON<textarea id="selection-json" rows="8" spellcheck="false"></textarea></label>
       <div class="actions"><button id="export" type="button">Afficher les données conservées</button><button id="reload" type="button">Relire ces données</button></div>
       <p id="selection-message" role="status"></p><p id="selection-error" role="alert"></p>
