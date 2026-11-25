@@ -1,3 +1,4 @@
+import {isAdultBody} from './adult-body.mjs';
 import {choice, restoreSelection} from './catalogue.mjs';
 import {swatch} from '../bio-col-01/palette.mjs';
 import {controls, model, normalize} from '../preview/bio-vis-p5-i6/model.mjs';
@@ -35,7 +36,9 @@ export const scarAppearanceVersion = 9;
 export const scarRenderVersion = 'bio-cicatrices-01-svg@1';
 export const makeupAppearanceVersion = 10;
 export const makeupRenderVersion = 'bio-maquillage-01-svg@1';
-const renderers = {1:renderVersion, 2:irisRenderVersion, 3:detailsRenderVersion, 4:browRenderVersion, 5:mouthRenderVersion, 6:noseRenderVersion, 7:beardRenderVersion, 8:marksRenderVersion, 9:scarRenderVersion, 10:makeupRenderVersion};
+export const bodyAppearanceVersion = 11;
+export const bodyRenderVersion = 'bio-corps-01-svg@1';
+const renderers = {1:renderVersion, 2:irisRenderVersion, 3:detailsRenderVersion, 4:browRenderVersion, 5:mouthRenderVersion, 6:noseRenderVersion, 7:beardRenderVersion, 8:marksRenderVersion, 9:scarRenderVersion, 10:makeupRenderVersion, 11:bodyRenderVersion};
 
 export function characterInput(selection, key = selection.key) {
   const {style, arrangement} = choice(key);
@@ -137,7 +140,8 @@ export function appearanceDocument(selection, {eyes, form, draw, colour, flat, i
   const cosmetics = makeup ? solveMakeup(model(input), result, makeup, {noseResult, mouthResult, detailResult: ornament}) : null;
   const cosmeticAppearance = cosmetics ? {mode:'custom', requested:cosmetics.requested, effective:cosmetics.effective} :
     makeupLatent ? {mode:'historical', latent:normalizeMakeup(makeupLatent)} : null;
-  const version = cosmeticAppearance ? makeupAppearanceVersion : healedScars ? scarAppearanceVersion : cutaneousMarks ? marksAppearanceVersion : facialHair ? beardAppearanceVersion : noseAppearance ? noseAppearanceVersion : mouthAppearance ? mouthAppearanceVersion : browAppearance ? browAppearanceVersion :
+  const adult = isAdultBody(input.body);
+  const version = adult ? bodyAppearanceVersion : cosmeticAppearance ? makeupAppearanceVersion : healedScars ? scarAppearanceVersion : cutaneousMarks ? marksAppearanceVersion : facialHair ? beardAppearanceVersion : noseAppearance ? noseAppearanceVersion : mouthAppearance ? mouthAppearanceVersion : browAppearance ? browAppearanceVersion :
     eyeDetails ? detailsAppearanceVersion :
     ink ? irisAppearanceVersion : appearanceVersion;
   return {
@@ -145,7 +149,7 @@ export function appearanceDocument(selection, {eyes, form, draw, colour, flat, i
     version,
     renderer: renderers[version],
     character: {
-      style: entry.style, arrangement: entry.arrangement, body: applied.body,
+      style: entry.style, arrangement: entry.arrangement, body: adult ? input.body : applied.body,
       morphology: Object.fromEntries(Object.keys(controls).map(key => [key, applied[key]])),
       options: {accessories: input.accessories, contrast: input.contrast, monochrome: input.monochrome === true},
       effectiveOptions: {accessories: applied.accessories !== false, contrast: applied.contrast !== false,
@@ -179,14 +183,18 @@ function identical(a, b) {
 export function parseAppearance(text) {
   const data = JSON.parse(text);
   if (data?.schema !== appearanceSchema) throw new Error('Document d’apparence requis. Utilisez la sélection historique pour un ancien JSON.');
-  if (![appearanceVersion, irisAppearanceVersion, detailsAppearanceVersion, browAppearanceVersion, mouthAppearanceVersion, noseAppearanceVersion, beardAppearanceVersion, marksAppearanceVersion, scarAppearanceVersion, makeupAppearanceVersion].includes(data.version) ||
+  if (![appearanceVersion, irisAppearanceVersion, detailsAppearanceVersion, browAppearanceVersion, mouthAppearanceVersion, noseAppearanceVersion, beardAppearanceVersion, marksAppearanceVersion, scarAppearanceVersion, makeupAppearanceVersion, bodyAppearanceVersion].includes(data.version) ||
       (data.version === irisAppearanceVersion && !data.iris) || (data.version === detailsAppearanceVersion && !data.details) ||
       (data.version === browAppearanceVersion && !data.brows) || (data.version === mouthAppearanceVersion && !data.mouth) ||
       (data.version === noseAppearanceVersion && !data.nose) || (data.version === beardAppearanceVersion && !data.facialHair) || (data.version === marksAppearanceVersion && !data.marks) || (data.version === scarAppearanceVersion && !data.scars) || (data.version === makeupAppearanceVersion && !data.makeup)) {
     throw new Error('Version du document d’apparence non prise en charge.');
   }
   if (data.renderer !== renderers[data.version]) throw new Error('Version de rendu non prise en charge.');
-  const selection = restoreSelection(data.historicalSelection);
+  const adultBody = data.version === bodyAppearanceVersion ? data.character?.body : undefined;
+  if (data.version === bodyAppearanceVersion && !isAdultBody(adultBody)) {
+    throw new Error('Base adulte du document d’apparence inconnue.');
+  }
+  const selection = restoreSelection(data.historicalSelection, adultBody);
   if (!data.eyes || !['historical', 'custom'].includes(data.eyes.mode) ||
       !data.palette || !['flat', 'historical'].includes(data.palette.mode)) {
     throw new Error('Mode des yeux ou de la palette invalide.');
@@ -245,7 +253,7 @@ export function parseAppearance(text) {
     settings.scars = data.scars.mode === 'custom' ? data.scars.requested : null;
     settings.scarsLatent = data.scars.mode === 'historical' ? data.scars.latent : null;
   }
-  if (data.version === makeupAppearanceVersion) {
+  if (data.version >= makeupAppearanceVersion && data.makeup) {
     if (!['historical','custom'].includes(data.makeup.mode)) throw new Error('Mode de maquillage invalide.');
     settings.makeup = data.makeup.mode === 'custom' ? data.makeup.requested : null;
     settings.makeupLatent = data.makeup.mode === 'historical' ? data.makeup.latent : null;
