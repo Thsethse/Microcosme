@@ -1,6 +1,8 @@
-# BIO-CICATRICES-01 — Rapport de recette
+# BIO-CICATRICES-01 — Rapport de recette initiale
 
-La [preview publique](https://thsethse.github.io/Microcosme/preview/bio-cicatrices-01/) sert le code `eb1a4d3`. Le commit Pages `681cc11` ajoute les 31 fichiers statiques du dossier de la preview. La [PR #56](https://github.com/Thsethse/Microcosme/pull/56) est ouverte en brouillon. Le [déploiement Pages](https://github.com/Thsethse/Microcosme/actions/runs/45581498740) et le manifeste vérifié identifient la version testée.
+Le [rapport R1](RAPPORT-R1.md) couvre le correctif de démarrage sur iPad et la publication actuelle.
+
+La première publication de la [preview](https://thsethse.github.io/Microcosme/preview/bio-cicatrices-01/) servait le code `eb1a4d3`. Le commit Pages `681cc11` ajoute les 31 fichiers statiques du dossier de la preview. La [PR #56](https://github.com/Thsethse/Microcosme/pull/56) est ouverte en brouillon. Le [déploiement Pages](https://github.com/Thsethse/Microcosme/actions/runs/45581498740) et le manifeste vérifié identifient la version testée.
 
 ## Géométrie et domaines
 

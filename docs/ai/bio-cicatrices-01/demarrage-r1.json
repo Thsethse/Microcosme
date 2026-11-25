@@ -1,0 +1,228 @@
+{
+  "principal": {
+    "base": "https://thsethse.github.io/Microcosme/preview/bio-cicatrices-01/",
+    "engines": [
+      {
+        "name": "chromium",
+        "version": "151.0.7922.34",
+        "startup": {
+          "codeCommit": "c13c722a60362dcdfbe08a7db544a41819faa618",
+          "entry": "atelier-8d5db7931639f72e.js",
+          "menus": {
+            "ordinary": 119,
+            "historical": 126,
+            "body": 6,
+            "morph": 7,
+            "eye-preset": 12,
+            "iris-primary": 16,
+            "brows-preset": 10,
+            "mouth-preset": 10,
+            "nose-preset": 13,
+            "beard-preset": 13,
+            "marks-type": 5,
+            "scars-preset": 6
+          },
+          "portraits": [
+            [
+              {
+                "w": 352,
+                "h": 300,
+                "ink": 19206
+              },
+              {
+                "w": 352,
+                "h": 178,
+                "ink": 4103
+              },
+              {
+                "w": 70,
+                "h": 70,
+                "ink": 965
+              }
+            ],
+            [
+              {
+                "w": 352,
+                "h": 300,
+                "ink": 19206
+              },
+              {
+                "w": 352,
+                "h": 178,
+                "ink": 4103
+              },
+              {
+                "w": 70,
+                "h": 70,
+                "ink": 965
+              }
+            ]
+          ],
+          "modules": {
+            "iris": 6,
+            "details": 6,
+            "brows": 3,
+            "mouth": 3,
+            "nose": 3,
+            "beard": 3
+          },
+          "archive": 9,
+          "errors": []
+        },
+        "recovery": {
+          "visibleDiagnostic": true,
+          "recoveredPortraits": 6
+        }
+      },
+      {
+        "name": "webkit",
+        "version": "26.5",
+        "startup": {
+          "codeCommit": "c13c722a60362dcdfbe08a7db544a41819faa618",
+          "entry": "atelier-8d5db7931639f72e.js",
+          "menus": {
+            "ordinary": 119,
+            "historical": 126,
+            "body": 6,
+            "morph": 7,
+            "eye-preset": 12,
+            "iris-primary": 16,
+            "brows-preset": 10,
+            "mouth-preset": 10,
+            "nose-preset": 13,
+            "beard-preset": 13,
+            "marks-type": 5,
+            "scars-preset": 6
+          },
+          "portraits": [
+            [
+              {
+                "w": 352,
+                "h": 300,
+                "ink": 19243
+              },
+              {
+                "w": 352,
+                "h": 178,
+                "ink": 4127
+              },
+              {
+                "w": 70,
+                "h": 70,
+                "ink": 966
+              }
+            ],
+            [
+              {
+                "w": 352,
+                "h": 300,
+                "ink": 19243
+              },
+              {
+                "w": 352,
+                "h": 178,
+                "ink": 4127
+              },
+              {
+                "w": 70,
+                "h": 70,
+                "ink": 966
+              }
+            ]
+          ],
+          "modules": {
+            "iris": 6,
+            "details": 6,
+            "brows": 3,
+            "mouth": 3,
+            "nose": 3,
+            "beard": 3
+          },
+          "archive": 9,
+          "errors": []
+        },
+        "recovery": {
+          "visibleDiagnostic": true,
+          "recoveredPortraits": 6
+        }
+      }
+    ]
+  },
+  "webkit17": {
+    "base": "https://thsethse.github.io/Microcosme/preview/bio-cicatrices-01/?r1=c13c722",
+    "engines": [
+      {
+        "name": "webkit",
+        "version": "17.4",
+        "startup": {
+          "codeCommit": "c13c722a60362dcdfbe08a7db544a41819faa618",
+          "entry": "atelier-8d5db7931639f72e.js",
+          "menus": {
+            "ordinary": 119,
+            "historical": 126,
+            "body": 6,
+            "morph": 7,
+            "eye-preset": 12,
+            "iris-primary": 16,
+            "brows-preset": 10,
+            "mouth-preset": 10,
+            "nose-preset": 13,
+            "beard-preset": 13,
+            "marks-type": 5,
+            "scars-preset": 6
+          },
+          "portraits": [
+            [
+              {
+                "w": 352,
+                "h": 300,
+                "ink": 19205
+              },
+              {
+                "w": 352,
+                "h": 178,
+                "ink": 4108
+              },
+              {
+                "w": 70,
+                "h": 70,
+                "ink": 968
+              }
+            ],
+            [
+              {
+                "w": 352,
+                "h": 300,
+                "ink": 19205
+              },
+              {
+                "w": 352,
+                "h": 178,
+                "ink": 4108
+              },
+              {
+                "w": 70,
+                "h": 70,
+                "ink": 968
+              }
+            ]
+          ],
+          "modules": {
+            "iris": 6,
+            "details": 6,
+            "brows": 3,
+            "mouth": 3,
+            "nose": 3,
+            "beard": 3
+          },
+          "archive": 9,
+          "errors": []
+        },
+        "recovery": {
+          "visibleDiagnostic": true,
+          "recoveredPortraits": 6
+        }
+      }
+    ]
+  }
+}

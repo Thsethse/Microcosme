@@ -78,21 +78,24 @@ async function visiblePortraits(page) {
 
 async function workstation(page,base) {
   const errors=watch(page);
-  const requests=[];
-  page.on('request',request=>{if(request.resourceType()==='script') requests.push(request.url());});
-  const manifest=await page.request.get(new URL('version.json',base).href);
-  assert.equal(manifest.status(),200);
-  const version=await manifest.json();
+  const scripts=[];
+  page.on('response',response=>{if(response.request().resourceType()==='script') scripts.push(response);});
+  assert.equal((await page.goto(new URL('#atelier',base).href)).status(),200);
+  await ready(page);
+  const manifest=await page.evaluate(async()=>{
+    const response=await fetch(new URL('version.json',location.href));
+    return {status:response.status,version:await response.json()};
+  });
+  assert.equal(manifest.status,200);
+  const {version}=manifest;
   const entry=version.files.find(file=>file.path===version.startup);
   assert.match(entry.path,/^atelier-[a-f0-9]{16}\.js$/);
-  const asset=await page.request.get(new URL(entry.path,base).href);
+  assert.equal(scripts.length,1);
+  const [asset]=scripts;
+  assert.equal(asset.url(),new URL(entry.path,base).href);
   assert.equal(asset.status(),200);
   assert.match(asset.headers()['content-type'],/javascript/);
   assert.equal(createHash('sha256').update(await asset.body()).digest('hex'),entry.sha256);
-
-  assert.equal((await page.goto(new URL('#atelier',base).href)).status(),200);
-  await ready(page);
-  assert.deepEqual(requests,[new URL(entry.path,base).href]);
   const q=selector=>page.locator(selector);
   const menus={};
   for(const [id,minimum] of Object.entries({ordinary:119,historical:126,body:6,morph:6,'eye-preset':12,
