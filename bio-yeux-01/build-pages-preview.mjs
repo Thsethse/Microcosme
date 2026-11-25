@@ -13,7 +13,7 @@ const revision = ref => git('rev-parse', '--verify', ref + '^{commit}').toString
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 
 export function buildPagesPreview({
-  output, pagesRef, sourceRef, baseline, baselineCommit, mission, contractCommit, entries
+  output, pagesRef, sourceRef, baseline, baselineCommit, mission, contractCommit, entries, transformHTML = html => html
 }) {
   assert(output && isAbsolute(output), 'Indiquez un répertoire de sortie absolu.');
   const codeCommit = revision(sourceRef), pagesCommit = revision(pagesRef);
@@ -57,7 +57,7 @@ export function buildPagesPreview({
     const entry = '<script id="atelier-entry" type="module" src="app.mjs"></script>';
     if (path === 'index.html') assert(portable.includes(entry), 'Point d’entrée de l’atelier introuvable.');
     const data = path === 'index.html' ?
-      portable.replace(entry, `<script id="atelier-entry" src="${startup.path}" defer></script>`) : portable;
+      transformHTML(portable.replace(entry, `<script id="atelier-entry" src="${startup.path}" defer></script>`)) : portable;
     writeFileSync(join(output, path), data);
     return {path, sha256: hash(data)};
   });
@@ -73,3 +73,5 @@ export const scarEntries = ['index.html', 'style.css', 'app.mjs', 'render.mjs', 
   'details.mjs', 'details-editor.mjs', 'brows.mjs', 'brows-editor.mjs', 'mouth.mjs', 'mouth-editor.mjs',
   'nose.mjs', 'nose-editor.mjs', 'beard.mjs', 'beard-editor.mjs', 'surface.mjs', 'marks.mjs', 'marks-editor.mjs',
   'marks-study.mjs', 'scars.mjs', 'scars-editor.mjs', 'scars-study.mjs'];
+
+export const makeupEntries = [...scarEntries, 'makeup.mjs', 'makeup-render.mjs', 'makeup-editor.mjs', 'makeup-study.mjs'];

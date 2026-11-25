@@ -1,0 +1,578 @@
+{
+  "url": "https://thsethse.github.io/Microcosme/preview/bio-yeux-r01/",
+  "resources": {
+    "verified": 403,
+    "retries": 0,
+    "manifestSha256": "971ce36b5259c4dadc84c78d9cbc212ea540eb78e0f34f45cf61a0bd49f7b812"
+  },
+  "engines": [
+    {
+      "engine": "chromium",
+      "browserVersion": "151.0.7922.34",
+      "menus": {
+        "ordinary": 119,
+        "historical": 126,
+        "body": 6,
+        "morph": 7,
+        "eye-preset": 12,
+        "iris-primary": 16,
+        "brows-preset": 10,
+        "mouth-preset": 10,
+        "nose-preset": 13,
+        "beard-preset": 13,
+        "marks-type": 5,
+        "scars-preset": 6,
+        "makeup-family": 5,
+        "makeup-paint-kind": 12
+      },
+      "sliders": {
+        "eyes": 8,
+        "scars": 11,
+        "makeup": 24
+      },
+      "initialization": [
+        [
+          {
+            "width": 307,
+            "height": 300,
+            "pixels": 19127
+          },
+          {
+            "width": 307,
+            "height": 178,
+            "pixels": 4140
+          },
+          {
+            "width": 70,
+            "height": 70,
+            "pixels": 965
+          }
+        ],
+        [
+          {
+            "width": 307,
+            "height": 300,
+            "pixels": 19127
+          },
+          {
+            "width": 307,
+            "height": 178,
+            "pixels": 4140
+          },
+          {
+            "width": 70,
+            "height": 70,
+            "pixels": 965
+          }
+        ]
+      ],
+      "inherited": {
+        "iris": 6,
+        "details": 6,
+        "brows": 3,
+        "mouth": 3,
+        "nose": 3,
+        "beard": 3,
+        "palette": true,
+        "marks": 3,
+        "scars": 3
+      },
+      "effects": {
+        "lips": [
+          true,
+          true,
+          true
+        ],
+        "shadow": [
+          true,
+          true,
+          true
+        ],
+        "liner": [
+          true,
+          true,
+          true
+        ],
+        "blush": [
+          true,
+          true,
+          true
+        ],
+        "paint": [
+          true,
+          true,
+          true
+        ]
+      },
+      "board": 7,
+      "protectedPixels": 4,
+      "exactRemoval": true,
+      "coldReplay": true,
+      "touchPlacement": true,
+      "codeCommit": "2535479ecc812f4cb3d20129ec064b4b3d18eb4a",
+      "startup": "atelier-5442772f8062c9fb.js",
+      "errors": [],
+      "eyeContour": [
+        {
+          "label": "Ouverture historique",
+          "scales": [
+            {
+              "key": "head",
+              "width": 294,
+              "height": 300,
+              "changed": 127,
+              "linerDelta": null
+            },
+            {
+              "key": "body",
+              "width": 120,
+              "height": 178,
+              "changed": 36,
+              "linerDelta": null
+            },
+            {
+              "key": "mini",
+              "width": 70,
+              "height": 70,
+              "changed": 26,
+              "linerDelta": null
+            }
+          ],
+          "anatomical": 4,
+          "lashes": 0,
+          "eyeliner": false
+        },
+        {
+          "label": "Contour seul",
+          "scales": [
+            {
+              "key": "head",
+              "width": 294,
+              "height": 300,
+              "changed": 197,
+              "linerDelta": null
+            },
+            {
+              "key": "body",
+              "width": 120,
+              "height": 178,
+              "changed": 48,
+              "linerDelta": null
+            },
+            {
+              "key": "mini",
+              "width": 70,
+              "height": 70,
+              "changed": 24,
+              "linerDelta": null
+            }
+          ],
+          "anatomical": 4,
+          "lashes": 0,
+          "eyeliner": false
+        },
+        {
+          "label": "Cils naturels · faible densité",
+          "scales": [
+            {
+              "key": "head",
+              "width": 294,
+              "height": 300,
+              "changed": 219,
+              "linerDelta": null
+            },
+            {
+              "key": "body",
+              "width": 120,
+              "height": 178,
+              "changed": 53,
+              "linerDelta": null
+            },
+            {
+              "key": "mini",
+              "width": 70,
+              "height": 70,
+              "changed": 26,
+              "linerDelta": null
+            }
+          ],
+          "anatomical": 4,
+          "lashes": 2,
+          "eyeliner": false
+        },
+        {
+          "label": "Cils naturels · forte densité",
+          "scales": [
+            {
+              "key": "head",
+              "width": 294,
+              "height": 300,
+              "changed": 167,
+              "linerDelta": null
+            },
+            {
+              "key": "body",
+              "width": 120,
+              "height": 178,
+              "changed": 47,
+              "linerDelta": null
+            },
+            {
+              "key": "mini",
+              "width": 70,
+              "height": 70,
+              "changed": 20,
+              "linerDelta": null
+            }
+          ],
+          "anatomical": 4,
+          "lashes": 6,
+          "eyeliner": false
+        },
+        {
+          "label": "Cils et eyeliner noir",
+          "scales": [
+            {
+              "key": "head",
+              "width": 294,
+              "height": 300,
+              "changed": 166,
+              "linerDelta": 323
+            },
+            {
+              "key": "body",
+              "width": 120,
+              "height": 178,
+              "changed": 45,
+              "linerDelta": 78
+            },
+            {
+              "key": "mini",
+              "width": 70,
+              "height": 70,
+              "changed": 20,
+              "linerDelta": 34
+            }
+          ],
+          "anatomical": 4,
+          "lashes": 6,
+          "eyeliner": true
+        },
+        {
+          "label": "Eyeliner bleu",
+          "scales": [
+            {
+              "key": "head",
+              "width": 294,
+              "height": 300,
+              "changed": 198,
+              "linerDelta": null
+            },
+            {
+              "key": "body",
+              "width": 120,
+              "height": 178,
+              "changed": 48,
+              "linerDelta": null
+            },
+            {
+              "key": "mini",
+              "width": 70,
+              "height": 70,
+              "changed": 20,
+              "linerDelta": null
+            }
+          ],
+          "anatomical": 4,
+          "lashes": 0,
+          "eyeliner": true
+        }
+      ],
+      "retryAfter503": true
+    },
+    {
+      "engine": "webkit",
+      "browserVersion": "26.5",
+      "menus": {
+        "ordinary": 119,
+        "historical": 126,
+        "body": 6,
+        "morph": 7,
+        "eye-preset": 12,
+        "iris-primary": 16,
+        "brows-preset": 10,
+        "mouth-preset": 10,
+        "nose-preset": 13,
+        "beard-preset": 13,
+        "marks-type": 5,
+        "scars-preset": 6,
+        "makeup-family": 5,
+        "makeup-paint-kind": 12
+      },
+      "sliders": {
+        "eyes": 8,
+        "scars": 11,
+        "makeup": 24
+      },
+      "initialization": [
+        [
+          {
+            "width": 307,
+            "height": 300,
+            "pixels": 19175
+          },
+          {
+            "width": 307,
+            "height": 178,
+            "pixels": 4163
+          },
+          {
+            "width": 70,
+            "height": 70,
+            "pixels": 966
+          }
+        ],
+        [
+          {
+            "width": 307,
+            "height": 300,
+            "pixels": 19175
+          },
+          {
+            "width": 307,
+            "height": 178,
+            "pixels": 4163
+          },
+          {
+            "width": 70,
+            "height": 70,
+            "pixels": 966
+          }
+        ]
+      ],
+      "inherited": {
+        "iris": 6,
+        "details": 6,
+        "brows": 3,
+        "mouth": 3,
+        "nose": 3,
+        "beard": 3,
+        "palette": true,
+        "marks": 3,
+        "scars": 3
+      },
+      "effects": {
+        "lips": [
+          true,
+          true,
+          true
+        ],
+        "shadow": [
+          true,
+          true,
+          true
+        ],
+        "liner": [
+          true,
+          true,
+          true
+        ],
+        "blush": [
+          true,
+          true,
+          true
+        ],
+        "paint": [
+          true,
+          true,
+          true
+        ]
+      },
+      "board": 7,
+      "protectedPixels": 4,
+      "exactRemoval": true,
+      "coldReplay": true,
+      "touchPlacement": true,
+      "codeCommit": "2535479ecc812f4cb3d20129ec064b4b3d18eb4a",
+      "startup": "atelier-5442772f8062c9fb.js",
+      "errors": [],
+      "eyeContour": [
+        {
+          "label": "Ouverture historique",
+          "scales": [
+            {
+              "key": "head",
+              "width": 294,
+              "height": 300,
+              "changed": 87,
+              "linerDelta": null
+            },
+            {
+              "key": "body",
+              "width": 120,
+              "height": 178,
+              "changed": 14,
+              "linerDelta": null
+            },
+            {
+              "key": "mini",
+              "width": 70,
+              "height": 70,
+              "changed": 26,
+              "linerDelta": null
+            }
+          ],
+          "anatomical": 4,
+          "lashes": 0,
+          "eyeliner": false
+        },
+        {
+          "label": "Contour seul",
+          "scales": [
+            {
+              "key": "head",
+              "width": 294,
+              "height": 300,
+              "changed": 169,
+              "linerDelta": null
+            },
+            {
+              "key": "body",
+              "width": 120,
+              "height": 178,
+              "changed": 43,
+              "linerDelta": null
+            },
+            {
+              "key": "mini",
+              "width": 70,
+              "height": 70,
+              "changed": 24,
+              "linerDelta": null
+            }
+          ],
+          "anatomical": 4,
+          "lashes": 0,
+          "eyeliner": false
+        },
+        {
+          "label": "Cils naturels · faible densité",
+          "scales": [
+            {
+              "key": "head",
+              "width": 294,
+              "height": 300,
+              "changed": 184,
+              "linerDelta": null
+            },
+            {
+              "key": "body",
+              "width": 120,
+              "height": 178,
+              "changed": 46,
+              "linerDelta": null
+            },
+            {
+              "key": "mini",
+              "width": 70,
+              "height": 70,
+              "changed": 26,
+              "linerDelta": null
+            }
+          ],
+          "anatomical": 4,
+          "lashes": 2,
+          "eyeliner": false
+        },
+        {
+          "label": "Cils naturels · forte densité",
+          "scales": [
+            {
+              "key": "head",
+              "width": 294,
+              "height": 300,
+              "changed": 145,
+              "linerDelta": null
+            },
+            {
+              "key": "body",
+              "width": 120,
+              "height": 178,
+              "changed": 37,
+              "linerDelta": null
+            },
+            {
+              "key": "mini",
+              "width": 70,
+              "height": 70,
+              "changed": 20,
+              "linerDelta": null
+            }
+          ],
+          "anatomical": 4,
+          "lashes": 6,
+          "eyeliner": false
+        },
+        {
+          "label": "Cils et eyeliner noir",
+          "scales": [
+            {
+              "key": "head",
+              "width": 294,
+              "height": 300,
+              "changed": 138,
+              "linerDelta": 299
+            },
+            {
+              "key": "body",
+              "width": 120,
+              "height": 178,
+              "changed": 37,
+              "linerDelta": 69
+            },
+            {
+              "key": "mini",
+              "width": 70,
+              "height": 70,
+              "changed": 20,
+              "linerDelta": 29
+            }
+          ],
+          "anatomical": 4,
+          "lashes": 6,
+          "eyeliner": true
+        },
+        {
+          "label": "Eyeliner bleu",
+          "scales": [
+            {
+              "key": "head",
+              "width": 294,
+              "height": 300,
+              "changed": 163,
+              "linerDelta": null
+            },
+            {
+              "key": "body",
+              "width": 120,
+              "height": 178,
+              "changed": 41,
+              "linerDelta": null
+            },
+            {
+              "key": "mini",
+              "width": 70,
+              "height": 70,
+              "changed": 20,
+              "linerDelta": null
+            }
+          ],
+          "anatomical": 4,
+          "lashes": 0,
+          "eyeliner": true
+        }
+      ],
+      "retryAfter503": true
+    }
+  ]
+}

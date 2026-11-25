@@ -38,7 +38,7 @@ const examples = [
   }]
 ];
 
-export function mountMakeupStudy() {
+export function mountMakeupStudy(naturalEyes=false) {
   const gallery = document.getElementById('makeup-study');
   const panel = document.getElementById('makeup-study-panel');
   const openFromLink = () => { if (location.hash === '#planche-maquillage') panel.open = true; };
@@ -53,7 +53,7 @@ export function mountMakeupStudy() {
       `<article class="freckle-row" data-makeup-study="${i}"><header><h3>${label}</h3><p>${study.label.split(' · ').slice(0, 2).join(' · ')}</p></header>
       <div class="freckle-scales">${studyViews(study).map(([key, caption, frame, scale]) => {
         const svg = character(study.face, {
-          ...scale, eyes: ['almond', 'round', 'narrow'][i % 3], makeup,
+          ...scale, eyes: ['almond', 'round', 'narrow'][i % 3], makeup, naturalEyes, contourSkin:study.skin,
           instance: 'planche-maquillage-' + i + '-' + key
         }).replace(/viewBox="[^"]*"/, `viewBox="${frame}"`);
         return `<figure class="freckle-${key}">${studySkin(svg, study.skin)}<figcaption>${caption}</figcaption></figure>`;

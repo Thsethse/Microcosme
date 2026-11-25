@@ -4,10 +4,13 @@ const {mkdir, readFile, writeFile} = require('node:fs/promises');
 const {createServer} = require('node:http');
 const path = require('node:path');
 const {chromium, webkit, devices} = require('playwright');
+const {auditEyeContour} = require('./eye-contour-browser.cjs');
 
 const root = path.resolve(__dirname, '../..');
 const output = process.env.ARTIFACT_DIR ?? '/tmp/microcosme-maquillage';
-const preview = '/preview/bio-maquillage-01/';
+const eyeRevision = process.env.PREVIEW_MISSION === 'BIO-YEUX-R01';
+const mission = eyeRevision ? 'BIO-YEUX-R01' : 'BIO-MAQUILLAGE-01';
+const preview = '/preview/' + mission.toLowerCase() + '/';
 const publicURL = 'https://thsethse.github.io/Microcosme' + preview;
 const local = process.env.PREVIEW_DIR;
 const htmlTypes = {'.js':'text/javascript','.mjs':'text/javascript','.json':'application/json',
@@ -129,7 +132,7 @@ async function exercise(context, base, engine, browserVersion, assetReport) {
   },new URL('version.json',base).href);
   assert.equal(manifest.status,200);
   const version = JSON.parse(manifest.text);
-  assert.equal(version.mission,'BIO-MAQUILLAGE-01');
+  assert.equal(version.mission,mission);
   if (process.env.EXPECT_COMMIT) assert.equal(version.codeCommit,process.env.EXPECT_COMMIT);
   assert.equal(scripts.length,1);
   const script = scripts[0];
@@ -155,6 +158,8 @@ async function exercise(context, base, engine, browserVersion, assetReport) {
     sliders[name] = await q(selector+' input[type=range]').count();
     assert.equal(sliders[name],count,name);
   }
+  const eyeContours = await q(after+' [data-eye-anatomy]').count();
+  assert.equal(eyeContours,eyeRevision ? 12 : 0);
   const initialization = [];
   for (const side of ['before','after']) {
     const portraits = await snapshot(page,`#comparison [data-side="${side}"]`);
@@ -292,7 +297,10 @@ async function exercise(context, base, engine, browserVersion, assetReport) {
   assert.equal(board,7);
   assert.equal(await q('#makeup-study figure svg').count(),28);
   assert.equal(await q('#makeup-study-palette .makeup-chip').count(),32);
-  if (engine === 'chromium') await q('#planche-maquillage').screenshot({path:path.join(output,'planche-maquillage.png')});
+  if (engine === 'chromium' && !eyeRevision) {
+    await q('#planche-maquillage').screenshot({path:path.join(output,'planche-maquillage.png')});
+  }
+  const eyeContour = eyeRevision ? await auditEyeContour(page,engine,output) : null;
   assert.deepEqual(errors,[]);
   const functionalErrors = [...errors];
   if (!assetReport.verified && !local) {
@@ -302,7 +310,7 @@ async function exercise(context, base, engine, browserVersion, assetReport) {
   await page.close();
   return {engine,browserVersion,menus,sliders,initialization,inherited,effects,board,
     protectedPixels:natural[0].protectedPixels.length,exactRemoval:true,coldReplay:true,touchPlacement:true,
-    codeCommit:version.codeCommit,startup:version.startup,errors:functionalErrors};
+    codeCommit:version.codeCommit,startup:version.startup,errors:functionalErrors,...(eyeRevision?{eyeContour}:{})};
 }
 
 async function retry(context, base) {

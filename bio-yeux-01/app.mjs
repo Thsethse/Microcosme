@@ -19,9 +19,11 @@ import {mountScarsEditor} from './scars-editor.mjs';
 import {mountScarStudy} from './scars-study.mjs';
 import {mountMakeupEditor} from './makeup-editor.mjs';
 import {mountMakeupStudy} from './makeup-study.mjs';
+import {mountEyeContourStudy} from './eye-contour-study.mjs';
 import {eyeControls, eyePresets, eyesFor, normalizeEyes} from './eyes.mjs';
 
 const q = selector => document.querySelector(selector);
+const naturalEyes = q('#atelier').hasAttribute('data-natural-eyes');
 const format = new Intl.NumberFormat('fr-FR', {maximumFractionDigits: 2});
 const escape = value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;');
 const neutral = normalizeEyes({});
@@ -75,7 +77,7 @@ const frames = {head: '-30 -65 220 225', tile: '-40 -85 240 355', mini: '-35 -68
 function svg({key, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null, beard = null, beardCategory, marks = null, scars = null, makeup = null} = {}) {
   const result = character(inputFor(key), {
     eyes: value, iris:pigment, details, brows, mouth, nose, beard, beardCategory, marks, scars, makeup, eyeEnvelopes: guides, hairColor: hair, rememberedHairColor: colour, headOnly: view !== 'tile',
-    smallScale: view === 'mini', instance: 'atelier-yeux-' + (++serial)
+    smallScale: view === 'mini', naturalEyes, instance: 'atelier-yeux-' + (++serial)
   }).replace(/viewBox="[^"]*"/, `viewBox="${frame}"`);
   return decorative ? result.replace('<svg ', '<svg aria-hidden="true" focusable="false" ') : result;
 }
@@ -596,9 +598,10 @@ const scarsEditor=mountScarsEditor({input:inputFor,eyes:()=>eyes,
   context:()=>({details:detailsEditor.value(),nose:noseEditor.value(),mouth:mouthEditor.value()}),render:renderComparison});
 const makeupEditor = mountMakeupEditor({input:inputFor,eyes:()=>eyes,
   context:()=>({details:detailsEditor.value(),nose:noseEditor.value(),mouth:mouthEditor.value()}),render:renderComparison});
-mountMakeupStudy();
-mountFreckleStudy();
-mountScarStudy();
+mountMakeupStudy(naturalEyes);
+mountFreckleStudy(naturalEyes);
+mountScarStudy(naturalEyes);
+if (naturalEyes) mountEyeContourStudy();
 refreshCharacter();
 q('#atelier').dataset.startup = 'ready';
 q('#atelier-startup').hidden = true;

@@ -20,10 +20,10 @@ export const freckleViews=Object.freeze([
   ['mini','Miniature · 70 × 70 px','-35 -68 230 245',{headOnly:true,smallScale:true}]
 ]);
 
-export function studyPortrait(study,density,view) {
+export function studyPortrait(study,density,view,naturalEyes=false) {
   const [key,,frame,scale]=view;
   const marks=[{id:'m1',type:'freckles',seed:study.seed,density}];
-  const svg=character(study.face,{...scale,marks,markStudySkin:study.skin,instance:'planche-'+key})
+  const svg=character(study.face,{...scale,marks,markStudySkin:study.skin,naturalEyes,contourSkin:study.skin,instance:'planche-'+key})
     .replace(/viewBox="[^"]*"/,`viewBox="${frame}"`);
   return studySkin(svg,study.skin);
 }
@@ -38,14 +38,14 @@ export function studySkin(svg,skin) {
   return svg.replaceAll(palette.skin,skin).replaceAll(palette.contour,tint(palette.contour));
 }
 
-export function mountFreckleStudy() {
+export function mountFreckleStudy(naturalEyes=false) {
   const list=document.getElementById('freckle-case'), gallery=document.getElementById('freckle-study');
   list.append(...freckleCases.map((study,i)=>new Option(study.label,String(i))));
   function refresh(){
     const study=freckleCases[Number(list.value)];
     gallery.innerHTML=freckleDensities.map(([density,label])=>
       `<article class="freckle-row" data-density="${density}"><h3>Densité ${label.toLowerCase()}</h3><div class="freckle-scales">`+
-      freckleViews.map(view=>`<figure class="freckle-${view[0]}">${studyPortrait(study,density,view)}`+
+      freckleViews.map(view=>`<figure class="freckle-${view[0]}">${studyPortrait(study,density,view,naturalEyes)}`+
         `<figcaption>${view[1]}</figcaption></figure>`).join('')+'</div></article>').join('');
   }
   list.addEventListener('change',refresh);

@@ -13,21 +13,21 @@ export function scarCards(study) {
   ];
 }
 
-export function scarStudyPortrait(study,sample,view) {
+export function scarStudyPortrait(study,sample,view,naturalEyes=false) {
   const [key,,frame,scale]=view;
-  const svg=character(study.face,{...scale,eyes:'almond',scarStudySkin:study.skin,
+  const svg=character(study.face,{...scale,eyes:'almond',scarStudySkin:study.skin,naturalEyes,contourSkin:study.skin,
     scars:[{id:'s1',...sample.values}],instance:'planche-cicatrices-'+key})
     .replace(/viewBox="[^"]*"/,`viewBox="${frame}"`);
   return studySkin(svg,study.skin);
 }
 
-export function mountScarStudy() {
+export function mountScarStudy(naturalEyes=false) {
   const list=document.getElementById('scar-study-case'), gallery=document.getElementById('scar-study');
   list.append(...scarCases.map((study,i)=>new Option(study.label,String(i))));
   function refresh(){
     const study=scarCases[Number(list.value)];
     gallery.innerHTML=scarCards(study).map((sample,i)=>`<article class="freckle-row" data-scar-study="${i}"><h3>${sample.label}</h3><div class="freckle-scales">`+
-      scarViews.map(view=>`<figure class="freckle-${view[0]}">${scarStudyPortrait(study,sample,view)}`+
+      scarViews.map(view=>`<figure class="freckle-${view[0]}">${scarStudyPortrait(study,sample,view,naturalEyes)}`+
         `<figcaption>${view[1]}</figcaption></figure>`).join('')+'</div></article>').join('');
   }
   const panel=document.getElementById('scar-study-panel');
