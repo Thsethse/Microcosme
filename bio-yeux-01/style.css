@@ -175,7 +175,11 @@ button:disabled, input:disabled, select:disabled { opacity: .65; }
 #makeup-library textarea { width: 100%; min-height: 5.5rem; }
 #makeup-study-palette { display: flex; flex-wrap: wrap; gap: .75rem 1.4rem; margin: .8rem 0 1.2rem; }
 #makeup-study-palette .makeup-chip { margin: .22rem .12rem 0 0; }
-#makeup-study .freckle-row header p { margin: .2rem 0 .5rem; }
+#makeup-study { display: grid; gap: .65rem; }
+#makeup-study .freckle-row header { padding: 0 0 .6rem; }
+#makeup-study .freckle-row h3 { margin: 0 0 .25rem; }
+#makeup-study .freckle-row header p { margin: 0; }
+#makeup-study .freckle-detail svg { width: 170px; height: 178px; }
 @media (max-width: 40em) {
   .makeup-workspace { grid-template-columns: 1fr; }
   .makeup-portrait { grid-row: 1; max-width: min(70vw, 260px); justify-self: center; }

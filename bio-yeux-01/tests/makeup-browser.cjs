@@ -241,6 +241,7 @@ async function exercise(context, base, engine, browserVersion, assetReport) {
 
   await q('#body').selectOption('broad');
   await q('#morph').selectOption('broad');
+  if (await q('#eye-confirm').isVisible()) await q('#eye-confirm').click();
   await q('#makeup-apply').click();
   await q('#appearance-export').click();
   const transferred = JSON.parse(await q('#appearance-json').inputValue());
@@ -266,7 +267,7 @@ async function exercise(context, base, engine, browserVersion, assetReport) {
   await q('#makeup-study [data-makeup-study]').last().waitFor();
   const board = await q('#makeup-study [data-makeup-study]').count();
   assert.equal(board,7);
-  assert.equal(await q('#makeup-study figure svg').count(),21);
+  assert.equal(await q('#makeup-study figure svg').count(),28);
   assert.equal(await q('#makeup-study-palette .makeup-chip').count(),32);
   if (engine === 'chromium') await q('#planche-maquillage').screenshot({path:path.join(output,'planche-maquillage.png')});
   assert.deepEqual(errors,[]);

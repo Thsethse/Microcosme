@@ -69,7 +69,7 @@ function eyeGeometry(face, opening, shadow, liner, detailResult) {
     const slope = Math.tan(radians);
     const yLimit = slope >= 0 ? baseY - region.top : region.bottom - baseY;
     const wingLength = Math.max(0, Math.min(availableWidth, yLimit / Math.max(Math.abs(slope), .001))) * unit(liner.wing);
-    const thicknessBase = head.ry * .088;
+    const thicknessBase = head.ry * .059;
     const topWidth = thicknessBase * unit(liner.top);
     const bottomWidth = thicknessBase * .67 * unit(liner.bottom);
     const wingBase = Math.max(topWidth * .63, Math.min(thicknessBase * .48, wingLength * .37));
@@ -123,8 +123,8 @@ function cheekGeometry(frame, value) {
   const vertical = lerp(57.2, 72.2, unit(value.y));
   return {
     positions: [plane.point(50 - distance, vertical), plane.point(50 + distance, vertical)],
-    width: rx * lerp(.15, .41, unit(value.extent)),
-    height: ry * lerp(.08, .225, unit(value.extent))
+    width: rx * lerp(.17, .43, unit(value.extent)),
+    height: ry * lerp(.058, .172, unit(value.extent))
   };
 }
 
@@ -204,7 +204,7 @@ function drawShadow(eyes, value, id, bounds) {
       `fill="url(#${key}-pigment)"`);
     const outer = unit(value.outer), centre = 1 - outer * .66;
     return `<defs><linearGradient id="${key}-fade" gradientUnits="userSpaceOnUse" x1="0" x2="0" y1="${top}" y2="${bottom}">
-      <stop stop-color="white" stop-opacity="0"/><stop offset=".47" stop-color="white" stop-opacity=".46"/><stop offset="1" stop-color="white"/>
+      <stop stop-color="white" stop-opacity="0"/><stop offset=".36" stop-color="white" stop-opacity=".52"/><stop offset="1" stop-color="white"/>
       </linearGradient><mask id="${key}-soft" maskUnits="userSpaceOnUse" ${bounds}><rect ${bounds} fill="url(#${key}-fade)"/></mask>
       <linearGradient id="${key}-pigment" x1="${side < 0 ? 1 : 0}" x2="${side < 0 ? 0 : 1}" y1="0" y2="0">
       <stop stop-color="${value.colour}" stop-opacity="${centre}"/><stop offset=".38" stop-color="${value.colour}" stop-opacity="${lerp(centre, 1, .5)}"/>
