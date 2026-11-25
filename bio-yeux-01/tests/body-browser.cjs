@@ -211,6 +211,7 @@ async function checkCorpulence(page, old, url, name) {
   let neutralExact=0, unchangedVertical=0, restored=0;
   const slider = q('#corpulence');
 
+  await page.setViewportSize(old.viewportSize());
   await Promise.all([ready(page,url),ready(old,referenceURL)]);
   assert(!await slider.isVisible());
   assert.deepEqual(await q('#corpulence-stops option').evaluateAll(options =>
@@ -227,8 +228,12 @@ async function checkCorpulence(page, old, url, name) {
     assert(await slider.isVisible());
     assert.equal(await slider.inputValue(),'50');
     assert.equal(await slider.getAttribute('step'),'any');
-    const base = await compare(page);
-    assert.deepEqual(base,await compare(old));
+    const [base, reference] = await Promise.all([compare(page),compare(old)]);
+    const fingerprints = images => images.map(({original,raster,width,height}) => ({
+      svg: createHash('sha256').update(original).digest('hex'),
+      raster: createHash('sha256').update(raster).digest('hex'), width, height
+    }));
+    assert.deepEqual(fingerprints(base),fingerprints(reference),`Rendu de référence ${body}`);
     neutralExact += base.length;
     const geometry = await bodyVertical(page);
     const profile=[];
@@ -292,6 +297,7 @@ async function checkCorpulence(page, old, url, name) {
   assert.equal(await q('#corpulence-references [data-corpulence-specimen]').count(),18);
   assert.equal(await q('#corpulence-combinations [data-corpulence-example]').count(),10);
   assert.equal(await q('#corpulence-combinations [data-corpulence-specimen]').count(),20);
+  assert.equal(await q('#planche-corpulence [data-reference="shaved"]').count(),38);
   for (const [scale,height] of [['head',300],['mini',70],['tile',178]]) {
     await q('#corpulence-study-scale').selectOption(scale);
     const sizes = await q('#corpulence-references svg').evaluateAll(nodes =>

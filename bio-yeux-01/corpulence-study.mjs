@@ -19,7 +19,7 @@ export function renderCorpulenceStudy(panel, {render, background}) {
       <h4>${label}</h4>
       <div class="structure-pair">${Object.entries(adultBodies).map(([body, {name}]) => `
         <figure data-corpulence-specimen="${body}">
-          <div class="surface ${view}">${render({body, structure, corpulence:value, view})}</div>
+          <div class="surface ${view}">${render({key:'shaved:U', body, structure, corpulence:value, view})}</div>
           <figcaption>${name}</figcaption>
         </figure>`).join('')}</div>
     </article>`;
