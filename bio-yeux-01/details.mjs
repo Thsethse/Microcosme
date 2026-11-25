@@ -348,6 +348,10 @@ function shading(window, value, skin) {
 }
 
 // The nose solver uses these painted footprints before its own rendering.
+export function detailContourEdges({frame, effective:{contours}}) {
+  return {upper: outerArc(frame, -1, contours.upper), lower: outerArc(frame, 1, contours.lower)};
+}
+
 export function detailFootprints(result) {
   if (!result) return [];
   const {frame,scene,effective}=result;

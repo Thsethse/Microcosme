@@ -11,6 +11,8 @@ import {noseDrawVersion, normalizeNose, solveNose} from './nose.mjs';
 import {beardCategoryOf, beardDrawVersion, normalizeBeard, solveBeard} from './beard.mjs';
 import {normalizeMarks, solveMarks} from './marks.mjs';
 import {normalizeScars, solveScars} from './scars.mjs';
+import {normalizeMakeup} from './makeup.mjs';
+import {solveMakeup} from './makeup-render.mjs';
 
 export const appearanceSchema = 'microcosme.appearance';
 export const appearanceVersion = 1;
@@ -31,7 +33,9 @@ export const marksAppearanceVersion = 8;
 export const marksRenderVersion = 'bio-marques-01-svg@1';
 export const scarAppearanceVersion = 9;
 export const scarRenderVersion = 'bio-cicatrices-01-svg@1';
-const renderers = {1:renderVersion, 2:irisRenderVersion, 3:detailsRenderVersion, 4:browRenderVersion, 5:mouthRenderVersion, 6:noseRenderVersion, 7:beardRenderVersion, 8:marksRenderVersion, 9:scarRenderVersion};
+export const makeupAppearanceVersion = 10;
+export const makeupRenderVersion = 'bio-maquillage-01-svg@1';
+const renderers = {1:renderVersion, 2:irisRenderVersion, 3:detailsRenderVersion, 4:browRenderVersion, 5:mouthRenderVersion, 6:noseRenderVersion, 7:beardRenderVersion, 8:marksRenderVersion, 9:scarRenderVersion, 10:makeupRenderVersion};
 
 export function characterInput(selection, key = selection.key) {
   const {style, arrangement} = choice(key);
@@ -46,7 +50,7 @@ function validDraw(draw) {
 }
 
 export function appearanceDocument(selection, {eyes, form, draw, colour, flat, iris, irisLatent, irisDraw,
-  details, detailsLatent, detailsDraw, brows, browsLatent, browsDraw, mouth, mouthLatent, mouthDraw, nose, noseLatent, noseDraw, beard, beardLatent, beardDraw, beardCategory, marks, marksLatent, scars, scarsLatent}) {
+  details, detailsLatent, detailsDraw, brows, browsLatent, browsDraw, mouth, mouthLatent, mouthDraw, nose, noseLatent, noseDraw, beard, beardLatent, beardDraw, beardCategory, marks, marksLatent, scars, scarsLatent, makeup, makeupLatent}) {
   const entry = choice(selection.key);
   const input = characterInput(selection);
   const applied = normalize(input);
@@ -130,7 +134,10 @@ export function appearanceDocument(selection, {eyes, form, draw, colour, flat, i
   const scarMemory = scarResult ? [] : normalizeScars(scarsLatent);
   const healedScars = scarResult ? {mode:'custom',requested:scarResult.requested,effective:scarResult.effective} :
     scarMemory.length ? {mode:'historical',latent:scarMemory} : null;
-  const version = healedScars ? scarAppearanceVersion : cutaneousMarks ? marksAppearanceVersion : facialHair ? beardAppearanceVersion : noseAppearance ? noseAppearanceVersion : mouthAppearance ? mouthAppearanceVersion : browAppearance ? browAppearanceVersion :
+  const cosmetics = makeup ? solveMakeup(model(input), result, makeup, {noseResult, mouthResult, detailResult: ornament}) : null;
+  const cosmeticAppearance = cosmetics ? {mode:'custom', requested:cosmetics.requested, effective:cosmetics.effective} :
+    makeupLatent ? {mode:'historical', latent:normalizeMakeup(makeupLatent)} : null;
+  const version = cosmeticAppearance ? makeupAppearanceVersion : healedScars ? scarAppearanceVersion : cutaneousMarks ? marksAppearanceVersion : facialHair ? beardAppearanceVersion : noseAppearance ? noseAppearanceVersion : mouthAppearance ? mouthAppearanceVersion : browAppearance ? browAppearanceVersion :
     eyeDetails ? detailsAppearanceVersion :
     ink ? irisAppearanceVersion : appearanceVersion;
   return {
@@ -157,6 +164,7 @@ export function appearanceDocument(selection, {eyes, form, draw, colour, flat, i
     ...(facialHair ? {facialHair} : {}),
     ...(cutaneousMarks ? {marks:cutaneousMarks} : {}),
     ...(healedScars ? {scars:healedScars} : {}),
+    ...(cosmeticAppearance ? {makeup:cosmeticAppearance} : {}),
     historicalSelection: structuredClone(selection.raw)
   };
 }
@@ -171,10 +179,10 @@ function identical(a, b) {
 export function parseAppearance(text) {
   const data = JSON.parse(text);
   if (data?.schema !== appearanceSchema) throw new Error('Document d’apparence requis. Utilisez la sélection historique pour un ancien JSON.');
-  if (![appearanceVersion, irisAppearanceVersion, detailsAppearanceVersion, browAppearanceVersion, mouthAppearanceVersion, noseAppearanceVersion, beardAppearanceVersion, marksAppearanceVersion, scarAppearanceVersion].includes(data.version) ||
+  if (![appearanceVersion, irisAppearanceVersion, detailsAppearanceVersion, browAppearanceVersion, mouthAppearanceVersion, noseAppearanceVersion, beardAppearanceVersion, marksAppearanceVersion, scarAppearanceVersion, makeupAppearanceVersion].includes(data.version) ||
       (data.version === irisAppearanceVersion && !data.iris) || (data.version === detailsAppearanceVersion && !data.details) ||
       (data.version === browAppearanceVersion && !data.brows) || (data.version === mouthAppearanceVersion && !data.mouth) ||
-      (data.version === noseAppearanceVersion && !data.nose) || (data.version === beardAppearanceVersion && !data.facialHair) || (data.version === marksAppearanceVersion && !data.marks) || (data.version === scarAppearanceVersion && !data.scars)) {
+      (data.version === noseAppearanceVersion && !data.nose) || (data.version === beardAppearanceVersion && !data.facialHair) || (data.version === marksAppearanceVersion && !data.marks) || (data.version === scarAppearanceVersion && !data.scars) || (data.version === makeupAppearanceVersion && !data.makeup)) {
     throw new Error('Version du document d’apparence non prise en charge.');
   }
   if (data.renderer !== renderers[data.version]) throw new Error('Version de rendu non prise en charge.');
@@ -232,10 +240,15 @@ export function parseAppearance(text) {
     settings.marks = data.marks.mode === 'custom' ? data.marks.requested : null;
     settings.marksLatent = data.marks.mode === 'historical' ? data.marks.latent : null;
   }
-  if (data.version === scarAppearanceVersion) {
+  if (data.version >= scarAppearanceVersion && data.scars) {
     if (!['historical','custom'].includes(data.scars.mode)) throw new Error('Mode des cicatrices invalide.');
     settings.scars = data.scars.mode === 'custom' ? data.scars.requested : null;
     settings.scarsLatent = data.scars.mode === 'historical' ? data.scars.latent : null;
+  }
+  if (data.version === makeupAppearanceVersion) {
+    if (!['historical','custom'].includes(data.makeup.mode)) throw new Error('Mode de maquillage invalide.');
+    settings.makeup = data.makeup.mode === 'custom' ? data.makeup.requested : null;
+    settings.makeupLatent = data.makeup.mode === 'historical' ? data.makeup.latent : null;
   }
   const rebuilt = appearanceDocument(selection, settings);
   if (!identical(rebuilt, data)) throw new Error('Données effectives incompatibles avec la sélection et les demandes.');
