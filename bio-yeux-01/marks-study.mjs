@@ -25,13 +25,17 @@ export function studyPortrait(study,density,view) {
   const marks=[{id:'m1',type:'freckles',seed:study.seed,density}];
   const svg=character(study.face,{...scale,marks,markStudySkin:study.skin,instance:'planche-'+key})
     .replace(/viewBox="[^"]*"/,`viewBox="${frame}"`);
-  if(study.skin===palette.skin) return svg;
-  const reference=rgb(palette.skin), next=rgb(study.skin);
+  return studySkin(svg,study.skin);
+}
+
+export function studySkin(svg,skin) {
+  if(skin===palette.skin) return svg;
+  const reference=rgb(palette.skin), next=rgb(skin);
   const tint=hex=>'#'+rgb(hex).map((channel,i)=>
     Math.round(255*channel*next[i]/reference[i]).toString(16).padStart(2,'0')).join('');
   // Replace the inherited skin fills only on the study portrait. Marks
   // already use the chosen study pigment from the same renderer.
-  return svg.replaceAll(palette.skin,study.skin).replaceAll(palette.contour,tint(palette.contour));
+  return svg.replaceAll(palette.skin,skin).replaceAll(palette.contour,tint(palette.contour));
 }
 
 export function mountFreckleStudy() {

@@ -153,3 +153,10 @@ button:disabled, input:disabled, select:disabled { opacity: .65; }
 .freckle-head svg{width:294px;height:300px}
 .freckle-body svg{width:120px;height:178px}
 .freckle-mini svg{width:70px;height:70px}
+#scars .actions{align-items:end}
+#scars [hidden]{display:none}
+#scars-edit{min-width:0;margin:0;padding:0;border:0}
+#scars-zoom.placing{cursor:crosshair}
+#scars-zoom svg{height:clamp(215px,30vw,355px)}
+#scars-error:empty{display:none}
+#scar-study{display:grid;gap:1rem;margin-top:1rem}

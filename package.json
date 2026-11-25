@@ -7,6 +7,7 @@
     "test:browser": "node tests/browser.cjs"
   },
   "devDependencies": {
+    "esbuild": "0.27.3",
     "playwright": "1.62.1"
   }
 }

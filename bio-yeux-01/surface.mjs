@@ -44,3 +44,13 @@ export function cutaneousSurface(outline,rows,margin=.9) {
   }
   return {point,coordinates,contains};
 }
+
+export function sceneCoordinates(svg,clientX,clientY,plane) {
+  const transform=svg.getScreenCTM();
+  if(!transform) return null;
+  const pointer=svg.createSVGPoint();
+  pointer.x=clientX;
+  pointer.y=clientY;
+  const {x,y}=pointer.matrixTransform(transform.inverse());
+  return plane.coordinates(x,y);
+}

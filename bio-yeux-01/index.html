@@ -4,14 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#f6f2e8">
-  <title>Microcosme · BIO-MARQUES-01 · Marques cutanées</title>
+  <title>Microcosme · BIO-CICATRICES-01 · Cicatrices</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="shell">
-  <p class="brand">Microcosme <span>BIO-MARQUES-01</span></p>
-  <h1>Marques cutanées</h1>
+  <p class="brand">Microcosme <span>BIO-CICATRICES-01</span></p>
+  <h1>Cicatrices</h1>
   <nav aria-label="Navigation dans l’atelier">
+    <a href="#scars">Cicatrices</a>
+    <a href="#planche-cicatrices">Planche de cicatrices</a>
     <a href="#marks">Marques cutanées</a>
     <a href="#planche-rousseur">Planche de rousseur</a>
     <a href="#beard">Pilosité faciale</a>
@@ -26,12 +28,20 @@
   </nav>
 </header>
 <main class="shell">
-  <section class="workspace" id="atelier" aria-label="Atelier du visage">
+  <section id="atelier" aria-label="Atelier du visage" data-startup="pending">
+    <p id="atelier-startup" role="status">Chargement de l’atelier…</p>
+    <div id="atelier-startup-error" role="alert" hidden>
+      <p>L’atelier n’a pas pu démarrer. <span id="atelier-startup-detail"></span></p>
+      <button id="atelier-retry" type="button">Recharger l’atelier</button>
+    </div>
+    <noscript><p>Activez JavaScript dans Safari pour ouvrir l’atelier.</p></noscript>
+    <div class="workspace">
     <div class="comparison-panel">
       <h2>Avant / après</h2>
       <div class="toolbar">
         <label>Fond<select id="background"><option value="light">Ivoire</option><option value="dark">Ardoise</option></select></label>
         <label>Référence<select id="iris-before-mode"><option value="same">Ouverture actuelle</option><option value="historical">Ouverture historique</option></select></label>
+        <label id="scars-before-wrap" hidden>Référence<select id="scars-before-mode"><option value="same">Visage actuel sans cicatrices</option><option value="historical">Détails du visage historiques</option></select></label>
         <label id="marks-before-wrap" hidden>Référence<select id="marks-before-mode"><option value="same">Visage actuel sans marques</option><option value="historical">Détails du visage historiques</option></select></label>
         <label id="beard-before-wrap" hidden>Référence<select id="beard-before-mode"><option value="same">Visage actuel, imberbe</option><option value="historical">Détails du visage historiques</option></select></label>
         <label id="nose-before-wrap" hidden>Référence<select id="nose-before-mode"><option value="same">Nez historique</option><option value="historical">Détails du visage historiques</option></select></label>
@@ -74,6 +84,51 @@
       <p id="draw-error" role="alert"></p>
       <label>Graine du tirage<input id="seed" type="text" value="Microcosme" spellcheck="false"></label>
     </div>
+    </div>
+  </section>
+
+  <section id="scars">
+    <h2>Cicatrices</h2>
+    <div class="iris-workspace">
+      <div class="card">
+        <div class="actions">
+          <label>Forme de référence<select id="scars-preset"></select></label>
+          <button id="scars-add" class="primary" type="button">Ajouter</button>
+          <button id="scars-apply" type="button">Appliquer la forme</button>
+        </div>
+        <label>Cicatrice à modifier<select id="scars-list" disabled></select></label>
+        <label class="check"><input type="checkbox" id="scars-show" checked> Afficher les cicatrices</label>
+        <fieldset id="scars-edit" hidden>
+          <legend class="visually-hidden">Réglages de la cicatrice</legend>
+          <label>Géométrie<select id="scars-mode"><option value="line">Tracé</option><option value="patch">Surface</option></select></label>
+          <label class="check"><input type="checkbox" id="scars-sutures"> Traces de suture cicatrisées</label>
+          <div id="scars-axes"></div>
+          <p class="hint">Une maturation élevée éclaircit puis estompe le relief. Une courbure positive déporte les extrémités dans le sens de la rotation.</p>
+          <label>Graine<input id="scars-seed" type="text" maxlength="128" spellcheck="false"></label>
+        </fieldset>
+        <p id="scars-status" class="hint" role="status"></p>
+        <div class="actions">
+          <button id="scars-draw" type="button">Tirer une cicatrice</button>
+          <button id="scars-remove" type="button">Supprimer</button>
+          <button id="scars-reset" type="button">Rétablir la peau sans cicatrices</button>
+        </div>
+        <p id="scars-error" role="alert"></p>
+      </div>
+      <figure class="iris-zoom card">
+        <figcaption>Gros plan du visage</figcaption>
+        <div id="scars-zoom" class="surface"></div>
+        <button id="scars-place" type="button" aria-pressed="false">Placer sur le visage</button>
+      </figure>
+    </div>
+  </section>
+
+  <section id="planche-cicatrices">
+    <h2>Planche de cicatrices</h2>
+    <details id="scar-study-panel">
+      <summary>Comparer les six formes et les quatre maturations</summary>
+      <label>Cas d’étude<select id="scar-study-case"></select></label>
+      <div id="scar-study"></div>
+    </details>
   </section>
 
   <section id="marks">
@@ -345,8 +400,36 @@
     <details id="series-panel"><summary>Une coiffure dans les 26 teintes</summary><div id="series-grid" class="palette-grid"></div></details>
     <details id="variety-panel"><summary>Une teinte sur plusieurs coiffures</summary><div id="variety-grid" class="palette-grid"></div></details>
   </section>
-  <footer><a href="https://github.com/Thsethse/Microcosme/blob/codex/bio-marques-01/docs/ai/bio-marques-01/RAPPORT.md">Rapport de réalisation et captures</a></footer>
+  <footer><a href="https://github.com/Thsethse/Microcosme/blob/codex/bio-cicatrices-01/docs/ai/bio-cicatrices-01/RAPPORT.md">Rapport de réalisation et captures</a></footer>
 </main>
-<script type="module" src="app.mjs"></script>
+<script>
+(function () {
+  var atelier = document.getElementById('atelier');
+  var waiting = document.getElementById('atelier-startup');
+  var alert = document.getElementById('atelier-startup-error');
+  var detail = document.getElementById('atelier-startup-detail');
+  function startupFailed(message) {
+    if (atelier.getAttribute('data-startup') !== 'pending') return;
+    atelier.setAttribute('data-startup', 'failed');
+    detail.textContent = message;
+    waiting.hidden = true;
+    alert.hidden = false;
+  }
+  window.addEventListener('error', function (event) {
+    if (event.target && event.target.id === 'atelier-entry') {
+      startupFailed('Script indisponible (' + event.target.getAttribute('src') + ').');
+    } else if (event.message) {
+      startupFailed(event.message);
+    }
+  }, true);
+  window.addEventListener('load', function () {
+    startupFailed('Le script n’a pas terminé son initialisation.');
+  });
+  document.getElementById('atelier-retry').addEventListener('click', function () {
+    window.location.reload();
+  });
+}());
+</script>
+<script id="atelier-entry" type="module" src="app.mjs"></script>
 </body>
 </html>

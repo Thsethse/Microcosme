@@ -48,6 +48,12 @@ jobs:
       - run: ARTIFACT_DIR="$ARTIFACT_DIR/pilosite" node bio-yeux-01/tests/beard-browser.cjs
       - run: node --test bio-yeux-01/tests/marks.test.mjs
       - run: ARTIFACT_DIR="$ARTIFACT_DIR/marques" node bio-yeux-01/tests/marks-browser.cjs
+      - run: node --test bio-yeux-01/tests/scars.test.mjs
+      - run: ARTIFACT_DIR="$ARTIFACT_DIR/cicatrices" node bio-yeux-01/tests/scars-browser.cjs
+      - name: Démarrage de la distribution Pages des cicatrices
+        run: |
+          node bio-yeux-01/build-scars-preview.mjs "$ARTIFACT_DIR/cicatrices-pages"
+          PREVIEW_DIR="$ARTIFACT_DIR/cicatrices-pages" ARTIFACT_DIR="$ARTIFACT_DIR/cicatrices-demarrage" node bio-yeux-01/tests/scars-startup-browser.cjs
       - run: ARTIFACT_DIR="$ARTIFACT_DIR/corrections" node bio-yeux-01/tests/corrections-browser.cjs
       - run: ARTIFACT_DIR="$ARTIFACT_DIR/palettes" node bio-col-01/tests/browser.cjs
       - name: Récupérer les suites originales des lots 1 à 3

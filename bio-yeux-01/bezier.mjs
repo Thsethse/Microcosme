@@ -10,11 +10,14 @@ export function outlineCurves(path) {
   return curves;
 }
 
-export function pointAt(curve, t) {
-  const u = 1 - t;
-  return curve[0].map((value, axis) =>
-    u ** 3 * value + 3 * u * u * t * curve[1][axis] +
-    3 * u * t * t * curve[2][axis] + t ** 3 * curve[3][axis]);
+function coordinateAt(curve,t,axis) {
+  const u=1-t;
+  return u ** 3 * curve[0][axis] + 3 * u * u * t * curve[1][axis] +
+    3 * u * t * t * curve[2][axis] + t ** 3 * curve[3][axis];
+}
+
+export function pointAt(curve,t) {
+  return [coordinateAt(curve,t,0),coordinateAt(curve,t,1)];
 }
 
 export function extrema(curve, axis) {
@@ -42,13 +45,13 @@ function horizontalRoots(curve, y) {
   const roots = [];
   for (let i = 1; i < stops.length; i++) {
     let lo = stops[i - 1], hi = stops[i];
-    const y0 = pointAt(curve, lo)[1], y1 = pointAt(curve, hi)[1];
+    const y0 = coordinateAt(curve,lo,1), y1 = coordinateAt(curve,hi,1);
     if (y < Math.min(y0, y1) || y > Math.max(y0, y1)) continue;
     if (y === y0) { roots.push(lo); continue; }
     if (y === y1) { roots.push(hi); continue; }
     for (let j = 0; j < 35; j++) {
       const mid = (lo + hi) / 2;
-      if ((pointAt(curve, mid)[1] < y) === (y0 < y1)) lo = mid;
+      if ((coordinateAt(curve,mid,1) < y) === (y0 < y1)) lo = mid;
       else hi = mid;
     }
     roots.push((lo + hi) / 2);

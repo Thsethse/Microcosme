@@ -1,0 +1,100 @@
+{
+  "chromiumEtWebkit": [
+    {
+      "engine": "chromium",
+      "version": "151.0.7922.34",
+      "mission": "bio-marques-01",
+      "block": false,
+      "status": 200,
+      "portraits": 6,
+      "eyeChoices": 12,
+      "sliders": 8,
+      "diagnostic": 0,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "version": "151.0.7922.34",
+      "mission": "bio-cicatrices-01",
+      "block": false,
+      "status": 200,
+      "portraits": 6,
+      "eyeChoices": 12,
+      "sliders": 8,
+      "diagnostic": 0,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "version": "151.0.7922.34",
+      "mission": "bio-cicatrices-01",
+      "block": true,
+      "status": 200,
+      "portraits": 0,
+      "eyeChoices": 0,
+      "sliders": 0,
+      "diagnostic": 0,
+      "errors": [
+        "503 https://thsethse.github.io/Microcosme/preview/bio-cicatrices-01/scars-study.mjs",
+        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
+      ]
+    },
+    {
+      "engine": "webkit",
+      "version": "26.5",
+      "mission": "bio-marques-01",
+      "block": false,
+      "status": 200,
+      "portraits": 6,
+      "eyeChoices": 12,
+      "sliders": 8,
+      "diagnostic": 0,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "version": "26.5",
+      "mission": "bio-cicatrices-01",
+      "block": false,
+      "status": 200,
+      "portraits": 6,
+      "eyeChoices": 12,
+      "sliders": 8,
+      "diagnostic": 0,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "version": "26.5",
+      "mission": "bio-cicatrices-01",
+      "block": true,
+      "status": 200,
+      "portraits": 0,
+      "eyeChoices": 0,
+      "sliders": 0,
+      "diagnostic": 0,
+      "errors": [
+        "503 https://thsethse.github.io/Microcosme/preview/bio-cicatrices-01/scars-study.mjs",
+        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
+      ]
+    }
+  ],
+  "webkit17": [
+    {
+      "browser": "17.4",
+      "mission": "bio-marques-01",
+      "status": 200,
+      "portraits": 6,
+      "menus": 12,
+      "errors": []
+    },
+    {
+      "browser": "17.4",
+      "mission": "bio-cicatrices-01",
+      "status": 200,
+      "portraits": 6,
+      "menus": 12,
+      "errors": []
+    }
+  ]
+}
