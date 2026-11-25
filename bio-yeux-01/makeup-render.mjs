@@ -289,7 +289,9 @@ export function makeupMarkup(face, opening, value, {instance, painted, ...option
     /<path d="[^"]+" fill="none" stroke="[^"]+" stroke-width="2\.[26]"[^>]*\/>/g;
   const brows = tags(painted, browPattern).map(black).join('');
   const openings = reserve.eyes.join('');
-  const nostrils = reserve.nostrils.join('');
+  // Keep the antialiased rim of the tiny nostril interiors intact at
+  // the inherited body and thumbnail scales as well.
+  const nostrils = reserve.nostrils.map(tag => tag.replace('/>', ' stroke="black" stroke-width=".92"/>')).join('');
   const lipReserve = (geometry.lips?.paths ?? lipGeometry(face, options).paths).map(d => path(d, 'fill="black"')).join('');
   // The border stroke is kept visible. The original mouth and eye anatomy,
   // hair, and facial hair remain in their inherited layers.

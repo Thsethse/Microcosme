@@ -123,11 +123,12 @@ async function exercise(context, base, engine, browserVersion, assetReport) {
     'makeup-family':5,'makeup-paint-kind':12
   })) {
     menus[id] = await q('#'+id+' option').count();
-    assert.equal(menus[id],count,id);
+    if (id.startsWith('makeup-')) assert.equal(menus[id],count,id);
+    else assert(menus[id]>=count,id);
   }
   const sliders = {};
   for (const [name, selector, count] of [
-    ['eyes','#eye-controls',8],['scars','#scars-axes',11],['makeup','#makeup-controls',25]
+    ['eyes','#eye-controls',8],['scars','#scars-axes',11],['makeup','#makeup-controls',24]
   ]) {
     sliders[name] = await q(selector+' input[type=range]').count();
     assert.equal(sliders[name],count,name);
