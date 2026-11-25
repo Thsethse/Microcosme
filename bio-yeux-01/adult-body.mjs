@@ -1,4 +1,5 @@
 import {referenceStructure, validateStructure} from './body-structure.mjs';
+import {corpulenceCoefficients, corpulenceResponse, referenceCorpulence} from './body-corpulence.mjs';
 
 export const anatomyLevels = Object.freeze([
   {id: 'neck', label: 'Base du cou', height: 0},
@@ -39,14 +40,13 @@ function tangents(points) {
 const [, , , waist, abdomen, hips] = anatomyLevels;
 const abdomenWeight = (abdomen.height - waist.height) / (hips.height - waist.height);
 
-export function adultBodyGeometry(key, [axis, chinY], structure = referenceStructure) {
+export function adultBodyGeometry(key, [axis, chinY], structure = referenceStructure, corpulence = referenceCorpulence) {
   validateStructure(structure);
   const profile = adultBodies[key];
   const ground = {x: axis, y: 249};
   const neckY = chinY - 4;
   const height = ground.y - neckY;
-  // The abdomen bridges two structural widths. Its reference width and
-  // height stay independent of any future surface or volume layer.
+  // The structural abdomen bridges the waist and the hips before applying corpulence.
   const abdomenScale = structure.waist + (structure.pelvis - structure.waist) * abdomenWeight;
   const scales = {...structure, abdomen: abdomenScale, hips: structure.pelvis};
   const levels = anatomyLevels.map((level, index) => ({
@@ -58,6 +58,22 @@ export function adultBodyGeometry(key, [axis, chinY], structure = referenceStruc
   const flank = {y: ground.y - 8, width: profile.baseWidth * (structure.base / 100)};
   const points = [...levels, flank];
   const dx = tangents(points);
+  const response = corpulenceResponse(corpulence);
+  if (response !== 0) {
+    const coefficients = corpulenceCoefficients[key];
+    const referenceWidths = [...profile.widths, profile.baseWidth];
+    // Superpose a second horizontal curve on the structure. It has the same
+    // ordinates and attachment points, so its tangents add to the original ones.
+    const volume = points.map(({y}, index) => {
+      const region = anatomyLevels[index]?.id ?? 'base';
+      return {y, width: referenceWidths[index] * coefficients[region]};
+    });
+    const volumeDx = tangents(volume);
+    for (const [index, point] of points.entries()) {
+      point.width += response * volume[index].width;
+      dx[index] += response * volumeDx[index];
+    }
+  }
   const spans = points.slice(1).map((b, index) => {
     const a = points[index], step = (b.y - a.y) / 3;
     return {
@@ -86,7 +102,7 @@ export function adultBodyGeometry(key, [axis, chinY], structure = referenceStruc
   return {levels, ground, height, path};
 }
 
-export function adultBodyMarkup(key, chin, {skin, contour}, structure) {
-  const {path} = adultBodyGeometry(key, chin, structure);
+export function adultBodyMarkup(key, chin, {skin, contour}, structure, corpulence) {
+  const {path} = adultBodyGeometry(key, chin, structure, corpulence);
   return `<g class="body-shape" data-adult-body="${key}"><path d="${path}" fill="${skin}" stroke="${contour}" stroke-width="4.2" stroke-linejoin="round"/></g>`;
 }

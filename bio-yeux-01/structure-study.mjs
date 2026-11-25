@@ -5,7 +5,7 @@ const axes = Object.entries(structureControls);
 const profiles = [['adult-h', 'H'], ['adult-f', 'F']];
 const percentages = get => Object.fromEntries(axes.map(([key, range]) => [key, get(key, range)]));
 
-const combinations = [
+export const structureCombinations = [
   ['reference', 'Référence', referenceStructure],
   ['fine', 'Ossature fine', percentages(key => key === 'waist' ? 85 : 82)],
   ['wide', 'Ossature large', percentages(key => key === 'waist' ? 115 : 118)],
@@ -25,7 +25,7 @@ export function renderStructureStudy(panel, {render, background}) {
 
   const compound = panel.querySelector('#structure-combinations');
   compound.className = `structure-study-grid ${background}`;
-  compound.innerHTML = combinations.map(([id, label, structure]) => `
+  compound.innerHTML = structureCombinations.map(([id, label, structure]) => `
     <article class="card" data-structure-combination="${id}">
       <h4>${label}</h4><div class="structure-pair">${profiles.map(([body]) =>
         compare(body, structure, adultBodies[body].name)).join('')}</div>
