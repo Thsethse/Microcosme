@@ -7,7 +7,7 @@ import {adultBodies, isAdultBody} from './adult-body.mjs';
 import {mountBodyStudy, mountStudyPanel, renderBodyStudy} from './body-study.mjs';
 import {referenceStructure, structureControls} from './body-structure.mjs';
 import {corpulenceStops, referenceCorpulence} from './body-corpulence.mjs';
-import {renderCorpulenceStudy} from './corpulence-study.mjs';
+import {corpulenceStudyStructures, renderCorpulenceStudy} from './corpulence-study.mjs';
 import {renderStructureStudy} from './structure-study.mjs';
 import {appearanceDocument, characterInput, parseAppearance} from './appearance.mjs';
 import {currentDraw, drawEyes, legacyDraw} from './draw.mjs';
@@ -81,7 +81,7 @@ function inputFor(key) {
 }
 
 const frames = {head: '-30 -65 220 225', tile: '-40 -85 240 355', mini: '-35 -68 230 245'};
-function svg({key, body, structure, corpulence, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null, beard = null, beardCategory, marks = null, scars = null, makeup = null} = {}) {
+function svg({key, body, structure, corpulence, beforeCorpulenceCorrection, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null, beard = null, beardCategory, marks = null, scars = null, makeup = null} = {}) {
   const input = inputFor(key);
   if (body !== undefined) {
     input.body = body;
@@ -90,7 +90,7 @@ function svg({key, body, structure, corpulence, view = 'head', value = eyes, fra
   }
   const result = character(input, {
     eyes: value, iris:pigment, details, brows, mouth, nose, beard, beardCategory, marks, scars, makeup, eyeEnvelopes: guides, hairColor: hair, rememberedHairColor: colour, headOnly: view !== 'tile',
-    smallScale: view === 'mini', naturalEyes, instance: 'atelier-yeux-' + (++serial)
+    smallScale: view === 'mini', naturalEyes, beforeCorpulenceCorrection, instance: 'atelier-yeux-' + (++serial)
   }).replace(/viewBox="[^"]*"/, `viewBox="${frame}"`);
   return decorative ? result.replace('<svg ', '<svg aria-hidden="true" focusable="false" ') : result;
 }
@@ -493,6 +493,8 @@ q('#structure-reset').addEventListener('click', event =>
   setSelection(selection.raw, morphForm, event.target, {structure:null}));
 q('#structure-study-scale').addEventListener('change', renderComparison);
 q('#corpulence-study-scale').addEventListener('change', renderComparison);
+options('#corpulence-study-structure', corpulenceStudyStructures);
+q('#corpulence-study-structure').addEventListener('change', renderComparison);
 for (const {label,value} of corpulenceStops) q('#corpulence-stops').append(new Option(label, value));
 q('#corpulence').addEventListener('input', event =>
   setSelection(selection.raw, morphForm, event.target, {corpulence:event.target.valueAsNumber}));

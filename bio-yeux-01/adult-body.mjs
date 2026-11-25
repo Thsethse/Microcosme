@@ -1,5 +1,5 @@
 import {referenceStructure, validateStructure} from './body-structure.mjs';
-import {corpulenceCoefficients, corpulenceResponse, referenceCorpulence} from './body-corpulence.mjs';
+import {corpulenceEnvelope, previousCorpulence, referenceCorpulence} from './body-corpulence.mjs';
 
 export const anatomyLevels = Object.freeze([
   {id: 'neck', label: 'Base du cou', height: 0},
@@ -39,8 +39,9 @@ function tangents(points) {
 
 const [, , , waist, abdomen, hips] = anatomyLevels;
 const abdomenWeight = (abdomen.height - waist.height) / (hips.height - waist.height);
+const regions = [...anatomyLevels.map(({id}) => id), 'base'];
 
-export function adultBodyGeometry(key, [axis, chinY], structure = referenceStructure, corpulence = referenceCorpulence) {
+export function adultBodyGeometry(key, [axis, chinY], structure = referenceStructure, corpulence = referenceCorpulence, beforeCorrection = false) {
   validateStructure(structure);
   const profile = adultBodies[key];
   const ground = {x: axis, y: 249};
@@ -58,20 +59,18 @@ export function adultBodyGeometry(key, [axis, chinY], structure = referenceStruc
   const flank = {y: ground.y - 8, width: profile.baseWidth * (structure.base / 100)};
   const points = [...levels, flank];
   const dx = tangents(points);
-  const response = corpulenceResponse(corpulence);
-  if (response !== 0) {
-    const coefficients = corpulenceCoefficients[key];
-    const referenceWidths = [...profile.widths, profile.baseWidth];
-    // Superpose a second horizontal curve on the structure. It has the same
-    // ordinates and attachment points, so its tangents add to the original ones.
-    const volume = points.map(({y}, index) => {
-      const region = anatomyLevels[index]?.id ?? 'base';
-      return {y, width: referenceWidths[index] * coefficients[region]};
-    });
-    const volumeDx = tangents(volume);
+  if (corpulence !== referenceCorpulence) {
+    const {weight, widths} = beforeCorrection
+      ? previousCorpulence(key, corpulence, [...profile.widths, profile.baseWidth], regions)
+      : corpulenceEnvelope(key, corpulence, scales, regions);
+    const envelope = points.map(({y}, index) => ({y, width:widths[index]}));
+    const envelopeDx = tangents(envelope);
+    // Both curves share the same vertical parameter. Interpolating both the
+    // coordinates and the tangents softens the reliefs with increasing weight.
+    const structureWeight = beforeCorrection ? 1 : 1 - weight;
     for (const [index, point] of points.entries()) {
-      point.width += response * volume[index].width;
-      dx[index] += response * volumeDx[index];
+      point.width = structureWeight * point.width + weight * envelope[index].width;
+      dx[index] = structureWeight * dx[index] + weight * envelopeDx[index];
     }
   }
   const spans = points.slice(1).map((b, index) => {
@@ -102,7 +101,7 @@ export function adultBodyGeometry(key, [axis, chinY], structure = referenceStruc
   return {levels, ground, height, path};
 }
 
-export function adultBodyMarkup(key, chin, {skin, contour}, structure, corpulence) {
-  const {path} = adultBodyGeometry(key, chin, structure, corpulence);
+export function adultBodyMarkup(key, chin, {skin, contour}, structure, corpulence, beforeCorrection) {
+  const {path} = adultBodyGeometry(key, chin, structure, corpulence, beforeCorrection);
   return `<g class="body-shape" data-adult-body="${key}"><path d="${path}" fill="${skin}" stroke="${contour}" stroke-width="4.2" stroke-linejoin="round"/></g>`;
 }

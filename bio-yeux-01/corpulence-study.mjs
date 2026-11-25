@@ -2,30 +2,29 @@ import {adultBodies} from './adult-body.mjs';
 import {corpulenceStops} from './body-corpulence.mjs';
 import {structureCombinations} from './structure-study.mjs';
 
-const comparisonValues = {fine:[0, 50, 100], wide:[0, 50, 100], min:[0, 100], max:[0, 100]};
-const combinations = structureCombinations.flatMap(([id, label, structure]) =>
-  (comparisonValues[id] ?? []).map(value => ({
-    id: `${id}-${value}`, value, label: `${label} · ${value} %`, structure
-  })));
-
-const references = corpulenceStops.map(({label,value}) => ({
-  id: String(value), value, label: `${label} · ${String(value).replace('.', ',')} %`
-}));
+export const corpulenceStudyStructures = structureCombinations.map(([id, label]) =>
+  [id, id === 'reference' ? 'Ossature standard' : label]);
+const phases = [['before', 'Avant · BIO-CORPS-03'], ['after', 'Après · R01']];
+const percentage = new Intl.NumberFormat('fr-FR');
 
 export function renderCorpulenceStudy(panel, {render, background}) {
   const view = panel.querySelector('#corpulence-study-scale').value;
-  const card = ({id, value, label, structure}) => `
-    <article class="card" data-corpulence-example="${id}">
-      <h4>${label}</h4>
-      <div class="structure-pair">${Object.entries(adultBodies).map(([body, {name}]) => `
-        <figure data-corpulence-specimen="${body}">
-          <div class="surface ${view}">${render({key:'shaved:U', body, structure, corpulence:value, view})}</div>
-          <figcaption>${name}</figcaption>
-        </figure>`).join('')}</div>
-    </article>`;
-  for (const [id, examples] of [['corpulence-references',references],['corpulence-combinations',combinations]]) {
-    const container = panel.querySelector('#' + id);
-    container.className = `structure-study-grid ${background}`;
-    container.innerHTML = examples.map(card).join('');
-  }
+  const selected = panel.querySelector('#corpulence-study-structure').value;
+  const [, , structure] = structureCombinations.find(([id]) => id === selected);
+  const container = panel.querySelector('#corpulence-references');
+  container.className = `structure-study-grid ${background}`;
+  container.innerHTML = corpulenceStops.map(({value, label}) => `
+    <article class="card" data-corpulence-example="${value}">
+      <h4>${percentage.format(value)} % · ${label}</h4>
+      ${Object.entries(adultBodies).map(([body, {name}]) => `
+        <section class="corpulence-study-pair" data-corpulence-specimen="${body}">
+          <h5>${name}</h5>
+          <div class="structure-pair">${phases.map(([phase, caption]) => `
+            <figure data-corpulence-phase="${phase}">
+              <div class="surface ${view}">${render({key:'shaved:U', body, structure, corpulence:value, view,
+                beforeCorpulenceCorrection:phase === 'before'})}</div>
+              <figcaption>${caption}</figcaption>
+            </figure>`).join('')}</div>
+        </section>`).join('')}
+    </article>`).join('');
 }

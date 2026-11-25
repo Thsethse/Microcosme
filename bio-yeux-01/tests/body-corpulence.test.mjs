@@ -3,11 +3,12 @@ import {execFileSync} from 'node:child_process';
 import {test} from 'node:test';
 import {adultBodies, adultBodyGeometry, adultBodyMarkup} from '../adult-body.mjs';
 import {appearanceDocument, characterInput, parseAppearance} from '../appearance.mjs';
-import {corpulenceCoefficients, corpulenceResponse, corpulenceStops, referenceCorpulence, validateCorpulence} from '../body-corpulence.mjs';
+import {corpulenceStops, referenceCorpulence, validateCorpulence} from '../body-corpulence.mjs';
 import {referenceStructure, structureControls} from '../body-structure.mjs';
 import {beardPresets} from '../beard.mjs';
 import {exportSelection, restoreSelection} from '../catalogue.mjs';
 import {character} from '../render.mjs';
+import {structureCombinations} from '../structure-study.mjs';
 import {controls, model, presets} from '../../preview/bio-vis-p5-i6/model.mjs';
 
 const profiles = Object.keys(adultBodies);
@@ -28,6 +29,21 @@ function pathPoints(path) {
     line.trim().split(' ').map(pair => pair.split(',').map(Number)));
 }
 const right = path => pathPoints(path).slice(0,9).flat();
+// The paired contours have the same vertical parameterization. Integrate the
+// half-width along the cubics, including the lower cap, by quadrature.
+function area(shape) {
+  const [[start],...curves] = pathPoints(shape.path);
+  return 2 * curves.slice(0,8).reduce((total, controls, index) => {
+    const [a,b,c,d] = [index ? curves[index-1][2] : start, ...controls];
+    const cubic = (p,q,r,s,t) => p*(1-t)**3+3*q*(1-t)**2*t+3*r*(1-t)*t*t+s*t**3;
+    const integral = [0,(1-Math.sqrt(3/7))/2,.5,(1+Math.sqrt(3/7))/2,1].reduce((sum,t,i) => {
+      const width = cubic(a[0],b[0],c[0],d[0],t)-shape.ground.x;
+      const dy = 3*((b[1]-a[1])*(1-t)**2+2*(c[1]-b[1])*(1-t)*t+(d[1]-c[1])*t*t);
+      return sum + [1/20,49/180,16/45,49/180,1/20][i]*width*dy;
+    },0);
+    return total+integral;
+  },0);
+}
 const vertical = ({levels,ground,height}) => ({
   levels:levels.map(({y})=>y), ground, height, baseRatio:(ground.y-levels.at(-1).y)/height
 });
@@ -47,26 +63,15 @@ test('50 % reprend BIO-CORPS-02 à l’octet pour les deux bases et toutes les o
 
 test('les neuf repères et les intermédiaires suivent une réponse continue et monotone', () => {
   assert.deepEqual(corpulenceStops.map(({value})=>value),[0,12.5,25,37.5,50,62.5,75,87.5,100]);
-  assert.equal(corpulenceResponse(50),0);
-  assert.equal(corpulenceResponse(0),-.56);
-  assert.equal(corpulenceResponse(100),1);
-  for (let i=0; i<1000; i++) {
-    assert(corpulenceResponse(i/10)<corpulenceResponse((i+1)/10));
-  }
-  for (const body of profiles) {
-    const coefficients = corpulenceCoefficients[body];
-    assert.equal(coefficients.neck,coefficients.shoulders);
-    assert(coefficients.neck<coefficients.thorax && coefficients.thorax<coefficients.waist);
-    assert.equal(coefficients.thorax,coefficients.base);
-    assert(body==='adult-h' ? coefficients.abdomen>coefficients.hips : coefficients.hips>coefficients.abdomen);
-    for (const structure of [referenceStructure,savedAxes,corners[0],corners.at(-1)]) {
-      const steps = Array.from({length:201}, (_, i) => adultBodyGeometry(body,chins[0],structure,i/2));
-      const paths = new Set(steps.map(({path})=>path));
-      assert.equal(paths.size,201);
-      const landmarkWidths = steps.map(({levels})=>levels.map(({width})=>width));
-      for (let i=1; i<steps.length; i++) {
-        assert(landmarkWidths[i].every((width,index)=>width>landmarkWidths[i-1][index]));
-      }
+  for (const body of profiles) for (const [,,structure] of structureCombinations) {
+    const steps = Array.from({length:201}, (_, i) => adultBodyGeometry(body,chins[0],structure,i/2));
+    assert.equal(new Set(steps.map(({path})=>path)).size,201);
+    const areas = steps.map(area);
+    assert(areas.every((size,index)=>index===0 || size>areas[index-1]));
+    const neutral = right(steps[100].path);
+    for (const amount of [49.999,50.001]) {
+      const nearby = right(adultBodyGeometry(body,chins[0],structure,amount).path);
+      assert(nearby.every(([x],index)=>Math.abs(x-neutral[index][0])<.003));
     }
   }
 });
@@ -95,8 +100,9 @@ test('aux 128 coins et sur les bases intermédiaires, les courbes restent jointe
         assert(Math.abs(x+mirrored[i][0]-2*shape.ground.x)<.0011);
         assert.equal(v,mirrored[i][1]);
       }
-      if (previous) assert(outline.every(([x],i)=>x>=previous[i][0]));
-      previous=outline;
+      const size=area(shape);
+      if (previous!==undefined) assert(size>previous);
+      previous=size;
       for (const [i,[,[u,v],[x,w]]] of curves.entries()) {
         const [a,b]=curves[(i+1)%curves.length][0];
         const dx=x-u, dy=w-v, nextX=a-x, nextY=b-w;
@@ -109,18 +115,59 @@ test('aux 128 coins et sur les bases intermédiaires, les courbes restent jointe
   assert.equal(checks,8640);
 });
 
-test('la courbe de corpulence conserve les écarts horizontaux entre ossatures', () => {
+test('l’enveloppe réduit les écarts locaux d’ossature en conservant ses différentes largeurs générales', () => {
   const chin=chins[0];
   for (const body of profiles) for (const [a,b] of [[corners[0],corners.at(-1)],[referenceStructure,savedAxes]]) {
     const gap = value => {
-      const from=right(adultBodyGeometry(body,chin,a,value).path), to=right(adultBodyGeometry(body,chin,b,value).path);
-      return from.map(([x],i)=>to[i][0]-x);
+      const from=adultBodyGeometry(body,chin,a,value).levels, to=adultBodyGeometry(body,chin,b,value).levels;
+      return Math.hypot(...from.slice(1).map(({width},i)=>to[i+1].width-width));
     };
-    const original=gap(50);
-    assert(original.some(difference=>Math.abs(difference)>1));
-    for (const {value} of corpulenceStops) {
-      assert(gap(value).every((difference,i)=>Math.abs(difference-original[i])<.0021));
+    assert(gap(50)>1);
+    assert(gap(75)>gap(100));
+    assert(gap(100)<.6*gap(50));
+    assert(gap(100)>0);
+  }
+});
+
+test('du volume à la taille et à l’abdomen, sans pointe sur les hanches F aux trois repères hauts', () => {
+  const chin=chins[0];
+  const prominence = (levels, index) => {
+    const [a,b,c] = levels.slice(index-1,index+2);
+    return b.width - (a.width+(c.width-a.width)*(b.y-a.y)/(c.y-a.y));
+  };
+  const notch = levels => Math.max(0,-prominence(levels,3));
+  for (const body of profiles) for (const [,,structure] of structureCombinations) {
+    const neutral=adultBodyGeometry(body,chin,structure);
+    const thin=adultBodyGeometry(body,chin,structure,0);
+    assert(area(thin)<.69*area(neutral));
+    assert(area(thin)<area(adultBodyGeometry(body,chin,structure,0,true)));
+    assert(prominence(thin.levels,3)>-4);
+    for (const value of [75,87.5,100]) {
+      const before=adultBodyGeometry(body,chin,structure,value,true);
+      const after=adultBodyGeometry(body,chin,structure,value);
+      assert(after.levels[3].width>before.levels[3].width);
+      assert(after.levels[4].width>neutral.levels[4].width);
+      assert(notch(after.levels)<=notch(before.levels));
+      if (body==='adult-f') assert(prominence(after.levels,5)<.40*prominence(before.levels,5));
     }
+  }
+  const [h,f] = profiles.map(body=>adultBodyGeometry(body,chin,referenceStructure,100));
+  assert(h.levels[2].width>f.levels[2].width);
+  assert(f.levels[5].width>h.levels[5].width);
+});
+
+test('les témoins avant reproduisent le moteur BIO-CORPS-03 publié', async () => {
+  const source = execFileSync('git', ['show','244dc7867eadab8df7d24d0e9c64aee47a850646:bio-yeux-01/adult-body.mjs'],
+    {cwd:new URL('../..',import.meta.url)}).toString();
+  const originalResponse = execFileSync('git', ['show','244dc7867eadab8df7d24d0e9c64aee47a850646:bio-yeux-01/body-corpulence.mjs'],
+    {cwd:new URL('../..',import.meta.url)}).toString();
+  const moduleData = text=>'data:text/javascript;base64,'+Buffer.from(text).toString('base64');
+  const inherited = await import(moduleData(source
+    .replace("'./body-structure.mjs'", JSON.stringify(new URL('../body-structure.mjs',import.meta.url).href))
+    .replace("'./body-corpulence.mjs'", JSON.stringify(moduleData(originalResponse)))));
+  for (const body of profiles) for (const [,,structure] of structureCombinations) for (const {value} of corpulenceStops) {
+    assert.equal(adultBodyMarkup(body,chins[0],skin,structure,value,true),
+      inherited.adultBodyMarkup(body,chins[0],skin,structure,value));
   }
 });
 
