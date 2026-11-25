@@ -6,12 +6,14 @@ const path = require('node:path');
 const {chromium, webkit, devices} = require('playwright');
 
 const mission = process.env.PREVIEW_MISSION ?? 'BIO-CORPS-01';
-const corpulencePreview = mission === 'BIO-CORPS-03';
+const corpulenceCorrection = mission === 'BIO-CORPS-03-R01';
+const corpulencePreview = mission === 'BIO-CORPS-03' || corpulenceCorrection;
 const structurePreview = mission === 'BIO-CORPS-02' || corpulencePreview;
 const pages = 'https://thsethse.github.io/Microcosme/preview/';
 const output = process.env.ARTIFACT_DIR ?? '/tmp/microcosme-' + mission.toLowerCase();
 const published = pages + mission.toLowerCase() + '/';
-const referenceURL = process.env.REFERENCE_URL ?? pages + (corpulencePreview ? 'bio-corps-02/' : structurePreview ? 'bio-corps-01/' : 'bio-yeux-r01/');
+const predecessors = {'BIO-CORPS-03-R01':'bio-corps-03/', 'BIO-CORPS-03':'bio-corps-02/', 'BIO-CORPS-02':'bio-corps-01/'};
+const referenceURL = process.env.REFERENCE_URL ?? pages + (predecessors[mission] ?? 'bio-yeux-r01/');
 const local = process.env.PREVIEW_DIR;
 const engines = {chromium, webkit};
 const specimens = ['standard','slim','broad','narrow','shoulders','bust','adult-h','adult-f'];
@@ -195,6 +197,42 @@ async function checkStructure(page, url, name) {
   return {isolatedRasters, unchangedVertical, restored, studySamples:38};
 }
 
+async function checkCorrectionStudy(page, name) {
+  const {structureCombinations} = await import('../structure-study.mjs');
+  const panel = page.locator('#planche-corpulence');
+  const select = panel.locator('#corpulence-study-structure');
+  const expected = ['reference','fine','wide','min','max','upper','lower'];
+  assert.deepEqual(await select.locator('option').evaluateAll(options=>options.map(({value})=>value)),expected);
+  const neutralShapes = new Set();
+  for (const [structure] of structureCombinations) {
+    await select.selectOption(structure);
+    assert.equal(await panel.locator('svg[aria-label^="Rasée ·"]').count(),36);
+    for (const [scale,height] of [['head',300],['mini',70],['tile',178]]) {
+      await panel.locator('#corpulence-study-scale').selectOption(scale);
+      const sizes = await panel.locator('svg').evaluateAll(nodes=>
+        [...new Set(nodes.map(node=>node.getBoundingClientRect().height))]);
+      assert.deepEqual(sizes,[height]);
+    }
+    const pairs = await panel.locator('[data-corpulence-specimen]').evaluateAll(nodes=>nodes.map(node=>({
+      body:node.dataset.corpulenceSpecimen,
+      value:Number(node.closest('[data-corpulence-example]').dataset.corpulenceExample),
+      shapes:['before','after'].map(phase=>node.querySelector(`[data-corpulence-phase="${phase}"] .body-shape path`).getAttribute('d'))
+    })));
+    for (const {body,value,shapes:[before,after]} of pairs) {
+      if (value===50) {
+        assert.equal(before,after,`${structure} · ${body}`);
+        neutralShapes.add(after);
+      } else assert.notEqual(before,after,`${structure} · ${body} · ${value}`);
+    }
+    const witnesses = structure === 'reference' ? ['0','75','87.5','100'] : ['max','lower'].includes(structure) ? ['100'] : [];
+    for (const value of witnesses) await panel.locator(`[data-corpulence-example="${value}"]`).screenshot({
+      path:path.join(output,`${name}-corpulence-${structure}-${value}.png`)
+    });
+  }
+  assert.equal(neutralShapes.size,14);
+  return {structures:expected.length, pairs:18*expected.length, scales:3};
+}
+
 async function checkCorpulence(page, old, url, name) {
   const {referenceStructure} = await import('../body-structure.mjs');
   const {corpulenceStops} = await import('../body-corpulence.mjs');
@@ -258,6 +296,12 @@ async function checkCorpulence(page, old, url, name) {
     await setRange(page,'corpulence',amount);
     const image = await compare(page);
     const json = await exportAppearance(page);
+    let previousArchive = json;
+    if (corpulenceCorrection) {
+      await setRange(old,'corpulence',amount);
+      previousArchive = await exportAppearance(old);
+      assert.deepEqual(JSON.parse(previousArchive),JSON.parse(json));
+    }
     const archive=JSON.parse(json);
     assert.equal(archive.version,13);
     assert.deepEqual(archive.character.structure,structure);
@@ -267,7 +311,7 @@ async function checkCorpulence(page, old, url, name) {
     await q('#body').selectOption(body);
     assert.deepEqual(await compare(page),image);
     await ready(page,url);
-    await importAppearance(page,json);
+    await importAppearance(page,previousArchive);
     assert.equal(Number(await slider.inputValue()),amount);
     assert.deepEqual(await inputs(page),structure);
     assert.deepEqual(await compare(page),image);
@@ -295,26 +339,30 @@ async function checkCorpulence(page, old, url, name) {
   await q('#corpulence-references [data-corpulence-specimen]').first().waitFor({state:'attached'});
   assert.equal(await q('#corpulence-references [data-corpulence-example]').count(),9);
   assert.equal(await q('#corpulence-references [data-corpulence-specimen]').count(),18);
-  assert.equal(await q('#corpulence-combinations [data-corpulence-example]').count(),10);
-  assert.equal(await q('#corpulence-combinations [data-corpulence-specimen]').count(),20);
-  assert.equal(await q('#planche-corpulence svg[aria-label^="Rasée ·"]').count(),38);
-  for (const [scale,height] of [['head',300],['mini',70],['tile',178]]) {
-    await q('#corpulence-study-scale').selectOption(scale);
-    const sizes = await q('#corpulence-references svg').evaluateAll(nodes =>
-      [...new Set(nodes.map(node=>node.getBoundingClientRect().height))]);
-    assert.deepEqual(sizes,[height]);
-  }
-  for (const [container,id] of [['references','0'],['references','100'],['combinations','max-100']]) {
-    await q(`#corpulence-${container} [data-corpulence-example="${id}"]`).screenshot({
-      path:path.join(output,`${name}-corpulence-${id}.png`)
-    });
+  let studySamples = 38;
+  if (corpulenceCorrection) studySamples = await checkCorrectionStudy(page,name);
+  else {
+    assert.equal(await q('#corpulence-combinations [data-corpulence-example]').count(),10);
+    assert.equal(await q('#corpulence-combinations [data-corpulence-specimen]').count(),20);
+    assert.equal(await q('#planche-corpulence svg[aria-label^="Rasée ·"]').count(),38);
+    for (const [scale,height] of [['head',300],['mini',70],['tile',178]]) {
+      await q('#corpulence-study-scale').selectOption(scale);
+      const sizes = await q('#corpulence-references svg').evaluateAll(nodes =>
+        [...new Set(nodes.map(node=>node.getBoundingClientRect().height))]);
+      assert.deepEqual(sizes,[height]);
+    }
+    for (const [container,id] of [['references','0'],['references','100'],['combinations','max-100']]) {
+      await q(`#corpulence-${container} [data-corpulence-example="${id}"]`).screenshot({
+        path:path.join(output,`${name}-corpulence-${id}.png`)
+      });
+    }
   }
   for (const width of [1180,820,390]) {
     await page.setViewportSize({width,height:920});
     assert(await page.evaluate(w => document.querySelector('#planche-corpulence').getBoundingClientRect().right <= w &&
       document.documentElement.scrollWidth<=w+1,width));
   }
-  return {samples,neutralExact,unchangedVertical,restored,studySamples:38};
+  return {samples,neutralExact,unchangedVertical,restored,studySamples};
 }
 
 async function exercise(context, url, name, version) {
