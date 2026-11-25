@@ -160,3 +160,27 @@ button:disabled, input:disabled, select:disabled { opacity: .65; }
 #scars-zoom svg{height:clamp(215px,30vw,355px)}
 #scars-error:empty{display:none}
 #scar-study{display:grid;gap:1rem;margin-top:1rem}
+
+.makeup-workspace { display: grid; grid-template-columns: minmax(16rem, 27rem) minmax(15rem, 1fr); gap: clamp(1rem, 4vw, 3rem); align-items: start; }
+.makeup-options, #makeup-paint-panel, #makeup-controls > div, #makeup-library[open] { display: grid; gap: .65rem; }
+.makeup-options [hidden], #makeup-paint-panel[hidden], #makeup-controls [hidden] { display: none; }
+.makeup-actions { display: flex; flex-wrap: wrap; align-items: end; gap: .5rem; }
+#makeup button, #makeup select { min-height: 44px; }
+.makeup-portrait { margin: 0; max-width: 335px; }
+#makeup-zoom svg { display: block; width: 100%; height: auto; }
+#makeup-zoom.placing { cursor: crosshair; touch-action: manipulation; }
+.makeup-chip { display: inline-block; width: 1.15rem; height: 1.15rem; border: 1px solid #5e544555; border-radius: 50%; vertical-align: middle; }
+.makeup-pigment .makeup-chip { margin-inline-start: .45rem; }
+#makeup-library { margin-top: 1rem; }
+#makeup-library textarea { width: 100%; min-height: 5.5rem; }
+#makeup-study-palette { display: flex; flex-wrap: wrap; gap: .75rem 1.4rem; margin: .8rem 0 1.2rem; }
+#makeup-study-palette .makeup-chip { margin: .22rem .12rem 0 0; }
+#makeup-study { display: grid; gap: .65rem; }
+#makeup-study .freckle-row header { padding: 0 0 .6rem; }
+#makeup-study .freckle-row h3 { margin: 0 0 .25rem; }
+#makeup-study .freckle-row header p { margin: 0; }
+#makeup-study .freckle-detail svg { width: 170px; height: 178px; }
+@media (max-width: 40em) {
+  .makeup-workspace { grid-template-columns: 1fr; }
+  .makeup-portrait { grid-row: 1; max-width: min(70vw, 260px); justify-self: center; }
+}

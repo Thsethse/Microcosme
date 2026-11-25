@@ -1,0 +1,226 @@
+{
+  "url": "https://thsethse.github.io/Microcosme/preview/bio-maquillage-01/",
+  "resources": {
+    "verified": 366,
+    "retries": 0,
+    "manifestSha256": "ba224a7f0c4729d7fd405322ac9b72ebb10ad7b04b60e6b8ba45e764c418c3a4"
+  },
+  "engines": [
+    {
+      "engine": "chromium",
+      "browserVersion": "151.0.7922.34",
+      "menus": {
+        "ordinary": 119,
+        "historical": 126,
+        "body": 6,
+        "morph": 7,
+        "eye-preset": 12,
+        "iris-primary": 16,
+        "brows-preset": 10,
+        "mouth-preset": 10,
+        "nose-preset": 13,
+        "beard-preset": 13,
+        "marks-type": 5,
+        "scars-preset": 6,
+        "makeup-family": 5,
+        "makeup-paint-kind": 12
+      },
+      "sliders": {
+        "eyes": 8,
+        "scars": 11,
+        "makeup": 24
+      },
+      "initialization": [
+        [
+          {
+            "width": 307,
+            "height": 300,
+            "pixels": 19127
+          },
+          {
+            "width": 307,
+            "height": 178,
+            "pixels": 4140
+          },
+          {
+            "width": 70,
+            "height": 70,
+            "pixels": 965
+          }
+        ],
+        [
+          {
+            "width": 307,
+            "height": 300,
+            "pixels": 19127
+          },
+          {
+            "width": 307,
+            "height": 178,
+            "pixels": 4140
+          },
+          {
+            "width": 70,
+            "height": 70,
+            "pixels": 965
+          }
+        ]
+      ],
+      "inherited": {
+        "iris": 6,
+        "details": 6,
+        "brows": 3,
+        "mouth": 3,
+        "nose": 3,
+        "beard": 3,
+        "palette": true,
+        "marks": 3,
+        "scars": 3
+      },
+      "effects": {
+        "lips": [
+          true,
+          true,
+          true
+        ],
+        "shadow": [
+          true,
+          true,
+          true
+        ],
+        "liner": [
+          true,
+          true,
+          true
+        ],
+        "blush": [
+          true,
+          true,
+          true
+        ],
+        "paint": [
+          true,
+          true,
+          true
+        ]
+      },
+      "board": 7,
+      "protectedPixels": 4,
+      "exactRemoval": true,
+      "coldReplay": true,
+      "touchPlacement": true,
+      "codeCommit": "70ed8ae4b8ec6ebbc16b9fd761147df2fca88a67",
+      "startup": "atelier-4bc7fbe90e6425cf.js",
+      "errors": [],
+      "retryAfter503": true
+    },
+    {
+      "engine": "webkit",
+      "browserVersion": "26.5",
+      "menus": {
+        "ordinary": 119,
+        "historical": 126,
+        "body": 6,
+        "morph": 7,
+        "eye-preset": 12,
+        "iris-primary": 16,
+        "brows-preset": 10,
+        "mouth-preset": 10,
+        "nose-preset": 13,
+        "beard-preset": 13,
+        "marks-type": 5,
+        "scars-preset": 6,
+        "makeup-family": 5,
+        "makeup-paint-kind": 12
+      },
+      "sliders": {
+        "eyes": 8,
+        "scars": 11,
+        "makeup": 24
+      },
+      "initialization": [
+        [
+          {
+            "width": 307,
+            "height": 300,
+            "pixels": 19175
+          },
+          {
+            "width": 307,
+            "height": 178,
+            "pixels": 4163
+          },
+          {
+            "width": 70,
+            "height": 70,
+            "pixels": 966
+          }
+        ],
+        [
+          {
+            "width": 307,
+            "height": 300,
+            "pixels": 19175
+          },
+          {
+            "width": 307,
+            "height": 178,
+            "pixels": 4163
+          },
+          {
+            "width": 70,
+            "height": 70,
+            "pixels": 966
+          }
+        ]
+      ],
+      "inherited": {
+        "iris": 6,
+        "details": 6,
+        "brows": 3,
+        "mouth": 3,
+        "nose": 3,
+        "beard": 3,
+        "palette": true,
+        "marks": 3,
+        "scars": 3
+      },
+      "effects": {
+        "lips": [
+          true,
+          true,
+          true
+        ],
+        "shadow": [
+          true,
+          true,
+          true
+        ],
+        "liner": [
+          true,
+          true,
+          true
+        ],
+        "blush": [
+          true,
+          true,
+          true
+        ],
+        "paint": [
+          true,
+          true,
+          true
+        ]
+      },
+      "board": 7,
+      "protectedPixels": 4,
+      "exactRemoval": true,
+      "coldReplay": true,
+      "touchPlacement": true,
+      "codeCommit": "70ed8ae4b8ec6ebbc16b9fd761147df2fca88a67",
+      "startup": "atelier-4bc7fbe90e6425cf.js",
+      "errors": [],
+      "retryAfter503": true
+    }
+  ]
+}

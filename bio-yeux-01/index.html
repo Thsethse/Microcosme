@@ -4,14 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#f6f2e8">
-  <title>Microcosme · BIO-CICATRICES-01 · Cicatrices</title>
+  <title>Microcosme · BIO-MAQUILLAGE-01 · Maquillage et peintures faciales</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="shell">
-  <p class="brand">Microcosme <span>BIO-CICATRICES-01</span></p>
-  <h1>Cicatrices</h1>
+  <p class="brand">Microcosme <span>BIO-MAQUILLAGE-01</span></p>
+  <h1>Maquillage et peintures faciales</h1>
   <nav aria-label="Navigation dans l’atelier">
+    <a href="#makeup">Maquillage</a>
+    <a href="#planche-maquillage">Planche de maquillage</a>
     <a href="#scars">Cicatrices</a>
     <a href="#planche-cicatrices">Planche de cicatrices</a>
     <a href="#marks">Marques cutanées</a>
@@ -41,6 +43,7 @@
       <div class="toolbar">
         <label>Fond<select id="background"><option value="light">Ivoire</option><option value="dark">Ardoise</option></select></label>
         <label>Référence<select id="iris-before-mode"><option value="same">Ouverture actuelle</option><option value="historical">Ouverture historique</option></select></label>
+        <label id="makeup-before-wrap" hidden>Référence<select id="makeup-before-mode"><option value="same">Visage actuel sans maquillage</option><option value="historical">Détails du visage historiques</option></select></label>
         <label id="scars-before-wrap" hidden>Référence<select id="scars-before-mode"><option value="same">Visage actuel sans cicatrices</option><option value="historical">Détails du visage historiques</option></select></label>
         <label id="marks-before-wrap" hidden>Référence<select id="marks-before-mode"><option value="same">Visage actuel sans marques</option><option value="historical">Détails du visage historiques</option></select></label>
         <label id="beard-before-wrap" hidden>Référence<select id="beard-before-mode"><option value="same">Visage actuel, imberbe</option><option value="historical">Détails du visage historiques</option></select></label>
@@ -87,6 +90,68 @@
     </div>
   </section>
 
+  <section id="makeup">
+    <h2>Maquillage</h2>
+    <div class="makeup-workspace">
+      <div class="makeup-options">
+        <label class="check"><input type="checkbox" id="makeup-show" checked> Afficher le maquillage</label>
+        <label>Famille<select id="makeup-family"></select></label>
+        <label class="check"><input type="checkbox" id="makeup-enabled"> <span id="makeup-enabled-text"></span></label>
+        <label hidden>Référence<select id="makeup-reference"></select></label>
+        <div id="makeup-paint-panel" hidden>
+          <div class="makeup-actions">
+            <label>Forme à ajouter<select id="makeup-paint-kind"></select></label>
+            <button id="makeup-add" type="button">Ajouter</button>
+          </div>
+          <label>Élément à modifier<select id="makeup-paint-list"></select></label>
+          <div class="makeup-actions">
+            <button id="makeup-down" type="button">Reculer</button>
+            <button id="makeup-up" type="button">Avancer</button>
+            <button id="makeup-remove" type="button">Supprimer</button>
+          </div>
+          <label>Forme de l’élément<select id="makeup-paint-shape"></select></label>
+          <label class="check"><input type="checkbox" id="makeup-mirror"> Reproduire en miroir</label>
+          <button id="makeup-place" type="button" aria-pressed="false">Placer sur le visage</button>
+        </div>
+        <div id="makeup-controls"></div>
+        <div class="makeup-actions">
+          <button id="makeup-reset" type="button">Réinitialiser la famille</button>
+          <button id="makeup-remove-all" type="button">Retirer tout le maquillage</button>
+        </div>
+      </div>
+      <figure class="makeup-portrait">
+        <div id="makeup-zoom" class="surface"></div>
+        <figcaption><a href="#atelier">Comparer aux trois échelles</a></figcaption>
+      </figure>
+    </div>
+    <details id="makeup-library">
+      <summary>Compositions</summary>
+      <div class="makeup-actions">
+        <label>Nom<input id="makeup-name" type="text" maxlength="80"></label>
+        <button id="makeup-save" type="button">Enregistrer ou remplacer</button>
+        <label>Compositions enregistrées<select id="makeup-saved"></select></label>
+        <button id="makeup-apply" type="button" disabled>Réappliquer</button>
+      </div>
+      <div class="makeup-actions">
+        <label>Graine<input id="makeup-seed" type="text" maxlength="128" value="Microcosme"></label>
+        <button id="makeup-draw" type="button">Tirer une composition</button>
+      </div>
+      <label>Composition JSON<textarea id="makeup-json" rows="5" spellcheck="false"></textarea></label>
+      <div class="makeup-actions">
+        <button id="makeup-export" type="button">Exporter la composition</button>
+        <button id="makeup-import" type="button">Importer et appliquer</button>
+      </div>
+    </details>
+    <p id="makeup-message" class="hint" role="status"></p>
+  </section>
+  <section id="planche-maquillage">
+    <h2>Planche de contrôle du maquillage</h2>
+    <div id="makeup-study-palette" aria-label="Palette de 32 couleurs"></div>
+    <details id="makeup-study-panel">
+      <summary>Voir les sept cas aux trois échelles</summary>
+      <div id="makeup-study"></div>
+    </details>
+  </section>
   <section id="scars">
     <h2>Cicatrices</h2>
     <div class="iris-workspace">

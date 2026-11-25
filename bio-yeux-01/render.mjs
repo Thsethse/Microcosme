@@ -11,6 +11,8 @@ import {noseMarkup, solveNose} from './nose.mjs';
 import {beardCategoryOf, beardMarkup, solveBeard} from './beard.mjs';
 import {marksMarkup, solveMarks} from './marks.mjs';
 import {scarsMarkup, solveScars} from './scars.mjs';
+import {hasMakeup, normalizeMakeup} from './makeup.mjs';
+import {makeupMarkup} from './makeup-render.mjs';
 
 function clipId(path, instance, index) {
   // Equal default IDs are safe for equal outlines. An explicit instance also
@@ -85,10 +87,12 @@ export function character(input = {}, options = {}) {
   const hasBeard = options.beard != null && options.beard !== 'historical' && beardCategoryOf(category) !== 'F';
   const hasMarks = options.marks != null && options.marks !== 'historical' && options.marks.length !== 0;
   const hasScars = options.scars != null && options.scars !== 'historical' && options.scars.length !== 0;
-  if (!selected && !options.eyeEnvelopes && !hasIris && !hasDetails && !hasBrows && !hasMouth && !hasNose && !hasBeard && !hasMarks && !hasScars) return svg;
+  const makeup = options.makeup && normalizeMakeup(options.makeup);
+  const hasCosmetics = hasMakeup(makeup);
+  if (!selected && !options.eyeEnvelopes && !hasIris && !hasDetails && !hasBrows && !hasMouth && !hasNose && !hasBeard && !hasMarks && !hasScars && !hasCosmetics) return svg;
   const geometry = eyesFor(input, selected);
   let result = svg;
-  if (selected || hasIris || hasDetails || hasBrows || hasMouth || hasNose || hasBeard || hasMarks || hasScars) {
+  if (selected || hasIris || hasDetails || hasBrows || hasMouth || hasNose || hasBeard || hasMarks || hasScars || hasCosmetics) {
     const face = model(input);
     const originalFace = headMarkup(face.base).replace(/<path d="[^"]*"/, `<path d="${face.outline}"`);
     if (!svg.includes(originalFace)) throw new Error('Visage historique introuvable');
@@ -116,6 +120,10 @@ export function character(input = {}, options = {}) {
         scale:options.smallScale?'mini':options.headOnly?'head':'body'
       });
     }
+    if (hasCosmetics) updatedFace += makeupMarkup(face, geometry, makeup, {
+      markup: originalFace, painted: updatedFace, mouthResult: mouth, noseResult: nose, detailResult: details,
+      instance: options.instance
+    });
     if (hasBeard) updatedFace += beardMarkup(solveBeard(face,geometry,options.beard,
       {...options,category,source:svg,markup:originalFace,detailResult:details,noseResult:nose,mouthResult:mouth}));
     result = svg.replace(originalFace,updatedFace);

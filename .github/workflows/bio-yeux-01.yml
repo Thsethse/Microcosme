@@ -54,6 +54,11 @@ jobs:
         run: |
           node bio-yeux-01/build-scars-preview.mjs "$ARTIFACT_DIR/cicatrices-pages"
           PREVIEW_DIR="$ARTIFACT_DIR/cicatrices-pages" ARTIFACT_DIR="$ARTIFACT_DIR/cicatrices-demarrage" node bio-yeux-01/tests/scars-startup-browser.cjs
+      - run: node --test bio-yeux-01/tests/makeup.test.mjs
+      - name: Recette de la distribution Pages du maquillage
+        run: |
+          node bio-yeux-01/build-makeup-preview.mjs "$ARTIFACT_DIR/maquillage-pages"
+          PREVIEW_DIR="$ARTIFACT_DIR/maquillage-pages" ARTIFACT_DIR="$ARTIFACT_DIR/maquillage" node bio-yeux-01/tests/makeup-browser.cjs
       - run: ARTIFACT_DIR="$ARTIFACT_DIR/corrections" node bio-yeux-01/tests/corrections-browser.cjs
       - run: ARTIFACT_DIR="$ARTIFACT_DIR/palettes" node bio-col-01/tests/browser.cjs
       - name: Récupérer les suites originales des lots 1 à 3
