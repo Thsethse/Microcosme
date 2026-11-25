@@ -1,0 +1,17 @@
+# BIO-CORPS-03 — Corpulence globale
+## Référence
+BIO-CORPS-02 validé par le porteur : https://thsethse.github.io/Microcosme/preview/bio-corps-02/#personnage. Partir de docs/bio-corps-03 issue de codex/bio-corps-02.
+## Périmètre
+Un curseur continu 0–100, référence 50, indépendant des six largeurs d'ossature H/F. Repères indicatifs 0 très maigre, 12.5 maigre, 25 mince, 37.5 légèrement mince, 50 standard, 62.5 enrobé, 75 corpulent, 87.5 obèse, 100 très obèse. Pas de curseurs régionaux. À 50, rendu exact BIO-CORPS-02 pour toute ossature admissible.
+## Répartition
+Cou et épaules faible, thorax modérée, taille forte, abdomen très forte H/forte F, hanches forte H/très forte F, base du pion modérée, visage modérée sous condition. Coefficients numériques à déterminer et documenter par Codex selon rendu, pas de prétention physiologique. Déformation continue, distincte de l'ossature enregistrée, pas de modification silencieuse de ses valeurs. Préserver identité des ossatures fines/larges même aux extrêmes. Respecter BIO-INV-01 et BIO-CORPS-INV-01 : hauteur, repères verticaux, ancrage au sol, proportion de base invariants. Courbes continues sans auto-intersection, domaines effectifs explicites si nécessaires, pas de plages mortes ni saturation silencieuse.
+## BIO-CORPS-INV-02 — Protection du visage
+Influence facultative conditionnée à la non-régression. Autoriser uniquement volumes périphériques joues, mâchoire, rondeur du menton et transition cou, sans variation de hauteur. Préserver données et identité de tête, yeux, iris, paupières, cils, sourcils, nez, bouche, cheveux, pilosité, cicatrices, marques, maquillage. Les ancres cutanées peuvent suivre la déformation sans perte de caractéristiques ; préserver masques, raccords, contraintes faciales et préférences. À 50 retour exact au rendu antérieur. Aucune refonte du moteur facial. Si impossibilité de démontrer la non-régression, désactiver entièrement la déformation faciale et livrer le corps seul, documenter le blocage. Ne pas présenter une influence faciale partielle défectueuse comme validée.
+## Atelier et persistance
+Ajouter un seul curseur aux bases H/F, conserver six curseurs d'ossature et leurs valeurs. Réinitialisation corpulence à 50 sans réinitialiser ossature. Schéma explicite versionné si nécessaire ; anciens exports sans corpulence retrouvent leur rendu exact, six corps historiques inchangés, aucune activation de clés inertes. Pas de curseur inactif sur corps historiques.
+## Recette
+Preview publique /preview/bio-corps-03/ atelier complet. Planche neuf repères H/F, ossatures fines/larges et combinaisons extrêmes admissibles, trois échelles historiques. Vérifier monotonie visuelle des volumes, continuité, invariants, indépendance, retour exact à 50, sauvegardes et tests existants/ciblés. Si visage activé, comparer plusieurs formes de tête, coiffures longues, barbes, marques, cicatrices, maquillage et extrêmes des paramètres faciaux aux trois échelles ; vérifier identité des données, ancres et masques, absence de régression et retour exact. Distinguer tests automatisés et iPad physique réservé au porteur. Rapporter coefficients, limites, éventuel repli corps seul.
+## Hors périmètre
+Poitrine détaillée, abdominaux, plis du ventre, grossesse, attributs génitaux, âge, vêtements, animation, intégration jeu, arbitrage T. Aucun autre chantier.
+## Livraison
+Branche codex/bio-corps-03, PR ouverte sans fusion, rapport docs/ai/bio-corps-03/RAPPORT.md, résultats tests, URL publique et SHA vérifiable. Attendre validation artistique iPad avant BIO-CORPS-04.
