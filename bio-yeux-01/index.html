@@ -28,7 +28,14 @@
   </nav>
 </header>
 <main class="shell">
-  <section class="workspace" id="atelier" aria-label="Atelier du visage">
+  <section id="atelier" aria-label="Atelier du visage" data-startup="pending">
+    <p id="atelier-startup" role="status">Chargement de l’atelier…</p>
+    <div id="atelier-startup-error" role="alert" hidden>
+      <p>L’atelier n’a pas pu démarrer. <span id="atelier-startup-detail"></span></p>
+      <button id="atelier-retry" type="button">Recharger l’atelier</button>
+    </div>
+    <noscript><p>Activez JavaScript dans Safari pour ouvrir l’atelier.</p></noscript>
+    <div class="workspace">
     <div class="comparison-panel">
       <h2>Avant / après</h2>
       <div class="toolbar">
@@ -76,6 +83,7 @@
       <label>Version du tirage<select id="draw-version"></select></label>
       <p id="draw-error" role="alert"></p>
       <label>Graine du tirage<input id="seed" type="text" value="Microcosme" spellcheck="false"></label>
+    </div>
     </div>
   </section>
 
@@ -394,6 +402,34 @@
   </section>
   <footer><a href="https://github.com/Thsethse/Microcosme/blob/codex/bio-cicatrices-01/docs/ai/bio-cicatrices-01/RAPPORT.md">Rapport de réalisation et captures</a></footer>
 </main>
-<script type="module" src="app.mjs"></script>
+<script>
+(function () {
+  var atelier = document.getElementById('atelier');
+  var waiting = document.getElementById('atelier-startup');
+  var alert = document.getElementById('atelier-startup-error');
+  var detail = document.getElementById('atelier-startup-detail');
+  function startupFailed(message) {
+    if (atelier.getAttribute('data-startup') !== 'pending') return;
+    atelier.setAttribute('data-startup', 'failed');
+    detail.textContent = message;
+    waiting.hidden = true;
+    alert.hidden = false;
+  }
+  window.addEventListener('error', function (event) {
+    if (event.target && event.target.id === 'atelier-entry') {
+      startupFailed('Script indisponible (' + event.target.getAttribute('src') + ').');
+    } else if (event.message) {
+      startupFailed(event.message);
+    }
+  }, true);
+  window.addEventListener('load', function () {
+    startupFailed('Le script n’a pas terminé son initialisation.');
+  });
+  document.getElementById('atelier-retry').addEventListener('click', function () {
+    window.location.reload();
+  });
+}());
+</script>
+<script id="atelier-entry" type="module" src="app.mjs"></script>
 </body>
 </html>
