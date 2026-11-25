@@ -4,7 +4,9 @@ import {controls, bodies, model, presets} from '../preview/bio-vis-p5-i6/model.m
 import {priorityCase} from '../preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/r1/coverage.mjs';
 import {character} from './render.mjs';
 import {adultBodies, isAdultBody} from './adult-body.mjs';
-import {mountBodyStudy, renderBodyStudy} from './body-study.mjs';
+import {mountBodyStudy, mountStudyPanel, renderBodyStudy} from './body-study.mjs';
+import {referenceStructure, structureControls} from './body-structure.mjs';
+import {renderStructureStudy} from './structure-study.mjs';
 import {appearanceDocument, characterInput, parseAppearance} from './appearance.mjs';
 import {currentDraw, drawEyes, legacyDraw} from './draw.mjs';
 import {eyeChanges, eyeDomains, eyeProposal} from './eye-domain.mjs';
@@ -41,6 +43,7 @@ const morphs = {
   min: {name: 'Tous les minima', values: Object.fromEntries(axes.map(key => [key, controls[key].min]))},
   max: {name: 'Tous les maxima', values: Object.fromEntries(axes.map(key => [key, controls[key].max]))}
 };
+const structurePreferences = new Map();
 const variety = ['p5-038:G','p5-048:G','curls:U','waist_waves:U','braids:U','p5-041:G','p5-056:D','p5-061:D',
   'p5-071:G','p5-029:G','p5-034:G','p5-051:G','p5-058:G','p5-068:G','p5-024:D','p5-058:D'];
 let selection = restoreSelection({style: 'p5-038', arrangement: 'G', body: 'standard', accessories: true, contrast: true});
@@ -76,9 +79,12 @@ function inputFor(key) {
 }
 
 const frames = {head: '-30 -65 220 225', tile: '-40 -85 240 355', mini: '-35 -68 230 245'};
-function svg({key, body, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null, beard = null, beardCategory, marks = null, scars = null, makeup = null} = {}) {
+function svg({key, body, structure, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null, beard = null, beardCategory, marks = null, scars = null, makeup = null} = {}) {
   const input = inputFor(key);
-  if (body !== undefined) input.body = body;
+  if (body !== undefined) {
+    input.body = body;
+    input.structure = structure;
+  }
   const result = character(input, {
     eyes: value, iris:pigment, details, brows, mouth, nose, beard, beardCategory, marks, scars, makeup, eyeEnvelopes: guides, hairColor: hair, rememberedHairColor: colour, headOnly: view !== 'tile',
     smallScale: view === 'mini', naturalEyes, instance: 'atelier-yeux-' + (++serial)
@@ -240,13 +246,19 @@ function renderComparison() {
   const referenceSettings = compareMakeup ? current : makeup ? {value:null} : comparisonReference;
   comparison.innerHTML = `<article data-side="before"><h3>${before}</h3>${sizes(referenceSettings)}</article><article data-side="after"><h3>${title}</h3>${sizes({...current,makeup})}</article>`;
 
+  const renderBody = settings => svg({...current, makeup, ...settings});
+  const background = q('#background').value;
+  if (isAdultBody(selection.state.body)) {
+    const preview = q('#structure-live');
+    preview.className = 'surface tile ' + background;
+    preview.innerHTML = renderBody({view:'tile'});
+  }
   const bodyStudy = q('#planche-corps');
   if (bodyStudy.open) {
-    renderBodyStudy(bodyStudy, {
-      render: settings => svg({...current, makeup, ...settings}),
-      chin: model(inputFor()).anchors.chin, bodies, background: q('#background').value
-    });
+    renderBodyStudy(bodyStudy, {render:renderBody, chin:model(inputFor()).anchors.chin, bodies, background});
   }
+  const structureStudy = q('#planche-ossature');
+  if (structureStudy.open) renderStructureStudy(structureStudy, {render:renderBody, background});
 
   const {envelopes:[left,right],maxWidth,reference}=eyesFor(inputFor(),null).face;
   const x=left.x-maxWidth/2-2, width=right.x+maxWidth/2+2-x;
@@ -310,6 +322,27 @@ function renderChart() {
     `<button data-eye-form="${id}" type="button" aria-pressed="${id === selectedForm}">${svg({value, frame, decorative: true})}<span class="caption">${label}</span></button>`).join('');
 }
 
+function rememberStructure() {
+  const {body, structure} = selection.state;
+  if (!isAdultBody(body)) return;
+  if (structure) structurePreferences.set(body, structure);
+  else structurePreferences.delete(body);
+}
+
+function syncStructure() {
+  const active = isAdultBody(selection.state.body);
+  q('#structure-panel').hidden = !active;
+  if (!active) return;
+  const values = selection.state.structure ?? referenceStructure;
+  for (const [key,value] of Object.entries(values)) {
+    const slider = q('#structure-' + key);
+    slider.value = value;
+    const percent = `${value} %`;
+    slider.setAttribute('aria-valuetext',percent);
+    q(`output[for="structure-${key}"]`).textContent = percent;
+  }
+}
+
 function syncSelection(updateJSON = true) {
   const entry = choice(selection.key);
   q('#ordinary').value = selection.visibleKey;
@@ -320,6 +353,7 @@ function syncSelection(updateJSON = true) {
   const ordinary = selection.visibleKey === selection.key ? '' : ` · Entrée ordinaire ${choice(selection.visibleKey).label}`;
   q('#identity-note').textContent = `Identifiant ouvert · ${entry.label} · ${entry.name}${ordinary}`;
   q('#body').value = selection.state.body;
+  syncStructure();
   q('#morph').value = morphForm;
   for (const key of ['accessories', 'contrast']) q('#' + key).checked = selection.raw[key] !== false;
   for (const key of axes) {
@@ -352,11 +386,14 @@ function refreshCharacter() {
   renderPaletteStudies();
 }
 
-function setSelection(raw, form = morphForm, trigger = document.activeElement, {onApply, body = selection.state.body} = {}) {
-  const next = restoreSelection(raw, body);
+function setSelection(raw, form = morphForm, trigger = document.activeElement, {
+  onApply, body = selection.state.body, structure = structurePreferences.get(body)
+} = {}) {
+  const next = restoreSelection(raw, body, structure);
   const apply = () => {
     clearProposal();
     selection = next;
+    rememberStructure();
     morphForm = form;
     q('#selection-error').textContent = '';
     refreshCharacter();
@@ -435,6 +472,13 @@ sliders('#morph-controls', morphControls, '.01', (key, value) => {
   setSelection({...selection.raw, [key]: value}, 'custom', q('#morph-' + key));
 }, 'morph');
 q('#morph-forehead_height').setAttribute('aria-describedby', 'forehead-note');
+sliders('#structure-controls', Object.entries(structureControls), '1', (key, value) => {
+  const structure = {...(selection.state.structure ?? referenceStructure), [key]:value};
+  setSelection(selection.raw, morphForm, q('#structure-' + key), {structure});
+}, 'structure');
+q('#structure-reset').addEventListener('click', event =>
+  setSelection(selection.raw, morphForm, event.target, {structure:null}));
+q('#structure-study-scale').addEventListener('change', renderComparison);
 
 options('#eye-request-axis', Object.entries(eyeControls).map(([key, range]) => [key, range.label]));
 function syncRequest() {
@@ -576,6 +620,7 @@ q('#appearance-import').addEventListener('click', () => {
     scarsEditor.restore(restored);
     makeupEditor.restore(restored);
     ({selection, eyes, form: selectedForm, draw, colour} = restored);
+    rememberStructure();
     q('#flat-mode').checked = restored.flat;
     q('#seed').value = draw?.seed ?? q('#seed').defaultValue;
     q('#draw-version').value = draw?.version ?? currentDraw;
@@ -620,6 +665,7 @@ mountFreckleStudy(naturalEyes);
 mountScarStudy(naturalEyes);
 if (naturalEyes) mountEyeContourStudy();
 mountBodyStudy(q('#planche-corps'), renderComparison);
+mountStudyPanel(q('#planche-ossature'), renderComparison);
 refreshCharacter();
 q('#atelier').dataset.startup = 'ready';
 q('#atelier-startup').hidden = true;

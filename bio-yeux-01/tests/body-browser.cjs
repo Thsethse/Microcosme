@@ -5,9 +5,12 @@ const {createServer} = require('node:http');
 const path = require('node:path');
 const {chromium, webkit, devices} = require('playwright');
 
-const output = process.env.ARTIFACT_DIR ?? '/tmp/microcosme-corps-01';
-const published = 'https://thsethse.github.io/Microcosme/preview/bio-corps-01/';
-const referenceURL = process.env.REFERENCE_URL ?? 'https://thsethse.github.io/Microcosme/preview/bio-yeux-r01/';
+const mission = process.env.PREVIEW_MISSION ?? 'BIO-CORPS-01';
+const structurePreview = mission === 'BIO-CORPS-02';
+const pages = 'https://thsethse.github.io/Microcosme/preview/';
+const output = process.env.ARTIFACT_DIR ?? '/tmp/microcosme-' + mission.toLowerCase();
+const published = pages + mission.toLowerCase() + '/';
+const referenceURL = process.env.REFERENCE_URL ?? pages + (structurePreview ? 'bio-corps-01/' : 'bio-yeux-r01/');
 const local = process.env.PREVIEW_DIR;
 const engines = {chromium, webkit};
 const specimens = ['standard','slim','broad','narrow','shoulders','bust','adult-h','adult-f'];
@@ -70,6 +73,121 @@ async function importAppearance(page, document) {
   assert.equal(await page.locator('#appearance-error').textContent(),'');
 }
 
+async function checkStructure(page, url, name) {
+  const {referenceStructure, structureControls} = await import('../body-structure.mjs');
+  const q = selector => page.locator(selector);
+  const axes = Object.entries(structureControls);
+  const frame = '#comparison [data-side="after"] .tile svg';
+  const values = async () => Object.fromEntries(await Promise.all(axes.map(async ([key]) =>
+    [key,Number(await q('#structure-' + key).inputValue())])));
+  const geometry = () => q(frame + ' .body-shape path').evaluate(path => {
+    const box = path.getBBox();
+    const y = [...path.getAttribute('d').matchAll(/,-?([0-9]+(?:\.[0-9]+)?)/g)].map(match=>match[0]);
+    return {height:box.height, top:box.y, controlsY:y};
+  });
+  const reset = () => q('#structure-reset').evaluate(button => button.click());
+  const set = (key, value) => q('#structure-' + key).evaluate((input, number) => {
+    input.value = number;
+    input.dispatchEvent(new Event('input',{bubbles:true}));
+  },value);
+  const sample = {neck:83, shoulders:129, thorax:78, waist:114, pelvis:128, base:72};
+  const other = {neck:129, shoulders:73, thorax:130, waist:77, pelvis:72, base:130};
+  let isolatedRasters = 0;
+  let unchangedVertical = 0;
+  let restored = 0;
+  await ready(page,url);
+  assert(!await q('#structure-panel').isVisible());
+  await q('#historical').selectOption('p5-061:G');
+  await q('#load-history').evaluate(button => button.click());
+  await q('#morph').selectOption('tall');
+  for (const body of specimens.slice(6)) {
+    await q('#body').selectOption(body);
+    assert(await q('#structure-panel').isVisible());
+    assert.equal(await q('#structure-controls input:visible').count(),6);
+    assert.deepEqual(await values(),referenceStructure);
+    const baseline = await compare(page);
+    const initial = await geometry();
+    for (const [key,{min,max}] of axes) {
+      const slider = q('#structure-' + key);
+      assert.equal(await slider.getAttribute('min'),String(min));
+      assert.equal(await slider.getAttribute('max'),String(max));
+      const rasters = [];
+      for (const [button,value] of [['Home',min],['End',max]]) {
+        await slider.press(button);
+        assert.deepEqual(await values(),{...referenceStructure,[key]:value});
+        assert.equal(await slider.getAttribute('aria-valuetext'),value+' %');
+        assert.equal(await q(`output[for="structure-${key}"]`).textContent(),value+' %');
+        const images = await compare(page);
+        for (let i=0; i<images.length; i++) assert.equal(images[i].outside,baseline[i].outside);
+        assert.notEqual(images[1].raster,baseline[1].raster,`${body} · ${key} · ${value}`);
+        rasters.push(images[1].raster);
+        assert.deepEqual(await geometry(),initial);
+        unchangedVertical++;
+        isolatedRasters++;
+      }
+      assert.notEqual(...rasters);
+      await reset();
+      assert.deepEqual(await values(),referenceStructure);
+    }
+    assert.deepEqual(await compare(page),baseline);
+    const picked = body==='adult-h' ? sample : other;
+    for (const [key,value] of Object.entries(picked)) await set(key,value);
+    assert.deepEqual(await values(),picked);
+    assert.deepEqual(await geometry(),initial);
+    unchangedVertical++;
+    const saved = await exportAppearance(page);
+    const archive = JSON.parse(saved);
+    assert.equal(archive.version,12);
+    assert.deepEqual(archive.character.structure,picked);
+    const expected = await compare(page);
+
+    await q('#body').selectOption('broad');
+    assert(!await q('#structure-panel').isVisible());
+    await q('#body').selectOption(body);
+    assert.deepEqual(await values(),picked);
+    assert.deepEqual(await compare(page),expected);
+    await ready(page,url);
+    await importAppearance(page,saved);
+    assert.deepEqual(await values(),picked);
+    assert.deepEqual(await compare(page),expected);
+    assert.deepEqual(JSON.parse(await exportAppearance(page)),archive);
+    restored++;
+  }
+
+  await q('#body').selectOption('adult-h');
+  for (const [key,value] of Object.entries(sample)) await set(key,value);
+  await q('#body').selectOption('adult-f');
+  assert.deepEqual(await values(),other);
+  await q('#body').selectOption('adult-h');
+  assert.deepEqual(await values(),sample);
+  await reset();
+  assert.deepEqual(await values(),referenceStructure);
+  assert.equal(JSON.parse(await exportAppearance(page)).version,11);
+  await q('#body').selectOption('adult-f');
+  assert.deepEqual(await values(),other);
+
+  await q('nav a[href="#planche-ossature"]').click();
+  await q('#structure-extremes [data-structure-specimen]').first().waitFor({state:'attached'});
+  assert.equal(await q('#structure-extremes [data-structure-extreme]').count(),6);
+  assert.equal(await q('#structure-extremes [data-structure-specimen]').count(),24);
+  assert.equal(await q('#structure-combinations [data-structure-combination]').count(),7);
+  assert.equal(await q('#structure-combinations [data-structure-specimen]').count(),14);
+  for (const [scale,height] of [['head',300],['mini',70],['tile',178]]) {
+    await q('#structure-study-scale').selectOption(scale);
+    const sizes = await q('#structure-combinations svg').evaluateAll(nodes =>
+      [...new Set(nodes.map(node=>node.getBoundingClientRect().height))]);
+    assert.deepEqual(sizes,[height]);
+  }
+  await q('#structure-combinations [data-structure-combination="max"]').screenshot({path:path.join(output,`${name}-ossature-max.png`)});
+  await q('#structure-extremes [data-structure-extreme="neck"]').screenshot({path:path.join(output,`${name}-ossature-cou.png`)});
+  for (const width of [1180,820,390]) {
+    await page.setViewportSize({width,height:920});
+    assert(await page.evaluate(w => document.querySelector('#planche-ossature').getBoundingClientRect().right <= w &&
+      document.documentElement.scrollWidth<=w+1,width));
+  }
+  return {isolatedRasters, unchangedVertical, restored, studySamples:38};
+}
+
 async function exercise(context, url, name, version) {
   const [page, old] = await Promise.all([context.newPage(), context.newPage()]);
   const errors = [];
@@ -81,12 +199,13 @@ async function exercise(context, url, name, version) {
   assert.equal(await q('#body').inputValue(),'standard');
   assert(await q('a[href="#planche-contours"]').isVisible(), 'La planche BIO-YEUX-R01 reste accessible.');
   const original = [];
-  for (const body of specimens.slice(0,6)) {
+  const historicalBodies = structurePreview ? specimens : specimens.slice(0,6);
+  for (const body of historicalBodies) {
     await Promise.all([q('#body').selectOption(body),old.locator('#body').selectOption(body)]);
     const [before,after] = await Promise.all([compare(old),compare(page)]);
     assert.deepEqual(after,before);
     assert.deepEqual(JSON.parse(await exportAppearance(page)),JSON.parse(await exportAppearance(old)));
-    original.push(after);
+    if (original.length<6) original.push(after);
   }
 
   await q('#body').selectOption('standard');
@@ -168,15 +287,17 @@ async function exercise(context, url, name, version) {
     assert(await page.evaluate(w => document.querySelector('#planche-corps').getBoundingClientRect().right <= w &&
       document.documentElement.scrollWidth<=w+1,width));
   }
+  const structure = structurePreview ? await checkStructure(page,url,name) : undefined;
   assert.deepEqual(errors,[]);
-  return {name, version, historicalExact:18, rasterBySize:[8,8,8], fittings:cases.length*2, coldImports:2, guidedLandmarks:14};
+  return {name, version, historicalExact:historicalBodies.length*3, rasterBySize:[8,8,8],
+    fittings:cases.length*2, coldImports:2, guidedLandmarks:14, ...(structure ? {structure} : {})};
 }
 
 async function files(url) {
   const response = await fetch(new URL('version.json',url));
   assert.equal(response.status,200);
   const manifest = await response.json();
-  assert.equal(manifest.mission,'BIO-CORPS-01');
+  assert.equal(manifest.mission,mission);
   for (const {path,sha256} of manifest.files) {
     const resource = await fetch(new URL(path,url));
     assert.equal(resource.status,200,path);
