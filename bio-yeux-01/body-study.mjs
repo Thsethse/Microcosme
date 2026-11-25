@@ -30,12 +30,12 @@ export function renderBodyStudy(panel, {render, chin, bodies, background}) {
       <figcaption>${name}</figcaption></figure>`;
   }).join('');
 
-  const scales = [['head', 'Tête · 300 px'], ['tile', 'Corps · 178 px'], ['mini', 'Miniature · 70 × 70 px']];
+  const scales = [['head', 'Tête', '300 px'], ['tile', 'Corps', '178 px'], ['mini', 'Miniature', '70 × 70 px']];
   comparisons.innerHTML = Object.entries({...adultBodies, ...bodies}).map(([body, {name}]) => `
     <article class="card" data-body-specimen="${body}">
       <h3>${name}</h3>
-      <div class="body-scales">${scales.map(([view, caption]) => `
-        <figure><div class="surface ${view}">${render({body, view})}</div><figcaption>${caption}</figcaption></figure>
+      <div class="body-scales">${scales.map(([view, caption, size]) => `
+        <figure><div class="surface ${view}">${render({body, view})}</div><figcaption>${caption}<span>${size}</span></figcaption></figure>
       `).join('')}</div>
     </article>`).join('');
 }

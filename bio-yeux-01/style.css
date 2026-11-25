@@ -208,6 +208,8 @@ button:disabled, input:disabled, select:disabled { opacity: .65; }
 .body-diagrams .surface { border-radius: 9px; }
 .body-diagrams svg { height: clamp(180px, 29vw, 290px); }
 .body-diagrams figcaption, .body-scales figcaption { padding: 5px 2px; }
+.body-scales figcaption { font-size: .8rem; }
+.body-scales figcaption span { display: block; white-space: nowrap; }
 .body-legend { padding: 12px; border: 1px solid var(--line); border-radius: 9px; }
 .body-legend ol { margin: 8px 0; padding-inline-start: 28px; }
 .body-legend p { margin: 8px 0 0; font-size: .9rem; }
