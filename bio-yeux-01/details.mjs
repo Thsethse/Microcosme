@@ -1,4 +1,4 @@
-import {rgb} from '../bio-col-01/palette.mjs';
+import {luminance, rgb} from '../bio-col-01/palette.mjs';
 import {pointAt} from './bezier.mjs';
 import {seededIndex} from './draw.mjs';
 import {eyeStroke, eyesFor} from './eyes.mjs';
@@ -178,14 +178,18 @@ function lashOptions(frame, contour, count, spacing, withSpacing = true) {
   return {spacing:options.map(entry=>entry.value),options,closest,maximum:closest===spacing?current:cap(closest)};
 }
 
+function contourPoint(frame, dir, value, t, flare = 0, widthRatio = 1) {
+  const p=frame.arc(dir,t), direction=unit(p);
+  const depth=fittedDepth(frame,dir,p,t,value)*widthRatio+flare;
+  return [p[0]+direction[0]*depth,p[1]+direction[1]*depth];
+}
+
 function outerArc(frame, dir, value, lashes = null) {
   const centers=dir<0&&lashes?lashCenters(lashes.count,lashes.spacing):[];
   const tValues=centers.length?lashTicks(centers):ticks;
   return tValues.map(t=>{
-    const p=frame.arc(dir,t), direction=unit(p);
     const flare=centers.reduce((extra,center)=>extra+lashWeight(t,center),0)*frame.width*(lashes?.length??0)/100;
-    const depth=fittedDepth(frame,dir,p,t,value)+flare;
-    return [p[0]+direction[0]*depth,p[1]+direction[1]*depth];
+    return contourPoint(frame,dir,value,t,flare);
   });
 }
 
@@ -368,17 +372,67 @@ function plot(points, eye) {
   return 'M'+points.map(([x,y])=>[eye.x+eye.side*x,eye.y+y].map(n=>+n.toFixed(5)).join(',')).join('L')+'Z';
 }
 
-export function detailsMarkup(result, index, aperture, instance, skin) {
-  const {frame,scene,effective}=result, eye=frame.envelopes[index];
+const lashInk = '#171713';
+
+export function anatomicalEyeColours(skin) {
+  const light = luminance(skin);
+  return {
+    upper:skinDetailColour(skin,.29+.11*light,.11),
+    lower:skinDetailColour(skin,.17+.10*light,.11)
+  };
+}
+
+function naturalEyeInk(frame, index, contours, lashes, {skin, smallScale}) {
+  const eye = frame.envelopes[index];
+  const colours = anatomicalEyeColours(skin);
+  const upperRatio = smallScale ? .57 : .43;
+  const lowerRatio = smallScale ? .36 : .25;
+  const anatomical = (part, dir, ratio) => {
+    const outer = ticks.map(t=>contourPoint(frame,dir,contours[part],t,0,ratio));
+    const aperture = ticks.map(t=>frame.arc(dir,t)).reverse();
+    return `<path data-eye-anatomy="${part}" d="${plot([...outer,...aperture],eye)}" fill="${colours[part]}"/>`;
+  };
+  const centers = lashes ? lashCenters(lashes.count,lashes.spacing) : [];
+  const tips = centers.map(center=>{
+    const root = lashTicks([center]).filter(t=>t>=center-rootIn&&t<=center+rootOut);
+    const outer = root.map(t=>contourPoint(frame,-1,contours.upper,t,
+      lashWeight(t,center)*frame.width*lashes.length/100));
+    // Keep the original lash fringe and taper its root into the thinner
+    // anatomical contour instead of colouring the entire upper lid as lashes.
+    const inner = root.map(t=>contourPoint(frame,-1,contours.upper,t,0,
+      1-(1-upperRatio)*Math.sqrt(lashWeight(t,center)))).reverse();
+    return `<path data-eye-lash="" d="${plot([...outer,...inner],eye)}" fill="${lashInk}"/>`;
+  });
+  return anatomical('upper',-1,upperRatio)+anatomical('lower',1,lowerRatio)+
+    (tips.length ? `<g data-lash-count="${tips.length}">${tips.join('')}</g>` : '');
+}
+
+function outsideEyeMarkup(frame,index,aperture,instance,tag,ink) {
+  const eye=frame.envelopes[index];
   const {left,right,top,bottom,noseX,noseY}=frame.region;
   const notchX=clamp(noseX,left,right), notchY=clamp(noseY,top,bottom);
   const box=plot([[left,top],[right,top],[right,bottom],[notchX,bottom],[notchX,notchY],[left,notchY]],eye);
   const id='details-'+instance;
+  // Intersect the conservative eye region with the complement of the opening.
+  return `<g ${tag}="${index===0?'left':'right'}"><defs><clipPath id="${id}-safe"><path d="${box}"/></clipPath><clipPath id="${id}-outside"><path clip-rule="evenodd" d="${box} ${aperture}"/></clipPath></defs><g clip-path="url(#${id}-safe)"><g clip-path="url(#${id}-outside)">${ink}</g></g></g>`;
+}
+
+export function detailContourMarkup({frame,scene,effective}, index) {
+  const contour=plot(scene.polygon,frame.envelopes[index]);
+  return `<path data-eye-detail="contour" data-lash-count="${effective.lashes.count}" d="${contour}" fill="${lashInk}"/>`;
+}
+
+export function naturalOutlineMarkup(frame,index,aperture,instance,natural) {
+  const contours={upper:100,lower:72};
+  return outsideEyeMarkup(frame,index,aperture,instance,'data-eye-natural',
+    naturalEyeInk(frame,index,contours,null,natural));
+}
+
+export function detailsMarkup(result, index, aperture, instance, skin, natural) {
+  const {frame,scene,effective}=result, eye=frame.envelopes[index];
   const details=[...shading(scene.lower,effective.shadows,skin),
     ...folds(scene.lower,effective.lower,skin,false),...folds(scene.upper,effective.upper,skin,true)];
   const marks=details.map(mark=>`<path data-eye-detail="${mark.name}" d="${plot(mark.points,eye)}" fill="${mark.colour}"/>`).join('');
-  const contour=plot(scene.polygon,eye);
-  // Intersect the conservative eye region with the complement of the
-  // opening. Both are geometric clips, including on Safari.
-  return `<g data-bio-details="${index===0?'left':'right'}"><defs><clipPath id="${id}-safe"><path d="${box}"/></clipPath><clipPath id="${id}-outside"><path clip-rule="evenodd" d="${box} ${aperture}"/></clipPath></defs><g clip-path="url(#${id}-safe)"><g clip-path="url(#${id}-outside)">${marks}<path data-eye-detail="contour" data-lash-count="${effective.lashes.count}" d="${contour}" fill="#171713"/></g></g></g>`;
+  const ink=natural ? naturalEyeInk(frame,index,effective.contours,effective.lashes,natural) : detailContourMarkup(result,index);
+  return outsideEyeMarkup(frame,index,aperture,instance,'data-bio-details',marks+ink);
 }

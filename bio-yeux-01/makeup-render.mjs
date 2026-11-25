@@ -1,6 +1,6 @@
 import {model} from '../preview/bio-vis-p5-i6/model.mjs';
 import {pointAt} from './bezier.mjs';
-import {detailContourEdges, detailFrame, solveDetails} from './details.mjs';
+import {detailContourEdges, detailContourMarkup, detailFrame, solveDetails} from './details.mjs';
 import {eyeStroke, eyesFor} from './eyes.mjs';
 import {marksFrame} from './marks.mjs';
 import {inheritedMouth, mouthMarkup, solveMouth} from './mouth.mjs';
@@ -288,7 +288,9 @@ export function makeupMarkup(face, opening, value, {instance, painted, ...option
   const {requested, effective, geometry} = result;
   if (!Object.keys(effective).length) return '';
   const reserve = scarReserves(face, opening, options);
-  const contour = tags(painted, /<path data-eye-detail="contour"[^>]*\/>/g).map(black).join('');
+  // Reserve the same anatomical geometry regardless of how it is painted.
+  const details = options.detailResult;
+  const contour = details ? [0,1].map(index=>black(detailContourMarkup(details,index))).join('') : '';
   const browPattern = painted.includes('data-bio-brows=') ? /<path data-brow-side="[^"]+"[^>]*\/>/g :
     /<path d="[^"]+" fill="none" stroke="[^"]+" stroke-width="2\.[26]"[^>]*\/>/g;
   const brows = tags(painted, browPattern).map(black).join('');

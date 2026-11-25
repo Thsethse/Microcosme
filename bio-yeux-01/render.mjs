@@ -4,7 +4,7 @@ import {headMarkup} from '../preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/r1/p2/bas
 import {palette} from '../preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/r1/p2/base/model.mjs';
 import {eyeStroke, eyesFor, normalizeEyes} from './eyes.mjs';
 import {irisMarkup, pigmentCenters, solveIris} from './iris.mjs';
-import {detailsMarkup, solveDetails} from './details.mjs';
+import {detailFrame, detailsMarkup, naturalOutlineMarkup, solveDetails} from './details.mjs';
 import {browMarkup, solveBrows} from './brows.mjs';
 import {inheritedMouth, inheritedNose, mouthMarkup, solveMouth} from './mouth.mjs';
 import {noseMarkup, solveNose} from './nose.mjs';
@@ -28,7 +28,9 @@ function ellipsePath(ellipse) {
   return `M${x},${y}m${-rx},0 a${rx},${ry} 0 1 0 ${2*rx},0 a${rx},${ry} 0 1 0 ${-2*rx},0Z`;
 }
 
-function replaceOpenings(face, shapes, instance, drawIris, details) {
+function replaceOpenings(face, geometry, instance, drawIris, details, natural) {
+  const {shapes}=geometry;
+  const outlineFrame=natural&&!details?detailFrame(geometry):null;
   let index = 0;
   // Each historical white is immediately followed by its pupil ellipse in the
   // shared face renderer. Preserve the pupil tag byte for byte inside the clip.
@@ -39,13 +41,15 @@ function replaceOpenings(face, shapes, instance, drawIris, details) {
     const ink = drawIris ? drawIris(index) : pupil;
     const id = clipId(shape?.path ?? white, instance, index);
     const aperture = shape ? `<path d="${shape.path}"/>` : white;
-    const outside = details ? detailsMarkup(details, index, shape?.path ?? ellipsePath(white), id, palette.skin) : '';
+    const opening = shape?.path ?? (details || natural ? ellipsePath(white) : null);
+    const outside = details ? detailsMarkup(details,index,opening,id,palette.skin,natural) :
+      outlineFrame ? naturalOutlineMarkup(outlineFrame,index,opening,id,natural) : '';
     index++;
     if (!shape) {
       if (!drawIris) return outside + white + pupil;
       return `${outside}${white}<defs><clipPath id="${id}">${white}</clipPath></defs><g clip-path="url(#${id})">${ink}</g>`;
     }
-    const stroke = details ? '' : ` stroke="${palette.pupil}" stroke-width="${eyeStroke}" stroke-linejoin="round"`;
+    const stroke = details || natural ? '' : ` stroke="${palette.pupil}" stroke-width="${eyeStroke}" stroke-linejoin="round"`;
     return `<g data-bio-eye="${index === 1 ? 'left' : 'right'}"><defs><clipPath id="${id}">${aperture}</clipPath></defs>${outside}<path d="${shape.path}" fill="${palette.white}"${stroke}/><g clip-path="url(#${id})">${ink}</g></g>`;
   });
   if (index !== 2) throw new Error('Ouvertures historiques introuvables');
@@ -89,10 +93,11 @@ export function character(input = {}, options = {}) {
   const hasScars = options.scars != null && options.scars !== 'historical' && options.scars.length !== 0;
   const makeup = options.makeup && normalizeMakeup(options.makeup);
   const hasCosmetics = hasMakeup(makeup);
-  if (!selected && !options.eyeEnvelopes && !hasIris && !hasDetails && !hasBrows && !hasMouth && !hasNose && !hasBeard && !hasMarks && !hasScars && !hasCosmetics) return svg;
+  const natural = options.naturalEyes ? {skin:options.contourSkin??palette.skin, smallScale:options.smallScale===true} : null;
+  if (!natural && !selected && !options.eyeEnvelopes && !hasIris && !hasDetails && !hasBrows && !hasMouth && !hasNose && !hasBeard && !hasMarks && !hasScars && !hasCosmetics) return svg;
   const geometry = eyesFor(input, selected);
   let result = svg;
-  if (selected || hasIris || hasDetails || hasBrows || hasMouth || hasNose || hasBeard || hasMarks || hasScars || hasCosmetics) {
+  if (natural || selected || hasIris || hasDetails || hasBrows || hasMouth || hasNose || hasBeard || hasMarks || hasScars || hasCosmetics) {
     const face = model(input);
     const originalFace = headMarkup(face.base).replace(/<path d="[^"]*"/, `<path d="${face.outline}"`);
     if (!svg.includes(originalFace)) throw new Error('Visage historique introuvable');
@@ -107,8 +112,8 @@ export function character(input = {}, options = {}) {
     const mouth = hasMouth ? solveMouth(face,geometry,options.mouth,
       {markup:originalFace,noseBounds:nose?.geometry.anatomy,preserveMouth:!!nose}) : null;
     if (mouth) updatedFace = updatedFace.replace(inheritedMouth(face,originalFace).tag,mouthMarkup(mouth));
-    if (selected || hasIris || hasDetails) {
-      updatedFace = replaceOpenings(updatedFace,geometry.shapes,options.instance,drawIris,details);
+    if (natural || selected || hasIris || hasDetails) {
+      updatedFace = replaceOpenings(updatedFace,geometry,options.instance,drawIris,details,natural);
     }
     if (hasMarks) updatedFace += marksMarkup(solveMarks(face,geometry,options.marks,
       {markup:originalFace,noseResult:nose,mouthResult:mouth}),
