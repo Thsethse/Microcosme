@@ -139,6 +139,7 @@ button:disabled, input:disabled, select:disabled { opacity: .65; }
 #marks-zones{display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));gap:.1rem 1rem}
 #marks-zones label{min-height:44px}
 #marks .actions{align-items:end}
+#marks [hidden]{display:none}
 #marks-zoom.placing{cursor:crosshair}
 #marks-zoom svg{width:100%;max-height:470px}
 #freckle-study{display:grid;gap:1rem;margin-top:1rem}

@@ -197,6 +197,8 @@ async function verifyWorkshop(page,name) {
   assert.equal(old.version,7);
   await q('#marks-type').selectOption('freckles');
   await q('#marks-add').tap();
+  assert(await q('#marks-seed').isVisible());
+  assert(!(await q('#marks-x').isVisible()));
   assert.deepEqual(await snapshots(page,'[data-side=before]'),clean);
   await q('#marks-seed').fill('Recette ✦ iPad');
   await q('#marks-seed').press('Tab');
@@ -211,6 +213,8 @@ async function verifyWorkshop(page,name) {
   await q('#marks-type').selectOption('mole');
   await q('#marks-add').tap();
   assert(await q('#marks-angle').isDisabled());
+  assert(!(await q('#marks-density').isVisible()));
+  assert(!(await q('#marks-seed').isVisible()));
   await q('#marks-shape').selectOption('oval');
   await q('#marks-angle').press('End');
   const beforePosition=await save();
