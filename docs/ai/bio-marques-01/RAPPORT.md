@@ -1,6 +1,6 @@
 # BIO-MARQUES-01 — Rapport de recette
 
-L’atelier BIO-MARQUES-01 est disponible dans la [preview publique](https://thsethse.github.io/Microcosme/preview/bio-marques-01/). La [PR #55](https://github.com/Thsethse/Microcosme/pull/55) est ouverte en brouillon. Le commit `6dc075e` contient l’implémentation et le commit `2bd2a16` contient les 28 fichiers statiques de l’atelier. Le [déploiement Pages](https://github.com/Thsethse/Microcosme/actions/runs/45563494749) et les empreintes figurent dans les preuves ci-dessous.
+L’atelier BIO-MARQUES-01 est disponible dans la [preview publique](https://thsethse.github.io/Microcosme/preview/bio-marques-01/). La [PR #55](https://github.com/Thsethse/Microcosme/pull/55) est ouverte en brouillon. Le code publié correspond au commit `a7735b0`. Les 28 fichiers statiques de l’atelier sont servis depuis le commit Pages `2bd879e`. Le [déploiement Pages](https://github.com/Thsethse/Microcosme/actions/runs/45563900489) et les empreintes figurent dans les preuves ci-dessous.
 
 ## Placement et paramètres
 
@@ -16,7 +16,7 @@ L’échelle de taille individuelle est interpolée entre les rayons de référe
 | Groupe de rousseur | 0,25 à 0,78, avec variation et espace local |
 | Groupe pigmentaire | 0,36 à 2,20, avec variation et espace local |
 
-Les groupes disposent de 44 emplacements au maximum pour la rousseur et de 12 pour les taches pigmentaires. La densité ajoute des emplacements dans l’ordre déterminé par la graine. L’atelier propose les crans qui font effectivement apparaître une marque supplémentaire. Les sites occultés restent mémorisés. L’étendue fait varier les écarts aux centres des zones de 73 % à 100 %. Les six zones orientent le tirage sans frontière visible sur le visage.
+L’atelier accepte jusqu’à 24 marques et groupes par apparence. Les groupes disposent de 44 emplacements au maximum pour la rousseur et de 12 pour les taches pigmentaires. La densité ajoute des emplacements dans l’ordre déterminé par la graine. L’atelier propose les crans qui font effectivement apparaître une marque supplémentaire. Les sites occultés restent mémorisés. L’étendue fait varier les écarts aux centres des zones de 73 % à 100 %. Les six zones orientent le tirage sans frontière visible sur le visage.
 
 ## Lecture de la planche
 
@@ -40,7 +40,7 @@ Sur les douze échantillons, les taches modifient 25 à 132 pixels à 300 px, 8 
 | T6 · Pigments | Quatre familles chromatiques distinctes sur les quatre carnations d’étude. Intensité zéro sans peinture. |
 | T7 · Anatomie et masques | 256 combinaisons géométriques de morphologie et 11 275 marques vérifiées. 72 cas raster par moteur, sans recouvrement des yeux, des lèvres ou des narines au seuil de la recette. Masquage et restitution exacte vérifiés au raster pour la barbe et les cheveux. |
 | T8 · Archives | Les documents v8 conservent identités, coordonnées, graines et valeurs latentes. Export et restauration à froid identiques dans les deux navigateurs. |
-| T9 · Atelier | 396 rendus avec marques, couvrant 126 références capillaires et six corps aux trois échelles. Placement tactile, clavier et fonds clair et sombre testés à 820 × 1180, 1180 × 820 et 390 × 844 sous Chromium 151 et WebKit 26.5. Les 114 tests Node hérités et les suites navigateur héritées passent. |
+| T9 · Atelier | 396 rendus avec marques, couvrant 126 références capillaires et six corps aux trois échelles. Le placement tactile, le clavier, les champs propres à chaque type de marque et les fonds clair et sombre sont testés à 820 × 1180, 1180 × 820 et 390 × 844 sous Chromium 151 et WebKit 26.5. Les 114 tests Node hérités et les suites navigateur héritées passent. |
 | T10 · Publication | URL Pages vérifiée en HTTP 200, recette publique rejouée sous Chromium et WebKit et 299 fichiers confirmés par SHA-256, dont 271 dépendances héritées. |
 
 [Mesures de la recette publique](recette-publique.json) · [Preuve des empreintes](publication.json)
