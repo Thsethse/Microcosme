@@ -32,6 +32,7 @@
     <a href="#planche-pectoraux">Planche des pectoraux</a>
     <a href="#planche-details-thorax">Planche des aréoles et mamelons</a>
     <a href="#planche-reliefs-osseux">Planche des reliefs osseux</a>
+    <a href="#planche-abdominaux">Planche des abdominaux</a>
     <a href="#atelier-thorax">Atelier du thorax</a>
     <a href="#iris">Iris et pupilles</a>
     <a href="#planche">Planche des formes</a>
@@ -534,6 +535,21 @@
       <h3>Recouvrement par les volumes thoraciques</h3><div id="bone-relief-coverage"></div>
     </details>
   </section>
+  <section aria-label="Planche des abdominaux">
+    <details class="card" id="planche-abdominaux">
+      <summary>Musculature abdominale</summary>
+      <div class="corpulence-study-controls">
+        <label class="structure-scale">Échelle<select id="abdominal-study-scale">
+          <option value="detail">Abdomen · détail</option><option value="tile">Corps · 178 px</option>
+          <option value="head">Tête · 300 px</option><option value="mini">Miniature · 70 × 70 px</option>
+        </select></label>
+        <label class="structure-scale">Ossature<select id="abdominal-study-structure"></select></label>
+        <label class="structure-scale">Teinte de peau<select id="abdominal-study-skin"></select></label>
+      </div>
+      <h3>Corpulence et volume musculaire</h3><div id="abdominal-study-matrix"></div>
+      <h3>Variations des quatre réglages</h3><div id="abdominal-study-axes"></div>
+    </details>
+  </section>
   <section id="personnage">
     <h2>Personnage et palette</h2>
     <div class="configuration">
@@ -554,6 +570,7 @@
             <button type="button" data-thorax-body="adult-f" aria-controls="chest-panel" aria-pressed="false">Poitrine · F adulte</button>
             <a id="thorax-details-link" href="#thorax-details-panel" hidden>Aréoles et mamelons</a>
             <a id="corpulence-link" href="#structure-panel" hidden>Corpulence</a>
+            <a id="abdominal-link" href="#abdominal-panel" hidden>Abdominaux</a>
           </div>
           <div id="body-controls" class="structure-layout" hidden>
             <div>
@@ -576,6 +593,12 @@
                 <div id="thorax-details-controls"></div>
                 <button id="thorax-details-reference" type="button">Appliquer les valeurs de référence</button>
               </fieldset>
+              <fieldset id="abdominal-panel">
+                <legend>Musculature abdominale</legend>
+                <div id="abdominal-controls"></div>
+                <p class="hint" id="abdominal-flat-note">Augmenter le volume pour activer les trois autres réglages. Leurs valeurs restent mémorisées à 0 %.</p>
+                <button id="abdominal-reset" type="button">Réinitialiser les abdominaux</button>
+              </fieldset>
               <fieldset id="structure-panel">
                 <legend>Corpulence et ossature</legend>
                 <label class="slider" for="corpulence">
@@ -593,6 +616,7 @@
             <div class="body-live-preview">
               <div id="structure-live" class="surface tile"></div>
               <div id="thorax-live-detail" class="surface thorax-detail" hidden></div>
+              <div id="abdominal-live-detail" class="surface abdominal-detail" hidden></div>
             </div>
           </div>
         </div>
