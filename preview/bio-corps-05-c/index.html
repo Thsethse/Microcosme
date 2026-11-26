@@ -1,0 +1,714 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f6f2e8">
+  <title>Microcosme · BIO-CORPS-05-C · Pli abdominal et nombril</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="shell">
+  <p class="brand">Microcosme <span>BIO-CORPS-05-C</span></p>
+  <h1>Pli abdominal et nombril</h1>
+  <nav aria-label="Navigation dans l’atelier">
+    <a href="#planche-contours" hidden>Comparatif des yeux</a>
+    <a href="#makeup">Maquillage</a>
+    <a href="#planche-maquillage">Planche de maquillage</a>
+    <a href="#scars">Cicatrices</a>
+    <a href="#planche-cicatrices">Planche de cicatrices</a>
+    <a href="#marks">Marques cutanées</a>
+    <a href="#planche-rousseur">Planche de rousseur</a>
+    <a href="#beard">Pilosité faciale</a>
+    <a href="#nose">Nez</a>
+    <a href="#mouth">Bouche et lèvres</a>
+    <a href="#brows">Sourcils</a>
+    <a href="#details">Paupières et cils</a>
+    <a href="#atelier">Atelier</a>
+    <a href="#planche-corps">Planche des corps</a>
+    <a href="#planche-ossature">Planche de l’ossature</a>
+    <a href="#planche-corpulence">Planche de la corpulence</a>
+    <a href="#planche-poitrine">Planche de la poitrine</a>
+    <a href="#planche-pectoraux">Planche des pectoraux</a>
+    <a href="#planche-details-thorax">Planche des aréoles et mamelons</a>
+    <a href="#planche-reliefs-osseux">Planche des reliefs osseux</a>
+    <a href="#planche-abdominaux">Planche des abdominaux</a>
+    <a href="#planche-pli-nombril">Planche du pli et du nombril</a>
+    <a href="#atelier-thorax">Atelier du thorax</a>
+    <a href="#iris">Iris et pupilles</a>
+    <a href="#planche">Planche des formes</a>
+    <a href="#personnage">Personnage et palette</a>
+  </nav>
+</header>
+<main class="shell">
+  <section id="atelier" data-natural-eyes aria-label="Atelier du visage" data-startup="pending">
+    <p id="atelier-startup" role="status">Chargement de l’atelier…</p>
+    <div id="atelier-startup-error" role="alert" hidden>
+      <p>L’atelier n’a pas pu démarrer. <span id="atelier-startup-detail"></span></p>
+      <button id="atelier-retry" type="button">Recharger l’atelier</button>
+    </div>
+    <noscript><p>Activez JavaScript dans Safari pour ouvrir l’atelier.</p></noscript>
+    <div class="workspace">
+    <div class="comparison-panel">
+      <h2>Avant / après</h2>
+      <div class="toolbar">
+        <label>Fond<select id="background"><option value="light">Ivoire</option><option value="dark">Ardoise</option></select></label>
+        <label>Référence<select id="iris-before-mode"><option value="same">Ouverture actuelle</option><option value="historical">Ouverture historique</option></select></label>
+        <label id="makeup-before-wrap" hidden>Référence<select id="makeup-before-mode"><option value="same">Visage actuel sans maquillage</option><option value="historical">Détails du visage historiques</option></select></label>
+        <label id="scars-before-wrap" hidden>Référence<select id="scars-before-mode"><option value="same">Visage actuel sans cicatrices</option><option value="historical">Détails du visage historiques</option></select></label>
+        <label id="marks-before-wrap" hidden>Référence<select id="marks-before-mode"><option value="same">Visage actuel sans marques</option><option value="historical">Détails du visage historiques</option></select></label>
+        <label id="beard-before-wrap" hidden>Référence<select id="beard-before-mode"><option value="same">Visage actuel, imberbe</option><option value="historical">Détails du visage historiques</option></select></label>
+        <label id="nose-before-wrap" hidden>Référence<select id="nose-before-mode"><option value="same">Nez historique</option><option value="historical">Détails du visage historiques</option></select></label>
+        <label id="mouth-before-wrap" hidden>Référence<select id="mouth-before-mode"><option value="same">Bouche historique seule</option><option value="historical">Détails du visage historiques</option></select></label>
+        <label id="brows-before-wrap" hidden>Référence<select id="brows-before-mode"><option value="same">Sourcils historiques seuls</option><option value="historical">Détails du visage historiques</option></select></label>
+        <label id="details-before-wrap" hidden>Référence<select id="details-before-mode"><option value="same">Ouverture et iris actuels</option><option value="historical">Ouverture et iris historiques</option></select></label>
+        <label class="check"><input type="checkbox" id="eye-guides"> Afficher les enveloppes</label>
+      </div>
+      <div id="comparison" class="comparison"></div>
+      <p id="guide-note" class="hint" hidden>Point fixe, zone de sécurité et segments indiquant les plafonds de largeur et de hauteur.</p>
+    </div>
+    <div class="workbench">
+      <h2>Réglages des yeux</h2>
+      <label>Forme<select id="eye-preset"></select></label>
+      <p class="hint">Les curseurs proposent les crans admissibles à partir des valeurs appliquées.</p>
+      <div id="eye-controls"></div>
+      <details id="eye-request-panel"><summary>Demander un ajustement conjoint</summary>
+        <form id="eye-request">
+          <label>Paramètre<select id="eye-request-axis"></select></label>
+          <label>Valeur demandée<input id="eye-request-value" type="number" step="1" required></label>
+          <button type="submit">Examiner la demande</button>
+        </form>
+      </details>
+      <section id="eye-proposal" class="eye-proposal" aria-labelledby="eye-proposal-title" hidden>
+        <h3 id="eye-proposal-title">Ajustement à confirmer</h3>
+        <p id="eye-proposal-status" role="status"></p>
+        <ul id="eye-proposal-values"></ul>
+        <div class="actions">
+          <button class="primary" id="eye-confirm" type="button">Appliquer l’ajustement</button>
+          <button id="eye-cancel" type="button">Annuler</button>
+        </div>
+      </section>
+      <p class="hint">Un angle positif relève le coin externe. Un décalage positif rapproche le sommet de la tempe.</p>
+      <p id="eye-status" class="hint" role="status"></p>
+      <div class="actions">
+        <button class="primary" id="random-eyes" type="button">Tirer les yeux</button>
+        <button id="reset-eyes" type="button">Yeux historiques</button>
+      </div>
+      <label>Version du tirage<select id="draw-version"></select></label>
+      <p id="draw-error" role="alert"></p>
+      <label>Graine du tirage<input id="seed" type="text" value="Microcosme" spellcheck="false"></label>
+    </div>
+    </div>
+  </section>
+
+  <section id="planche-contours" hidden>
+    <h2>Contour naturel des yeux</h2>
+    <details id="eye-contour-panel">
+      <summary>Comparer les rendus avant et après</summary>
+      <div id="eye-contour-study"></div>
+    </details>
+  </section>
+  <section id="makeup">
+    <h2>Maquillage</h2>
+    <div class="makeup-workspace">
+      <div class="makeup-options">
+        <label class="check"><input type="checkbox" id="makeup-show" checked> Afficher le maquillage</label>
+        <label>Famille<select id="makeup-family"></select></label>
+        <label class="check"><input type="checkbox" id="makeup-enabled"> <span id="makeup-enabled-text"></span></label>
+        <label hidden>Référence<select id="makeup-reference"></select></label>
+        <div id="makeup-paint-panel" hidden>
+          <div class="makeup-actions">
+            <label>Forme à ajouter<select id="makeup-paint-kind"></select></label>
+            <button id="makeup-add" type="button">Ajouter</button>
+          </div>
+          <label>Élément à modifier<select id="makeup-paint-list"></select></label>
+          <div class="makeup-actions">
+            <button id="makeup-down" type="button">Reculer</button>
+            <button id="makeup-up" type="button">Avancer</button>
+            <button id="makeup-remove" type="button">Supprimer</button>
+          </div>
+          <label>Forme de l’élément<select id="makeup-paint-shape"></select></label>
+          <label class="check"><input type="checkbox" id="makeup-mirror"> Reproduire en miroir</label>
+          <button id="makeup-place" type="button" aria-pressed="false">Placer sur le visage</button>
+        </div>
+        <div id="makeup-controls"></div>
+        <div class="makeup-actions">
+          <button id="makeup-reset" type="button">Réinitialiser la famille</button>
+          <button id="makeup-remove-all" type="button">Retirer tout le maquillage</button>
+        </div>
+      </div>
+      <figure class="makeup-portrait">
+        <div id="makeup-zoom" class="surface"></div>
+        <figcaption><a href="#atelier">Comparer aux trois échelles</a></figcaption>
+      </figure>
+    </div>
+    <details id="makeup-library">
+      <summary>Compositions</summary>
+      <div class="makeup-actions">
+        <label>Nom<input id="makeup-name" type="text" maxlength="80"></label>
+        <button id="makeup-save" type="button">Enregistrer ou remplacer</button>
+        <label>Compositions enregistrées<select id="makeup-saved"></select></label>
+        <button id="makeup-apply" type="button" disabled>Réappliquer</button>
+      </div>
+      <div class="makeup-actions">
+        <label>Graine<input id="makeup-seed" type="text" maxlength="128" value="Microcosme"></label>
+        <button id="makeup-draw" type="button">Tirer une composition</button>
+      </div>
+      <label>Composition JSON<textarea id="makeup-json" rows="5" spellcheck="false"></textarea></label>
+      <div class="makeup-actions">
+        <button id="makeup-export" type="button">Exporter la composition</button>
+        <button id="makeup-import" type="button">Importer et appliquer</button>
+      </div>
+    </details>
+    <p id="makeup-message" class="hint" role="status"></p>
+  </section>
+  <section id="planche-maquillage">
+    <h2>Planche de contrôle du maquillage</h2>
+    <div id="makeup-study-palette" aria-label="Palette de 32 couleurs"></div>
+    <details id="makeup-study-panel">
+      <summary>Voir les sept cas aux trois échelles</summary>
+      <div id="makeup-study"></div>
+    </details>
+  </section>
+  <section id="scars">
+    <h2>Cicatrices</h2>
+    <div class="iris-workspace">
+      <div class="card">
+        <div class="actions">
+          <label>Forme de référence<select id="scars-preset"></select></label>
+          <button id="scars-add" class="primary" type="button">Ajouter</button>
+          <button id="scars-apply" type="button">Appliquer la forme</button>
+        </div>
+        <label>Cicatrice à modifier<select id="scars-list" disabled></select></label>
+        <label class="check"><input type="checkbox" id="scars-show" checked> Afficher les cicatrices</label>
+        <fieldset id="scars-edit" hidden>
+          <legend class="visually-hidden">Réglages de la cicatrice</legend>
+          <label>Géométrie<select id="scars-mode"><option value="line">Tracé</option><option value="patch">Surface</option></select></label>
+          <label class="check"><input type="checkbox" id="scars-sutures"> Traces de suture cicatrisées</label>
+          <div id="scars-axes"></div>
+          <p class="hint">Une maturation élevée éclaircit puis estompe le relief. Une courbure positive déporte les extrémités dans le sens de la rotation.</p>
+          <label>Graine<input id="scars-seed" type="text" maxlength="128" spellcheck="false"></label>
+        </fieldset>
+        <p id="scars-status" class="hint" role="status"></p>
+        <div class="actions">
+          <button id="scars-draw" type="button">Tirer une cicatrice</button>
+          <button id="scars-remove" type="button">Supprimer</button>
+          <button id="scars-reset" type="button">Rétablir la peau sans cicatrices</button>
+        </div>
+        <p id="scars-error" role="alert"></p>
+      </div>
+      <figure class="iris-zoom card">
+        <figcaption>Gros plan du visage</figcaption>
+        <div id="scars-zoom" class="surface"></div>
+        <button id="scars-place" type="button" aria-pressed="false">Placer sur le visage</button>
+      </figure>
+    </div>
+  </section>
+
+  <section id="planche-cicatrices">
+    <h2>Planche de cicatrices</h2>
+    <details id="scar-study-panel">
+      <summary>Comparer les six formes et les quatre maturations</summary>
+      <label>Cas d’étude<select id="scar-study-case"></select></label>
+      <div id="scar-study"></div>
+    </details>
+  </section>
+
+  <section id="marks">
+    <h2>Marques cutanées</h2>
+    <div class="iris-workspace">
+      <div class="card">
+        <div class="actions">
+          <label>Type de marque<select id="marks-type"></select></label>
+          <button class="primary" id="marks-add" type="button">Ajouter</button>
+        </div>
+        <label>Marque à modifier<select id="marks-list" disabled></select></label>
+        <label class="check"><input type="checkbox" id="marks-show" checked> Afficher les marques</label>
+        <fieldset id="marks-edit" hidden>
+          <legend class="visually-hidden">Réglages de la marque</legend>
+          <label>Forme<select id="marks-shape"></select></label>
+          <label>Teinte<select id="marks-tone"></select></label>
+          <label id="marks-seed-label">Graine du groupe<input id="marks-seed" type="text" maxlength="128" spellcheck="false"></label>
+          <fieldset id="marks-zones-wrap"><legend>Zones du groupe</legend><div id="marks-zones"></div></fieldset>
+          <div id="marks-axes"></div>
+        </fieldset>
+        <p id="marks-status" class="hint" role="status"></p>
+        <div class="actions">
+          <button id="marks-remove" type="button">Supprimer la marque</button>
+          <button id="marks-reset" type="button">Rétablir la peau historique</button>
+        </div>
+      </div>
+      <figure class="iris-zoom card">
+        <figcaption>Gros plan du visage</figcaption>
+        <div id="marks-zoom" class="surface"></div>
+        <button id="marks-place" type="button" aria-pressed="false">Placer sur le visage</button>
+      </figure>
+    </div>
+  </section>
+
+  <section id="planche-rousseur">
+    <h2>Planche de rousseur</h2>
+    <label>Cas d’étude<select id="freckle-case"></select></label>
+    <p class="hint">Les variations de carnation s’appliquent aux portraits de cette planche.</p>
+    <div id="freckle-study"></div>
+  </section>
+
+  <section id="beard">
+    <h2>Pilosité faciale</h2>
+    <div class="iris-workspace">
+      <div class="card">
+        <label>Catégorie<select id="beard-category"><option>H</option><option>F</option><option>T</option></select></label>
+        <label class="check"><input type="checkbox" id="beard-active"> Personnaliser la pilosité</label>
+        <fieldset id="beard-parameters" disabled>
+          <legend class="visually-hidden">Réglages de la pilosité</legend>
+          <label>Silhouette de référence<select id="beard-preset"></select></label>
+          <fieldset><legend>Zones</legend><div id="beard-zones"></div></fieldset>
+          <div id="beard-axes"></div>
+          <p class="hint">Une courbure positive relève les pointes de la moustache.</p>
+          <label>Coloration<select id="beard-colour-mode"><option value="hair">Identique aux cheveux</option><option value="darker">Cheveux légèrement assombris</option><option value="independent">Indépendante</option></select></label>
+          <label>Couleur indépendante<select id="beard-colour"></select></label>
+        </fieldset>
+        <p id="beard-status" class="hint" role="status"></p>
+        <div class="actions">
+          <button class="primary" id="beard-random" type="button">Tirer la pilosité</button>
+          <button id="beard-reset" type="button">Rétablir la pilosité historique</button>
+        </div>
+        <label>Graine de la pilosité<input id="beard-seed" type="text" value="Microcosme" spellcheck="false"></label>
+        <p id="beard-error" role="alert"></p>
+      </div>
+      <figure class="iris-zoom card">
+        <figcaption>Gros plan du bas du visage</figcaption>
+        <div id="beard-zoom" class="surface"></div>
+        <a href="#atelier">Comparer aux trois échelles</a>
+      </figure>
+    </div>
+  </section>
+
+  <section id="nose">
+    <h2>Nez</h2>
+    <div class="iris-workspace">
+      <div class="card">
+        <label class="check"><input type="checkbox" id="nose-active"> Personnaliser le nez</label>
+        <fieldset id="nose-parameters" disabled>
+          <legend class="visually-hidden">Réglages du nez</legend>
+          <label>Morphologie ou degré de détail<select id="nose-preset"></select></label>
+          <div id="nose-axes"></div>
+        </fieldset>
+        <p id="nose-status" class="hint" role="status"></p>
+        <div class="actions">
+          <button class="primary" id="nose-random" type="button">Tirer le nez</button>
+          <button id="nose-reset" type="button">Rétablir le nez historique</button>
+        </div>
+        <label>Graine du nez<input id="nose-seed" type="text" value="Microcosme" spellcheck="false"></label>
+        <p id="nose-error" role="alert"></p>
+      </div>
+      <figure class="iris-zoom card">
+        <figcaption>Gros plan du nez</figcaption>
+        <div id="nose-zoom" class="surface"></div>
+        <a href="#mouth">Voir les réglages de la bouche</a>
+      </figure>
+    </div>
+  </section>
+
+  <section id="mouth">
+    <h2>Bouche et lèvres</h2>
+    <div class="iris-workspace">
+      <div class="card">
+        <label class="check"><input type="checkbox" id="mouth-active"> Personnaliser la bouche</label>
+        <fieldset id="mouth-parameters" disabled>
+          <legend class="visually-hidden">Réglages de la bouche</legend>
+          <label>Silhouette de référence<select id="mouth-preset"></select></label>
+          <div id="mouth-axes"></div>
+        </fieldset>
+        <p id="mouth-status" class="hint" role="status"></p>
+        <div class="actions">
+          <button class="primary" id="mouth-random" type="button">Tirer la bouche</button>
+          <button id="mouth-reset" type="button">Rétablir la bouche historique</button>
+        </div>
+        <label>Graine de la bouche<input id="mouth-seed" type="text" value="Microcosme" spellcheck="false"></label>
+        <p id="mouth-error" role="alert"></p>
+      </div>
+      <figure class="iris-zoom card">
+        <figcaption>Gros plan de la bouche</figcaption>
+        <div id="mouth-zoom" class="surface"></div>
+        <a href="#atelier">Comparer aux trois échelles</a>
+      </figure>
+    </div>
+  </section>
+
+  <section id="brows">
+    <h2>Sourcils</h2>
+    <div class="iris-workspace">
+      <div class="card">
+        <label class="check"><input type="checkbox" id="brows-active"> Personnaliser les sourcils</label>
+        <fieldset id="brows-parameters" disabled>
+          <legend class="visually-hidden">Réglages des sourcils</legend>
+          <label>Silhouette de référence<select id="brows-preset"></select></label>
+          <div class="brow-traits">
+            <label class="check"><input type="checkbox" id="brows-absent"> Sans sourcils</label>
+            <label class="check"><input type="checkbox" id="brows-monobrow"> Monosourcil</label>
+            <label class="check"><input type="checkbox" id="brows-slit"> Sourcil fendu</label>
+          </div>
+          <div class="iris-selects">
+            <label>Mode chromatique <span id="brow-chip" class="iris-chip" hidden aria-hidden="true"></span><select id="brows-colour-mode"></select></label>
+            <label>Nuance indépendante<select id="brows-colour"></select></label>
+          </div>
+          <p id="brows-pigment" class="hint"></p>
+          <details open><summary>Géométrie</summary><div id="brow-axes"></div></details>
+        </fieldset>
+        <p id="brows-status" class="hint" role="status"></p>
+        <div class="actions">
+          <button class="primary" id="brows-random" type="button">Tirer les sourcils</button>
+          <button id="brows-reset" type="button">Rétablir les sourcils historiques</button>
+        </div>
+        <label>Graine des sourcils<input id="brows-seed" type="text" value="Microcosme" spellcheck="false"></label>
+        <p id="brows-error" role="alert"></p>
+      </div>
+      <figure class="iris-zoom card">
+        <figcaption>Gros plan des sourcils</figcaption>
+        <div id="brows-zoom" class="surface"></div>
+        <a href="#atelier">Comparer aux trois échelles</a>
+      </figure>
+    </div>
+  </section>
+
+  <section id="details">
+    <h2>Paupières, cils et contours</h2>
+    <div class="iris-workspace">
+      <div class="card">
+        <label class="check"><input type="checkbox" id="details-active"> Personnaliser les détails des yeux</label>
+        <fieldset id="details-parameters" disabled>
+          <legend class="visually-hidden">Réglages des détails des yeux</legend>
+          <details open><summary>Cils</summary><div id="detail-axes-lashes"></div></details>
+          <details><summary>Contours</summary><div id="detail-axes-contours"></div></details>
+          <details><summary>Paupière supérieure</summary><div id="detail-axes-upper"></div></details>
+          <details><summary>Paupière inférieure</summary><div id="detail-axes-lower"></div></details>
+          <details><summary>Cernes et poches</summary><div id="detail-axes-shadows"></div></details>
+        </fieldset>
+        <p id="details-status" class="hint" role="status"></p>
+        <div class="actions">
+          <button class="primary" id="details-random" type="button">Tirer les détails</button>
+          <button id="details-reset" type="button">Rétablir les contours historiques</button>
+        </div>
+        <label>Graine des détails<input id="details-seed" type="text" value="Microcosme" spellcheck="false"></label>
+        <p id="details-error" role="alert"></p>
+      </div>
+      <figure class="iris-zoom card">
+        <figcaption>Gros plan des contours</figcaption>
+        <div id="details-zoom" class="surface"></div>
+        <a href="#atelier">Comparer aux trois échelles</a>
+      </figure>
+    </div>
+  </section>
+
+  <section id="iris">
+    <h2>Iris et pupilles</h2>
+    <div class="iris-workspace">
+      <div class="card">
+        <label class="check"><input type="checkbox" id="iris-active"> Personnaliser les iris et les pupilles</label>
+        <fieldset id="iris-parameters" disabled>
+          <legend class="visually-hidden">Paramètres des iris</legend>
+          <div class="iris-selects">
+            <label>Nuance principale <span id="iris-chip-primary" class="iris-chip" aria-hidden="true"></span><select id="iris-primary"></select></label>
+            <label>Forme de la pupille<select id="iris-shape"></select></label>
+            <label>Hétérochromie<select id="iris-hetero"></select></label>
+            <label>Nuance secondaire <span id="iris-chip-secondary" class="iris-chip" aria-hidden="true"></span><select id="iris-secondary"></select></label>
+          </div>
+          <div id="iris-sliders"></div>
+        </fieldset>
+        <p id="iris-status" class="hint" role="status"></p>
+        <div class="actions">
+          <button class="primary" id="iris-random" type="button">Tirer iris et pupilles</button>
+          <button id="iris-reset" type="button">Rétablir les pigments historiques</button>
+        </div>
+        <label>Graine des iris<input id="iris-seed" type="text" value="Microcosme" spellcheck="false"></label>
+        <p id="iris-error" role="alert"></p>
+      </div>
+      <figure class="iris-zoom card">
+        <figcaption>Gros plan des yeux</figcaption>
+        <div id="iris-zoom" class="surface"></div>
+        <a href="#atelier">Comparer aux trois échelles</a>
+      </figure>
+    </div>
+  </section>
+
+  <section id="planche">
+    <h2>Planche des formes</h2>
+    <div id="shape-grid" class="shape-grid"></div>
+  </section>
+
+  <section aria-label="Planche des corps">
+    <details class="card" id="planche-corps">
+      <summary>Planche des corps</summary>
+      <p class="hint">La planche reprend le visage et la coiffure sélectionnés dans l’atelier.</p>
+      <div class="body-construction">
+        <div id="body-diagrams" class="body-diagrams"></div>
+        <div class="body-legend">
+          <h3>Repères anatomiques</h3>
+          <ol id="body-level-list"></ol>
+          <p>La base du pion prolonge la silhouette sous le repère 7. Le point central marque l’ancrage inférieur.</p>
+        </div>
+      </div>
+      <div id="body-comparison" class="body-comparison"></div>
+    </details>
+  </section>
+  <section aria-label="Planche de l’ossature">
+    <details class="card" id="planche-ossature">
+      <summary>Planche de l’ossature</summary>
+      <label class="structure-scale">Échelle<select id="structure-study-scale">
+        <option value="tile">Corps · 178 px</option><option value="head">Tête · 300 px</option><option value="mini">Miniature · 70 × 70 px</option>
+      </select></label>
+      <h3>Référence et combinaisons</h3>
+      <div id="structure-combinations" class="structure-study-grid"></div>
+      <h3>Extrêmes de chaque largeur</h3>
+      <div id="structure-extremes" class="structure-study-grid"></div>
+    </details>
+  </section>
+  <section aria-label="Planche de la corpulence">
+    <details class="card" id="planche-corpulence">
+      <summary>Corpulence avant et après correction</summary>
+      <div class="corpulence-study-controls">
+        <label class="structure-scale">Ossature<select id="corpulence-study-structure"></select></label>
+        <label class="structure-scale">Échelle<select id="corpulence-study-scale">
+          <option value="tile">Corps · 178 px</option><option value="head">Tête · 300 px</option><option value="mini">Miniature · 70 × 70 px</option>
+        </select></label>
+      </div>
+      <div id="corpulence-references" class="structure-study-grid"></div>
+    </details>
+  </section>
+  <section aria-label="Planche de la poitrine">
+    <details class="card" id="planche-poitrine">
+      <summary>Poitrine féminine adulte · avant et après correction</summary>
+      <div class="corpulence-study-controls">
+        <label class="structure-scale">Échelle<select id="chest-study-scale">
+          <option value="tile">Corps · 178 px</option><option value="head">Tête · 300 px</option><option value="mini">Miniature · 70 × 70 px</option>
+          <option value="detail">Thorax · détail</option>
+        </select></label>
+        <label class="structure-scale">Teinte de peau<select id="chest-study-skin"></select></label>
+      </div>
+      <h3>Corpulence standard</h3><div id="chest-volume-cases"></div>
+      <h3>Corpulence à 100 %</h3><div id="chest-heavy-cases"></div>
+      <h3>Variations de forme</h3><div id="chest-form-cases"></div>
+      <h3>Ossature et corpulence</h3><div id="chest-context-cases"></div>
+    </details>
+  </section>
+  <section aria-label="Planche des pectoraux">
+    <details class="card" id="planche-pectoraux">
+      <summary>Pectoraux adultes</summary>
+      <div class="corpulence-study-controls">
+        <label class="structure-scale">Échelle<select id="pectoral-study-scale">
+          <option value="tile">Corps · 178 px</option><option value="head">Tête · 300 px</option><option value="mini">Miniature · 70 × 70 px</option>
+        </select></label>
+        <label class="structure-scale">Teinte de peau<select id="pectoral-study-skin"></select></label>
+      </div>
+      <h3>Corpulence et volume musculaire</h3><div id="pectoral-matrix"></div>
+      <h3>Variations des cinq réglages</h3><div id="pectoral-axes"></div>
+      <h3>Ossatures</h3><div id="pectoral-structure"></div>
+      <h3>Comparaison des bases H et F</h3><div id="pectoral-comparison"></div>
+    </details>
+  </section>
+  <section aria-label="Planche des aréoles et mamelons">
+    <details class="card" id="planche-details-thorax">
+      <summary>Aréoles et mamelons adultes</summary>
+      <div class="corpulence-study-controls">
+        <label class="structure-scale">Échelle<select id="thorax-details-study-scale">
+          <option value="detail">Thorax · détail</option><option value="tile">Corps · 178 px</option>
+          <option value="head">Tête · 300 px</option><option value="mini">Miniature · 70 × 70 px</option>
+        </select></label>
+        <label class="structure-scale">Teinte de peau<select id="thorax-details-study-skin"></select></label>
+      </div>
+      <h3>Variations des sept paramètres</h3><div id="thorax-details-axes"></div>
+      <h3>Volumes, ossatures et corpulences</h3><div id="thorax-details-carriers"></div>
+    </details>
+  </section>
+  <section aria-label="Planche des reliefs osseux">
+    <details class="card" id="planche-reliefs-osseux">
+      <summary>Reliefs osseux et maigreur</summary>
+      <div class="corpulence-study-controls">
+        <label class="structure-scale">Échelle<select id="bone-relief-scale">
+          <option value="detail">Tronc · détail</option><option value="tile">Corps · 178 px</option>
+          <option value="head">Tête · 300 px</option><option value="mini">Miniature · 70 × 70 px</option>
+        </select></label>
+        <label class="structure-scale">Ossature<select id="bone-relief-structure"></select></label>
+        <label class="structure-scale">Teinte de peau<select id="bone-relief-skin"></select></label>
+      </div>
+      <h3>Avant et après aux neuf niveaux de corpulence</h3><div id="bone-relief-references"></div>
+      <h3>Recouvrement par les volumes thoraciques</h3><div id="bone-relief-coverage"></div>
+    </details>
+  </section>
+  <section aria-label="Planche des abdominaux">
+    <details class="card" id="planche-abdominaux">
+      <summary>Musculature abdominale</summary>
+      <div class="corpulence-study-controls">
+        <label class="structure-scale">Échelle<select id="abdominal-study-scale">
+          <option value="detail">Abdomen · détail</option><option value="tile">Corps · 178 px</option>
+          <option value="head">Tête · 300 px</option><option value="mini">Miniature · 70 × 70 px</option>
+        </select></label>
+        <label class="structure-scale">Ossature<select id="abdominal-study-structure"></select></label>
+        <label class="structure-scale">Teinte de peau<select id="abdominal-study-skin"></select></label>
+      </div>
+      <h3>Corpulence et volume musculaire</h3><div id="abdominal-study-matrix"></div>
+      <h3>Variations des quatre réglages</h3><div id="abdominal-study-axes"></div>
+    </details>
+  </section>
+  <section aria-label="Planche du pli abdominal et du nombril">
+    <details class="card" id="planche-pli-nombril">
+      <summary>Pli abdominal et nombril</summary>
+      <div class="corpulence-study-controls">
+        <label class="structure-scale">Échelle<select id="belly-study-scale">
+          <option value="detail">Abdomen · détail</option><option value="tile">Corps · 178 px</option>
+          <option value="head">Tête · 300 px</option><option value="mini">Miniature · 70 × 70 px</option>
+        </select></label>
+        <label class="structure-scale">Ossature<select id="belly-study-structure"></select></label>
+        <label class="structure-scale">Teinte de peau<select id="belly-study-skin"></select></label>
+        <label class="structure-scale">Volume musculaire<select id="belly-study-muscle">
+          <option value="0">Plat · 0 %</option><option value="50">Athlétique · 50 %</option><option value="100">Très musclé · 100 %</option>
+        </select></label>
+      </div>
+      <h3>Les neuf niveaux de corpulence</h3><div id="belly-study-corpulence"></div>
+      <h3>Variations du nombril</h3><div id="belly-study-navel"></div>
+    </details>
+  </section>
+  <section id="personnage">
+    <h2>Personnage et palette</h2>
+    <div class="configuration">
+      <div class="card">
+        <label>Catalogue ordinaire<select id="ordinary"></select></label>
+        <button id="choose-ordinary" type="button">Choisir l’entrée ordinaire</button>
+        <label>Identifiants historiques<select id="historical"></select></label>
+        <button id="load-history" type="button">Ouvrir l’identifiant</button>
+        <p id="identity-note" class="hint"></p>
+        <label>Arrangement<select id="arrangement" aria-describedby="arrangement-note"></select></label>
+        <p id="arrangement-note" class="hint" hidden>Cette référence a un arrangement unique. Le dernier choix G ou D reste dans la sélection.</p>
+        <div id="atelier-thorax">
+          <h3>Atelier du thorax</h3>
+          <label>Corps<select id="body" aria-describedby="body-note"></select></label>
+          <p id="body-note" class="hint">Choisir une base adulte pour ouvrir les réglages du thorax.</p>
+          <div class="actions thorax-actions">
+            <button type="button" data-thorax-body="adult-h" aria-controls="pectoral-panel" aria-pressed="false">Pectoraux · H adulte</button>
+            <button type="button" data-thorax-body="adult-f" aria-controls="chest-panel" aria-pressed="false">Poitrine · F adulte</button>
+            <a id="thorax-details-link" href="#thorax-details-panel" hidden>Aréoles et mamelons</a>
+            <a id="corpulence-link" href="#structure-panel" hidden>Corpulence</a>
+            <a id="abdominal-link" href="#abdominal-panel" hidden>Abdominaux</a>
+            <a id="navel-link" href="#navel-panel" hidden>Nombril</a>
+          </div>
+          <div id="body-controls" class="structure-layout" hidden>
+            <div>
+              <fieldset id="chest-panel" hidden>
+                <legend>Poitrine · F adulte</legend>
+                <div id="chest-controls"></div>
+                <p class="hint" id="chest-flat-note">Augmenter le volume pour activer les cinq réglages de forme. Leurs valeurs restent mémorisées à 0 %.</p>
+                <datalist id="chest-volume-stops"></datalist>
+                <button id="chest-reset" type="button">Réinitialiser la poitrine</button>
+              </fieldset>
+              <fieldset id="pectoral-panel" hidden>
+                <legend>Pectoraux · H adulte</legend>
+                <div id="pectoral-controls"></div>
+                <p class="hint" id="pectoral-flat-note">Augmenter le volume pour activer les quatre autres réglages. Leurs valeurs restent mémorisées à 0 %.</p>
+                <button id="pectoral-reset" type="button">Réinitialiser les pectoraux</button>
+              </fieldset>
+              <fieldset id="thorax-details-panel">
+                <legend>Aréoles et mamelons</legend>
+                <p class="hint" id="thorax-details-note">Ajustez un curseur ou appliquez les valeurs de référence pour afficher les détails.</p>
+                <div id="thorax-details-controls"></div>
+                <button id="thorax-details-reference" type="button">Appliquer les valeurs de référence</button>
+              </fieldset>
+              <fieldset id="abdominal-panel">
+                <legend>Musculature abdominale</legend>
+                <div id="abdominal-controls"></div>
+                <p class="hint" id="abdominal-flat-note">Augmenter le volume pour activer les trois autres réglages. Leurs valeurs restent mémorisées à 0 %.</p>
+                <button id="abdominal-reset" type="button">Réinitialiser les abdominaux</button>
+              </fieldset>
+              <fieldset id="navel-panel">
+                <legend>Nombril</legend>
+                <div id="navel-controls"></div>
+                <button id="navel-reset" type="button">Réinitialiser le nombril</button>
+              </fieldset>
+              <fieldset id="structure-panel">
+                <legend>Corpulence et ossature</legend>
+                <label class="slider" for="corpulence">
+                  <span>Corpulence <output id="corpulence-value" for="corpulence"></output></span>
+                  <input id="corpulence" type="range" min="0" max="100" step="any" value="50" list="corpulence-stops">
+                </label>
+                <datalist id="corpulence-stops"></datalist>
+                <button id="corpulence-reset" type="button">Réinitialiser la corpulence</button>
+                <h4 class="body-structure-heading">Ossature</h4>
+                <p class="hint">Les largeurs sont exprimées en pourcentage de la base sélectionnée.</p>
+                <div id="structure-controls"></div>
+                <button id="structure-reset" type="button">Réinitialiser les largeurs</button>
+              </fieldset>
+            </div>
+            <div class="body-live-preview">
+              <div id="structure-live" class="surface tile"></div>
+              <div id="thorax-live-detail" class="surface thorax-detail" hidden></div>
+              <div id="abdominal-live-detail" class="surface abdominal-detail"></div>
+            </div>
+          </div>
+        </div>
+        <label>Morphologie du visage<select id="morph"></select></label>
+        <details id="morph-panel"><summary>Ajuster les paramètres du visage</summary><div id="morph-controls"></div>
+          <p id="forehead-note" class="hint" hidden>L’implantation capillaire est sans effet sur ce rendu. Sa valeur est conservée.</p>
+        </details>
+        <label class="check"><input id="accessories" type="checkbox" aria-describedby="accessories-note" checked> Accessoires historiques</label>
+        <p id="accessories-note" class="hint" hidden>Ce contrôle ne change aucune couche d’accessoire dans le rendu courant.</p>
+        <label class="check"><input id="contrast" type="checkbox" aria-describedby="contrast-note" checked> Contrastes historiques</label>
+        <p id="contrast-note" class="hint" hidden>Ce contrôle ne change aucune couche de contraste dans le rendu courant.</p>
+      </div>
+      <div class="card">
+        <div class="actions" id="palette-tabs" aria-label="Familles de palettes">
+          <button type="button" data-category="natural" aria-pressed="true">Naturelles</button>
+          <button type="button" data-category="fantasy" aria-pressed="false">Fantaisie</button>
+        </div>
+        <div id="swatches" class="swatches"></div>
+        <p id="colour-info" class="hint"></p>
+        <label class="check"><input id="flat-mode" type="checkbox" aria-describedby="palette-note"> Appliquer l’aplat et le contour</label>
+        <p id="palette-note" class="hint" hidden>Ce rendu ne contient aucune surface capillaire colorable. La nuance et le mode restent mémorisés.</p>
+      </div>
+    </div>
+    <details id="appearance-panel"><summary>Exporter ou importer l’apparence complète</summary>
+      <label>Document d’apparence JSON<textarea id="appearance-json" rows="10" spellcheck="false"></textarea></label>
+      <div class="actions"><button id="appearance-export" type="button">Exporter l’apparence</button><button id="appearance-import" type="button">Importer l’apparence</button></div>
+      <p id="appearance-message" role="status"></p><p id="appearance-error" role="alert"></p>
+    </details>
+    <details id="json-panel"><summary>Données de la sélection historique</summary>
+      <p id="adult-archive-note" class="hint" hidden>Pour conserver les réglages du corps adulte, exportez l’apparence complète.</p>
+      <label>Sélection JSON<textarea id="selection-json" rows="8" spellcheck="false"></textarea></label>
+      <div class="actions"><button id="export" type="button">Afficher les données conservées</button><button id="reload" type="button">Relire ces données</button></div>
+      <p id="selection-message" role="status"></p><p id="selection-error" role="alert"></p>
+    </details>
+    <details id="series-panel"><summary>Une coiffure dans les 26 teintes</summary><div id="series-grid" class="palette-grid"></div></details>
+    <details id="variety-panel"><summary>Une teinte sur plusieurs coiffures</summary><div id="variety-grid" class="palette-grid"></div></details>
+  </section>
+  <footer><a href="https://github.com/Thsethse/Microcosme/blob/codex/bio-corps-05-c/docs/ai/bio-corps-05-c/RAPPORT.md">Rapport d’implémentation</a></footer>
+</main>
+<script>
+(function () {
+  var atelier = document.getElementById('atelier');
+  var waiting = document.getElementById('atelier-startup');
+  var alert = document.getElementById('atelier-startup-error');
+  var detail = document.getElementById('atelier-startup-detail');
+  function startupFailed(message) {
+    if (atelier.getAttribute('data-startup') !== 'pending') return;
+    atelier.setAttribute('data-startup', 'failed');
+    detail.textContent = message;
+    waiting.hidden = true;
+    alert.hidden = false;
+  }
+  window.addEventListener('error', function (event) {
+    if (event.target && event.target.id === 'atelier-entry') {
+      startupFailed('Script indisponible (' + event.target.getAttribute('src') + ').');
+    } else if (event.message) {
+      startupFailed(event.message);
+    }
+  }, true);
+  window.addEventListener('load', function () {
+    startupFailed('Le script n’a pas terminé son initialisation.');
+  });
+  document.getElementById('atelier-retry').addEventListener('click', function () {
+    window.location.reload();
+  });
+}());
+</script>
+<script id="atelier-entry" src="atelier-27a3a743e4b185ec.js" defer></script>
+</body>
+</html>
