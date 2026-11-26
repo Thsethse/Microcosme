@@ -226,7 +226,7 @@ button:disabled, input:disabled, select:disabled { opacity: .65; }
   .body-construction { grid-template-columns: minmax(0, 1fr); }
 }
 
-#structure-panel, #chest-panel, #pectoral-panel {
+#structure-panel, #chest-panel, #pectoral-panel, #thorax-details-panel {
   margin: 14px 0;
   padding: 10px;
   min-width: 0;
@@ -238,11 +238,20 @@ button:disabled, input:disabled, select:disabled { opacity: .65; }
 #atelier-thorax { scroll-margin-top: 12px; }
 #atelier-thorax > h3 { margin: 14px 0 8px; }
 .thorax-actions button[aria-pressed="true"] { background: #ead9b7; border-color: #896b3e; }
+#thorax-details-link { align-self: center; }
+#thorax-details-panel { scroll-margin-top: 12px; }
 .structure-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(72px, .42fr); gap: 8px; align-items: start; }
 .structure-layout[hidden] { display: none; }
-#structure-live { border-radius: 7px; position: sticky; top: 12px; }
+#structure-live { border-radius: 7px; }
+.body-live-preview { position: sticky; top: 12px; min-width: 0; }
+#thorax-live-detail { margin-top: 6px; border: 1px solid var(--line); border-radius: 7px; }
+#thorax-live-detail[hidden] { display: none; }
+.thorax-detail svg { height: auto; aspect-ratio: 15 / 8; }
 #planche-ossature > summary, #planche-corpulence > summary, #planche-poitrine > summary,
-#planche-pectoraux > summary { font: 1.8rem/1.1 Georgia, serif; }
+#planche-pectoraux > summary, #planche-details-thorax > summary { font: 1.8rem/1.1 Georgia, serif; }
+#thorax-details-axes section + section { margin-top: 12px; }
+#thorax-details-axes h4, #thorax-details-carriers h4 { margin: 0 0 6px; }
+#thorax-details-carriers figure { margin: 0; text-align: center; }
 .structure-scale { max-width: 260px; }
 .structure-study-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 10px 0 20px; }
 .structure-study-grid:last-child { margin-bottom: 0; }
