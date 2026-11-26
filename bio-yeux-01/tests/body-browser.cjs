@@ -1779,7 +1779,8 @@ async function checkPelvicAnatomy(page,old,url,name) {
       await q('#pubic-study-'+field).selectOption(value);
       variants.add(JSON.stringify(await signatures()));
     }
-    assert.equal(variants.size,values.length,field);
+    // Two pairs of profiles have the same local pelvic width at standard corpulence.
+    assert.equal(variants.size,field==='structure' ? 5 : values.length,field);
   }
   for (const [view,width,height] of [['head',220,225],['tile',240,355],['mini',230,245]]) {
     await q('#pubic-study-scale').selectOption(view);
@@ -1795,7 +1796,7 @@ async function checkPelvicAnatomy(page,old,url,name) {
     assert(await page.evaluate(w=>document.documentElement.scrollWidth<=w+1,width));
   }
   await max.screenshot({path:path.join(output,`${name}-pelvic-maximum.png`)});
-  return {bases:bases.length,stops:pubicHairStops.length,roots:24,archives:4,touch:4,scales:3,...counts};
+  return {bases:bases.length,stops:pubicHairStops.length,roots:24,archives:4,sliderTaps:2,baseTaps:6,scales:3,...counts};
 }
 
 async function exercise(context, url, name, version) {
