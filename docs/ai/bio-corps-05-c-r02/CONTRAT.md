@@ -1,0 +1,12 @@
+# BIO-CORPS-05-C-R02 — Corrections ciblées
+Base codex/bio-corps-05-c-r01. Retour porteur validé : ligne abdominale trop droite, nombril encore trop haut, suppression taille et relief du mamelon.
+## Courbe abdominale
+Accentuer la courbure en U arrondi, extrémités relevées et centre nettement plus bas, raccords doux. Dissocier hauteur des extrémités et profondeur centrale. Avec corpulence croissante, descente centrale continue et courbure accrue, conserver largeur et intensité progressives. À corpulence maximale respecter la marge positive au-dessus de la future zone génitale, sans modifier silhouette, ossature, base ou hauteur. Ne pas déplacer uniformément toute la courbe. Croquis porteur : intention de courbe plus arrondie, pas gabarit numérique.
+## Nombril
+Conserver détail standardisé sans curseurs. Abaisser la position de référence même en absence de pli visible. Synchroniser la descente supplémentaire avec celle du centre de la courbe abdominale ; rester légèrement au-dessus, sans chevauchement. Ancrage automatique anatomique, continuité, BIO-CORPS-INV-04.
+## Mamelon
+Supprimer les deux curseurs taille et relief, et leurs éventuelles commandes dédiées. Un détail graphique unique standardisé, discret, centré sur chaque aréole, nuance dérivée de peau. Préserver les cinq paramètres aréolaires : taille, forme, pigmentation, position horizontale et verticale. Conserver géométries mammaires et pectorales. Compatibilité lecture des sauvegardes historiques, anciens champs éventuellement inactifs, aucune réactivation silencieuse, documenter migration.
+## Invariants et recette
+Préserver plis de l'aine et intensité constante indépendamment de graisse et musculature, tous autres acquis et BIO-INV-01 / BIO-CORPS-INV-01 à 04. Comparaison avant/après, neuf niveaux de corpulence H/F, ossatures et peaux variées, trois échelles historiques. Vérifier courbure, descente du centre, nombril plus bas et synchronisé, marge pelvienne, absence de chevauchement, centrage mamelon, suppression effective des deux commandes et maintien des cinq aréolaires, sauvegardes et non-régression. Atelier complet, liens directs atelier et planche. Distinguer tests automatisés et recette physique iPad.
+## Livraison
+Partir de docs/bio-corps-05-c-r02, branche codex/bio-corps-05-c-r02, PR ouverte sans fusion, rapport docs/ai/bio-corps-05-c-r02/RAPPORT.md, preview publique /preview/bio-corps-05-c-r02/. Attendre validation. Aucun autre chantier, notamment grossesse, attributs génitaux, âges, vêtements, intégration jeu ou arbitrage T.
