@@ -1148,12 +1148,12 @@ async function checkAbdominalEdition(page,old,url,name) {
   assert.equal(await panel.locator('svg').count(),42);
   assert.equal(await panel.locator('[data-abdominals]').count(),34);
   assert.equal(await q('[data-abdominal-case="matrix-100-100"] [data-abdominals]').count(),2);
-  const path=panel.locator('[data-abdominal-part="rectus"]').first();
-  const initial=await path.getAttribute('d');
+  const rectusPath=panel.locator('[data-abdominal-part="rectus"]').first();
+  const initial=await rectusPath.getAttribute('d');
   assert.equal(await q('#abdominal-study-structure option').count(),7);
   for (const id of ['fine','wide','min','max']) {
     await q('#abdominal-study-structure').selectOption(id);
-    assert.notEqual(await path.getAttribute('d'),initial);
+    assert.notEqual(await rectusPath.getAttribute('d'),initial);
   }
   await q('#abdominal-study-structure').selectOption('reference');
   const skins=await q('#abdominal-study-skin option').evaluateAll(options=>options.map(option=>option.value));
@@ -1162,7 +1162,7 @@ async function checkAbdominalEdition(page,old,url,name) {
   for (const skin of skins) {
     await q('#abdominal-study-skin').selectOption(skin);
     assert.equal(await panel.locator('.body-shape path').first().getAttribute('fill'),skin);
-    tones.push(await path.getAttribute('fill'));
+    tones.push(await rectusPath.getAttribute('fill'));
   }
   assert.equal(new Set(tones).size,4);
   await q('#abdominal-study-skin').selectOption(skins[0]);
