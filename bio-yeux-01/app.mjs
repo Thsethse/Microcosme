@@ -14,6 +14,7 @@ import {pectoralControls, referencePectorals} from './pectorals.mjs';
 import {renderPectoralStudy} from './pectorals-study.mjs';
 import {referenceThoraxDetails, thoraxDetailControls} from './thorax-details.mjs';
 import {renderThoraxDetailsStudy, thoraxDetailFrame} from './thorax-details-study.mjs';
+import {renderBoneReliefStudy} from './bone-relief-study.mjs';
 import {renderStructureStudy} from './structure-study.mjs';
 import {appearanceDocument, characterInput, parseAppearance} from './appearance.mjs';
 import {currentDraw, drawEyes, legacyDraw} from './draw.mjs';
@@ -87,7 +88,7 @@ function inputFor(key) {
 }
 
 const frames = {head: '-30 -65 220 225', tile: '-40 -85 240 355', mini: '-35 -68 230 245'};
-function svg({key, body, structure, corpulence, chest, pectorals, thoraxDetails, chestStudySkin, chestRevision, beforeCorpulenceCorrection, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null, beard = null, beardCategory, marks = null, scars = null, makeup = null} = {}) {
+function svg({key, body, structure, corpulence, chest, pectorals, thoraxDetails, chestStudySkin, chestRevision, beforeCorpulenceCorrection, boneReliefs = body===undefined, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null, beard = null, beardCategory, marks = null, scars = null, makeup = null} = {}) {
   const input = inputFor(key);
   if (body !== undefined) {
     input.body = body;
@@ -99,7 +100,7 @@ function svg({key, body, structure, corpulence, chest, pectorals, thoraxDetails,
   }
   const result = character(input, {
     eyes: value, iris:pigment, details, brows, mouth, nose, beard, beardCategory, marks, scars, makeup, eyeEnvelopes: guides, hairColor: hair, rememberedHairColor: colour, headOnly: view !== 'tile',
-    smallScale: view === 'mini', naturalEyes, beforeCorpulenceCorrection, chestRevision, chestStudySkin, instance: 'atelier-yeux-' + (++serial)
+    smallScale: view === 'mini', naturalEyes, beforeCorpulenceCorrection, chestRevision, chestStudySkin, boneReliefs, instance: 'atelier-yeux-' + (++serial)
   }).replace(/viewBox="[^"]*"/, `viewBox="${frame}"`);
   return decorative ? result.replace('<svg ', '<svg aria-hidden="true" focusable="false" ') : result;
 }
@@ -283,6 +284,8 @@ function renderComparison() {
   if (pectoralStudy.open) renderPectoralStudy(pectoralStudy,{render:renderBody,background});
   const thoraxDetailsStudy=q('#planche-details-thorax');
   if (thoraxDetailsStudy.open) renderThoraxDetailsStudy(thoraxDetailsStudy,{render:renderBody,background});
+  const boneReliefStudy=q('#planche-reliefs-osseux');
+  if (boneReliefStudy.open) renderBoneReliefStudy(boneReliefStudy,{render:renderBody,background});
 
   const {envelopes:[left,right],maxWidth,reference}=eyesFor(inputFor(),null).face;
   const x=left.x-maxWidth/2-2, width=right.x+maxWidth/2+2-x;
@@ -358,6 +361,7 @@ function syncBodyControls() {
   const active=isAdultBody(body);
   q('#body-controls').hidden=!active;
   q('#thorax-details-link').hidden=!active;
+  q('#corpulence-link').hidden=!active;
   for(const button of document.querySelectorAll('[data-thorax-body]')) {
     button.setAttribute('aria-pressed',String(button.dataset.thoraxBody===body));
   }
@@ -580,6 +584,9 @@ q('#thorax-details-reference').addEventListener('click',event=>
 options('#thorax-details-study-skin',chestStudySkins);
 q('#thorax-details-study-skin').addEventListener('change',renderComparison);
 q('#thorax-details-study-scale').addEventListener('change',renderComparison);
+options('#bone-relief-structure',corpulenceStudyStructures);
+options('#bone-relief-skin',chestStudySkins);
+for (const id of ['bone-relief-structure','bone-relief-skin','bone-relief-scale']) q('#'+id).addEventListener('change',renderComparison);
 
 options('#eye-request-axis', Object.entries(eyeControls).map(([key, range]) => [key, range.label]));
 function syncRequest() {
@@ -774,6 +781,7 @@ mountStudyPanel(q('#planche-corpulence'), renderComparison);
 mountStudyPanel(q('#planche-poitrine'), renderComparison);
 mountStudyPanel(q('#planche-pectoraux'),renderComparison);
 mountStudyPanel(q('#planche-details-thorax'),renderComparison);
+mountStudyPanel(q('#planche-reliefs-osseux'),renderComparison);
 refreshCharacter();
 q('#atelier').dataset.startup = 'ready';
 q('#atelier-startup').hidden = true;

@@ -31,6 +31,7 @@
     <a href="#planche-poitrine">Planche de la poitrine</a>
     <a href="#planche-pectoraux">Planche des pectoraux</a>
     <a href="#planche-details-thorax">Planche des aréoles et mamelons</a>
+    <a href="#planche-reliefs-osseux">Planche des reliefs osseux</a>
     <a href="#atelier-thorax">Atelier du thorax</a>
     <a href="#iris">Iris et pupilles</a>
     <a href="#planche">Planche des formes</a>
@@ -518,6 +519,21 @@
       <h3>Volumes, ossatures et corpulences</h3><div id="thorax-details-carriers"></div>
     </details>
   </section>
+  <section aria-label="Planche des reliefs osseux">
+    <details class="card" id="planche-reliefs-osseux">
+      <summary>Reliefs osseux et maigreur</summary>
+      <div class="corpulence-study-controls">
+        <label class="structure-scale">Échelle<select id="bone-relief-scale">
+          <option value="detail">Tronc · détail</option><option value="tile">Corps · 178 px</option>
+          <option value="head">Tête · 300 px</option><option value="mini">Miniature · 70 × 70 px</option>
+        </select></label>
+        <label class="structure-scale">Ossature<select id="bone-relief-structure"></select></label>
+        <label class="structure-scale">Teinte de peau<select id="bone-relief-skin"></select></label>
+      </div>
+      <h3>Avant et après aux neuf niveaux de corpulence</h3><div id="bone-relief-references"></div>
+      <h3>Recouvrement par les volumes thoraciques</h3><div id="bone-relief-coverage"></div>
+    </details>
+  </section>
   <section id="personnage">
     <h2>Personnage et palette</h2>
     <div class="configuration">
@@ -537,6 +553,7 @@
             <button type="button" data-thorax-body="adult-h" aria-controls="pectoral-panel" aria-pressed="false">Pectoraux · H adulte</button>
             <button type="button" data-thorax-body="adult-f" aria-controls="chest-panel" aria-pressed="false">Poitrine · F adulte</button>
             <a id="thorax-details-link" href="#thorax-details-panel" hidden>Aréoles et mamelons</a>
+            <a id="corpulence-link" href="#structure-panel" hidden>Corpulence</a>
           </div>
           <div id="body-controls" class="structure-layout" hidden>
             <div>
