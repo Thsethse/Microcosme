@@ -80,7 +80,7 @@ const blend=(skin,tint,weight)=>'#'+rgb(skin).map((value,i)=>
 export function chestOverlay(body, chest, corpulence, {skin, contour}, studySkin, makeId) {
   const shape=chestGeometry(body,chest,corpulence);
   const paths=shape.lobes.map(({base,segments})=>trace(base[0],segments)+'Z');
-  const id=makeId(paths.join(''));
+  const id=makeId(body.path+paths.join(''));
   const cover=id+'-cover', outside=id+'-outside';
   const sideTone=blend(studySkin,[.24,.13,.09],.085-.018*shape.fullness);
   const lowerTone=blend(studySkin,[.24,.13,.09],.220-.035*shape.fullness);

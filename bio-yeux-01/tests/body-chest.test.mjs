@@ -125,6 +125,10 @@ test('masque sur le trait seul, bord extérieur limité et identité du reste du
       assert.equal((result.match(/data-chest-edge[^>]*clip-path/g)??[]).length,2);
     } else assert.equal(result,baseline);
   }
+  const subject={...raw,body:'adult-f',chest:{...neutral,volume:100}};
+  const rendered=[character(subject),character({...subject,structure:{neck:100,shoulders:100,thorax:100,waist:100,pelvis:100,base:130}})];
+  const covers=rendered.map(svg=>svg.match(chestDefs)[0].match(/<mask id="([^"]+)"/)[1]);
+  assert.notEqual(covers[0],covers[1]);
 });
 
 test('migrations v14 et v15, données d’origine et reprise v16 à plat ou en volume',()=>{
