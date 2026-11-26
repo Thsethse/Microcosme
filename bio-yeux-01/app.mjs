@@ -16,9 +16,8 @@ import {referenceThoraxDetails, thoraxDetailControls} from './thorax-details.mjs
 import {renderThoraxDetailsStudy, thoraxDetailFrame} from './thorax-details-study.mjs';
 import {renderBoneReliefStudy} from './bone-relief-study.mjs';
 import {abdominalControls, referenceAbdominals} from './abdominals.mjs';
-import {abdominalDetailFrame, renderAbdominalStudy} from './abdominal-study.mjs';
-import {navelControls, referenceNavel} from './belly-details.mjs';
-import {renderBellyDetailStudy} from './belly-detail-study.mjs';
+import {renderAbdominalStudy} from './abdominal-study.mjs';
+import {pelvicDetailFrame, renderBellyDetailStudy, renderPelvicStudy} from './belly-detail-study.mjs';
 import {renderStructureStudy} from './structure-study.mjs';
 import {appearanceDocument, characterInput, parseAppearance} from './appearance.mjs';
 import {currentDraw, drawEyes, legacyDraw} from './draw.mjs';
@@ -92,7 +91,7 @@ function inputFor(key) {
 }
 
 const frames = {head: '-30 -65 220 225', tile: '-40 -85 240 355', mini: '-35 -68 230 245'};
-function svg({key, body, structure, corpulence, chest, pectorals, thoraxDetails, abdominals, navel, chestStudySkin, chestRevision, beforeCorpulenceCorrection, boneReliefs = body===undefined, bellyFinish = body===undefined, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null, beard = null, beardCategory, marks = null, scars = null, makeup = null} = {}) {
+function svg({key, body, structure, corpulence, chest, pectorals, thoraxDetails, abdominals, chestStudySkin, chestRevision, beforeCorpulenceCorrection, boneReliefs = body===undefined, bellyFinish = body===undefined, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null, beard = null, beardCategory, marks = null, scars = null, makeup = null} = {}) {
   const input = inputFor(key);
   if (body !== undefined) {
     input.body = body;
@@ -102,7 +101,6 @@ function svg({key, body, structure, corpulence, chest, pectorals, thoraxDetails,
     input.pectorals = pectorals;
     input.thoraxDetails = thoraxDetails;
     input.abdominals = abdominals;
-    input.navel = navel;
   }
   const result = character(input, {
     eyes: value, iris:pigment, details, brows, mouth, nose, beard, beardCategory, marks, scars, makeup, eyeEnvelopes: guides, hairColor: hair, rememberedHairColor: colour, headOnly: view !== 'tile',
@@ -276,8 +274,8 @@ function renderComparison() {
     detailPreview.className='surface thorax-detail '+background;
     if (!detailPreview.hidden) detailPreview.innerHTML=renderBody({view:'tile',frame:thoraxDetailFrame});
     const abdomen=q('#abdominal-live-detail');
-    abdomen.className='surface abdominal-detail '+background;
-    abdomen.innerHTML=renderBody({view:'tile',frame:abdominalDetailFrame});
+    abdomen.className='surface pelvic-detail '+background;
+    abdomen.innerHTML=renderBody({view:'tile',frame:pelvicDetailFrame});
   }
   const bodyStudy = q('#planche-corps');
   if (bodyStudy.open) {
@@ -299,6 +297,8 @@ function renderComparison() {
   if (abdominalStudy.open) renderAbdominalStudy(abdominalStudy,{render:renderBody,background});
   const bellyDetailStudy=q('#planche-pli-nombril');
   if (bellyDetailStudy.open) renderBellyDetailStudy(bellyDetailStudy,{render:renderBody,background});
+  const pelvicStudy=q('#diagnostic-pelvien');
+  if (pelvicStudy.open) renderPelvicStudy(pelvicStudy,{render:renderBody,chin:model(inputFor('shaved:U')).anchors.chin,background});
 
   const {envelopes:[left,right],maxWidth,reference}=eyesFor(inputFor(),null).face;
   const x=left.x-maxWidth/2-2, width=right.x+maxWidth/2+2-x;
@@ -363,9 +363,9 @@ function renderChart() {
 }
 
 function rememberBody() {
-  const {body, structure, corpulence, chest, chestOrigin, pectorals, thoraxDetails, abdominals, navel} = selection.state;
+  const {body, structure, corpulence, chest, chestOrigin, pectorals, thoraxDetails, abdominals} = selection.state;
   if (!isAdultBody(body)) return;
-  if (structure || corpulence !== undefined || chest || pectorals || thoraxDetails || abdominals || navel) bodyPreferences.set(body, {structure, corpulence, chest, chestOrigin, pectorals, thoraxDetails, abdominals, navel});
+  if (structure || corpulence !== undefined || chest || pectorals || thoraxDetails || abdominals) bodyPreferences.set(body, {structure, corpulence, chest, chestOrigin, pectorals, thoraxDetails, abdominals});
   else bodyPreferences.delete(body);
 }
 
@@ -376,7 +376,6 @@ function syncBodyControls() {
   q('#thorax-details-link').hidden=!active;
   q('#corpulence-link').hidden=!active;
   q('#abdominal-link').hidden=!active;
-  q('#navel-link').hidden=!active;
   for(const button of document.querySelectorAll('[data-thorax-body]')) {
     button.setAttribute('aria-pressed',String(button.dataset.thoraxBody===body));
   }
@@ -389,14 +388,12 @@ function syncBodyControls() {
   syncThoraxControls('abdominal',selection.state.abdominals ?? referenceAbdominals,[[0,'Plat'],[100,'Très musclé']]);
   const thoraxDetails=selection.state.thoraxDetails;
   q('#thorax-details-note').hidden=Boolean(thoraxDetails);
-  for (const [prefix,values] of [['thorax-detail',thoraxDetails ?? referenceThoraxDetails[body]],['navel',selection.state.navel ?? referenceNavel]]) {
-    for (const [key,value] of Object.entries(values)) {
-      const range=q(`#${prefix}-${key}`);
-      const percent=`${format.format(value)} %`;
-      range.value=value;
-      range.setAttribute('aria-valuetext',percent);
-      q(`output[for="${prefix}-${key}"]`).textContent=percent;
-    }
+  for (const [key,value] of Object.entries(thoraxDetails ?? referenceThoraxDetails[body])) {
+    const range=q(`#thorax-detail-${key}`);
+    const percent=`${format.format(value)} %`;
+    range.value=value;
+    range.setAttribute('aria-valuetext',percent);
+    q(`output[for="thorax-detail-${key}"]`).textContent=percent;
   }
   const corpulence = selection.state.corpulence ?? referenceCorpulence;
   const range = q('#corpulence');
@@ -475,10 +472,9 @@ function setSelection(raw, form = morphForm, trigger = document.activeElement, {
   onApply, body = selection.state.body, structure = bodyPreferences.get(body)?.structure,
   corpulence = bodyPreferences.get(body)?.corpulence, chest = bodyPreferences.get(body)?.chest,
   chestOrigin = bodyPreferences.get(body)?.chestOrigin, pectorals = bodyPreferences.get(body)?.pectorals,
-  thoraxDetails = bodyPreferences.get(body)?.thoraxDetails, abdominals = bodyPreferences.get(body)?.abdominals,
-  navel = bodyPreferences.get(body)?.navel
+  thoraxDetails = bodyPreferences.get(body)?.thoraxDetails, abdominals = bodyPreferences.get(body)?.abdominals
 } = {}) {
-  const next = restoreSelection(raw, body, structure, corpulence, chest, chestOrigin, pectorals, thoraxDetails, abdominals, navel);
+  const next = restoreSelection(raw, body, structure, corpulence, chest, chestOrigin, pectorals, thoraxDetails, abdominals);
   const apply = () => {
     clearProposal();
     selection = next;
@@ -615,15 +611,13 @@ q('#abdominal-reset').addEventListener('click',event=>
 options('#abdominal-study-structure',corpulenceStudyStructures);
 options('#abdominal-study-skin',chestStudySkins);
 for (const id of ['abdominal-study-structure','abdominal-study-skin','abdominal-study-scale']) q('#'+id).addEventListener('change',renderComparison);
-sliders('#navel-controls',Object.entries(navelControls),'any',(key,value)=>
-  setSelection(selection.raw,morphForm,q('#navel-'+key),{
-    navel:{...(selection.state.navel ?? referenceNavel),[key]:value}
-  }),'navel');
-q('#navel-reset').addEventListener('click',event=>
-  setSelection(selection.raw,morphForm,event.currentTarget,{navel:null}));
 options('#belly-study-structure',corpulenceStudyStructures);
 options('#belly-study-skin',chestStudySkins);
 for (const id of ['structure','skin','scale','muscle']) q('#belly-study-'+id).addEventListener('change',renderComparison);
+options('#pelvic-study-structure',corpulenceStudyStructures);
+options('#pelvic-study-corpulence',corpulenceStops.map(({value,label})=>[String(value),label]));
+q('#pelvic-study-corpulence').value='100';
+for (const id of ['structure','corpulence']) q('#pelvic-study-'+id).addEventListener('change',renderComparison);
 
 options('#eye-request-axis', Object.entries(eyeControls).map(([key, range]) => [key, range.label]));
 function syncRequest() {
@@ -775,6 +769,7 @@ q('#appearance-import').addEventListener('click', () => {
     const importedVersion = restored.importedChestVersion;
     q('#appearance-message').textContent = importedVersion
       ? `Apparence v${importedVersion} ouverte avec le rendu R02. Les réglages et les données d’origine sont conservés dans l’export v16.`
+      : restored.importedNavel ? 'Apparence v20 restaurée avec le nombril standard. Les anciennes valeurs du nombril sont retirées au prochain export.'
       : 'Apparence complète restaurée.';
     refreshCharacter();
   } catch (error) {
@@ -821,6 +816,7 @@ mountStudyPanel(q('#planche-details-thorax'),renderComparison);
 mountStudyPanel(q('#planche-reliefs-osseux'),renderComparison);
 mountStudyPanel(q('#planche-abdominaux'),renderComparison);
 mountStudyPanel(q('#planche-pli-nombril'),renderComparison);
+mountStudyPanel(q('#diagnostic-pelvien'),renderComparison);
 refreshCharacter();
 q('#atelier').dataset.startup = 'ready';
 q('#atelier-startup').hidden = true;
