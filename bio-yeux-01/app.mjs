@@ -12,6 +12,8 @@ import {chestControls, chestStops, referenceChest} from './chest.mjs';
 import {chestStudySkins, renderChestStudy} from './chest-study.mjs';
 import {pectoralControls, referencePectorals} from './pectorals.mjs';
 import {renderPectoralStudy} from './pectorals-study.mjs';
+import {referenceThoraxDetails, thoraxDetailControls} from './thorax-details.mjs';
+import {renderThoraxDetailsStudy, thoraxDetailFrame} from './thorax-details-study.mjs';
 import {renderStructureStudy} from './structure-study.mjs';
 import {appearanceDocument, characterInput, parseAppearance} from './appearance.mjs';
 import {currentDraw, drawEyes, legacyDraw} from './draw.mjs';
@@ -85,7 +87,7 @@ function inputFor(key) {
 }
 
 const frames = {head: '-30 -65 220 225', tile: '-40 -85 240 355', mini: '-35 -68 230 245'};
-function svg({key, body, structure, corpulence, chest, pectorals, chestStudySkin, chestRevision, beforeCorpulenceCorrection, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null, beard = null, beardCategory, marks = null, scars = null, makeup = null} = {}) {
+function svg({key, body, structure, corpulence, chest, pectorals, thoraxDetails, chestStudySkin, chestRevision, beforeCorpulenceCorrection, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null, beard = null, beardCategory, marks = null, scars = null, makeup = null} = {}) {
   const input = inputFor(key);
   if (body !== undefined) {
     input.body = body;
@@ -93,6 +95,7 @@ function svg({key, body, structure, corpulence, chest, pectorals, chestStudySkin
     input.corpulence = corpulence;
     input.chest = chest;
     input.pectorals = pectorals;
+    input.thoraxDetails = thoraxDetails;
   }
   const result = character(input, {
     eyes: value, iris:pigment, details, brows, mouth, nose, beard, beardCategory, marks, scars, makeup, eyeEnvelopes: guides, hairColor: hair, rememberedHairColor: colour, headOnly: view !== 'tile',
@@ -261,6 +264,10 @@ function renderComparison() {
     const preview = q('#structure-live');
     preview.className = 'surface tile ' + background;
     preview.innerHTML = renderBody({view:'tile'});
+    const detailPreview=q('#thorax-live-detail');
+    detailPreview.hidden=!selection.state.thoraxDetails;
+    detailPreview.className='surface thorax-detail '+background;
+    if (!detailPreview.hidden) detailPreview.innerHTML=renderBody({view:'tile',frame:thoraxDetailFrame});
   }
   const bodyStudy = q('#planche-corps');
   if (bodyStudy.open) {
@@ -274,6 +281,8 @@ function renderComparison() {
   if (chestStudy.open) renderChestStudy(chestStudy, {render:renderBody, background});
   const pectoralStudy=q('#planche-pectoraux');
   if (pectoralStudy.open) renderPectoralStudy(pectoralStudy,{render:renderBody,background});
+  const thoraxDetailsStudy=q('#planche-details-thorax');
+  if (thoraxDetailsStudy.open) renderThoraxDetailsStudy(thoraxDetailsStudy,{render:renderBody,background});
 
   const {envelopes:[left,right],maxWidth,reference}=eyesFor(inputFor(),null).face;
   const x=left.x-maxWidth/2-2, width=right.x+maxWidth/2+2-x;
@@ -338,9 +347,9 @@ function renderChart() {
 }
 
 function rememberBody() {
-  const {body, structure, corpulence, chest, chestOrigin, pectorals} = selection.state;
+  const {body, structure, corpulence, chest, chestOrigin, pectorals, thoraxDetails} = selection.state;
   if (!isAdultBody(body)) return;
-  if (structure || corpulence !== undefined || chest || pectorals) bodyPreferences.set(body, {structure, corpulence, chest, chestOrigin, pectorals});
+  if (structure || corpulence !== undefined || chest || pectorals || thoraxDetails) bodyPreferences.set(body, {structure, corpulence, chest, chestOrigin, pectorals, thoraxDetails});
   else bodyPreferences.delete(body);
 }
 
@@ -348,6 +357,7 @@ function syncBodyControls() {
   const {body}=selection.state;
   const active=isAdultBody(body);
   q('#body-controls').hidden=!active;
+  q('#thorax-details-link').hidden=!active;
   for(const button of document.querySelectorAll('[data-thorax-body]')) {
     button.setAttribute('aria-pressed',String(button.dataset.thoraxBody===body));
   }
@@ -357,6 +367,15 @@ function syncBodyControls() {
   if (chestActive) syncThoraxControls('chest',selection.state.chest ?? referenceChest,chestStops);
   if (pectoralsActive) syncThoraxControls('pectoral',selection.state.pectorals ?? referencePectorals,[[0,'Plat'],[100,'Très musclé']]);
   if (!active) return;
+  const thoraxDetails=selection.state.thoraxDetails;
+  q('#thorax-details-note').hidden=Boolean(thoraxDetails);
+  for (const [key,value] of Object.entries(thoraxDetails ?? referenceThoraxDetails[body])) {
+    const range=q('#thorax-detail-'+key);
+    const percent=`${format.format(value)} %`;
+    range.value=value;
+    range.setAttribute('aria-valuetext',percent);
+    q(`output[for="thorax-detail-${key}"]`).textContent=percent;
+  }
   const corpulence = selection.state.corpulence ?? referenceCorpulence;
   const range = q('#corpulence');
   const stop = corpulenceStops.find(({value}) => value === corpulence);
@@ -433,9 +452,10 @@ function refreshCharacter() {
 function setSelection(raw, form = morphForm, trigger = document.activeElement, {
   onApply, body = selection.state.body, structure = bodyPreferences.get(body)?.structure,
   corpulence = bodyPreferences.get(body)?.corpulence, chest = bodyPreferences.get(body)?.chest,
-  chestOrigin = bodyPreferences.get(body)?.chestOrigin, pectorals = bodyPreferences.get(body)?.pectorals
+  chestOrigin = bodyPreferences.get(body)?.chestOrigin, pectorals = bodyPreferences.get(body)?.pectorals,
+  thoraxDetails = bodyPreferences.get(body)?.thoraxDetails
 } = {}) {
-  const next = restoreSelection(raw, body, structure, corpulence, chest, chestOrigin, pectorals);
+  const next = restoreSelection(raw, body, structure, corpulence, chest, chestOrigin, pectorals, thoraxDetails);
   const apply = () => {
     clearProposal();
     selection = next;
@@ -551,6 +571,15 @@ q('#chest-study-skin').addEventListener('change',renderComparison);
 options('#pectoral-study-skin',chestStudySkins);
 q('#pectoral-study-scale').addEventListener('change',renderComparison);
 q('#pectoral-study-skin').addEventListener('change',renderComparison);
+sliders('#thorax-details-controls',Object.entries(thoraxDetailControls),'any',(key,value)=>
+  setSelection(selection.raw,morphForm,q('#thorax-detail-'+key),{
+    thoraxDetails:{...(selection.state.thoraxDetails ?? referenceThoraxDetails[selection.state.body]),[key]:value}
+  }),'thorax-detail');
+q('#thorax-details-reference').addEventListener('click',event=>
+  setSelection(selection.raw,morphForm,event.currentTarget,{thoraxDetails:referenceThoraxDetails[selection.state.body]}));
+options('#thorax-details-study-skin',chestStudySkins);
+q('#thorax-details-study-skin').addEventListener('change',renderComparison);
+q('#thorax-details-study-scale').addEventListener('change',renderComparison);
 
 options('#eye-request-axis', Object.entries(eyeControls).map(([key, range]) => [key, range.label]));
 function syncRequest() {
@@ -744,6 +773,7 @@ mountStudyPanel(q('#planche-ossature'), renderComparison);
 mountStudyPanel(q('#planche-corpulence'), renderComparison);
 mountStudyPanel(q('#planche-poitrine'), renderComparison);
 mountStudyPanel(q('#planche-pectoraux'),renderComparison);
+mountStudyPanel(q('#planche-details-thorax'),renderComparison);
 refreshCharacter();
 q('#atelier').dataset.startup = 'ready';
 q('#atelier-startup').hidden = true;

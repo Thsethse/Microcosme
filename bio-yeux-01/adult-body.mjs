@@ -2,6 +2,7 @@ import {referenceStructure, validateStructure} from './body-structure.mjs';
 import {corpulenceEnvelope, previousCorpulence, referenceCorpulence} from './body-corpulence.mjs';
 import {chestOverlay} from './chest.mjs';
 import {pectoralMarkup} from './pectorals.mjs';
+import {thoraxDetailsMarkup} from './thorax-details.mjs';
 import {chestGeometryR01, chestMarkupR01} from './chest-r01.mjs';
 import {previousChestMarkup} from './chest-before.mjs';
 
@@ -151,13 +152,15 @@ export function adultBodyGeometry(key, [axis, chinY], structure = referenceStruc
 }
 
 export function adultBodyMarkup(key, chin, {skin, contour}, structure, corpulence, beforeCorrection,
-    {chest, pectorals, chestStudySkin = skin, chestRevision, beforeChestCorrection, clipId} = {}) {
+    {chest, pectorals, thoraxDetails, smallScale, chestStudySkin = skin, chestRevision, beforeChestCorrection, clipId} = {}) {
   const body = adultBodyGeometry(key, chin, structure, corpulence, beforeCorrection);
   const start=`<g class="body-shape" data-adult-body="${key}">`;
   const perimeter=(path,fill,attributes='')=>`<path d="${path}" fill="${fill}" stroke="${contour}" stroke-width="4.2" stroke-linejoin="round"${attributes}/>`;
   const baseline=start+perimeter(body.path,skin)+'</g>';
-  if (key==='adult-h' && pectorals?.volume) return baseline+pectoralMarkup(body,pectorals,corpulence,chestStudySkin);
-  if (key!=='adult-f' || !chest?.volume) return baseline;
+  const details=thoraxDetails && !beforeChestCorrection && chestRevision!=='r01'
+    ? thoraxDetailsMarkup(body,key,thoraxDetails,chestStudySkin,smallScale,{chest,pectorals,corpulence}) : '';
+  if (key==='adult-h' && pectorals?.volume) return baseline+pectoralMarkup(body,pectorals,corpulence,chestStudySkin)+details;
+  if (key!=='adult-f' || !chest?.volume) return baseline+details;
   if (beforeChestCorrection) return baseline+previousChestMarkup(body,{...chest,divergence:0,position:52},corpulence,chestStudySkin);
   if (chestRevision==='r01') {
     const shape=chestGeometryR01(body,chest,corpulence);
@@ -168,5 +171,5 @@ export function adultBodyMarkup(key, chin, {skin, contour}, structure, corpulenc
   }
   const {definitions,cover,markup}=chestOverlay(body,chest,corpulence,{skin,contour},chestStudySkin,clipId);
   return `${definitions}${start}<path d="${body.path}" fill="${skin}"/>${
-    perimeter(body.path,'none',` mask="url(#${cover})" data-chest-occlusion=""`)}</g>${markup}`;
+    perimeter(body.path,'none',` mask="url(#${cover})" data-chest-occlusion=""`)}</g>${markup}${details}`;
 }

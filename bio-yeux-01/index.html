@@ -30,6 +30,7 @@
     <a href="#planche-corpulence">Planche de la corpulence</a>
     <a href="#planche-poitrine">Planche de la poitrine</a>
     <a href="#planche-pectoraux">Planche des pectoraux</a>
+    <a href="#planche-details-thorax">Planche des aréoles et mamelons</a>
     <a href="#atelier-thorax">Atelier du thorax</a>
     <a href="#iris">Iris et pupilles</a>
     <a href="#planche">Planche des formes</a>
@@ -503,6 +504,20 @@
       <h3>Comparaison des bases H et F</h3><div id="pectoral-comparison"></div>
     </details>
   </section>
+  <section aria-label="Planche des aréoles et mamelons">
+    <details class="card" id="planche-details-thorax">
+      <summary>Aréoles et mamelons adultes</summary>
+      <div class="corpulence-study-controls">
+        <label class="structure-scale">Échelle<select id="thorax-details-study-scale">
+          <option value="detail">Thorax · détail</option><option value="tile">Corps · 178 px</option>
+          <option value="head">Tête · 300 px</option><option value="mini">Miniature · 70 × 70 px</option>
+        </select></label>
+        <label class="structure-scale">Teinte de peau<select id="thorax-details-study-skin"></select></label>
+      </div>
+      <h3>Variations des sept paramètres</h3><div id="thorax-details-axes"></div>
+      <h3>Volumes, ossatures et corpulences</h3><div id="thorax-details-carriers"></div>
+    </details>
+  </section>
   <section id="personnage">
     <h2>Personnage et palette</h2>
     <div class="configuration">
@@ -521,6 +536,7 @@
           <div class="actions thorax-actions">
             <button type="button" data-thorax-body="adult-h" aria-controls="pectoral-panel" aria-pressed="false">Pectoraux · H adulte</button>
             <button type="button" data-thorax-body="adult-f" aria-controls="chest-panel" aria-pressed="false">Poitrine · F adulte</button>
+            <a id="thorax-details-link" href="#thorax-details-panel" hidden>Aréoles et mamelons</a>
           </div>
           <div id="body-controls" class="structure-layout" hidden>
             <div>
@@ -537,6 +553,12 @@
                 <p class="hint" id="pectoral-flat-note">Augmenter le volume pour activer les quatre autres réglages. Leurs valeurs restent mémorisées à 0 %.</p>
                 <button id="pectoral-reset" type="button">Réinitialiser les pectoraux</button>
               </fieldset>
+              <fieldset id="thorax-details-panel">
+                <legend>Aréoles et mamelons</legend>
+                <p class="hint" id="thorax-details-note">Ajustez un curseur ou appliquez les valeurs de référence pour afficher les détails.</p>
+                <div id="thorax-details-controls"></div>
+                <button id="thorax-details-reference" type="button">Appliquer les valeurs de référence</button>
+              </fieldset>
               <fieldset id="structure-panel">
                 <legend>Corpulence et ossature</legend>
                 <label class="slider" for="corpulence">
@@ -551,7 +573,10 @@
                 <button id="structure-reset" type="button">Réinitialiser les largeurs</button>
               </fieldset>
             </div>
-            <div id="structure-live" class="surface tile"></div>
+            <div class="body-live-preview">
+              <div id="structure-live" class="surface tile"></div>
+              <div id="thorax-live-detail" class="surface thorax-detail" hidden></div>
+            </div>
           </div>
         </div>
         <label>Morphologie du visage<select id="morph"></select></label>
