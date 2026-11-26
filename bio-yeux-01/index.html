@@ -29,6 +29,8 @@
     <a href="#planche-ossature">Planche de l’ossature</a>
     <a href="#planche-corpulence">Planche de la corpulence</a>
     <a href="#planche-poitrine">Planche de la poitrine</a>
+    <a href="#planche-pectoraux">Planche des pectoraux</a>
+    <a href="#atelier-thorax">Atelier du thorax</a>
     <a href="#iris">Iris et pupilles</a>
     <a href="#planche">Planche des formes</a>
     <a href="#personnage">Personnage et palette</a>
@@ -486,6 +488,21 @@
       <h3>Ossature et corpulence</h3><div id="chest-context-cases"></div>
     </details>
   </section>
+  <section aria-label="Planche des pectoraux">
+    <details class="card" id="planche-pectoraux">
+      <summary>Pectoraux adultes</summary>
+      <div class="corpulence-study-controls">
+        <label class="structure-scale">Échelle<select id="pectoral-study-scale">
+          <option value="tile">Corps · 178 px</option><option value="head">Tête · 300 px</option><option value="mini">Miniature · 70 × 70 px</option>
+        </select></label>
+        <label class="structure-scale">Teinte de peau<select id="pectoral-study-skin"></select></label>
+      </div>
+      <h3>Corpulence et volume musculaire</h3><div id="pectoral-matrix"></div>
+      <h3>Variations des cinq réglages</h3><div id="pectoral-axes"></div>
+      <h3>Ossatures</h3><div id="pectoral-structure"></div>
+      <h3>Comparaison des bases H et F</h3><div id="pectoral-comparison"></div>
+    </details>
+  </section>
   <section id="personnage">
     <h2>Personnage et palette</h2>
     <div class="configuration">
@@ -497,33 +514,46 @@
         <p id="identity-note" class="hint"></p>
         <label>Arrangement<select id="arrangement" aria-describedby="arrangement-note"></select></label>
         <p id="arrangement-note" class="hint" hidden>Cette référence a un arrangement unique. Le dernier choix G ou D reste dans la sélection.</p>
-        <label>Corps<select id="body" aria-describedby="body-note"></select></label>
-        <p id="body-note" class="hint">Six silhouettes historiques et deux bases adultes.</p>
-        <fieldset id="structure-panel" hidden>
-          <legend>Corps</legend>
-          <div class="structure-layout">
+        <div id="atelier-thorax">
+          <h3>Atelier du thorax</h3>
+          <label>Corps<select id="body" aria-describedby="body-note"></select></label>
+          <p id="body-note" class="hint">Choisir une base adulte pour ouvrir les réglages du thorax.</p>
+          <div class="actions thorax-actions">
+            <button type="button" data-thorax-body="adult-h" aria-controls="pectoral-panel" aria-pressed="false">Pectoraux · H adulte</button>
+            <button type="button" data-thorax-body="adult-f" aria-controls="chest-panel" aria-pressed="false">Poitrine · F adulte</button>
+          </div>
+          <div id="body-controls" class="structure-layout" hidden>
             <div>
-              <label class="slider" for="corpulence">
-                <span>Corpulence <output id="corpulence-value" for="corpulence"></output></span>
-                <input id="corpulence" type="range" min="0" max="100" step="any" value="50" list="corpulence-stops">
-              </label>
-              <datalist id="corpulence-stops"></datalist>
-              <button id="corpulence-reset" type="button">Réinitialiser la corpulence</button>
-              <h3 class="body-structure-heading">Ossature</h3>
-              <p class="hint">Les largeurs sont exprimées en pourcentage de la base sélectionnée.</p>
-              <div id="structure-controls"></div>
-              <button id="structure-reset" type="button">Réinitialiser les largeurs</button>
               <fieldset id="chest-panel" hidden>
-                <legend>Poitrine</legend>
-                <p class="hint" id="chest-flat-note">Augmenter le volume pour régler la forme. Les réglages restent mémorisés à 0 %.</p>
+                <legend>Poitrine · F adulte</legend>
                 <div id="chest-controls"></div>
+                <p class="hint" id="chest-flat-note">Augmenter le volume pour activer les cinq réglages de forme. Leurs valeurs restent mémorisées à 0 %.</p>
                 <datalist id="chest-volume-stops"></datalist>
                 <button id="chest-reset" type="button">Réinitialiser la poitrine</button>
+              </fieldset>
+              <fieldset id="pectoral-panel" hidden>
+                <legend>Pectoraux · H adulte</legend>
+                <div id="pectoral-controls"></div>
+                <p class="hint" id="pectoral-flat-note">Augmenter le volume pour activer les quatre autres réglages. Leurs valeurs restent mémorisées à 0 %.</p>
+                <button id="pectoral-reset" type="button">Réinitialiser les pectoraux</button>
+              </fieldset>
+              <fieldset id="structure-panel">
+                <legend>Corpulence et ossature</legend>
+                <label class="slider" for="corpulence">
+                  <span>Corpulence <output id="corpulence-value" for="corpulence"></output></span>
+                  <input id="corpulence" type="range" min="0" max="100" step="any" value="50" list="corpulence-stops">
+                </label>
+                <datalist id="corpulence-stops"></datalist>
+                <button id="corpulence-reset" type="button">Réinitialiser la corpulence</button>
+                <h4 class="body-structure-heading">Ossature</h4>
+                <p class="hint">Les largeurs sont exprimées en pourcentage de la base sélectionnée.</p>
+                <div id="structure-controls"></div>
+                <button id="structure-reset" type="button">Réinitialiser les largeurs</button>
               </fieldset>
             </div>
             <div id="structure-live" class="surface tile"></div>
           </div>
-        </fieldset>
+        </div>
         <label>Morphologie du visage<select id="morph"></select></label>
         <details id="morph-panel"><summary>Ajuster les paramètres du visage</summary><div id="morph-controls"></div>
           <p id="forehead-note" class="hint" hidden>L’implantation capillaire est sans effet sur ce rendu. Sa valeur est conservée.</p>
