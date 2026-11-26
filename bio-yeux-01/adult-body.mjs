@@ -1,6 +1,7 @@
 import {referenceStructure, validateStructure} from './body-structure.mjs';
 import {corpulenceEnvelope, previousCorpulence, referenceCorpulence} from './body-corpulence.mjs';
 import {chestOverlay} from './chest.mjs';
+import {pectoralMarkup} from './pectorals.mjs';
 import {chestGeometryR01, chestMarkupR01} from './chest-r01.mjs';
 import {previousChestMarkup} from './chest-before.mjs';
 
@@ -150,11 +151,12 @@ export function adultBodyGeometry(key, [axis, chinY], structure = referenceStruc
 }
 
 export function adultBodyMarkup(key, chin, {skin, contour}, structure, corpulence, beforeCorrection,
-    {chest, chestStudySkin = skin, chestRevision, beforeChestCorrection, clipId} = {}) {
+    {chest, pectorals, chestStudySkin = skin, chestRevision, beforeChestCorrection, clipId} = {}) {
   const body = adultBodyGeometry(key, chin, structure, corpulence, beforeCorrection);
   const start=`<g class="body-shape" data-adult-body="${key}">`;
   const perimeter=(path,fill,attributes='')=>`<path d="${path}" fill="${fill}" stroke="${contour}" stroke-width="4.2" stroke-linejoin="round"${attributes}/>`;
   const baseline=start+perimeter(body.path,skin)+'</g>';
+  if (key==='adult-h' && pectorals?.volume) return baseline+pectoralMarkup(body,pectorals,corpulence,chestStudySkin);
   if (key!=='adult-f' || !chest?.volume) return baseline;
   if (beforeChestCorrection) return baseline+previousChestMarkup(body,{...chest,divergence:0,position:52},corpulence,chestStudySkin);
   if (chestRevision==='r01') {
