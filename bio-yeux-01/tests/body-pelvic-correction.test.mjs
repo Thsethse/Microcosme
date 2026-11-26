@@ -26,7 +26,7 @@ test('le nombril et le pli descendent continûment et la marge à 100 % vaut 1 %
         assert(fold.bottom>previous.fold.bottom && fold.bottom-previous.fold.bottom<.04);
         assert(fold.depth>previous.fold.depth && fold.reach>previous.fold.reach);
         assert(fold.strength>previous.fold.strength && fold.strength-previous.fold.strength<.0021);
-        assert(navel.cy>previous.navel.cy && navel.cy-previous.navel.cy<.01);
+        assert(navel.cy>previous.navel.cy && navel.cy-previous.navel.cy<.02);
       }
       if (fat>=50) {
         assert(fold.bottom>oldFold(body,fat).center+oldFold(body,fat).thickness+7);

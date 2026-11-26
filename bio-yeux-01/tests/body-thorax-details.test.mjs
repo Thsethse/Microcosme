@@ -22,7 +22,7 @@ const carriers=(volume,corpulence,wide,overrides={})=>({
   pectorals:{...referencePectorals,volume,width:wide ? 100 : 0,height:wide ? 100 : 0,angularity:wide ? 100 : 0,...overrides.pectorals}
 });
 
-test('les sept axes ont un effet distinct sur H et F, y compris à plat',()=>{
+test('les cinq axes ont un effet distinct sur H et F, y compris à plat',()=>{
   for (const key of bodies) for (const volume of [0,75]) {
     const body=adultBodyGeometry(key,[80,111]);
     const context=carriers(volume,50,true);
@@ -33,7 +33,7 @@ test('les sept axes ont un effet distinct sur H et F, y compris à plat',()=>{
       assert.equal(new Set(variants).size,11,`${key} ${volume} ${axis}`);
       finals.push(variants.at(-1));
     }
-    assert.equal(new Set(finals).size,7);
+    assert.equal(new Set(finals).size,5);
     const circular=thoraxDetailsGeometry(body,key,{...reference,shape:0},context);
     assert.equal(circular.rx,circular.ry);
   }
@@ -65,7 +65,7 @@ test('le volume et les transformations de surface déplacent les détails sans m
 
 test('46 080 combinaisons conservent la marge du support, la symétrie et le mamelon dans l’aréole',()=>{
   const requests=[[0,0],[0,100],[100,0],[100,100],[50,50]].map(([horizontal,vertical])=>
-    ({size:100,shape:100,pigment:100,horizontal,vertical,nippleSize:100,relief:100}));
+    ({size:100,shape:100,pigment:100,horizontal,vertical}));
   let count=0;
   for (const key of bodies) for (const chin of [[80,103],[80,117]]) for (const structure of skeletons) for (const corpulence of [0,50,100]) {
     const body=adultBodyGeometry(key,chin,structure,corpulence);
@@ -100,7 +100,7 @@ test('les trois échelles gardent le même ancrage et le calque reste indépenda
     const input={...raw,...context,body,structure:skeletons[11]};
     const opts={...scale,naturalEyes:true,makeup:{blush:{enabled:true}},instance:'thorax-detail-test'};
     const base=character(input,opts);
-    const details={...(referenceThoraxDetails[body] ?? referenceThoraxDetails['adult-h']),relief:80};
+    const details={...(referenceThoraxDetails[body] ?? referenceThoraxDetails['adult-h'])};
     const rendered=character({...input,thoraxDetails:details},opts);
     assert.equal(rendered.replace(layer,''),base);
     if (!bodies.includes(body)) assert.equal(rendered,base);
@@ -109,17 +109,19 @@ test('les trois échelles gardent le même ancrage et le calque reste indépenda
       assert.equal(ellipses.length,2);
       assert(Math.abs(Number(ellipses[0][1])+Number(ellipses[1][1])-160)<.003);
       assert.equal(ellipses[0][2],ellipses[1][2]);
-      assert.equal(rendered.includes('data-nipple-shadow'),!scale.smallScale);
+      const nipples=[...rendered.matchAll(/data-nipple="" cx="([^"]+)" cy="([^"]+)"/g)];
+      assert.deepEqual(nipples.map(match=>match.slice(1)),ellipses.map(match=>match.slice(1)));
+      assert(!rendered.includes('data-nipple-shadow'));
     }
   }
 });
 
-test('les archives v18 conservent des valeurs fractionnaires et les archives v11, v16 et v17 restent exactes',()=>{
+test('les archives v21 conservent des valeurs fractionnaires et les archives v11, v16 et v17 restent exactes',()=>{
   const archive=selection=>appearanceDocument(selection,settings);
   const read=doc=>parseAppearance(JSON.stringify(doc));
   for (const [key,volume] of bodies.flatMap(key=>[0,73.625].map(volume=>[key,volume]))) {
     const {chest,pectorals,corpulence}=carriers(volume,71.5,true);
-    const values={...referenceThoraxDetails[key],nippleSize:38.125,horizontal:0,vertical:100};
+    const values={...referenceThoraxDetails[key],horizontal:38.125,vertical:100};
     const context=[raw,key,skeletons[5],corpulence,chest,undefined,pectorals];
     const legacy=archive(restoreSelection(...context));
     assert.equal(legacy.version,key==='adult-h' ? 17 : 16);
@@ -127,12 +129,12 @@ test('les archives v18 conservent des valeurs fractionnaires et les archives v11
     assert.deepEqual(appearanceDocument(read(legacy).selection,read(legacy)),legacy);
     const authored=archive(restoreSelection(...context,values));
     const restored=read(authored);
-    assert.equal(authored.version,18);
+    assert.equal(authored.version,21);
     assert.deepEqual(restored.selection.state.thoraxDetails,values);
     assert.deepEqual(appearanceDocument(restored.selection,restored),authored);
     assert.equal(character(characterInput(restored.selection)),character(characterInput(restoreSelection(...context,values))));
     assert.throws(()=>read({...authored,character:{...authored.character,body:'standard'}}),/Base adulte/);
-    assert.throws(()=>read({...authored,character:{...authored.character,thoraxDetails:{...values,pigment:101}}}),/sept réglages/);
+    assert.throws(()=>read({...authored,character:{...authored.character,thoraxDetails:{...values,pigment:101}}}),/cinq réglages/);
   }
   const flat=archive(restoreSelection(raw,'adult-f'));
   assert.equal(flat.version,11);

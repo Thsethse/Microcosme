@@ -105,19 +105,19 @@ test('retirer le calque redonne le SVG précédent à l’identique, y compris l
   }
 });
 
-test('les quatre valeurs v19 se restaurent en volume et à plat et les anciennes archives gardent leur version',()=>{
+test('les quatre valeurs abdominales se restaurent en volume et à plat et les anciennes archives gardent leur version',()=>{
   const settings={eyes:null,form:'historical',colour:'chatain-clair',flat:true};
   const archive=selection=>appearanceDocument(selection,settings);
   const read=document=>parseAppearance(JSON.stringify(document));
   for (const key of bodies) for (const volume of [0,73.125]) for (const full of [false,true]) {
     const context=full ? [raw,key,corners[6],88.125,{...referenceChest,volume:80},undefined,{...referencePectorals,volume:70},referenceThoraxDetails[key]] : [raw,key];
     const old=archive(restoreSelection(...context));
-    assert.equal(old.version,full ? 18 : 11);
+    assert.equal(old.version,full ? 21 : 11);
     assert.deepEqual(appearanceDocument(read(old).selection,read(old)),old);
     const requested={...values,volume,width:42.875};
     const selected=restoreSelection(...(full ? context : [...context,...Array(6).fill(undefined)]),requested);
     const doc=archive(selected), restored=read(doc);
-    assert.equal(doc.version,19);
+    assert.equal(doc.version,full ? 21 : 19);
     assert.deepEqual(restored.selection.state.abdominals,requested);
     assert.deepEqual(appearanceDocument(restored.selection,restored),doc);
     assert.equal(character(characterInput(restored.selection)),character(characterInput(selected)));

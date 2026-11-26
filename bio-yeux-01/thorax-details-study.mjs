@@ -17,10 +17,10 @@ const contexts=[
   {id:'heavy',label:'Corpulence 100 % · volumes 100 %',volumeH:100,volumeF:100,corpulence:100},
   {id:'minimum',label:'Limites basses · détails petits et hauts',volumeH:100,volumeF:100,corpulence:0,structure:narrowest[2],
     chest:{width:0,length:0,spacing:0,sag:0},pectorals:{width:0,height:0},
-    details:{size:0,shape:0,pigment:0,horizontal:0,vertical:100,nippleSize:0,relief:0}},
+    details:{size:0,shape:0,pigment:0,horizontal:0,vertical:100}},
   {id:'maximum',label:'Limites hautes · détails ovales et bas',volumeH:100,volumeF:100,corpulence:100,structure:broadest[2],
     chest:{width:100,length:100,spacing:100,sag:100},pectorals:{width:100,height:100},
-    details:{size:100,shape:100,pigment:100,horizontal:100,vertical:0,nippleSize:100,relief:100}}
+    details:{size:100,shape:100,pigment:100,horizontal:100,vertical:0}}
 ];
 
 export function renderThoraxDetailsStudy(panel,{render,background}) {
@@ -33,9 +33,13 @@ export function renderThoraxDetailsStudy(panel,{render,background}) {
       chest:{...referenceChest,...example.chest,volume:example.volumeF ?? 65},
       pectorals:{...referencePectorals,...example.pectorals,volume:example.volumeH ?? 65},
       thoraxDetails:{...referenceThoraxDetails[body],...example.details},
-      chestStudySkin:skin,structure:example.structure,corpulence:example.corpulence});
+      chestStudySkin:skin,structure:example.structure,corpulence:example.corpulence,bellyFinish:example.bellyFinish});
     return `<figure><div class="surface ${detail ? 'thorax-detail' : view}">${studySkin(svg,skin)}</div><figcaption>${label}</figcaption></figure>`;
   }).join('')}</div>`;
+  const comparison=panel.querySelector('#nipple-study-comparison');
+  comparison.className=`body-comparison ${background}`;
+  comparison.innerHTML=[['before','Avant · R01','r01'],['after','Après · R02',false]]
+    .map(([phase,label,bellyFinish])=>`<article class="card" data-nipple-phase="${phase}"><h4>${label}</h4>${pair({bellyFinish})}</article>`).join('');
   panel.querySelector('#thorax-details-axes').innerHTML=axes.map(([key,{label}])=>
     `<section><h4>${label}</h4><div class="structure-study-grid ${background}">${[0,50,100].map(value=>
       `<article class="card" data-thorax-axis="${key}-${value}"><h5>${value} %</h5>${pair({details:{[key]:value}})}</article>`
