@@ -5,20 +5,19 @@ import {pectoralGeometry} from './pectorals.mjs';
 
 export const thoraxDetailControls = Object.freeze(Object.fromEntries(Object.entries({
   size:'Taille de l’aréole', shape:'Forme de l’aréole', pigment:'Pigmentation',
-  horizontal:'Position horizontale', vertical:'Position verticale',
-  nippleSize:'Taille du mamelon', relief:'Relief du mamelon'
+  horizontal:'Position horizontale', vertical:'Position verticale'
 }).map(([key,label])=>[key,{label,min:0,max:100}])));
 
 export const referenceThoraxDetails = Object.freeze({
-  'adult-h':Object.freeze({size:36,shape:13,pigment:44,horizontal:54,vertical:52,nippleSize:34,relief:31}),
-  'adult-f':Object.freeze({size:44,shape:19,pigment:48,horizontal:50,vertical:48,nippleSize:42,relief:37})
+  'adult-h':Object.freeze({size:36,shape:13,pigment:44,horizontal:54,vertical:52}),
+  'adult-f':Object.freeze({size:44,shape:19,pigment:48,horizontal:50,vertical:48})
 });
 
 export function validateThoraxDetails(values) {
   const keys=Object.keys(thoraxDetailControls);
   if (!values || Object.keys(values).length!==keys.length || keys.some(key=>
     !Object.hasOwn(values,key) || !Number.isFinite(values[key]) || values[key]<0 || values[key]>100)) {
-    throw new RangeError('Les sept réglages des détails du thorax doivent être compris entre 0 et 100.');
+    throw new RangeError('Les cinq réglages des détails du thorax doivent être compris entre 0 et 100.');
   }
   return values;
 }
@@ -52,7 +51,7 @@ function surfaceMargin(curves,x,y,aspect) {
 }
 
 export function thoraxDetailsGeometry(body,key,requested,{chest,pectorals,corpulence}={}) {
-  const {size,shape,pigment,horizontal,vertical,nippleSize,relief}=validateThoraxDetails(requested);
+  const {size,shape,pigment,horizontal,vertical}=validateThoraxDetails(requested);
   const female=key==='adult-f';
   const axis=body.ground.x, thorax=body.levels[2].y;
   const h=horizontal/100, v=vertical/100;
@@ -81,8 +80,8 @@ export function thoraxDetailsGeometry(body,key,requested,{chest,pectorals,corpul
   const clearance=Math.min(x-axis-1.1,Math.max(bound,Math.sqrt(1-attachment)*bodyBound));
   const rx=desired*clearance/Math.hypot(desired,clearance);
   const ry=rx*aspect;
-  const nippleRadius=ry*mix(.17,.49,nippleSize/100);
-  return {axis,x,y,rx,ry,nippleRadius,pigment:pigment/100,relief:relief/100,clearance,attachment};
+  const nippleRadius=Math.min(1.15,.27*ry);
+  return {axis,x,y,rx,ry,nippleRadius,pigment:pigment/100,clearance,attachment};
 }
 
 const colour=(skin,target,weight)=>'#'+rgb(skin).map((channel,i)=>
@@ -90,14 +89,17 @@ const colour=(skin,target,weight)=>'#'+rgb(skin).map((channel,i)=>
 const number=value=>Number(value.toFixed(3));
 const oval=(name,x,y,rx,ry,fill)=>`<ellipse data-${name}="" cx="${number(x)}" cy="${number(y)}" rx="${number(rx)}" ry="${number(ry)}" fill="${fill}"/>`;
 
-export function thoraxDetailsMarkup(body,key,requested,skin,smallScale,carrier) {
-  const {axis,x,y,rx,ry,nippleRadius,pigment,relief}=thoraxDetailsGeometry(body,key,requested,carrier);
+export function thoraxDetailsMarkup(body,key,requested,skin,smallScale,carrier,previous=false) {
+  const {axis,x,y,rx,ry,nippleRadius,pigment}=thoraxDetailsGeometry(body,key,requested,carrier);
   const areola=colour(skin,[.80,.40,.50],.18+.65*pigment+(smallScale ? .06 : 0));
-  const nipple=colour(areola,[.76,.57,.62],smallScale ? .41+.19*relief : .42);
-  const shadow=colour(areola,[.73,.50,.55],.22+.25*relief);
+  const [legacySize,legacyRelief]=key==='adult-h' ? [.34,.31] : [.42,.37];
+  const radius=previous ? ry*mix(.17,.49,legacySize) : nippleRadius;
+  const nipple=colour(areola,[.76,.57,.62],previous ? (smallScale ? .41+.19*legacyRelief : .42) : .40);
+  const shadow=previous && !smallScale
+    ? colour(areola,[.73,.50,.55],.22+.25*legacyRelief) : null;
   return `<g data-thorax-details="${key}" aria-hidden="true">${[2*axis-x,x].map(cx=>
     oval('areola',cx,y,rx,ry,areola)+
-    (!smallScale && relief>0 ? oval('nipple-shadow',cx,y+nippleRadius*.62*relief,nippleRadius*(1+.23*relief),
-      nippleRadius*(.72+.31*relief),shadow) : '')+
-    oval('nipple',cx,y,nippleRadius,nippleRadius*.83,nipple)).join('')}</g>`;
+    (shadow ? oval('nipple-shadow',cx,y+radius*.62*legacyRelief,radius*(1+.23*legacyRelief),
+      radius*(.72+.31*legacyRelief),shadow) : '')+
+    oval('nipple',cx,y,radius,radius*(previous ? .83 : .90),nipple)).join('')}</g>`;
 }

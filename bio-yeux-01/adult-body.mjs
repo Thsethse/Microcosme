@@ -170,10 +170,11 @@ export function adultBodyMarkup(key, chin, {skin, contour}, structure, corpulenc
   if (bellyFinish && !beforeCorrection && !historical) {
     belly=bellyFinish==='before'
       ? bellyBeforeMarkup(body,corpulence,chestStudySkin,{fold:true,navel:referenceNavel,smallScale})
-      : bellyDetailsMarkup(body,corpulence,chestStudySkin,{smallScale});
+      : bellyDetailsMarkup(body,corpulence,chestStudySkin,{smallScale,previous:bellyFinish==='r01'});
   }
   const details=thoraxDetails && !historical
-    ? thoraxDetailsMarkup(body,key,thoraxDetails,chestStudySkin,smallScale,{chest,pectorals,corpulence}) : '';
+    ? thoraxDetailsMarkup(body,key,thoraxDetails,chestStudySkin,smallScale,{chest,pectorals,corpulence},
+      bellyFinish==='r01') : '';
   if (key==='adult-h' && pectorals?.volume) return baseline+muscles+belly+bones+pectoralMarkup(body,pectorals,corpulence,chestStudySkin)+details;
   if (key!=='adult-f' || !chest?.volume) return baseline+muscles+belly+bones+details;
   if (beforeChestCorrection) return baseline+previousChestMarkup(body,{...chest,divergence:0,position:52},corpulence,chestStudySkin);

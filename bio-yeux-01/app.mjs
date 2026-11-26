@@ -769,7 +769,9 @@ q('#appearance-import').addEventListener('click', () => {
     const importedVersion = restored.importedChestVersion;
     q('#appearance-message').textContent = importedVersion
       ? `Apparence v${importedVersion} ouverte avec le rendu R02. Les réglages et les données d’origine sont conservés dans l’export v16.`
+      : restored.importedNavel && restored.importedThorax ? 'Apparence v20 restaurée avec le nombril et les mamelons standards. Le prochain export conserve les réglages aréolaires.'
       : restored.importedNavel ? 'Apparence v20 restaurée avec le nombril standard. Les anciennes valeurs du nombril sont retirées au prochain export.'
+      : restored.importedThorax ? 'Apparence restaurée avec les mamelons standards et les cinq réglages aréolaires d’origine.'
       : 'Apparence complète restaurée.';
     refreshCharacter();
   } catch (error) {

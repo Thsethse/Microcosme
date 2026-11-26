@@ -25,7 +25,7 @@ export function renderBellyDetailStudy(panel,{render,background}) {
   gallery.innerHTML=corpulenceStops.map(({value,label})=>
     `<article class="card" data-belly-case="corpulence-${value}"><h4>${percent.format(value)} % · ${label}</h4>
       ${bases.map(([body,name])=>`<section class="corpulence-study-pair" data-belly-base="${body}"><h5>${name}</h5>
-        <div class="structure-pair">${[['before','Avant · 05-C','before'],['after','Après · R01',true]].map(([phase,caption,version])=>`
+        <div class="structure-pair">${[['before','Avant · R01','r01'],['after','Après · R02',true]].map(([phase,caption,version])=>`
           <figure data-belly-phase="${phase}"><div class="surface ${detail ? 'pelvic-detail' : view}">${portrait(body,value,version)}</div>
             <figcaption>${caption}</figcaption></figure>`).join('')}</div></section>`).join('')}</article>`).join('');
 }

@@ -11,21 +11,24 @@ export function pelvicLandmarks(body) {
   return {abdomen:abdomen.y,hips:hips.y,pelvicBase:pelvis.y,reservedTop:mix(hips.y,pelvis.y,.80)};
 }
 
-export function abdominalFoldGeometry(body,corpulence=referenceCorpulence) {
+export function abdominalFoldGeometry(body,corpulence=referenceCorpulence, previous=false) {
   const fat=validateCorpulence(corpulence)/100;
-  const {abdomen,reservedTop}=pelvicLandmarks(body);
-  const bottom=mix(abdomen,reservedTop-body.height*.010,.38+.62*fat**1.15);
+  const {abdomen,hips,reservedTop}=pelvicLandmarks(body);
+  const descent=previous ? .38+.62*fat**1.15 : .52+.48*fat**1.10;
+  const bottom=mix(abdomen,reservedTop-body.height*.010,descent);
   const thickness=body.height*.020*fat**1.15;
   const center=bottom-thickness;
-  const depth=body.height*(.010+.045*fat**1.25);
+  // The ends use their own anatomical band, independently of central descent.
+  const depth=previous ? body.height*(.010+.045*fat**1.25) : center-mix(abdomen,hips,.53-.09*fat);
   const reach=(body.minimumWidth(center-depth,bottom)-2.8)*(.18+.66*fat**.96);
   return {axis:body.ground.x,bottom,center,depth,thickness,reach,strength:fat**2.05};
 }
 
-export function navelGeometry(body,corpulence=referenceCorpulence) {
+export function navelGeometry(body,corpulence=referenceCorpulence,previous=false) {
   const fat=validateCorpulence(corpulence)/100;
   const {abdomen,hips}=pelvicLandmarks(body);
-  const cy=mix(abdomen,hips,.01+.49*fat**1.15);
+  const cy=previous ? mix(abdomen,hips,.01+.49*fat**1.15)
+    : abdominalFoldGeometry(body,corpulence).center-body.height*(.030-.009*fat);
   const radius=body.height*.0085;
   return {cx:body.ground.x,cy,rx:radius*.86,ry:radius*1.05};
 }
@@ -49,20 +52,23 @@ export function groinGeometry(body,corpulence=referenceCorpulence) {
   });
 }
 
-export function bellyDetailsMarkup(body,corpulence,skin,{smallScale}={}) {
+export function bellyDetailsMarkup(body,corpulence,skin,{smallScale,previous=false}={}) {
   const shade=tone(skin,[.24,.14,.09],.46);
   const trace=([first,...curves])=>'M'+first.map(format).join(',')+
     curves.map(curve=>'C'+curve.map(point=>point.map(format).join(',')).join(' ')).join('')+'Z';
-  const {axis,center,depth,thickness,reach,strength}=abdominalFoldGeometry(body,corpulence);
+  const {axis,center,depth,thickness,reach,strength}=abdominalFoldGeometry(body,corpulence,previous);
   const point=(x,y)=>[axis+x*reach,center+y];
   const edge=-depth;
+  const shoulder=previous ? .72 : .93;
+  const underside=previous ? .78 : .92;
+  const centerTangent=previous ? .43 : .53;
   const fold=trace([
-    point(-1,edge),[point(-.72,edge*.36),point(-.43,0),point(0,0)],
-    [point(.43,0),point(.72,edge*.36),point(1,edge)],
-    [point(.78,edge*.31),point(.43,thickness),point(0,thickness)],
-    [point(-.43,thickness),point(-.78,edge*.31),point(-1,edge)]
+    point(-1,edge),[point(-shoulder,edge*.36),point(-centerTangent,0),point(0,0)],
+    [point(centerTangent,0),point(shoulder,edge*.36),point(1,edge)],
+    [point(underside,edge*.31),point(centerTangent,thickness),point(0,thickness)],
+    [point(-centerTangent,thickness),point(-underside,edge*.31),point(-1,edge)]
   ]);
-  const {cx,cy,rx,ry}=navelGeometry(body,corpulence);
+  const {cx,cy,rx,ry}=navelGeometry(body,corpulence,previous);
   const ellipse=(part,y,xRadius,yRadius,fill,opacity)=>
     `<ellipse data-navel-part="${part}" cx="${format(cx)}" cy="${format(y)}" rx="${format(xRadius)}" ry="${format(yRadius)}" fill="${fill}" opacity="${opacity}"/>`;
   const navel=ellipse('form',cy,rx,ry,shade,.6)+

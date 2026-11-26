@@ -112,9 +112,10 @@ test('les documents 05-C restent lisibles, avec les contrôles pris en charge da
       {...referencePectorals,volume:57},referenceThoraxDetails[key],{...referenceAbdominals,volume:61.5}] :
       [raw,key,...Array(7).fill(undefined)];
     const previous=archive(restoreSelection(...context));
-    assert.equal(previous.version,full ? 19 : 11);
+    assert.equal(previous.version,full ? 21 : 11);
     assert.deepEqual(appearanceDocument(read(previous).selection,read(previous)),previous);
     const doc={...previous,version:20,renderer:'bio-corps-05-c-svg@1',character:{...previous.character,navel:requested}};
+    if (full) doc.character.thoraxDetails={...previous.character.thoraxDetails,nippleSize:54,relief:60};
     const restored=read(doc);
     assert(restored.importedNavel);
     assert(!Object.hasOwn(restored.selection.state,'navel'));

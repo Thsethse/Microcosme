@@ -86,7 +86,7 @@ test('le calque est indépendant de la silhouette et passe derrière les volumes
   }
 });
 
-test('les archives v13 et v18 se réexportent à l’identique et recalculent le calque',()=>{
+test('les archives v13 et v21 se réexportent à l’identique et recalculent le calque',()=>{
   const settings={eyes:null,form:'historical',colour:'chatain-clair',flat:true};
   for (const key of bodies) for (const corpulence of [0,37.125,100]) for (const detailed of [false,true]) {
     const chosen=restoreSelection(profile,key,corners[55],corpulence,
@@ -94,7 +94,7 @@ test('les archives v13 et v18 se réexportent à l’identique et recalculent le
       detailed ? referenceThoraxDetails[key] : undefined);
     const archived=appearanceDocument(chosen,settings);
     const restored=parseAppearance(JSON.stringify(archived));
-    assert.equal(archived.version,detailed ? 18 : 13);
+    assert.equal(archived.version,detailed ? 21 : 13);
     assert(!Object.hasOwn(archived.character,'boneReliefs'));
     assert.deepEqual(appearanceDocument(restored.selection,restored),archived);
     const options={boneReliefs:true,instance:'archive-bones'};
