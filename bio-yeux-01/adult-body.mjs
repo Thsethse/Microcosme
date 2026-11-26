@@ -5,7 +5,8 @@ import {pectoralMarkup} from './pectorals.mjs';
 import {thoraxDetailsMarkup} from './thorax-details.mjs';
 import {boneReliefMarkup} from './body-bone-reliefs.mjs';
 import {abdominalMarkup} from './abdominals.mjs';
-import {bellyDetailsMarkup, referenceNavel} from './belly-details.mjs';
+import {bellyDetailsMarkup} from './belly-details.mjs';
+import {bellyDetailsMarkup as bellyBeforeMarkup, referenceNavel} from './belly-details-before.mjs';
 import {chestGeometryR01, chestMarkupR01} from './chest-r01.mjs';
 import {previousChestMarkup} from './chest-before.mjs';
 
@@ -155,7 +156,7 @@ export function adultBodyGeometry(key, [axis, chinY], structure = referenceStruc
 }
 
 export function adultBodyMarkup(key, chin, {skin, contour}, structure, corpulence, beforeCorrection,
-    {chest, pectorals, thoraxDetails, abdominals, navel, bellyFinish, boneReliefs, smallScale, chestStudySkin = skin, chestRevision, beforeChestCorrection, clipId} = {}) {
+    {chest, pectorals, thoraxDetails, abdominals, bellyFinish, boneReliefs, smallScale, chestStudySkin = skin, chestRevision, beforeChestCorrection, clipId} = {}) {
   const body = adultBodyGeometry(key, chin, structure, corpulence, beforeCorrection);
   const start=`<g class="body-shape" data-adult-body="${key}">`;
   const perimeter=(path,fill,attributes='')=>`<path d="${path}" fill="${fill}" stroke="${contour}" stroke-width="4.2" stroke-linejoin="round"${attributes}/>`;
@@ -165,8 +166,12 @@ export function adultBodyMarkup(key, chin, {skin, contour}, structure, corpulenc
     ? boneReliefMarkup(body,corpulence,chestStudySkin,smallScale) : '';
   const muscles=abdominals && !beforeCorrection && !historical
     ? abdominalMarkup(body,abdominals,corpulence,chestStudySkin,smallScale) : '';
-  const belly=(navel || bellyFinish) && !beforeCorrection && !historical
-    ? bellyDetailsMarkup(body,corpulence,chestStudySkin,{fold:bellyFinish,navel:navel ?? referenceNavel,smallScale}) : '';
+  let belly='';
+  if (bellyFinish && !beforeCorrection && !historical) {
+    belly=bellyFinish==='before'
+      ? bellyBeforeMarkup(body,corpulence,chestStudySkin,{fold:true,navel:referenceNavel,smallScale})
+      : bellyDetailsMarkup(body,corpulence,chestStudySkin,{smallScale});
+  }
   const details=thoraxDetails && !historical
     ? thoraxDetailsMarkup(body,key,thoraxDetails,chestStudySkin,smallScale,{chest,pectorals,corpulence}) : '';
   if (key==='adult-h' && pectorals?.volume) return baseline+muscles+belly+bones+pectoralMarkup(body,pectorals,corpulence,chestStudySkin)+details;

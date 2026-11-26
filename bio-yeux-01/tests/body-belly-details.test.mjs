@@ -10,7 +10,7 @@ import {referencePectorals} from '../pectorals.mjs';
 import {referenceThoraxDetails} from '../thorax-details.mjs';
 import {referenceAbdominals} from '../abdominals.mjs';
 import {character} from '../render.mjs';
-import {abdominalFoldGeometry, bellyDetailsMarkup, navelControls, navelGeometry, referenceNavel, validateNavel} from '../belly-details.mjs';
+import {abdominalFoldGeometry, bellyDetailsMarkup, navelControls, navelGeometry, referenceNavel, validateNavel} from '../belly-details-before.mjs';
 
 const bodies=['adult-h','adult-f'];
 const raw={style:'p5-061',arrangement:'G',body:'standard'};
@@ -92,7 +92,7 @@ test('le SVG reste identique après retrait du nouveau calque, à toutes les éc
       thoraxDetails:referenceThoraxDetails[body],abdominals:{...referenceAbdominals,volume:86}};
     const opts={...scale,instance:'belly-test',boneReliefs:true,naturalEyes:true,makeup:{blush:{enabled:true}}};
     const base=character(input,opts);
-    const result=character(input,{...opts,bellyFinish:true});
+    const result=character(input,{...opts,bellyFinish:'before'});
     assert.equal(result.replace(layer,''),base);
     if (bodies.includes(body)) {
       assert(result.includes('data-navel-part'));
@@ -102,7 +102,7 @@ test('le SVG reste identique après retrait du nouveau calque, à toutes les éc
   }
 });
 
-test('v20 garde les trois réglages et les données musculaires, v19 et v11 gardent leur format',()=>{
+test('les documents 05-C restent lisibles, avec les contrôles pris en charge dans l’atelier actuel',()=>{
   const settings={eyes:null,form:'historical',colour:'chatain-clair',flat:true};
   const archive=selection=>appearanceDocument(selection,settings);
   const read=doc=>parseAppearance(JSON.stringify(doc));
@@ -114,15 +114,13 @@ test('v20 garde les trois réglages et les données musculaires, v19 et v11 gard
     const previous=archive(restoreSelection(...context));
     assert.equal(previous.version,full ? 19 : 11);
     assert.deepEqual(appearanceDocument(read(previous).selection,read(previous)),previous);
-    const selected=restoreSelection(...context,requested);
-    const doc=archive(selected),restored=read(doc);
-    assert.equal(doc.version,20);
-    assert.deepEqual(doc.character.navel,requested);
-    assert(!Object.hasOwn(doc.character,'fold'));
-    if (full) assert.deepEqual(doc.character.abdominals,previous.character.abdominals);
-    assert.deepEqual(appearanceDocument(restored.selection,restored),doc);
-    assert.equal(character(characterInput(restored.selection),{bellyFinish:true}),
-      character(characterInput(selected),{bellyFinish:true}));
+    const doc={...previous,version:20,renderer:'bio-corps-05-c-svg@1',character:{...previous.character,navel:requested}};
+    const restored=read(doc);
+    assert(restored.importedNavel);
+    assert(!Object.hasOwn(restored.selection.state,'navel'));
+    assert.deepEqual(appearanceDocument(restored.selection,restored),previous);
+    const withOldSettings=character({...characterInput(restored.selection),navel:requested},{bellyFinish:true});
+    assert.equal(withOldSettings,character(characterInput(restored.selection),{bellyFinish:true}));
   }
   for (const value of [null,{...requested,size:101},{...requested,shape:'64'},{...requested,position:40}]) {
     assert.throws(()=>validateNavel(value),/trois réglages/);

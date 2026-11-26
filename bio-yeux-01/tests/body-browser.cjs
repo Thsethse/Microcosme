@@ -8,8 +8,9 @@ const {chromium, webkit, devices} = require('playwright');
 const mission = process.env.PREVIEW_MISSION ?? 'BIO-CORPS-01';
 const chestPreview = mission === 'BIO-CORPS-04-A';
 const chestR02 = mission === 'BIO-CORPS-04-A-R02';
+const pelvicCorrectionPreview = mission === 'BIO-CORPS-05-C-R01';
 const bellyDetailPreview = mission === 'BIO-CORPS-05-C';
-const abdominalPreview = mission === 'BIO-CORPS-05-B' || bellyDetailPreview;
+const abdominalPreview = mission === 'BIO-CORPS-05-B' || bellyDetailPreview || pelvicCorrectionPreview;
 const boneReliefPreview = mission === 'BIO-CORPS-05-A' || abdominalPreview;
 const thoraxDetailsPreview = mission === 'BIO-CORPS-04-C' || boneReliefPreview;
 const pectoralPreview = mission === 'BIO-CORPS-04-B' || thoraxDetailsPreview;
@@ -20,7 +21,7 @@ const structurePreview = mission === 'BIO-CORPS-02' || corpulencePreview;
 const pages = 'https://thsethse.github.io/Microcosme/preview/';
 const output = process.env.ARTIFACT_DIR ?? '/tmp/microcosme-' + mission.toLowerCase();
 const published = pages + mission.toLowerCase() + '/';
-const predecessors = {'BIO-CORPS-05-C':'bio-corps-05-b/', 'BIO-CORPS-05-B':'bio-corps-05-a/', 'BIO-CORPS-05-A':'bio-corps-04-c/', 'BIO-CORPS-04-C':'bio-corps-04-b/', 'BIO-CORPS-04-B':'bio-corps-04-a-r02/', 'BIO-CORPS-04-A-R02':'bio-corps-04-a-r01/', 'BIO-CORPS-04-A-R01':'bio-corps-04-a/', 'BIO-CORPS-04-A':'bio-corps-03-r01/', 'BIO-CORPS-03-R01':'bio-corps-03/', 'BIO-CORPS-03':'bio-corps-02/', 'BIO-CORPS-02':'bio-corps-01/'};
+const predecessors = {'BIO-CORPS-05-C-R01':'bio-corps-05-c/', 'BIO-CORPS-05-C':'bio-corps-05-b/', 'BIO-CORPS-05-B':'bio-corps-05-a/', 'BIO-CORPS-05-A':'bio-corps-04-c/', 'BIO-CORPS-04-C':'bio-corps-04-b/', 'BIO-CORPS-04-B':'bio-corps-04-a-r02/', 'BIO-CORPS-04-A-R02':'bio-corps-04-a-r01/', 'BIO-CORPS-04-A-R01':'bio-corps-04-a/', 'BIO-CORPS-04-A':'bio-corps-03-r01/', 'BIO-CORPS-03-R01':'bio-corps-03/', 'BIO-CORPS-03':'bio-corps-02/', 'BIO-CORPS-02':'bio-corps-01/'};
 const referenceURL = process.env.REFERENCE_URL ?? pages + (predecessors[mission] ?? 'bio-yeux-r01/');
 const local = process.env.PREVIEW_DIR;
 const engines = {chromium, webkit};
@@ -76,7 +77,7 @@ async function compare(page) {
     const body = silhouette.outerHTML.replace(/atelier-yeux-\d+/g,'fixed');
     silhouette.remove();
     return {width:Math.round(width),height,original,body,outside:serialize(),raster:canvas.toDataURL(),pixels};
-  })),{stripBoneReliefs:boneReliefPreview,stripBellyDetails:bellyDetailPreview});
+  })),{stripBoneReliefs:boneReliefPreview,stripBellyDetails:bellyDetailPreview || pelvicCorrectionPreview});
 }
 
 async function exportAppearance(page) {
@@ -1186,7 +1187,7 @@ async function checkAbdominalEdition(page,old,url,name) {
 }
 
 async function checkBellyDetailEdition(page,old,url,name) {
-  const {navelControls,referenceNavel}=await import('../belly-details.mjs');
+  const {navelControls,referenceNavel}=await import('../belly-details-before.mjs');
   const {corpulenceStops}=await import('../body-corpulence.mjs');
   const q=selector=>page.locator(selector);
   const layer=q('#structure-live [data-belly-details]');
@@ -1330,6 +1331,199 @@ async function checkBellyDetailEdition(page,old,url,name) {
   return {axesH:3,axesF:3,touch:12,levelsPerBase:9,axisPairs:9,archivesV20:2,reusedV19:2,skins:4,structures:7,muscleLevels:3,scales:3};
 }
 
+async function checkPelvicCorrection(page,old,url,name) {
+  const {corpulenceStops}=await import('../body-corpulence.mjs');
+  const q=selector=>page.locator(selector);
+  const oldQ=selector=>old.locator(selector);
+  const layer=q('#structure-live [data-belly-details]');
+  const navel=layer.locator('[data-navel-part="form"]');
+  const open=async(target,base,fragment)=>{
+    await target.goto('about:blank');
+    await ready(target,base+'#'+fragment);
+  };
+  const noControls=()=>q('#navel-controls,#navel-reset,#navel-link,#navel-panel,#navel-size,#navel-shape,#navel-relief').count();
+  const shape=()=>layer.locator('[data-groin-crease]').evaluateAll(paths=>
+    paths.map(path=>({d:path.getAttribute('d'),fill:path.getAttribute('fill'),opacity:path.getAttribute('opacity')})));
+  await Promise.all([page.setViewportSize({width:810,height:1080}),old.setViewportSize({width:810,height:1080})]);
+  const referenceArchives=[];
+  for (const body of ['adult-h','adult-f']) {
+    await open(old,referenceURL,'atelier-thorax');
+    await oldQ(`[data-thorax-body="${body}"]`).tap();
+    for (const [field,value] of [['corpulence',89.375],['structure-waist',77],['abdominal-volume',74.5],
+      ['abdominal-width',67],['navel-size',100],['navel-shape',100],['navel-relief',100]]) await setRange(old,field,value);
+    const previous=JSON.parse(await exportAppearance(old));
+    assert.equal(previous.version,20);
+    referenceArchives.push(previous);
+
+    await open(page,url,'atelier-thorax');
+    await q(`[data-thorax-body="${body}"]`).tap();
+    assert.equal(await noControls(),0);
+    assert.equal(await q('#diagnostic-pelvien [data-pelvic-guides]').count(),0);
+    assert.equal(await q('#structure-live [data-pelvic-guides]').count(),0);
+    await q('#corpulence-link').tap();
+    const slider=q('#corpulence');
+    await slider.scrollIntoViewIfNeeded();
+    const {width,height}=await slider.boundingBox();
+    await slider.tap({position:{x:Math.round(width*.79),y:Math.round(height/2)}});
+    assert(Number(await slider.inputValue())>65);
+    let lastY=0, lastOpacity=0;
+    const initial=await shape();
+    const curves=new Set();
+    for (const {value} of corpulenceStops) {
+      await setRange(page,'corpulence',value);
+      const center=Number(await navel.getAttribute('cy'));
+      assert.equal(await navel.getAttribute('cx'),'80');
+      assert(center>lastY);
+      lastY=center;
+      const fold=layer.locator('[data-abdominal-fold]');
+      assert.equal(await fold.count(),value ? 1 : 0);
+      if (value) {
+        const opacity=Number(await fold.getAttribute('opacity'));
+        assert(opacity>lastOpacity);
+        lastOpacity=opacity;
+      }
+      const current=await shape();
+      assert.equal(current.length,2);
+      for (let side=0;side<2;side++) {
+        assert.equal(current[side].fill,initial[side].fill);
+        assert.equal(current[side].opacity,'0.48');
+      }
+      curves.add(current[0].d);
+    }
+    assert.equal(curves.size,9);
+
+    await open(page,url,'atelier-thorax');
+    await importAppearance(page,JSON.stringify(previous));
+    assert.match(await q('#appearance-message').textContent(),/v20.*nombril standard/);
+    const current=await layer.innerHTML();
+    const next=JSON.parse(await exportAppearance(page));
+    const {navel:obsolete,...character}=previous.character;
+    assert.deepEqual(next,{...previous,version:19,renderer:'bio-corps-05-b-svg@1',character});
+    assert.deepEqual(await compare(page),await compare(old));
+    await importAppearance(page,JSON.stringify({...previous,character:{...character,navel:{size:0,shape:0,relief:0}}}));
+    assert.equal(await layer.innerHTML(),current);
+    assert.deepEqual(JSON.parse(await exportAppearance(page)),next);
+    assert.equal(await noControls(),0);
+  }
+
+  await Promise.all([open(page,url,'planche-pli-nombril'),open(old,referenceURL,'planche-pli-nombril')]);
+  const panel=q('#planche-pli-nombril');
+  await panel.locator('[data-belly-case]').first().waitFor({state:'visible'});
+  assert.equal(await panel.locator('[data-belly-case]').count(),9);
+  assert.equal(await panel.locator('[data-belly-phase="before"] svg').count(),18);
+  assert.equal(await panel.locator('[data-belly-phase="after"] svg').count(),18);
+  assert.equal(await panel.locator('[data-belly-phase="before"] [data-groin-crease]').count(),0);
+  assert.equal(await panel.locator('[data-belly-phase="after"] [data-groin-crease]').count(),36);
+  // Each before rendering uses the exact accepted abdominal SVG, including opacity.
+  for (const {value} of corpulenceStops) {
+    const section=`[data-belly-case="corpulence-${value}"]`;
+    const parts=target=>target.evaluateAll(groups=>groups.map(group=>
+      new XMLSerializer().serializeToString(group).replace(/\s+/g,' ')));
+    assert.deepEqual(await parts(q(section+' [data-belly-phase="before"] [data-belly-details]')),
+      await parts(oldQ(section+' [data-belly-details]')));
+    if (value>=50) {
+      const summary=await q(section+' svg').evaluateAll(svgs=>svgs.map(svg=>{
+        const fold=svg.querySelector('[data-abdominal-fold]').getBBox();
+        return {navel:Number(svg.querySelector('[data-navel-part="form"]').getAttribute('cy')),bottom:fold.y+fold.height};
+      }));
+      for(const [before,after] of [[summary[0],summary[1]],[summary[2],summary[3]]]) {
+        assert(after.navel>before.navel+5 && after.bottom>before.bottom+7);
+      }
+    }
+  }
+  const crease=panel.locator('[data-groin-crease]').first();
+  const initialPath=await crease.getAttribute('d');
+  const structure=q('#belly-study-structure');
+  assert.equal(await structure.locator('option').count(),7);
+  for (const setting of ['fine','wide','min','max']) {
+    await structure.selectOption(setting);
+    assert.notEqual(await crease.getAttribute('d'),initialPath);
+  }
+  await structure.selectOption('reference');
+  const skin=q('#belly-study-skin');
+  const colours=await skin.locator('option').evaluateAll(options=>options.map(option=>option.value));
+  const pigments=[];
+  for (const colour of colours) {
+    await skin.selectOption(colour);
+    const fills=await panel.locator('[data-groin-crease]').evaluateAll(paths=>[...new Set(paths.map(path=>
+      path.getAttribute('fill')+'/'+path.getAttribute('opacity')))]);
+    assert.equal(fills.length,1);
+    assert(fills[0].endsWith('/0.48'));
+    pigments.push(fills[0]);
+  }
+  assert.equal(new Set(pigments).size,4);
+  const visibility=[];
+  for (const colour of [colours[0],colours.at(-1)]) {
+    await skin.selectOption(colour);
+    for (const fat of [0,50,100]) {
+      const counts=await q(`[data-belly-case="corpulence-${fat}"] [data-belly-phase="after"] svg`).evaluateAll(svgs=>
+        Promise.all(svgs.map(async svg=>{
+          const frame=svg.viewBox.baseVal;
+          async function raster(include) {
+            const copy=svg.cloneNode(true);
+            if (!include) for(const path of copy.querySelectorAll('[data-groin-crease]')) path.remove();
+            const canvas=document.createElement('canvas');
+            canvas.width=frame.width*3;
+            canvas.height=frame.height*3;
+            copy.setAttribute('width',canvas.width);
+            copy.setAttribute('height',canvas.height);
+            const image=new Image();
+            image.src='data:image/svg+xml,'+encodeURIComponent(new XMLSerializer().serializeToString(copy));
+            await image.decode();
+            const ctx=canvas.getContext('2d');
+            ctx.drawImage(image,0,0);
+            return ctx.getImageData(0,0,canvas.width,canvas.height).data;
+          }
+          const [withGroins,withoutGroins]=await Promise.all([raster(true),raster(false)]);
+          let changed=0;
+          for(let i=0;i<withGroins.length;i+=4) if([0,1,2].some(n=>withGroins[i+n]!==withoutGroins[i+n])) changed++;
+          return changed;
+        })));
+      assert.equal(counts.length,2);
+      assert(counts.every(count=>count>15),JSON.stringify({colour,fat,counts}));
+      visibility.push({colour,fat,counts});
+    }
+  }
+  await skin.selectOption(colours[0]);
+  for (const value of ['0','50','100']) {
+    await q('#belly-study-muscle').selectOption(value);
+    assert.equal(await panel.locator('[data-abdominals]').count(),value==='0' ? 0 : 36);
+  }
+  for (const [scale,height] of [['tile',178],['head',300],['mini',70]]) {
+    await q('#belly-study-scale').selectOption(scale);
+    assert.deepEqual(await panel.locator('svg').evaluateAll(nodes=>[...new Set(nodes.map(svg=>svg.getBoundingClientRect().height))]),[height]);
+    assert.equal(await panel.locator('[data-groin-crease]').count(),36);
+  }
+  await q('#belly-study-scale').selectOption('detail');
+  for (const fat of [0,50,100]) await q(`[data-belly-case="corpulence-${fat}"]`).screenshot({path:path.join(output,`${name}-pelvic-${fat}.png`)});
+
+  await open(page,url,'diagnostic-pelvien');
+  const diagnostic=q('#diagnostic-pelvien');
+  await diagnostic.locator('[data-pelvic-case]').first().waitFor({state:'visible'});
+  const margins=()=>diagnostic.locator('svg').evaluateAll(svgs=>svgs.map(svg=>{
+    const bottom=svg.querySelector('[data-abdominal-fold]').getBBox();
+    const limit=Number(svg.querySelector('line[data-pelvic-landmark="reservedTop"]').getAttribute('y1'));
+    return limit-bottom.y-bottom.height;
+  }));
+  assert.equal(await diagnostic.locator('svg [data-pelvic-landmark]').count(),8);
+  const maxMargins=await margins();
+  assert(maxMargins.every(margin=>margin>1 && margin<2));
+  await q('#pelvic-study-structure').selectOption('min');
+  assert.deepEqual(await margins(),maxMargins);
+  await q('#pelvic-study-corpulence').selectOption('50');
+  assert((await margins()).every(margin=>margin>maxMargins[0]));
+  await q('#pelvic-study-corpulence').selectOption('0');
+  assert.equal(await diagnostic.locator('[data-pelvic-margin],[data-abdominal-fold]').count(),0);
+  await q('#pelvic-study-corpulence').selectOption('100');
+  await diagnostic.screenshot({path:path.join(output,`${name}-pelvic-diagnostic.png`)});
+  for (const width of [390,810,1180]) {
+    await page.setViewportSize({width,height:920});
+    assert(await page.evaluate(w=>document.documentElement.scrollWidth<=w+1,width));
+  }
+  return {adults:2,levels:9,migratedV20:referenceArchives.length,scales:3,profiles:7,skins:4,maxMargins,
+    noNavelControls:true,rasterVisibility:visibility};
+}
+
 async function exercise(context, url, name, version) {
   const [page, old] = await Promise.all([context.newPage(), context.newPage()]);
   const errors = [];
@@ -1437,11 +1631,12 @@ async function exercise(context, url, name, version) {
   const boneReliefs=boneReliefPreview ? await checkBoneReliefEdition(page,old,url,name) : undefined;
   const abdominals=abdominalPreview ? await checkAbdominalEdition(page,old,url,name) : undefined;
   const bellyDetails=bellyDetailPreview ? await checkBellyDetailEdition(page,old,url,name) : undefined;
+  const pelvicCorrection=pelvicCorrectionPreview ? await checkPelvicCorrection(page,old,url,name) : undefined;
   assert.deepEqual(errors,[]);
   return {name, version, historicalExact:historicalBodies.length*3, rasterBySize:[8,8,8],
     fittings:cases.length*2, coldImports:2, guidedLandmarks:14, ...(structure ? {structure} : {}),
     ...(corpulence ? {corpulence} : {}), ...(chest ? {chest} : {}), ...(pectorals ? {pectorals} : {}),
-    ...(thoraxDetails ? {thoraxDetails} : {}), ...(boneReliefs ? {boneReliefs} : {}), ...(abdominals ? {abdominals} : {}), ...(bellyDetails ? {bellyDetails} : {})};
+    ...(thoraxDetails ? {thoraxDetails} : {}), ...(boneReliefs ? {boneReliefs} : {}), ...(abdominals ? {abdominals} : {}), ...(bellyDetails ? {bellyDetails} : {}), ...(pelvicCorrection ? {pelvicCorrection} : {})};
 }
 
 async function files(url) {

@@ -5,7 +5,7 @@ import {validateChest, validateChestOrigin} from './chest.mjs';
 import {validatePectorals} from './pectorals.mjs';
 import {validateThoraxDetails} from './thorax-details.mjs';
 import {validateAbdominals} from './abdominals.mjs';
-import {validateNavel} from './belly-details.mjs';
+import {validateNavel} from './belly-details-before.mjs';
 import {choice, restoreSelection} from './catalogue.mjs';
 import {swatch} from '../bio-col-01/palette.mjs';
 import {controls, model, normalize} from '../preview/bio-vis-p5-i6/model.mjs';
@@ -167,8 +167,7 @@ export function appearanceDocument(selection, {eyes, form, draw, colour, flat, i
   const pectorals = input.body === 'adult-h' ? input.pectorals : undefined;
   const thoraxDetails = adult ? input.thoraxDetails : undefined;
   const abdominals = adult ? input.abdominals : undefined;
-  const navel = adult ? input.navel : undefined;
-  const version = navel ? navelAppearanceVersion : abdominals ? abdominalAppearanceVersion : thoraxDetails ? thoraxDetailsAppearanceVersion : pectorals ? pectoralAppearanceVersion : chest ? chestAppearanceVersion : corpulence !== undefined ? corpulenceAppearanceVersion : structure ? structureAppearanceVersion : adult ? bodyAppearanceVersion : cosmeticAppearance ? makeupAppearanceVersion : healedScars ? scarAppearanceVersion : cutaneousMarks ? marksAppearanceVersion : facialHair ? beardAppearanceVersion : noseAppearance ? noseAppearanceVersion : mouthAppearance ? mouthAppearanceVersion : browAppearance ? browAppearanceVersion :
+  const version = abdominals ? abdominalAppearanceVersion : thoraxDetails ? thoraxDetailsAppearanceVersion : pectorals ? pectoralAppearanceVersion : chest ? chestAppearanceVersion : corpulence !== undefined ? corpulenceAppearanceVersion : structure ? structureAppearanceVersion : adult ? bodyAppearanceVersion : cosmeticAppearance ? makeupAppearanceVersion : healedScars ? scarAppearanceVersion : cutaneousMarks ? marksAppearanceVersion : facialHair ? beardAppearanceVersion : noseAppearance ? noseAppearanceVersion : mouthAppearance ? mouthAppearanceVersion : browAppearance ? browAppearanceVersion :
     eyeDetails ? detailsAppearanceVersion :
     ink ? irisAppearanceVersion : appearanceVersion;
   return {
@@ -184,7 +183,6 @@ export function appearanceDocument(selection, {eyes, form, draw, colour, flat, i
       ...(pectorals ? {pectorals:{...pectorals}} : {}),
       ...(thoraxDetails ? {thoraxDetails:{...thoraxDetails}} : {}),
       ...(abdominals ? {abdominals:{...abdominals}} : {}),
-      ...(navel ? {navel:{...navel}} : {}),
       morphology: Object.fromEntries(Object.keys(controls).map(key => [key, applied[key]])),
       options: {accessories: input.accessories, contrast: input.contrast, monochrome: input.monochrome === true},
       effectiveOptions: {accessories: applied.accessories !== false, contrast: applied.contrast !== false,
@@ -261,8 +259,8 @@ export function parseAppearance(text) {
   const pectorals=pectoralFormat ? validatePectorals(data.character.pectorals) : undefined;
   const thoraxDetails=thoraxDetailsFormat ? validateThoraxDetails(data.character.thoraxDetails) : undefined;
   const abdominals=abdominalFormat ? validateAbdominals(data.character.abdominals) : undefined;
-  const navel=navelFormat ? validateNavel(data.character.navel) : undefined;
-  const selection = restoreSelection(data.historicalSelection, adultBody, structure, corpulence, chest, chestOrigin, pectorals, thoraxDetails, abdominals, navel);
+  const legacyNavel=navelFormat ? validateNavel(data.character.navel) : undefined;
+  const selection = restoreSelection(data.historicalSelection, adultBody, structure, corpulence, chest, chestOrigin, pectorals, thoraxDetails, abdominals);
   if (!data.eyes || !['historical', 'custom'].includes(data.eyes.mode) ||
       !data.palette || !['flat', 'historical'].includes(data.palette.mode)) {
     throw new Error('Mode des yeux ou de la palette invalide.');
@@ -327,6 +325,12 @@ export function parseAppearance(text) {
     settings.makeupLatent = data.makeup.mode === 'historical' ? data.makeup.latent : null;
   }
   const rebuilt = appearanceDocument(selection, settings);
+  // Validate the old document in full without putting its obsolete controls in the editor state.
+  if (legacyNavel) {
+    rebuilt.version=navelAppearanceVersion;
+    rebuilt.renderer=renderers[navelAppearanceVersion];
+    rebuilt.character.navel={...legacyNavel};
+  }
   const adoptedChest = migratedChest || data.version===chestR01AppearanceVersion;
   if (adoptedChest) {
     rebuilt.version=data.version;
@@ -339,5 +343,6 @@ export function parseAppearance(text) {
   if (!identical(rebuilt, data)) throw new Error('Données effectives incompatibles avec la sélection et les demandes.');
   // Verify and retain the requests for editing. They replay the archived
   // effective values exactly under this supported renderer version.
-  return {selection, ...settings, ...(adoptedChest ? {importedChestVersion:data.version} : {})};
+  return {selection, ...settings, ...(adoptedChest ? {importedChestVersion:data.version} : {}),
+    ...(legacyNavel ? {importedNavel:true} : {})};
 }

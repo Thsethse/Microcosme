@@ -86,7 +86,7 @@ export function character(input = {}, options = {}) {
   const svg = adultFace ? inheritedSvg.replace(/<g class="body-shape">[^]*?<\/g>/,
     () => adultBodyMarkup(input.body, adultFace.anchors.chin, palette, input.structure, input.corpulence,
       options.beforeCorpulenceCorrection, {chest:input.chest,pectorals:input.pectorals,thoraxDetails:input.thoraxDetails,abdominals:input.abdominals,
-        navel:input.navel,bellyFinish:options.bellyFinish,boneReliefs:options.boneReliefs,smallScale:options.smallScale,chestStudySkin:options.chestStudySkin,
+        bellyFinish:options.bellyFinish,boneReliefs:options.boneReliefs,smallScale:options.smallScale,chestStudySkin:options.chestStudySkin,
         chestRevision:options.chestRevision,beforeChestCorrection:options.beforeChestCorrection,
         clipId:path=>clipId(path,options.instance,'chest')})) : inheritedSvg;
   const selected = normalizeEyes(options.eyes);

@@ -226,7 +226,7 @@ button:disabled, input:disabled, select:disabled { opacity: .65; }
   .body-construction { grid-template-columns: minmax(0, 1fr); }
 }
 
-#structure-panel, #chest-panel, #pectoral-panel, #thorax-details-panel, #abdominal-panel, #navel-panel {
+#structure-panel, #chest-panel, #pectoral-panel, #thorax-details-panel, #abdominal-panel {
   margin: 14px 0;
   padding: 10px;
   min-width: 0;
@@ -238,8 +238,8 @@ button:disabled, input:disabled, select:disabled { opacity: .65; }
 #atelier-thorax { scroll-margin-top: 12px; }
 #atelier-thorax > h3 { margin: 14px 0 8px; }
 .thorax-actions button[aria-pressed="true"] { background: #ead9b7; border-color: #896b3e; }
-#thorax-details-link, #corpulence-link, #abdominal-link, #navel-link { align-self: center; }
-#thorax-details-panel, #structure-panel, #abdominal-panel, #navel-panel { scroll-margin-top: 12px; }
+#thorax-details-link, #corpulence-link, #abdominal-link { align-self: center; }
+#thorax-details-panel, #structure-panel, #abdominal-panel { scroll-margin-top: 12px; }
 .structure-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(72px, .42fr); gap: 8px; align-items: start; }
 .structure-layout[hidden] { display: none; }
 #structure-live { border-radius: 7px; }
@@ -248,10 +248,26 @@ button:disabled, input:disabled, select:disabled { opacity: .65; }
 #thorax-live-detail[hidden] { display: none; }
 .thorax-detail svg { height: auto; aspect-ratio: 15 / 8; }
 .abdominal-detail svg { height: auto; aspect-ratio: 140 / 75; }
+.pelvic-detail svg { height: auto; aspect-ratio: 152 / 83; }
+.pelvic-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; padding-left: 0; list-style: none; }
+.pelvic-legend li::before { content: ''; display: inline-block; width: 1.2rem; margin-right: .4rem; vertical-align: middle; border-top: 2px solid var(--landmark); }
+[data-pelvic-landmark="abdomen"] { --landmark: #186b91; }
+[data-pelvic-landmark="hips"] { --landmark: #247557; }
+[data-pelvic-landmark="reservedTop"] { --landmark: #963f35; }
+[data-pelvic-landmark="pelvicBase"] { --landmark: #6b4dae; }
+.dark [data-pelvic-landmark="abdomen"] { --landmark: #80d3f5; }
+.dark [data-pelvic-landmark="hips"] { --landmark: #92ecd0; }
+.dark [data-pelvic-landmark="reservedTop"] { --landmark: #ff9d8d; }
+.dark [data-pelvic-landmark="pelvicBase"] { --landmark: #c8a9fb; }
+.pelvic-guides line { stroke: var(--landmark); stroke-width: .75; stroke-dasharray: 3 2; }
+.pelvic-guides [data-pelvic-landmark="reservedTop"] { stroke-dasharray: none; }
+.pelvic-guides [data-pelvic-margin] { stroke: #a44a3a; stroke-width: 1.25; }
+#pelvic-study-cases figure { margin: 0; }
+#pelvic-study-cases figcaption { margin-top: 8px; }
 .bone-relief-detail svg { height: auto; aspect-ratio: 156 / 109; }
 #planche-ossature > summary, #planche-corpulence > summary, #planche-poitrine > summary,
 #planche-pectoraux > summary, #planche-details-thorax > summary, #planche-reliefs-osseux > summary,
-#planche-abdominaux > summary, #planche-pli-nombril > summary { font: 1.8rem/1.1 Georgia, serif; }
+#planche-abdominaux > summary, #planche-pli-nombril > summary, #diagnostic-pelvien > summary { font: 1.8rem/1.1 Georgia, serif; }
 #bone-relief-coverage h4 { margin: 0 0 8px; }
 #thorax-details-axes section + section { margin-top: 12px; }
 #thorax-details-axes h4, #thorax-details-carriers h4 { margin: 0 0 6px; }

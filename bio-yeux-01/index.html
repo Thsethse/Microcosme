@@ -34,6 +34,7 @@
     <a href="#planche-reliefs-osseux">Planche des reliefs osseux</a>
     <a href="#planche-abdominaux">Planche des abdominaux</a>
     <a href="#planche-pli-nombril">Planche du pli et du nombril</a>
+    <a href="#diagnostic-pelvien">Diagnostic pelvien</a>
     <a href="#atelier-thorax">Atelier du thorax</a>
     <a href="#iris">Iris et pupilles</a>
     <a href="#planche">Planche des formes</a>
@@ -565,8 +566,23 @@
           <option value="0">Plat · 0 %</option><option value="50">Athlétique · 50 %</option><option value="100">Très musclé · 100 %</option>
         </select></label>
       </div>
-      <h3>Les neuf niveaux de corpulence</h3><div id="belly-study-corpulence"></div>
-      <h3>Variations du nombril</h3><div id="belly-study-navel"></div>
+      <h3>Comparaison aux neuf niveaux de corpulence</h3><div id="belly-study-corpulence"></div>
+    </details>
+  </section>
+  <section aria-label="Diagnostic des repères pelviens">
+    <details class="card" id="diagnostic-pelvien">
+      <summary>Diagnostic pelvien</summary>
+      <div class="corpulence-study-controls">
+        <label class="structure-scale">Ossature<select id="pelvic-study-structure"></select></label>
+        <label class="structure-scale">Corpulence<select id="pelvic-study-corpulence"></select></label>
+      </div>
+      <ul class="pelvic-legend" aria-label="Légende des repères">
+        <li data-pelvic-landmark="abdomen">Abdomen</li>
+        <li data-pelvic-landmark="hips">Hanches</li>
+        <li data-pelvic-landmark="reservedTop">Limite haute de la zone réservée</li>
+        <li data-pelvic-landmark="pelvicBase">Base pelvienne</li>
+      </ul>
+      <div id="pelvic-study-cases"></div>
     </details>
   </section>
   <section id="personnage">
@@ -590,7 +606,6 @@
             <a id="thorax-details-link" href="#thorax-details-panel" hidden>Aréoles et mamelons</a>
             <a id="corpulence-link" href="#structure-panel" hidden>Corpulence</a>
             <a id="abdominal-link" href="#abdominal-panel" hidden>Abdominaux</a>
-            <a id="navel-link" href="#navel-panel" hidden>Nombril</a>
           </div>
           <div id="body-controls" class="structure-layout" hidden>
             <div>
@@ -619,11 +634,6 @@
                 <p class="hint" id="abdominal-flat-note">Augmenter le volume pour activer les trois autres réglages. Leurs valeurs restent mémorisées à 0 %.</p>
                 <button id="abdominal-reset" type="button">Réinitialiser les abdominaux</button>
               </fieldset>
-              <fieldset id="navel-panel">
-                <legend>Nombril</legend>
-                <div id="navel-controls"></div>
-                <button id="navel-reset" type="button">Réinitialiser le nombril</button>
-              </fieldset>
               <fieldset id="structure-panel">
                 <legend>Corpulence et ossature</legend>
                 <label class="slider" for="corpulence">
@@ -641,7 +651,7 @@
             <div class="body-live-preview">
               <div id="structure-live" class="surface tile"></div>
               <div id="thorax-live-detail" class="surface thorax-detail" hidden></div>
-              <div id="abdominal-live-detail" class="surface abdominal-detail"></div>
+              <div id="abdominal-live-detail" class="surface pelvic-detail"></div>
             </div>
           </div>
         </div>
