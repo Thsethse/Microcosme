@@ -29,48 +29,47 @@ export function validateChestOrigin(values) {
 }
 
 export function chestGeometry(body, values, corpulence = 50) {
-  const {volume,width,length,roundness,spacing,sag} = validateChest(values);
-  if (volume === 0) return null;
-  const fullness = corpulence/100, v = volume/100, w = width/100, r = roundness/100, s = sag/100;
-  const mass = v ** .83 * (.89 + .11*fullness);
-  const shoulder = body.levels[1].y, thorax = body.levels[2].y;
-  const anchor = shoulder + .39*(thorax-shoulder);
-  const depth = body.height*mass*(.155+.079*length/100+.068*s);
-  const t = Math.max(0,(v-.55)/.45);
-  const amplitude = body.height*t*t*(3-2*t)*(.042+.072*w+.022*spacing/100+.012*r)*(1-.30*fullness);
-  const profile = {start:anchor-.026*body.height, rise:anchor+depth*(.23+.14*s),
-    peak:anchor+depth*(.61+.10*s), end:anchor+depth*1.18, amplitude};
+  const {volume,width,length,roundness,spacing,sag}=validateChest(values);
+  if (volume===0) return null;
+  const fullness=corpulence/100, v=volume/100, w=width/100, r=roundness/100, s=sag/100;
+  const mass=v**.80*(.88+.12*fullness);
+  const shoulder=body.levels[1].y, thorax=body.levels[2].y;
+  const anchor=shoulder+.96*(thorax-shoulder);
+  const support=body.minimumWidth(anchor,anchor);
+  const depth=body.height*mass*(.135+.089*length/100+.075*s);
 
-  // One footprint, mirrored at the sternum. The wider lower shelf and deeper
-  // outer bend are independent of the vertical root of the volume.
-  const outline = [
-    [-.67,.19],[-.18,0],[.48+.20*r-.20*s,.13+.08*s],
-    [.94,.43+.19*s-.13*r],[.70+.17*r,.71+.13*s],
-    [.10-.08*r,.96],[-.48-.37*r+.07*s,.81+.06*s],[-.93,.48+.12*s]
+  // The upper edge is the same skin as the chest wall. The lower arc carries
+  // the change of plane and extends independently of this attachment.
+  const outline=[
+    [.58,.035],[.95,.35+.20*s-.08*r],[.81+.12*r,.68+.10*s],
+    [.36+.14*r,.91+.035*s],[-.19,.975],[-.62-.16*r,.80+.065*s],
+    [-.88,.48+.12*s],[-.64,.175+.060*s],[-.12,0]
   ];
-  const tangent = .14+.035*r+.017*fullness;
-  const segments = outline.map((point,index)=>{
-    const previous=outline[(index+7)%8], next=outline[(index+1)%8], following=outline[(index+2)%8];
-    return [point.map((value,i)=>value+tangent*(next[i]-previous[i])),
-      next.map((value,i)=>value-tangent*(following[i]-point[i])), next];
+  const tension=.145+.025*r+.012*fullness;
+  const segments=outline.map((point,index)=>{
+    const n=outline.length;
+    const previous=outline[(index+n-1)%n], next=outline[(index+1)%n], following=outline[(index+2)%n];
+    return [point.map((value,i)=>value+tension*(next[i]-previous[i])),
+      next.map((value,i)=>value-tension*(following[i]-point[i])),next];
   });
-  const lateral = [[.55+.09*r,.67+.10*s],[.68,.33+.12*s],outline[2]];
-  const underside = [[-.33,.74+.09*s],[.55,.79+.04*s],outline[3]];
-  const extents = [...segments.flat(),...lateral,...underside].map(([x])=>x);
-  const left=Math.min(...extents), right=Math.max(...extents);
-  const available=body.minimumWidth(profile.rise,profile.peak)+amplitude*.86-1.4;
-  const capacity=(available-.65)/(right-left);
-  const preferred=body.height*(.082+.115*w)*mass;
-  const half=preferred/Math.hypot(1,preferred/capacity);
-  const inner=.65-left*half, outer=available-right*half;
-  // Even on a wide torso small volumes remain near the anatomical root.
-  const center=inner+(outer-inner)*(.31+.53*v)*(.08+.81*spacing/100);
-  const lobes=[-1,1].map(side=>{
-    const project=([x,y])=>[body.ground.x+side*(center+half*x), anchor+depth*y];
+  const [upper,outer]=outline;
+  const side=[[.71,.62+.12*s],[.79,.32+.12*s],upper];
+  const lower=[[-.55,.86],[.44,.91+.035*s],outer];
+  const extents=[...segments.flat(),...side,...lower].map(([x])=>x);
+  const left=Math.min(...extents),right=Math.max(...extents);
+  const gap=.50+support*(.027+.16*spacing/100)*(.70+.30*mass);
+  const allowance=body.height*mass**2*(.082+.069*w);
+  const capacity=(support+allowance-gap)/(right-left);
+  const breadth=.77+.23*Math.sqrt(support/(.235*body.height));
+  const preferred=body.height*(.072+.090*w)*mass**.87*breadth;
+  const half=preferred/(1+(preferred/capacity)**4)**.25;
+  const center=gap-left*half;
+  const lobes=[-1,1].map(sign=>{
+    const project=([x,y])=>[body.ground.x+sign*(center+half*x),anchor+depth*y];
     return {base:outline.map(project),segments:segments.map(points=>points.map(project)),
-      lateral:lateral.map(project),underside:underside.map(project)};
+      side:side.map(project),lower:lower.map(project)};
   });
-  return {anchor,depth,half,center,profile,fullness,lobes};
+  return {anchor,depth,support,half,center,gap,fullness,lobes};
 }
 
 const point=([x,y])=>`${Number(x.toFixed(3))},${Number(y.toFixed(3))}`;
@@ -78,13 +77,22 @@ const trace=(start,segments)=>'M'+point(start)+segments.map(segment=>'C'+segment
 const blend=(skin,tint,weight)=>'#'+rgb(skin).map((value,i)=>
   Math.round(255*(value*(1-weight)+tint[i]*weight)).toString(16).padStart(2,'0')).join('');
 
-export function chestMarkup(shape, skin, clip) {
-  const light=blend(skin,[1,.93,.78],.125-.042*shape.fullness);
-  const side=blend(skin,[.24,.13,.09],.115-.028*shape.fullness);
-  const shadow=blend(skin,[.24,.13,.09],.235-.045*shape.fullness);
-  return `<g data-chest="adult-f" clip-path="url(#${clip})" aria-hidden="true">${shape.lobes.map(({base,segments,lateral,underside})=>
-    `<path d="${trace(base[0],segments)}Z" fill="${light}"/>`+
-    `<path d="${trace(base[2],[...segments.slice(2,4),lateral])}Z" fill="${side}"/>`+
-    `<path d="${trace(base[3],[...segments.slice(3,6),underside])}Z" fill="${shadow}"/>`
+export function chestOverlay(body, chest, corpulence, {skin, contour}, studySkin, makeId) {
+  const shape=chestGeometry(body,chest,corpulence);
+  const paths=shape.lobes.map(({base,segments})=>trace(base[0],segments)+'Z');
+  const id=makeId(paths.join(''));
+  const cover=id+'-cover', outside=id+'-outside';
+  const sideTone=blend(studySkin,[.24,.13,.09],.085-.018*shape.fullness);
+  const lowerTone=blend(studySkin,[.24,.13,.09],.220-.035*shape.fullness);
+  const limits='x="-900" y="-900" width="1800" height="1800"';
+  const definitions=`<defs data-chest-definitions=""><mask id="${cover}" maskUnits="userSpaceOnUse" ${limits} style="mask-type:luminance"><rect ${limits} fill="white"/>${
+    paths.map(d=>`<path d="${d}" fill="black"/>`).join('')}</mask>`+
+    `<clipPath id="${outside}"><path d="M-900,-900H900V900H-900Z ${body.path}" clip-rule="evenodd"/></clipPath></defs>`;
+  const markup=`<g data-chest="adult-f" aria-hidden="true">${shape.lobes.map(({base,segments,side,lower},i)=>
+    `<path data-chest-surface d="${paths[i]}" fill="${skin}"/>`+
+    `<path d="${trace(base[0],[...segments.slice(0,2),side])}Z" fill="${sideTone}"/>`+
+    `<path d="${trace(base[1],[...segments.slice(1,6),lower])}Z" fill="${lowerTone}"/>`+
+    `<path data-chest-edge d="${paths[i]}" fill="none" stroke="${contour}" stroke-width="4.2" stroke-linejoin="round" clip-path="url(#${outside})"/>`
   ).join('')}</g>`;
+  return {definitions,cover,markup};
 }

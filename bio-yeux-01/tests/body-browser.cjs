@@ -7,14 +7,15 @@ const {chromium, webkit, devices} = require('playwright');
 
 const mission = process.env.PREVIEW_MISSION ?? 'BIO-CORPS-01';
 const chestPreview = mission === 'BIO-CORPS-04-A';
-const chestCorrection = mission === 'BIO-CORPS-04-A-R01';
+const chestR02 = mission === 'BIO-CORPS-04-A-R02';
+const chestCorrection = mission === 'BIO-CORPS-04-A-R01' || chestR02;
 const corpulenceCorrection = mission === 'BIO-CORPS-03-R01' || chestPreview || chestCorrection;
 const corpulencePreview = mission === 'BIO-CORPS-03' || corpulenceCorrection;
 const structurePreview = mission === 'BIO-CORPS-02' || corpulencePreview;
 const pages = 'https://thsethse.github.io/Microcosme/preview/';
 const output = process.env.ARTIFACT_DIR ?? '/tmp/microcosme-' + mission.toLowerCase();
 const published = pages + mission.toLowerCase() + '/';
-const predecessors = {'BIO-CORPS-04-A-R01':'bio-corps-04-a/', 'BIO-CORPS-04-A':'bio-corps-03-r01/', 'BIO-CORPS-03-R01':'bio-corps-03/', 'BIO-CORPS-03':'bio-corps-02/', 'BIO-CORPS-02':'bio-corps-01/'};
+const predecessors = {'BIO-CORPS-04-A-R02':'bio-corps-04-a-r01/', 'BIO-CORPS-04-A-R01':'bio-corps-04-a/', 'BIO-CORPS-04-A':'bio-corps-03-r01/', 'BIO-CORPS-03-R01':'bio-corps-03/', 'BIO-CORPS-03':'bio-corps-02/', 'BIO-CORPS-02':'bio-corps-01/'};
 const referenceURL = process.env.REFERENCE_URL ?? pages + (predecessors[mission] ?? 'bio-yeux-r01/');
 const local = process.env.PREVIEW_DIR;
 const engines = {chromium, webkit};
@@ -479,6 +480,40 @@ async function checkChest(page, url, name) {
   return {edits,presets:variants.size,cases:37,skins:skins.length,scales:3,restored:2};
 }
 
+async function checkChestOcclusion(page) {
+  const proof=await page.locator('#structure-live svg').evaluate(async svg=>{
+    const outline=svg.querySelector('.body-shape > path');
+    const right=svg.querySelectorAll('[data-chest-surface]')[1];
+    const stroke=svg.querySelector('[data-chest-occlusion]');
+    const probes=[];
+    for(let distance=0;distance<outline.getTotalLength();distance+=.9) {
+      const {x,y}=outline.getPointAtLength(distance);
+      if(x>80 && y>141 && y<183 && [[0,0],[3,0],[-3,0],[0,3],[0,-3]].every(([dx,dy])=>
+        right.isPointInFill(new DOMPoint(x+dx,y+dy)))) probes.push([x,y]);
+    }
+    const raster=async visible=>{
+      const picture=svg.cloneNode(true);
+      picture.setAttribute('viewBox','0 115 160 100');
+      picture.setAttribute('width','640'); picture.setAttribute('height','400');
+      if(!visible) {
+        picture.querySelector('[data-chest]').remove();
+        picture.querySelector('[data-chest-occlusion]').removeAttribute('mask');
+      }
+      const image=new Image();
+      image.src='data:image/svg+xml,'+encodeURIComponent(new XMLSerializer().serializeToString(picture));
+      await image.decode();
+      const canvas=document.createElement('canvas');canvas.width=640;canvas.height=400;
+      const context=canvas.getContext('2d');context.drawImage(image,0,0);
+      return probes.map(([x,y])=>Array.from(context.getImageData(Math.round(x*4),Math.round((y-115)*4),1,1).data));
+    };
+    const [first,second]=await Promise.all([raster(false),raster(true)]);
+    const covered=second.filter(([r,g,b,a],i)=>a===255 && Math.abs(r-first[i][0])+Math.abs(g-first[i][1])+Math.abs(b-first[i][2])>14).length;
+    return {probes:probes.length,covered,matchingPath:outline.getAttribute('d')===stroke.getAttribute('d')};
+  });
+  assert(proof.matchingPath && proof.covered>=5 && proof.covered===proof.probes,JSON.stringify(proof));
+  return proof.covered;
+}
+
 async function checkChestCorrection(page, old, url, name) {
   const {chestControls,chestStops,referenceChest}=await import('../chest.mjs');
   const {outlineCurves,stripX}=await import('../bezier.mjs');
@@ -504,14 +539,23 @@ async function checkChestCorrection(page, old, url, name) {
     assert.equal(await q('#chest-volume').getAttribute('aria-valuetext'),`${volume} % · ${label}`);
     assert.equal(await enabled(),volume ? 6 : 1);
     const path=await bodyPath(page);
-    if(volume<=50) assert.equal(path,base);
+    if(chestR02 || volume<=50) assert.equal(path,base);
     else assert.notEqual(path,base);
     images.push(await compare(page));
   }
   assert.deepEqual([0,1,2].map(index=>new Set(images.map(image=>image[index].raster)).size),[5,5,5]);
-  const at=(path,y)=>Math.max(...stripX(outlineCurves(path),y));
-  assert(at(await bodyPath(page),148)>at(base,148)+9);
-  assert.equal(at(await bodyPath(page),217),at(base,217));
+  let covered;
+  if(chestR02) {
+    await setRange(page,'corpulence',0);
+    await setRange(page,'chest-width',100);
+    covered=await checkChestOcclusion(page);
+    await setRange(page,'corpulence',50);
+    await setRange(page,'chest-width',referenceChest.width);
+  } else {
+    const at=(path,y)=>Math.max(...stripX(outlineCurves(path),y));
+    assert(at(await bodyPath(page),148)>at(base,148)+9);
+    assert.equal(at(await bodyPath(page),217),at(base,217));
+  }
   await setRange(page,'chest-volume',75);
   for(const [key,{min,max,neutral}] of Object.entries(chestControls)) {
     const slider=q('#chest-'+key);
@@ -524,6 +568,7 @@ async function checkChestCorrection(page, old, url, name) {
     assert.equal(Number(await slider.inputValue()),max);
     assert.notDeepEqual(await activePaths(),before,key);
     await setRange(page,'chest-'+key,key==='volume' ? 75 : neutral);
+    if(chestR02) assert.equal(await bodyPath(page),base);
   }
   await q('#body').selectOption('adult-h');
   assert(!await q('#chest-panel').isVisible());
@@ -534,19 +579,26 @@ async function checkChestCorrection(page, old, url, name) {
   await setRange(old,'corpulence',83.125);
   await setRange(old,'structure-thorax',76);
   await setRange(old,'chest-volume',80);
-  await setRange(old,'chest-divergence',-32.75);
-  await setRange(old,'chest-position',68.5);
+  if(chestR02) {
+    const previous=JSON.parse(await exportAppearance(old));
+    Object.assign(previous,{version:14,renderer:'bio-corps-04-a-svg@1'});
+    Object.assign(previous.character.chest,{divergence:-32.75,position:68.5});
+    await importAppearance(old,JSON.stringify(previous));
+  } else {
+    await setRange(old,'chest-divergence',-32.75);
+    await setRange(old,'chest-position',68.5);
+  }
   const legacy=await exportAppearance(old);
-  assert.equal(JSON.parse(legacy).version,14);
+  assert.equal(JSON.parse(legacy).version,chestR02 ? 15 : 14);
   await ready(page,url);
   await importAppearance(page,legacy);
-  assert.match(await q('#appearance-message').textContent(),/v14 adaptée à R01/);
+  assert.match(await q('#appearance-message').textContent(),chestR02 ? /v15 ouverte avec le rendu R02/ : /v14 adaptée à R01/);
   assert.equal(await q('#chest-volume').inputValue(),'80');
   assert.equal(await q('#structure-thorax').inputValue(),'76');
   assert.equal(await q('#corpulence').inputValue(),'83.125');
   const active=await exportAppearance(page);
   const archive=JSON.parse(active);
-  assert.equal(archive.version,15);
+  assert.equal(archive.version,chestR02 ? 16 : 15);
   assert.deepEqual(archive.character.chest,{...referenceChest,volume:80});
   assert.deepEqual(archive.character.chestOrigin,{divergence:-32.75,position:68.5});
   await ready(page,url);
@@ -562,9 +614,11 @@ async function checkChestCorrection(page, old, url, name) {
   await q('nav a[href="#planche-poitrine"]').click();
   const panel=q('#planche-poitrine');
   await panel.locator('[data-chest-case]').first().waitFor({state:'attached'});
-  assert.deepEqual(await Promise.all(['volume','form','context'].map(kind=>q(`#chest-${kind}-cases article`).count())),[5,15,9]);
-  assert.equal(await panel.locator('[data-chest-phase="after"] [data-chest]').count(),28);
-  assert.equal(await panel.locator('[data-chest-phase="before"] [data-chest]').count(),28);
+  const counts=chestR02 ? {volume:5,heavy:4,form:15,context:11} : {volume:5,form:15,context:9};
+  const pairCount=Object.values(counts).reduce((a,b)=>a+b,0);
+  assert.deepEqual(await Promise.all(Object.keys(counts).map(kind=>q(`#chest-${kind}-cases article`).count())),Object.values(counts));
+  assert.equal(await panel.locator('[data-chest-phase="after"] [data-chest]').count(),pairCount-1);
+  assert.equal(await panel.locator('[data-chest-phase="before"] [data-chest]').count(),pairCount-1);
   const palette=q('#chest-study-skin');
   const skins=await palette.locator('option').evaluateAll(options=>options.map(({value})=>value));
   assert.equal(skins.length,4);
@@ -574,20 +628,26 @@ async function checkChestCorrection(page, old, url, name) {
     for(const [scale,height] of [['head',300],['mini',70],['tile',178]]) {
       await q('#chest-study-scale').selectOption(scale);
       const heights=await panel.locator('svg').evaluateAll(nodes=>nodes.map(node=>node.getBoundingClientRect().height));
-      assert.equal(heights.length,58);
+      assert.equal(heights.length,2*pairCount);
       assert(heights.every(value=>value===height));
     }
   }
   await q('#chest-study-scale').selectOption('detail');
   await palette.selectOption(skins[0]);
-  for(const id of ['volume-25','volume-50','volume-75','volume-100','width-100','fine-0']) {
-    await panel.locator(`[data-chest-case="${id}"]`).screenshot({path:path.join(output,`${name}-chest-r01-${id}.png`)});
+  const ids=['volume-25','volume-50','volume-75','volume-100','width-100','fine-0'];
+  if(chestR02) {
+    ids.push('heavy-25','heavy-100','extreme-min','extreme-max');
+    assert.equal(await panel.locator('[data-chest-phase="after"] svg').first().getAttribute('viewBox'),'10 115 140 88');
+  }
+  for(const id of ids) {
+    await panel.locator(`[data-chest-case="${id}"]`).screenshot({path:path.join(output,`${name}-chest-${chestR02 ? 'r02' : 'r01'}-${id}.png`)});
   }
   for(const width of [390,820,1180]) {
     await page.setViewportSize({width,height:920});
     assert(await page.evaluate(w=>document.documentElement.scrollWidth<=w+1,width));
   }
-  return {edits:6, volumes:5, pairs:29, skins:4, scales:3, v14Migrated:1, v15Restored:2};
+  return {edits:6, volumes:5, pairs:pairCount, skins:4, scales:3,
+    ...(chestR02 ? {covered,v15Migrated:1,v16Restored:2} : {v14Migrated:1,v15Restored:2})};
 }
 
 async function exercise(context, url, name, version) {

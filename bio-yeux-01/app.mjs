@@ -83,7 +83,7 @@ function inputFor(key) {
 }
 
 const frames = {head: '-30 -65 220 225', tile: '-40 -85 240 355', mini: '-35 -68 230 245'};
-function svg({key, body, structure, corpulence, chest, chestStudySkin, beforeChestCorrection, beforeCorpulenceCorrection, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null, beard = null, beardCategory, marks = null, scars = null, makeup = null} = {}) {
+function svg({key, body, structure, corpulence, chest, chestStudySkin, chestRevision, beforeCorpulenceCorrection, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null, beard = null, beardCategory, marks = null, scars = null, makeup = null} = {}) {
   const input = inputFor(key);
   if (body !== undefined) {
     input.body = body;
@@ -93,7 +93,7 @@ function svg({key, body, structure, corpulence, chest, chestStudySkin, beforeChe
   }
   const result = character(input, {
     eyes: value, iris:pigment, details, brows, mouth, nose, beard, beardCategory, marks, scars, makeup, eyeEnvelopes: guides, hairColor: hair, rememberedHairColor: colour, headOnly: view !== 'tile',
-    smallScale: view === 'mini', naturalEyes, beforeCorpulenceCorrection, beforeChestCorrection, chestStudySkin, instance: 'atelier-yeux-' + (++serial)
+    smallScale: view === 'mini', naturalEyes, beforeCorpulenceCorrection, chestRevision, chestStudySkin, instance: 'atelier-yeux-' + (++serial)
   }).replace(/viewBox="[^"]*"/, `viewBox="${frame}"`);
   return decorative ? result.replace('<svg ', '<svg aria-hidden="true" focusable="false" ') : result;
 }
@@ -679,8 +679,9 @@ q('#appearance-import').addEventListener('click', () => {
     morphForm = 'custom';
     category = swatch(colour).category;
     q('#appearance-error').textContent = '';
-    q('#appearance-message').textContent = restored.migratedChest
-      ? 'Apparence v14 adaptée à R01. Les deux anciennes valeurs de poitrine sont conservées dans le prochain export v15.'
+    const importedVersion = restored.importedChestVersion;
+    q('#appearance-message').textContent = importedVersion
+      ? `Apparence v${importedVersion} ouverte avec le rendu R02. Les réglages et les données d’origine sont conservés dans l’export v16.`
       : 'Apparence complète restaurée.';
     refreshCharacter();
   } catch (error) {

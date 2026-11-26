@@ -1,6 +1,7 @@
 import {referenceStructure, validateStructure} from './body-structure.mjs';
 import {corpulenceEnvelope, previousCorpulence, referenceCorpulence} from './body-corpulence.mjs';
-import {chestGeometry, chestMarkup} from './chest.mjs';
+import {chestOverlay} from './chest.mjs';
+import {chestGeometryR01, chestMarkupR01} from './chest-r01.mjs';
 import {previousChestMarkup} from './chest-before.mjs';
 
 export const anatomyLevels = Object.freeze([
@@ -149,16 +150,21 @@ export function adultBodyGeometry(key, [axis, chinY], structure = referenceStruc
 }
 
 export function adultBodyMarkup(key, chin, {skin, contour}, structure, corpulence, beforeCorrection,
-    {chest, chestStudySkin = skin, beforeChestCorrection, clipId} = {}) {
+    {chest, chestStudySkin = skin, chestRevision, beforeChestCorrection, clipId} = {}) {
   const body = adultBodyGeometry(key, chin, structure, corpulence, beforeCorrection);
   const start=`<g class="body-shape" data-adult-body="${key}">`;
-  const perimeter=(path,fill)=>`<path d="${path}" fill="${fill}" stroke="${contour}" stroke-width="4.2" stroke-linejoin="round"/>`;
+  const perimeter=(path,fill,attributes='')=>`<path d="${path}" fill="${fill}" stroke="${contour}" stroke-width="4.2" stroke-linejoin="round"${attributes}/>`;
   const baseline=start+perimeter(body.path,skin)+'</g>';
   if (key!=='adult-f' || !chest?.volume) return baseline;
   if (beforeChestCorrection) return baseline+previousChestMarkup(body,{...chest,divergence:0,position:52},corpulence,chestStudySkin);
-  const shape=chestGeometry(body,chest,corpulence);
-  const path=shape.profile.amplitude ? body.exteriorPath(shape.profile) : body.path;
-  const clip=clipId(path);
-  return `${start}<path d="${path}" fill="${skin}"/><defs><clipPath id="${clip}"><path d="${path}"/></clipPath></defs>${
-    chestMarkup(shape,chestStudySkin,clip)}${perimeter(path,'none')}</g>`;
+  if (chestRevision==='r01') {
+    const shape=chestGeometryR01(body,chest,corpulence);
+    const path=shape.profile.amplitude ? body.exteriorPath(shape.profile) : body.path;
+    const clip=clipId(path);
+    return `${start}<path d="${path}" fill="${skin}"/><defs><clipPath id="${clip}"><path d="${path}"/></clipPath></defs>${
+      chestMarkupR01(shape,chestStudySkin,clip)}${perimeter(path,'none')}</g>`;
+  }
+  const {definitions,cover,markup}=chestOverlay(body,chest,corpulence,{skin,contour},chestStudySkin,clipId);
+  return `${definitions}${start}<path d="${body.path}" fill="${skin}"/>${
+    perimeter(body.path,'none',` mask="url(#${cover})" data-chest-occlusion=""`)}</g>${markup}`;
 }

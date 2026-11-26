@@ -46,9 +46,10 @@ export const structureRenderVersion = 'bio-corps-02-svg@1';
 export const corpulenceAppearanceVersion = 13;
 export const corpulenceRenderVersion = 'bio-corps-03-svg@1';
 const previousChestAppearanceVersion = 14;
-export const chestAppearanceVersion = 15;
-export const chestRenderVersion = 'bio-corps-04-a-r01-svg@1';
-const renderers = {1:renderVersion, 2:irisRenderVersion, 3:detailsRenderVersion, 4:browRenderVersion, 5:mouthRenderVersion, 6:noseRenderVersion, 7:beardRenderVersion, 8:marksRenderVersion, 9:scarRenderVersion, 10:makeupRenderVersion, 11:bodyRenderVersion, 12:structureRenderVersion, 13:corpulenceRenderVersion, 14:'bio-corps-04-a-svg@1', 15:chestRenderVersion};
+const chestR01AppearanceVersion = 15;
+export const chestAppearanceVersion = 16;
+export const chestRenderVersion = 'bio-corps-04-a-r02-svg@1';
+const renderers = {1:renderVersion, 2:irisRenderVersion, 3:detailsRenderVersion, 4:browRenderVersion, 5:mouthRenderVersion, 6:noseRenderVersion, 7:beardRenderVersion, 8:marksRenderVersion, 9:scarRenderVersion, 10:makeupRenderVersion, 11:bodyRenderVersion, 12:structureRenderVersion, 13:corpulenceRenderVersion, 14:'bio-corps-04-a-svg@1', 15:'bio-corps-04-a-r01-svg@1', 16:chestRenderVersion};
 
 export function characterInput(selection, key = selection.key) {
   const {style, arrangement} = choice(key);
@@ -295,14 +296,17 @@ export function parseAppearance(text) {
     settings.makeupLatent = data.makeup.mode === 'historical' ? data.makeup.latent : null;
   }
   const rebuilt = appearanceDocument(selection, settings);
+  const adoptedChest = migratedChest || data.version===chestR01AppearanceVersion;
+  if (adoptedChest) {
+    rebuilt.version=data.version;
+    rebuilt.renderer=renderers[data.version];
+  }
   if (migratedChest) {
-    rebuilt.version=previousChestAppearanceVersion;
-    rebuilt.renderer=renderers[previousChestAppearanceVersion];
     Object.assign(rebuilt.character.chest,rebuilt.character.chestOrigin);
     delete rebuilt.character.chestOrigin;
   }
   if (!identical(rebuilt, data)) throw new Error('Données effectives incompatibles avec la sélection et les demandes.');
   // Verify and retain the requests for editing. They replay the archived
   // effective values exactly under this supported renderer version.
-  return {selection, ...settings, ...(migratedChest ? {migratedChest:true} : {})};
+  return {selection, ...settings, ...(adoptedChest ? {importedChestVersion:data.version} : {})};
 }
