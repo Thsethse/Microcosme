@@ -36,6 +36,8 @@
     <a href="#planche-pli-nombril">Planche du pli et du nombril</a>
     <a href="#diagnostic-pelvien">Diagnostic pelvien</a>
     <a href="#atelier-thorax">Atelier du thorax</a>
+    <a href="#atelier-bassin">Atelier du bassin</a>
+    <a href="#planche-anatomie-pelvienne">Planche pelvienne H/F</a>
     <a href="#iris">Iris et pupilles</a>
     <a href="#planche">Planche des formes</a>
     <a href="#personnage">Personnage et palette</a>
@@ -586,6 +588,23 @@
       <div id="pelvic-study-cases"></div>
     </details>
   </section>
+  <section aria-label="Planche de l’anatomie pelvienne adulte">
+    <details class="card" id="planche-anatomie-pelvienne">
+      <summary>Anatomie pelvienne et pilosité</summary>
+      <div class="corpulence-study-controls">
+        <label class="structure-scale">Échelle<select id="pubic-study-scale">
+          <option value="detail">Bassin · détail</option><option value="tile">Corps · 178 px</option>
+          <option value="head">Échelle tête · 300 px · cadrage pelvien</option>
+          <option value="mini">Miniature · 70 × 70 px · cadrage pelvien</option>
+        </select></label>
+        <label class="structure-scale">Ossature<select id="pubic-study-structure"></select></label>
+        <label class="structure-scale">Corpulence<select id="pubic-study-corpulence"></select></label>
+        <label class="structure-scale">Teinte de peau<select id="pubic-study-skin"></select></label>
+        <label class="structure-scale">Couleur des cheveux<select id="pubic-study-hair"></select></label>
+      </div>
+      <div id="pubic-study-cases"></div>
+    </details>
+  </section>
   <section id="personnage">
     <h2>Personnage et palette</h2>
     <div class="configuration">
@@ -654,6 +673,21 @@
               <div id="thorax-live-detail" class="surface thorax-detail" hidden></div>
               <div id="abdominal-live-detail" class="surface pelvic-detail"></div>
             </div>
+          </div>
+        </div>
+        <div id="atelier-bassin">
+          <h3>Atelier du bassin</h3>
+          <div class="actions thorax-actions" aria-label="Bases anatomiques adultes">
+            <button type="button" data-pubic-body="adult-h" aria-controls="pubic-controls" aria-pressed="false">Base H adulte</button>
+            <button type="button" data-pubic-body="adult-f" aria-controls="pubic-controls" aria-pressed="false">Base F adulte</button>
+          </div>
+          <div id="pubic-controls" class="structure-layout" hidden>
+            <label class="slider" for="pubic-hair-length">
+              <span>Longueur de la pilosité pubienne <output id="pubic-hair-value" for="pubic-hair-length"></output></span>
+              <input id="pubic-hair-length" type="range" min="0" max="100" step="any" value="0" list="pubic-hair-stops">
+            </label>
+            <datalist id="pubic-hair-stops"></datalist>
+            <div id="pubic-live-detail" class="surface pubic-detail"></div>
           </div>
         </div>
         <label>Morphologie du visage<select id="morph"></select></label>

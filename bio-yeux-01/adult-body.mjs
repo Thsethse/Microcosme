@@ -6,6 +6,7 @@ import {thoraxDetailsMarkup} from './thorax-details.mjs';
 import {boneReliefMarkup} from './body-bone-reliefs.mjs';
 import {abdominalMarkup} from './abdominals.mjs';
 import {bellyDetailsMarkup} from './belly-details.mjs';
+import {pelvicDetailsMarkup} from './pelvic-details.mjs';
 import {bellyDetailsMarkup as bellyBeforeMarkup, referenceNavel} from './belly-details-before.mjs';
 import {chestGeometryR01, chestMarkupR01} from './chest-r01.mjs';
 import {previousChestMarkup} from './chest-before.mjs';
@@ -156,7 +157,8 @@ export function adultBodyGeometry(key, [axis, chinY], structure = referenceStruc
 }
 
 export function adultBodyMarkup(key, chin, {skin, contour}, structure, corpulence, beforeCorrection,
-    {chest, pectorals, thoraxDetails, abdominals, bellyFinish, boneReliefs, smallScale, chestStudySkin = skin, chestRevision, beforeChestCorrection, clipId} = {}) {
+    {chest, pectorals, thoraxDetails, abdominals, bellyFinish, pelvicDetails, pubicHairLength, pubicHairPigment,
+      boneReliefs, smallScale, chestStudySkin = skin, chestRevision, beforeChestCorrection, clipId} = {}) {
   const body = adultBodyGeometry(key, chin, structure, corpulence, beforeCorrection);
   const start=`<g class="body-shape" data-adult-body="${key}">`;
   const perimeter=(path,fill,attributes='')=>`<path d="${path}" fill="${fill}" stroke="${contour}" stroke-width="4.2" stroke-linejoin="round"${attributes}/>`;
@@ -175,8 +177,11 @@ export function adultBodyMarkup(key, chin, {skin, contour}, structure, corpulenc
   const details=thoraxDetails && !historical
     ? thoraxDetailsMarkup(body,key,thoraxDetails,chestStudySkin,smallScale,{chest,pectorals,corpulence},
       bellyFinish==='r01') : '';
-  if (key==='adult-h' && pectorals?.volume) return baseline+muscles+belly+bones+pectoralMarkup(body,pectorals,corpulence,chestStudySkin)+details;
-  if (key!=='adult-f' || !chest?.volume) return baseline+muscles+belly+bones+details;
+  const pelvis=pelvicDetails && !beforeCorrection && !historical
+    ? pelvicDetailsMarkup(body,key,corpulence,chestStudySkin,pubicHairPigment,pubicHairLength,smallScale) : '';
+  const surface=muscles+belly+bones+pelvis;
+  if (key==='adult-h' && pectorals?.volume) return baseline+surface+pectoralMarkup(body,pectorals,corpulence,chestStudySkin)+details;
+  if (key!=='adult-f' || !chest?.volume) return baseline+surface+details;
   if (beforeChestCorrection) return baseline+previousChestMarkup(body,{...chest,divergence:0,position:52},corpulence,chestStudySkin);
   if (chestRevision==='r01') {
     const shape=chestGeometryR01(body,chest,corpulence);
@@ -187,5 +192,5 @@ export function adultBodyMarkup(key, chin, {skin, contour}, structure, corpulenc
   }
   const {definitions,cover,markup}=chestOverlay(body,chest,corpulence,{skin,contour},chestStudySkin,clipId);
   return `${definitions}${start}<path d="${body.path}" fill="${skin}"/>${
-    perimeter(body.path,'none',` mask="url(#${cover})" data-chest-occlusion=""`)}</g>${muscles}${belly}${bones}${markup}${details}`;
+    perimeter(body.path,'none',` mask="url(#${cover})" data-chest-occlusion=""`)}</g>${surface}${markup}${details}`;
 }

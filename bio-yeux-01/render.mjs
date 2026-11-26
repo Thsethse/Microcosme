@@ -6,7 +6,8 @@ import {palette} from '../preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/r1/p2/base/m
 import {eyeStroke, eyesFor, normalizeEyes} from './eyes.mjs';
 import {irisMarkup, pigmentCenters, solveIris} from './iris.mjs';
 import {detailFrame, detailsMarkup, naturalOutlineMarkup, solveDetails} from './details.mjs';
-import {browMarkup, solveBrows} from './brows.mjs';
+import {browMarkup, facialPigment, solveBrows} from './brows.mjs';
+import {hasAdultPelvis} from './pelvic-details.mjs';
 import {inheritedMouth, inheritedNose, mouthMarkup, solveMouth} from './mouth.mjs';
 import {noseMarkup, solveNose} from './nose.mjs';
 import {beardCategoryOf, beardMarkup, solveBeard} from './beard.mjs';
@@ -83,10 +84,14 @@ function guides({envelopes, nose, maxWidth, maxHeight}) {
 export function character(input = {}, options = {}) {
   const inheritedSvg = inherited(input, options);
   const adultFace = isAdultBody(input.body) ? model(input) : null;
+  const pelvicDetails = (options.pelvicDetails ?? (input.pubicHairLength !== undefined)) && hasAdultPelvis(input.body,input.age);
+  const pubicHairPigment = pelvicDetails && input.pubicHairLength > 0
+    ? facialPigment(adultFace,{colourMode:'linked'},{...options,source:inheritedSvg}).fill : undefined;
   const svg = adultFace ? inheritedSvg.replace(/<g class="body-shape">[^]*?<\/g>/,
     () => adultBodyMarkup(input.body, adultFace.anchors.chin, palette, input.structure, input.corpulence,
       options.beforeCorpulenceCorrection, {chest:input.chest,pectorals:input.pectorals,thoraxDetails:input.thoraxDetails,abdominals:input.abdominals,
         bellyFinish:options.bellyFinish,boneReliefs:options.boneReliefs,smallScale:options.smallScale,chestStudySkin:options.chestStudySkin,
+        pelvicDetails,pubicHairLength:input.pubicHairLength,pubicHairPigment,
         chestRevision:options.chestRevision,beforeChestCorrection:options.beforeChestCorrection,
         clipId:path=>clipId(path,options.instance,'chest')})) : inheritedSvg;
   const selected = normalizeEyes(options.eyes);

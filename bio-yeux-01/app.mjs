@@ -18,6 +18,8 @@ import {renderBoneReliefStudy} from './bone-relief-study.mjs';
 import {abdominalControls, referenceAbdominals} from './abdominals.mjs';
 import {renderAbdominalStudy} from './abdominal-study.mjs';
 import {pelvicDetailFrame, renderBellyDetailStudy, renderPelvicStudy} from './belly-detail-study.mjs';
+import {pubicHairStops, referencePubicHairLength} from './pelvic-details.mjs';
+import {pelvicCloseup, pelvicStudyHair, renderPelvicAnatomyStudy} from './pelvic-anatomy-study.mjs';
 import {renderStructureStudy} from './structure-study.mjs';
 import {appearanceDocument, characterInput, parseAppearance} from './appearance.mjs';
 import {currentDraw, drawEyes, legacyDraw} from './draw.mjs';
@@ -91,7 +93,7 @@ function inputFor(key) {
 }
 
 const frames = {head: '-30 -65 220 225', tile: '-40 -85 240 355', mini: '-35 -68 230 245'};
-function svg({key, body, structure, corpulence, chest, pectorals, thoraxDetails, abdominals, chestStudySkin, chestRevision, beforeCorpulenceCorrection, boneReliefs = body===undefined, bellyFinish = body===undefined, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null, beard = null, beardCategory, marks = null, scars = null, makeup = null} = {}) {
+function svg({key, body, structure, corpulence, chest, pectorals, thoraxDetails, abdominals, pubicHairLength, chestStudySkin, chestRevision, beforeCorpulenceCorrection, boneReliefs = body===undefined, bellyFinish = body===undefined, pelvicDetails = body===undefined, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null, beard = null, beardCategory, marks = null, scars = null, makeup = null} = {}) {
   const input = inputFor(key);
   if (body !== undefined) {
     input.body = body;
@@ -101,10 +103,11 @@ function svg({key, body, structure, corpulence, chest, pectorals, thoraxDetails,
     input.pectorals = pectorals;
     input.thoraxDetails = thoraxDetails;
     input.abdominals = abdominals;
+    input.pubicHairLength = pubicHairLength;
   }
   const result = character(input, {
     eyes: value, iris:pigment, details, brows, mouth, nose, beard, beardCategory, marks, scars, makeup, eyeEnvelopes: guides, hairColor: hair, rememberedHairColor: colour, headOnly: view !== 'tile',
-    smallScale: view === 'mini', naturalEyes, beforeCorpulenceCorrection, chestRevision, chestStudySkin, boneReliefs, bellyFinish, instance: 'atelier-yeux-' + (++serial)
+    smallScale: view === 'mini', naturalEyes, beforeCorpulenceCorrection, chestRevision, chestStudySkin, boneReliefs, bellyFinish, pelvicDetails, instance: 'atelier-yeux-' + (++serial)
   }).replace(/viewBox="[^"]*"/, `viewBox="${frame}"`);
   return decorative ? result.replace('<svg ', '<svg aria-hidden="true" focusable="false" ') : result;
 }
@@ -276,6 +279,9 @@ function renderComparison() {
     const abdomen=q('#abdominal-live-detail');
     abdomen.className='surface pelvic-detail '+background;
     abdomen.innerHTML=renderBody({view:'tile',frame:pelvicDetailFrame});
+    const pelvis=q('#pubic-live-detail');
+    pelvis.className='surface pubic-detail '+background;
+    pelvis.innerHTML=renderBody({view:'tile',frame:pelvicCloseup});
   }
   const bodyStudy = q('#planche-corps');
   if (bodyStudy.open) {
@@ -299,6 +305,8 @@ function renderComparison() {
   if (bellyDetailStudy.open) renderBellyDetailStudy(bellyDetailStudy,{render:renderBody,background});
   const pelvicStudy=q('#diagnostic-pelvien');
   if (pelvicStudy.open) renderPelvicStudy(pelvicStudy,{render:renderBody,chin:model(inputFor('shaved:U')).anchors.chin,background});
+  const pubicStudy=q('#planche-anatomie-pelvienne');
+  if (pubicStudy.open) renderPelvicAnatomyStudy(pubicStudy,{render:renderBody,background});
 
   const {envelopes:[left,right],maxWidth,reference}=eyesFor(inputFor(),null).face;
   const x=left.x-maxWidth/2-2, width=right.x+maxWidth/2+2-x;
@@ -363,9 +371,11 @@ function renderChart() {
 }
 
 function rememberBody() {
-  const {body, structure, corpulence, chest, chestOrigin, pectorals, thoraxDetails, abdominals} = selection.state;
+  const {body, structure, corpulence, chest, chestOrigin, pectorals, thoraxDetails, abdominals, pubicHairLength} = selection.state;
   if (!isAdultBody(body)) return;
-  if (structure || corpulence !== undefined || chest || pectorals || thoraxDetails || abdominals) bodyPreferences.set(body, {structure, corpulence, chest, chestOrigin, pectorals, thoraxDetails, abdominals});
+  if (structure || corpulence !== undefined || chest || pectorals || thoraxDetails || abdominals || pubicHairLength !== undefined) {
+    bodyPreferences.set(body, {structure, corpulence, chest, chestOrigin, pectorals, thoraxDetails, abdominals, pubicHairLength});
+  }
   else bodyPreferences.delete(body);
 }
 
@@ -373,11 +383,12 @@ function syncBodyControls() {
   const {body}=selection.state;
   const active=isAdultBody(body);
   q('#body-controls').hidden=!active;
+  q('#pubic-controls').hidden=!active;
   q('#thorax-details-link').hidden=!active;
   q('#corpulence-link').hidden=!active;
   q('#abdominal-link').hidden=!active;
-  for(const button of document.querySelectorAll('[data-thorax-body]')) {
-    button.setAttribute('aria-pressed',String(button.dataset.thoraxBody===body));
+  for(const button of document.querySelectorAll('[data-thorax-body],[data-pubic-body]')) {
+    button.setAttribute('aria-pressed',String((button.dataset.thoraxBody ?? button.dataset.pubicBody)===body));
   }
   const chestActive=body==='adult-f', pectoralsActive=body==='adult-h';
   q('#chest-panel').hidden = !chestActive;
@@ -385,6 +396,12 @@ function syncBodyControls() {
   if (chestActive) syncThoraxControls('chest',selection.state.chest ?? referenceChest,chestStops);
   if (pectoralsActive) syncThoraxControls('pectoral',selection.state.pectorals ?? referencePectorals,[[0,'Plat'],[100,'Très musclé']]);
   if (!active) return;
+  const length=selection.state.pubicHairLength ?? referencePubicHairLength;
+  const lengthStop=pubicHairStops.find(([value])=>value===length);
+  const descriptionLength=`${format.format(length)} %${lengthStop ? ' · '+lengthStop[1] : ''}`;
+  q('#pubic-hair-length').value=length;
+  q('#pubic-hair-length').setAttribute('aria-valuetext',descriptionLength);
+  q('#pubic-hair-value').textContent=descriptionLength;
   syncThoraxControls('abdominal',selection.state.abdominals ?? referenceAbdominals,[[0,'Plat'],[100,'Très musclé']]);
   const thoraxDetails=selection.state.thoraxDetails;
   q('#thorax-details-note').hidden=Boolean(thoraxDetails);
@@ -472,9 +489,10 @@ function setSelection(raw, form = morphForm, trigger = document.activeElement, {
   onApply, body = selection.state.body, structure = bodyPreferences.get(body)?.structure,
   corpulence = bodyPreferences.get(body)?.corpulence, chest = bodyPreferences.get(body)?.chest,
   chestOrigin = bodyPreferences.get(body)?.chestOrigin, pectorals = bodyPreferences.get(body)?.pectorals,
-  thoraxDetails = bodyPreferences.get(body)?.thoraxDetails, abdominals = bodyPreferences.get(body)?.abdominals
+  thoraxDetails = bodyPreferences.get(body)?.thoraxDetails, abdominals = bodyPreferences.get(body)?.abdominals,
+  pubicHairLength = bodyPreferences.get(body)?.pubicHairLength
 } = {}) {
-  const next = restoreSelection(raw, body, structure, corpulence, chest, chestOrigin, pectorals, thoraxDetails, abdominals);
+  const next = restoreSelection(raw, body, structure, corpulence, chest, chestOrigin, pectorals, thoraxDetails, abdominals, pubicHairLength);
   const apply = () => {
     clearProposal();
     selection = next;
@@ -618,6 +636,18 @@ options('#pelvic-study-structure',corpulenceStudyStructures);
 options('#pelvic-study-corpulence',corpulenceStops.map(({value,label})=>[String(value),label]));
 q('#pelvic-study-corpulence').value='100';
 for (const id of ['structure','corpulence']) q('#pelvic-study-'+id).addEventListener('change',renderComparison);
+for (const button of document.querySelectorAll('[data-pubic-body]')) button.addEventListener('click',()=>
+  setSelection(selection.raw,morphForm,button,{body:button.dataset.pubicBody,onApply:()=>q('#pubic-hair-length').focus()}));
+for (const [value,label] of pubicHairStops) q('#pubic-hair-stops').append(new Option(label,value));
+q('#pubic-hair-length').addEventListener('input',event=>
+  setSelection(selection.raw,morphForm,event.target,{pubicHairLength:event.target.valueAsNumber}));
+options('#pubic-study-structure',corpulenceStudyStructures);
+options('#pubic-study-corpulence',corpulenceStops.map(({value,label})=>[String(value),`${value} % · ${label}`]));
+q('#pubic-study-corpulence').value=String(referenceCorpulence);
+options('#pubic-study-skin',chestStudySkins);
+options('#pubic-study-hair',pelvicStudyHair.map(id=>[id,swatch(id).name]));
+q('#pubic-study-hair').value='chatain-clair';
+for (const id of ['scale','structure','corpulence','skin','hair']) q('#pubic-study-'+id).addEventListener('change',renderComparison);
 
 options('#eye-request-axis', Object.entries(eyeControls).map(([key, range]) => [key, range.label]));
 function syncRequest() {
@@ -819,6 +849,7 @@ mountStudyPanel(q('#planche-reliefs-osseux'),renderComparison);
 mountStudyPanel(q('#planche-abdominaux'),renderComparison);
 mountStudyPanel(q('#planche-pli-nombril'),renderComparison);
 mountStudyPanel(q('#diagnostic-pelvien'),renderComparison);
+mountStudyPanel(q('#planche-anatomie-pelvienne'),renderComparison);
 refreshCharacter();
 q('#atelier').dataset.startup = 'ready';
 q('#atelier-startup').hidden = true;
