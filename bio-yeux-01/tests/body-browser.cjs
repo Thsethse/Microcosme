@@ -792,7 +792,13 @@ async function checkPectoralEdition(page,old,url,name) {
 }
 
 async function checkThoraxDetails(page,url,name) {
-  const {thoraxDetailControls,referenceThoraxDetails}=await import('../thorax-details.mjs');
+  const {thoraxDetailControls:currentControls,referenceThoraxDetails:currentReference}=await import('../thorax-details.mjs');
+  const thoraxDetailControls=pelvicR02Preview ? currentControls : {...currentControls,
+    nippleSize:{min:0,max:100},relief:{min:0,max:100}};
+  const referenceThoraxDetails=pelvicR02Preview ? currentReference : {
+    'adult-h':{...currentReference['adult-h'],nippleSize:34,relief:31},
+    'adult-f':{...currentReference['adult-f'],nippleSize:42,relief:37}
+  };
   const q=selector=>page.locator(selector);
   const layer=q('#structure-live [data-thorax-details]');
   const outline=()=>q('#structure-live svg').evaluate(svg=>{
