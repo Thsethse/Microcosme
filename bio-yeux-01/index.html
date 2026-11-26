@@ -472,7 +472,7 @@
   </section>
   <section aria-label="Planche de la poitrine">
     <details class="card" id="planche-poitrine">
-      <summary>Poitrine féminine adulte</summary>
+      <summary>Poitrine féminine adulte · avant et après correction</summary>
       <div class="corpulence-study-controls">
         <label class="structure-scale">Échelle<select id="chest-study-scale">
           <option value="tile">Corps · 178 px</option><option value="head">Tête · 300 px</option><option value="mini">Miniature · 70 × 70 px</option>
@@ -480,9 +480,9 @@
         </select></label>
         <label class="structure-scale">Teinte de peau<select id="chest-study-skin"></select></label>
       </div>
-      <h3>Formes et volumes</h3><div id="chest-form-cases"></div>
-      <h3>Volumes et corpulence</h3><div id="chest-corpulence-cases"></div>
-      <h3>Volumes et ossature</h3><div id="chest-structure-cases"></div>
+      <h3>Cinq niveaux de volume</h3><div id="chest-volume-cases"></div>
+      <h3>Variations de forme</h3><div id="chest-form-cases"></div>
+      <h3>Ossature et corpulence</h3><div id="chest-context-cases"></div>
     </details>
   </section>
   <section id="personnage">
@@ -514,9 +514,9 @@
               <button id="structure-reset" type="button">Réinitialiser les largeurs</button>
               <fieldset id="chest-panel" hidden>
                 <legend>Poitrine</legend>
-                <label>Forme de référence<select id="chest-preset"></select></label>
                 <p class="hint" id="chest-flat-note">Augmenter le volume pour régler la forme. Les réglages restent mémorisés à 0 %.</p>
                 <div id="chest-controls"></div>
+                <datalist id="chest-volume-stops"></datalist>
                 <button id="chest-reset" type="button">Réinitialiser la poitrine</button>
               </fieldset>
             </div>

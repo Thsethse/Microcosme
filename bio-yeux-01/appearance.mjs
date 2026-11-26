@@ -1,7 +1,7 @@
 import {isAdultBody} from './adult-body.mjs';
 import {validateStructure} from './body-structure.mjs';
 import {validateCorpulence} from './body-corpulence.mjs';
-import {validateChest} from './chest.mjs';
+import {validateChest, validateChestOrigin} from './chest.mjs';
 import {choice, restoreSelection} from './catalogue.mjs';
 import {swatch} from '../bio-col-01/palette.mjs';
 import {controls, model, normalize} from '../preview/bio-vis-p5-i6/model.mjs';
@@ -45,9 +45,10 @@ export const structureAppearanceVersion = 12;
 export const structureRenderVersion = 'bio-corps-02-svg@1';
 export const corpulenceAppearanceVersion = 13;
 export const corpulenceRenderVersion = 'bio-corps-03-svg@1';
-export const chestAppearanceVersion = 14;
-export const chestRenderVersion = 'bio-corps-04-a-svg@1';
-const renderers = {1:renderVersion, 2:irisRenderVersion, 3:detailsRenderVersion, 4:browRenderVersion, 5:mouthRenderVersion, 6:noseRenderVersion, 7:beardRenderVersion, 8:marksRenderVersion, 9:scarRenderVersion, 10:makeupRenderVersion, 11:bodyRenderVersion, 12:structureRenderVersion, 13:corpulenceRenderVersion, 14:chestRenderVersion};
+const previousChestAppearanceVersion = 14;
+export const chestAppearanceVersion = 15;
+export const chestRenderVersion = 'bio-corps-04-a-r01-svg@1';
+const renderers = {1:renderVersion, 2:irisRenderVersion, 3:detailsRenderVersion, 4:browRenderVersion, 5:mouthRenderVersion, 6:noseRenderVersion, 7:beardRenderVersion, 8:marksRenderVersion, 9:scarRenderVersion, 10:makeupRenderVersion, 11:bodyRenderVersion, 12:structureRenderVersion, 13:corpulenceRenderVersion, 14:'bio-corps-04-a-svg@1', 15:chestRenderVersion};
 
 export function characterInput(selection, key = selection.key) {
   const {style, arrangement} = choice(key);
@@ -165,6 +166,7 @@ export function appearanceDocument(selection, {eyes, form, draw, colour, flat, i
       ...(structure ? {structure: {...structure}} : {}),
       ...(corpulence !== undefined ? {corpulence} : {}),
       ...(chest ? {chest:{...chest}} : {}),
+      ...(chest && input.chestOrigin ? {chestOrigin:{...input.chestOrigin}} : {}),
       morphology: Object.fromEntries(Object.keys(controls).map(key => [key, applied[key]])),
       options: {accessories: input.accessories, contrast: input.contrast, monochrome: input.monochrome === true},
       effectiveOptions: {accessories: applied.accessories !== false, contrast: applied.contrast !== false,
@@ -213,12 +215,22 @@ export function parseAppearance(text) {
   const hasStructure = data.version === structureAppearanceVersion ||
     (data.version >= corpulenceAppearanceVersion && Object.hasOwn(data.character, 'structure'));
   const structure = hasStructure ? validateStructure(data.character.structure) : undefined;
+  const chestFormat = data.version >= previousChestAppearanceVersion;
+  const migratedChest = data.version === previousChestAppearanceVersion;
   const hasCorpulence = data.version === corpulenceAppearanceVersion ||
-    (data.version === chestAppearanceVersion && Object.hasOwn(data.character,'corpulence'));
+    (chestFormat && Object.hasOwn(data.character,'corpulence'));
   const corpulence = hasCorpulence ? validateCorpulence(data.character.corpulence) : undefined;
-  if (data.version === chestAppearanceVersion && adultBody !== 'adult-f') throw new Error('Poitrine indisponible pour cette base.');
-  const chest = data.version === chestAppearanceVersion ? validateChest(data.character.chest) : undefined;
-  const selection = restoreSelection(data.historicalSelection, adultBody, structure, corpulence, chest);
+  if (chestFormat && adultBody !== 'adult-f') throw new Error('Poitrine indisponible pour cette base.');
+  let chest, chestOrigin;
+  if (migratedChest) {
+    const {divergence,position,...remaining} = data.character.chest ?? {};
+    chest=validateChest(remaining);
+    chestOrigin=validateChestOrigin({divergence,position});
+  } else if (chestFormat) {
+    chest=validateChest(data.character.chest);
+    chestOrigin=data.character.chestOrigin;
+  }
+  const selection = restoreSelection(data.historicalSelection, adultBody, structure, corpulence, chest, chestOrigin);
   if (!data.eyes || !['historical', 'custom'].includes(data.eyes.mode) ||
       !data.palette || !['flat', 'historical'].includes(data.palette.mode)) {
     throw new Error('Mode des yeux ou de la palette invalide.');
@@ -283,8 +295,14 @@ export function parseAppearance(text) {
     settings.makeupLatent = data.makeup.mode === 'historical' ? data.makeup.latent : null;
   }
   const rebuilt = appearanceDocument(selection, settings);
+  if (migratedChest) {
+    rebuilt.version=previousChestAppearanceVersion;
+    rebuilt.renderer=renderers[previousChestAppearanceVersion];
+    Object.assign(rebuilt.character.chest,rebuilt.character.chestOrigin);
+    delete rebuilt.character.chestOrigin;
+  }
   if (!identical(rebuilt, data)) throw new Error('Données effectives incompatibles avec la sélection et les demandes.');
   // Verify and retain the requests for editing. They replay the archived
   // effective values exactly under this supported renderer version.
-  return {selection, ...settings};
+  return {selection, ...settings, ...(migratedChest ? {migratedChest:true} : {})};
 }

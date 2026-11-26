@@ -8,7 +8,7 @@ import {mountBodyStudy, mountStudyPanel, renderBodyStudy} from './body-study.mjs
 import {referenceStructure, structureControls} from './body-structure.mjs';
 import {corpulenceStops, referenceCorpulence} from './body-corpulence.mjs';
 import {corpulenceStudyStructures, renderCorpulenceStudy} from './corpulence-study.mjs';
-import {chestControls, chestPresets, referenceChest} from './chest.mjs';
+import {chestControls, chestStops, referenceChest} from './chest.mjs';
 import {chestStudySkins, renderChestStudy} from './chest-study.mjs';
 import {renderStructureStudy} from './structure-study.mjs';
 import {appearanceDocument, characterInput, parseAppearance} from './appearance.mjs';
@@ -83,7 +83,7 @@ function inputFor(key) {
 }
 
 const frames = {head: '-30 -65 220 225', tile: '-40 -85 240 355', mini: '-35 -68 230 245'};
-function svg({key, body, structure, corpulence, chest, chestStudySkin, beforeCorpulenceCorrection, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null, beard = null, beardCategory, marks = null, scars = null, makeup = null} = {}) {
+function svg({key, body, structure, corpulence, chest, chestStudySkin, beforeChestCorrection, beforeCorpulenceCorrection, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null, beard = null, beardCategory, marks = null, scars = null, makeup = null} = {}) {
   const input = inputFor(key);
   if (body !== undefined) {
     input.body = body;
@@ -93,7 +93,7 @@ function svg({key, body, structure, corpulence, chest, chestStudySkin, beforeCor
   }
   const result = character(input, {
     eyes: value, iris:pigment, details, brows, mouth, nose, beard, beardCategory, marks, scars, makeup, eyeEnvelopes: guides, hairColor: hair, rememberedHairColor: colour, headOnly: view !== 'tile',
-    smallScale: view === 'mini', naturalEyes, beforeCorpulenceCorrection, chestStudySkin, instance: 'atelier-yeux-' + (++serial)
+    smallScale: view === 'mini', naturalEyes, beforeCorpulenceCorrection, beforeChestCorrection, chestStudySkin, instance: 'atelier-yeux-' + (++serial)
   }).replace(/viewBox="[^"]*"/, `viewBox="${frame}"`);
   return decorative ? result.replace('<svg ', '<svg aria-hidden="true" focusable="false" ') : result;
 }
@@ -333,9 +333,9 @@ function renderChart() {
 }
 
 function rememberBody() {
-  const {body, structure, corpulence, chest} = selection.state;
+  const {body, structure, corpulence, chest, chestOrigin} = selection.state;
   if (!isAdultBody(body)) return;
-  if (structure || corpulence !== undefined || chest) bodyPreferences.set(body, {structure, corpulence, chest});
+  if (structure || corpulence !== undefined || chest) bodyPreferences.set(body, {structure, corpulence, chest, chestOrigin});
   else bodyPreferences.delete(body);
 }
 
@@ -365,14 +365,13 @@ function syncBodyControls() {
 
 function syncChestControls() {
   const chest = selection.state.chest ?? referenceChest;
-  const preset = chestPresets.find(([, , values])=>Object.entries(values).every(([key,value])=>chest[key]===value));
-  q('#chest-preset').value = preset?.[0] ?? 'custom';
   q('#chest-flat-note').hidden = chest.volume !== 0;
   for (const [key,value] of Object.entries(chest)) {
     const slider = q('#chest-' + key);
     slider.value = value;
     slider.disabled = key !== 'volume' && chest.volume === 0;
-    const description = key === 'volume' && value === 0 ? '0 % · Plate' : `${format.format(value)} %`;
+    const stop = key === 'volume' && chestStops.find(([level])=>value===level);
+    const description = `${format.format(value)} %${stop ? ` · ${stop[1]}` : ''}`;
     slider.setAttribute('aria-valuetext',description);
     q(`output[for="chest-${key}"]`).textContent = description;
   }
@@ -423,9 +422,10 @@ function refreshCharacter() {
 
 function setSelection(raw, form = morphForm, trigger = document.activeElement, {
   onApply, body = selection.state.body, structure = bodyPreferences.get(body)?.structure,
-  corpulence = bodyPreferences.get(body)?.corpulence, chest = bodyPreferences.get(body)?.chest
+  corpulence = bodyPreferences.get(body)?.corpulence, chest = bodyPreferences.get(body)?.chest,
+  chestOrigin = bodyPreferences.get(body)?.chestOrigin
 } = {}) {
-  const next = restoreSelection(raw, body, structure, corpulence, chest);
+  const next = restoreSelection(raw, body, structure, corpulence, chest, chestOrigin);
   const apply = () => {
     clearProposal();
     selection = next;
@@ -525,13 +525,8 @@ q('#corpulence-reset').addEventListener('click', event =>
   setSelection(selection.raw, morphForm, event.target, {corpulence:null}));
 sliders('#chest-controls', Object.entries(chestControls), 'any', (key,value)=>
   setSelection(selection.raw, morphForm, q('#chest-'+key), {chest:{...(selection.state.chest ?? referenceChest),[key]:value}}), 'chest');
-options('#chest-preset', [['custom','Personnalisée'], ...chestPresets.map(([id,label])=>[id,label])]);
-q('#chest-preset').options[0].disabled = true;
-q('#chest-preset').addEventListener('change', event=>{
-  const preset = chestPresets.find(([id])=>id===event.target.value);
-  if (!preset) { syncChestControls(); return; }
-  setSelection(selection.raw,morphForm,event.target,{chest:{...preset[2],volume:selection.state.chest?.volume || 53}});
-});
+q('#chest-volume').setAttribute('list','chest-volume-stops');
+q('#chest-volume-stops').append(...chestStops.map(([value,label])=>new Option(label,value)));
 q('#chest-reset').addEventListener('click', event=>setSelection(selection.raw,morphForm,event.target,{chest:null}));
 options('#chest-study-skin',chestStudySkins);
 q('#chest-study-scale').addEventListener('change',renderComparison);
@@ -684,7 +679,9 @@ q('#appearance-import').addEventListener('click', () => {
     morphForm = 'custom';
     category = swatch(colour).category;
     q('#appearance-error').textContent = '';
-    q('#appearance-message').textContent = 'Apparence complète restaurée.';
+    q('#appearance-message').textContent = restored.migratedChest
+      ? 'Apparence v14 adaptée à R01. Les deux anciennes valeurs de poitrine sont conservées dans le prochain export v15.'
+      : 'Apparence complète restaurée.';
     refreshCharacter();
   } catch (error) {
     q('#appearance-message').textContent = '';

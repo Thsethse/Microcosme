@@ -1,7 +1,7 @@
 import {isAdultBody} from './adult-body.mjs';
 import {validateStructure} from './body-structure.mjs';
 import {validateCorpulence} from './body-corpulence.mjs';
-import {validateChest} from './chest.mjs';
+import {validateChest, validateChestOrigin} from './chest.mjs';
 import {groups as inheritedGroups, ordinaryChoices as inheritedOrdinary} from '../bio-col-01/catalogue.mjs';
 import {restoreSelection as restoreHistorical, selectOrdinary as selectHistoricalOrdinary} from '../bio-col-01/selection.mjs';
 
@@ -15,14 +15,17 @@ const alias = Object.freeze({
 export const groups = Object.freeze([...inheritedGroups, alias]);
 export const ordinaryChoices = Object.freeze(inheritedOrdinary.filter(entry => entry.key !== alias.secondary));
 
-export function restoreSelection(raw, body, structure, corpulence, chest) {
+export function restoreSelection(raw, body, structure, corpulence, chest, chestOrigin) {
   const selection = restoreHistorical(raw);
   // Only an explicit editor choice or a versioned appearance can select an adult base.
   if (isAdultBody(body)) {
     selection.state.body = body;
     if (structure != null) selection.state.structure = Object.freeze({...validateStructure(structure)});
     if (corpulence != null) selection.state.corpulence = validateCorpulence(corpulence);
-    if (body === 'adult-f' && chest != null) selection.state.chest = Object.freeze({...validateChest(chest)});
+    if (body === 'adult-f' && chest != null) {
+      selection.state.chest = Object.freeze({...validateChest(chest)});
+      if (chestOrigin !== undefined) selection.state.chestOrigin = Object.freeze({...validateChestOrigin(chestOrigin)});
+    }
   }
   if (selection.key !== alias.secondary) return selection;
   return {...selection, visibleKey: alias.primary, group: alias};
