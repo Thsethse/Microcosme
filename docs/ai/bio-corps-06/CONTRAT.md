@@ -1,0 +1,10 @@
+# BIO-CORPS-06 — Anatomie pelvienne adulte et pilosité pubienne
+Base codex/bio-corps-05-c-r02 validée.
+## Anatomie
+Représentation non sexualisée, standardisée, adultes H/F uniquement : H U allongé couleur chair et deux volumes arrondis pour les bourses ; F V orienté vers le bas et trait vertical médian. Aplats dérivés de peau, ombrage discret, intégration aux repères pelviens, plis de l'aine et limite abdominale, préserver base locomotrice, silhouette et hauteur. Aucun curseur anatomique. Zone neutre pour enfant/adolescent ; adultes, mûrs et anciens admissibles lorsque les âges seront implémentés. Ne pas développer les âges ici.
+## Pilosité pubienne
+Un seul curseur longueur 0–100 : 0 rasé, 10 repousse, 25 tonte courte, 50 courte, 75 naturelle, 100 longue. Repères indicatifs. Distribution déterministe fixe des points d'implantation, pas de variation du nombre selon longueur. Faire évoluer longueur, largeur apparente, courbure, recouvrement, volume et irrégularité du contour. Petites mèches courbes imbriquées, nuances subtiles dérivées des cheveux, sensation de texture sans hachures grossières, sans simple aplat à opacité variable, sans nécessité de dessiner chaque poil. À zéro aucun poil visible. Ancrage aux repères pelviens et adaptation à ossature/corpulence. Simplification déterministe à petite échelle. Respecter BIO-INV-01 et BIO-CORPS-INV-01 à 04.
+## Recette
+Bases adultes H/F, six repères de longueur, variations continues, plusieurs ossatures, corpulences, peaux et couleurs de cheveux, trois échelles historiques. Vérifier stabilité de texture, absence de débordements parasites, maintien des plis de l'aine, sauvegarde/restauration, compatibilité historique et non-régression. Atelier complet, liens directs atelier et planche. Distinguer tests automatisés et recette physique iPad.
+## Livraison
+Partir de docs/bio-corps-06, branche codex/bio-corps-06, PR ouverte sans fusion, rapport docs/ai/bio-corps-06/RAPPORT.md, preview publique /preview/bio-corps-06/. Attendre validation. Hors périmètre : pilosité thorax/abdomen, croissance temporelle, rasage autonome, âges, type T, vêtements, intégration jeu.
