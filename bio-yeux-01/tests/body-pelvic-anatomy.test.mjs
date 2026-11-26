@@ -81,8 +81,11 @@ test('anatomie standardisée H/F, neutralité des mineurs et des bases historiqu
     const dark=character(adult,{...options,hairColor:'noir-profond'});
     assert.notEqual(hair(current),hair(dark));
     assert.equal(hair(current).replace(/fill="#[a-f0-9]+"/g,''),hair(dark).replace(/fill="#[a-f0-9]+"/g,''));
-    for (const lifeStage of ['adult','mature','old']) assert.equal(layer(character({...adult,lifeStage},options)),layer(current));
-    for (const lifeStage of ['child','adolescent','unknown',null]) assert.equal(character({...adult,lifeStage},options),legacy);
+    for (const age of ['adult','mature','elder']) assert.equal(layer(character({...adult,age},options)),layer(current));
+    for (const age of ['child','adolescent','unknown',null]) {
+      assert.equal(character({...adult,age},options),legacy);
+      assert.equal(characterInput(restoreSelection({...raw,age},body)).age,undefined);
+    }
     for (const old of ['standard','slim','broad','narrow','shoulders','bust','T']) {
       assert(!layer(character({...adult,body:old},options)));
     }

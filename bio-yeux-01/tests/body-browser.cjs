@@ -81,6 +81,7 @@ async function compare(page) {
     if (!silhouette) throw new Error('Calque corporel introuvable.');
     const body = silhouette.outerHTML.replace(/atelier-yeux-\d+/g,'fixed');
     silhouette.remove();
+    if (stripPelvicDetails) clone.querySelector('[data-belly-details]')?.remove();
     return {width:Math.round(width),height,original,body,outside:serialize(),raster:canvas.toDataURL(),pixels};
   })),{stripBoneReliefs:boneReliefPreview,stripBellyDetails:bellyDetailPreview || pelvicCorrectionPreview || pelvicR02Preview,stripNipples:pelvicR02Preview,stripPelvicDetails:pelvicAnatomyPreview});
 }

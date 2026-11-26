@@ -14,8 +14,8 @@ export function validatePubicHairLength(value) {
   return value;
 }
 
-export function hasAdultPelvis(body, lifeStage = 'adult') {
-  return (body === 'adult-h' || body === 'adult-f') && ['adult','mature','old'].includes(lifeStage);
+export function hasAdultPelvis(body, age = 'adult') {
+  return (body === 'adult-h' || body === 'adult-f') && ['adult','mature','elder'].includes(age);
 }
 
 const number = value => Number(value.toFixed(4));
