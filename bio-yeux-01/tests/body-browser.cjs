@@ -8,7 +8,8 @@ const {chromium, webkit, devices} = require('playwright');
 const mission = process.env.PREVIEW_MISSION ?? 'BIO-CORPS-01';
 const chestPreview = mission === 'BIO-CORPS-04-A';
 const chestR02 = mission === 'BIO-CORPS-04-A-R02';
-const abdominalPreview = mission === 'BIO-CORPS-05-B';
+const bellyDetailPreview = mission === 'BIO-CORPS-05-C';
+const abdominalPreview = mission === 'BIO-CORPS-05-B' || bellyDetailPreview;
 const boneReliefPreview = mission === 'BIO-CORPS-05-A' || abdominalPreview;
 const thoraxDetailsPreview = mission === 'BIO-CORPS-04-C' || boneReliefPreview;
 const pectoralPreview = mission === 'BIO-CORPS-04-B' || thoraxDetailsPreview;
@@ -19,7 +20,7 @@ const structurePreview = mission === 'BIO-CORPS-02' || corpulencePreview;
 const pages = 'https://thsethse.github.io/Microcosme/preview/';
 const output = process.env.ARTIFACT_DIR ?? '/tmp/microcosme-' + mission.toLowerCase();
 const published = pages + mission.toLowerCase() + '/';
-const predecessors = {'BIO-CORPS-05-B':'bio-corps-05-a/', 'BIO-CORPS-05-A':'bio-corps-04-c/', 'BIO-CORPS-04-C':'bio-corps-04-b/', 'BIO-CORPS-04-B':'bio-corps-04-a-r02/', 'BIO-CORPS-04-A-R02':'bio-corps-04-a-r01/', 'BIO-CORPS-04-A-R01':'bio-corps-04-a/', 'BIO-CORPS-04-A':'bio-corps-03-r01/', 'BIO-CORPS-03-R01':'bio-corps-03/', 'BIO-CORPS-03':'bio-corps-02/', 'BIO-CORPS-02':'bio-corps-01/'};
+const predecessors = {'BIO-CORPS-05-C':'bio-corps-05-b/', 'BIO-CORPS-05-B':'bio-corps-05-a/', 'BIO-CORPS-05-A':'bio-corps-04-c/', 'BIO-CORPS-04-C':'bio-corps-04-b/', 'BIO-CORPS-04-B':'bio-corps-04-a-r02/', 'BIO-CORPS-04-A-R02':'bio-corps-04-a-r01/', 'BIO-CORPS-04-A-R01':'bio-corps-04-a/', 'BIO-CORPS-04-A':'bio-corps-03-r01/', 'BIO-CORPS-03-R01':'bio-corps-03/', 'BIO-CORPS-03':'bio-corps-02/', 'BIO-CORPS-02':'bio-corps-01/'};
 const referenceURL = process.env.REFERENCE_URL ?? pages + (predecessors[mission] ?? 'bio-yeux-r01/');
 const local = process.env.PREVIEW_DIR;
 const engines = {chromium, webkit};
@@ -52,10 +53,11 @@ async function ready(page, url) {
 }
 
 async function compare(page) {
-  return page.locator(reference).evaluateAll((svgs,stripBoneReliefs) => Promise.all(svgs.map(async svg => {
+  return page.locator(reference).evaluateAll((svgs,{stripBoneReliefs,stripBellyDetails}) => Promise.all(svgs.map(async svg => {
     const {width,height} = svg.getBoundingClientRect();
     const clone = svg.cloneNode(true);
     if (stripBoneReliefs) clone.querySelector('[data-bone-reliefs]')?.remove();
+    if (stripBellyDetails) clone.querySelector('[data-belly-details]')?.remove();
     const serialize = () => new XMLSerializer().serializeToString(clone).replace(/atelier-yeux-\d+/g,'fixed');
     const original = serialize();
     const img = new Image();
@@ -74,7 +76,7 @@ async function compare(page) {
     const body = silhouette.outerHTML.replace(/atelier-yeux-\d+/g,'fixed');
     silhouette.remove();
     return {width:Math.round(width),height,original,body,outside:serialize(),raster:canvas.toDataURL(),pixels};
-  })),boneReliefPreview);
+  })),{stripBoneReliefs:boneReliefPreview,stripBellyDetails:bellyDetailPreview});
 }
 
 async function exportAppearance(page) {
@@ -1183,6 +1185,151 @@ async function checkAbdominalEdition(page,old,url,name) {
   return {axesH:4,axesF:4,touch:16,matrixPerBase:9,axisPairs:12,archives:4,skins:4,structures:7,scales:3};
 }
 
+async function checkBellyDetailEdition(page,old,url,name) {
+  const {navelControls,referenceNavel}=await import('../belly-details.mjs');
+  const {corpulenceStops}=await import('../body-corpulence.mjs');
+  const q=selector=>page.locator(selector);
+  const layer=q('#structure-live [data-belly-details]');
+  const fold=layer.locator('[data-abdominal-fold]');
+  const navel=layer.locator('[data-navel-part="form"]');
+  const open=async fragment=>{
+    await page.goto('about:blank');
+    await ready(page,url+'#'+fragment);
+  };
+  const baseline=()=>q('#structure-live svg').evaluate(svg=>{
+    const clone=svg.cloneNode(true);
+    clone.querySelector('[data-belly-details]').remove();
+    return new XMLSerializer().serializeToString(clone).replace(/atelier-yeux-\d+/g,'fixed');
+  });
+  const tap=async(slider,fraction)=>{
+    await slider.scrollIntoViewIfNeeded();
+    const {width,height}=await slider.boundingBox();
+    await slider.tap({position:{x:Math.round(width*fraction),y:Math.round(height/2)}});
+    return Number(await slider.inputValue());
+  };
+  await page.setViewportSize({width:810,height:1080});
+  await open('atelier-thorax');
+  assert(!await q('#navel-link').isVisible());
+  const earlier=[];
+  for (const key of ['adult-h','adult-f']) {
+    await q(`[data-thorax-body="${key}"]`).tap();
+    await q('#navel-link').tap();
+    assert.equal(await page.evaluate(()=>location.hash),'#navel-panel');
+    assert.equal(await q('#navel-controls input:enabled').count(),3);
+    assert(await q('#abdominal-live-detail [data-navel-part="form"]').isVisible());
+    assert.equal(await navel.getAttribute('cx'),'80');
+    const outline=await baseline();
+    await setRange(page,'abdominal-volume',78);
+    const prior=await exportAppearance(page);
+    assert.equal(JSON.parse(prior).version,19);
+    earlier.push({archive:prior,signature:await compare(page)});
+    await q('#abdominal-reset').evaluate(button=>button.click());
+    for (const [id,{min,max,neutral}] of Object.entries(navelControls)) {
+      const slider=q('#navel-'+id);
+      assert.equal(Number(await slider.getAttribute('min')),min);
+      assert.equal(Number(await slider.getAttribute('max')),max);
+      assert(await tap(slider,.2)<35);
+      const before=await navel.evaluate(node=>node.outerHTML);
+      assert(await tap(slider,.82)>67);
+      assert.notEqual(await navel.evaluate(node=>node.outerHTML),before,id);
+      await setRange(page,'navel-'+id,neutral);
+    }
+    assert.equal(await baseline(),outline);
+    let opacity=0, center=0;
+    for (const {value} of corpulenceStops) {
+      await setRange(page,'corpulence',value);
+      assert.equal(await fold.count(),value ? 1 : 0);
+      if (value) {
+        const next=Number(await fold.getAttribute('opacity'));
+        assert(next>opacity);
+        opacity=next;
+      }
+      const y=Number(await navel.getAttribute('cy'));
+      assert(y>center);
+      center=y;
+      assert.equal(await navel.getAttribute('cx'),'80');
+    }
+    await setRange(page,'abdominal-volume',84.125);
+    await setRange(page,'abdominal-width',77);
+    await setRange(page,'structure-waist',79);
+    await setRange(page,key==='adult-h' ? 'pectoral-volume' : 'chest-volume',64);
+    await q('#thorax-details-reference').evaluate(button=>button.click());
+    await setRange(page,'navel-shape',64.125);
+    await setRange(page,'corpulence',78.125);
+    const archive=await exportAppearance(page), doc=JSON.parse(archive);
+    assert.equal(doc.version,20);
+    assert.deepEqual(doc.character.navel,{...referenceNavel,shape:64.125});
+    assert.equal(doc.character.corpulence,78.125);
+    assert.equal(doc.character.abdominals.volume,84.125);
+    assert.equal(doc.character.abdominals.width,77);
+    assert.equal(doc.character.structure.waist,79);
+    assert(doc.character.thoraxDetails);
+    assert(!Object.hasOwn(doc.character,'fold'));
+    const rendered=await layer.innerHTML();
+    await open('atelier-thorax');
+    await importAppearance(page,archive);
+    assert.equal(await layer.innerHTML(),rendered);
+    assert.deepEqual(JSON.parse(await exportAppearance(page)),doc);
+    await q('#navel-reset').evaluate(button=>button.click());
+    assert.equal(await q('#navel-shape').inputValue(),'36');
+    const reset=JSON.parse(await exportAppearance(page));
+    assert.equal(reset.version,19);
+    assert.deepEqual(reset.character.abdominals,doc.character.abdominals);
+    await open('atelier-thorax');
+  }
+  await old.setViewportSize(page.viewportSize());
+  await ready(old,referenceURL);
+  for (const {archive,signature} of earlier) {
+    await importAppearance(old,archive);
+    assert.deepEqual(await compare(old),signature);
+  }
+
+  await open('planche-pli-nombril');
+  const panel=q('#planche-pli-nombril');
+  await panel.locator('[data-belly-case]').first().waitFor({state:'visible'});
+  assert.equal(await q('#belly-study-corpulence [data-belly-case]').count(),9);
+  assert.equal(await q('#belly-study-navel [data-belly-case]').count(),9);
+  assert.equal(await panel.locator('svg').count(),36);
+  assert.equal(await panel.locator('[data-abdominal-fold]').count(),34);
+  const creasePath=panel.locator('[data-abdominal-fold]').first();
+  const initial=await creasePath.getAttribute('d');
+  assert.equal(await q('#belly-study-structure option').count(),7);
+  for (const id of ['fine','wide','min','max']) {
+    await q('#belly-study-structure').selectOption(id);
+    assert.notEqual(await creasePath.getAttribute('d'),initial);
+  }
+  await q('#belly-study-structure').selectOption('reference');
+  const skin=q('#belly-study-skin');
+  const colours=await skin.locator('option').evaluateAll(options=>options.map(option=>option.value));
+  assert.equal(colours.length,4);
+  const fills=[];
+  for (const colour of colours) {
+    await skin.selectOption(colour);
+    assert.equal(await panel.locator('.body-shape path').first().getAttribute('fill'),colour);
+    fills.push(await creasePath.getAttribute('fill'));
+  }
+  assert.equal(new Set(fills).size,4);
+  await skin.selectOption(colours[0]);
+  for (const value of ['0','50','100']) {
+    await q('#belly-study-muscle').selectOption(value);
+    assert.equal(await panel.locator('[data-abdominals]').count(),value==='0' ? 0 : 36);
+  }
+  for (const [scale,height] of [['tile',178],['head',300],['mini',70]]) {
+    await q('#belly-study-scale').selectOption(scale);
+    assert.deepEqual(await panel.locator('svg').evaluateAll(nodes=>[...new Set(nodes.map(svg=>svg.getBoundingClientRect().height))]),[height]);
+    assert.equal(await panel.locator('[data-navel-part]').count(),scale==='mini' ? 36 : 108);
+  }
+  await q('#belly-study-scale').selectOption('detail');
+  for (const id of ['corpulence-0','corpulence-50','corpulence-100','relief-100']) {
+    await q(`[data-belly-case="${id}"]`).screenshot({path:path.join(output,`${name}-belly-${id}.png`)});
+  }
+  for (const width of [390,810,1180]) {
+    await page.setViewportSize({width,height:920});
+    assert(await page.evaluate(w=>document.documentElement.scrollWidth<=w+1,width));
+  }
+  return {axesH:3,axesF:3,touch:12,levelsPerBase:9,axisPairs:9,archivesV20:2,reusedV19:2,skins:4,structures:7,muscleLevels:3,scales:3};
+}
+
 async function exercise(context, url, name, version) {
   const [page, old] = await Promise.all([context.newPage(), context.newPage()]);
   const errors = [];
@@ -1289,11 +1436,12 @@ async function exercise(context, url, name, version) {
   const thoraxDetails=thoraxDetailsPreview ? await checkThoraxDetails(page,url,name) : undefined;
   const boneReliefs=boneReliefPreview ? await checkBoneReliefEdition(page,old,url,name) : undefined;
   const abdominals=abdominalPreview ? await checkAbdominalEdition(page,old,url,name) : undefined;
+  const bellyDetails=bellyDetailPreview ? await checkBellyDetailEdition(page,old,url,name) : undefined;
   assert.deepEqual(errors,[]);
   return {name, version, historicalExact:historicalBodies.length*3, rasterBySize:[8,8,8],
     fittings:cases.length*2, coldImports:2, guidedLandmarks:14, ...(structure ? {structure} : {}),
     ...(corpulence ? {corpulence} : {}), ...(chest ? {chest} : {}), ...(pectorals ? {pectorals} : {}),
-    ...(thoraxDetails ? {thoraxDetails} : {}), ...(boneReliefs ? {boneReliefs} : {}), ...(abdominals ? {abdominals} : {})};
+    ...(thoraxDetails ? {thoraxDetails} : {}), ...(boneReliefs ? {boneReliefs} : {}), ...(abdominals ? {abdominals} : {}), ...(bellyDetails ? {bellyDetails} : {})};
 }
 
 async function files(url) {

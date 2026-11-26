@@ -5,6 +5,7 @@ import {validateChest, validateChestOrigin} from './chest.mjs';
 import {validatePectorals} from './pectorals.mjs';
 import {validateThoraxDetails} from './thorax-details.mjs';
 import {validateAbdominals} from './abdominals.mjs';
+import {validateNavel} from './belly-details.mjs';
 import {groups as inheritedGroups, ordinaryChoices as inheritedOrdinary} from '../bio-col-01/catalogue.mjs';
 import {restoreSelection as restoreHistorical, selectOrdinary as selectHistoricalOrdinary} from '../bio-col-01/selection.mjs';
 
@@ -18,7 +19,7 @@ const alias = Object.freeze({
 export const groups = Object.freeze([...inheritedGroups, alias]);
 export const ordinaryChoices = Object.freeze(inheritedOrdinary.filter(entry => entry.key !== alias.secondary));
 
-export function restoreSelection(raw, body, structure, corpulence, chest, chestOrigin, pectorals, thoraxDetails, abdominals) {
+export function restoreSelection(raw, body, structure, corpulence, chest, chestOrigin, pectorals, thoraxDetails, abdominals, navel) {
   const selection = restoreHistorical(raw);
   // Only an explicit editor choice or a versioned appearance can select an adult base.
   if (isAdultBody(body)) {
@@ -32,6 +33,7 @@ export function restoreSelection(raw, body, structure, corpulence, chest, chestO
     if (body === 'adult-h' && pectorals != null) selection.state.pectorals=Object.freeze({...validatePectorals(pectorals)});
     if (thoraxDetails != null) selection.state.thoraxDetails=Object.freeze({...validateThoraxDetails(thoraxDetails)});
     if (abdominals != null) selection.state.abdominals=Object.freeze({...validateAbdominals(abdominals)});
+    if (navel != null) selection.state.navel=Object.freeze({...validateNavel(navel)});
   }
   if (selection.key !== alias.secondary) return selection;
   return {...selection, visibleKey: alias.primary, group: alias};

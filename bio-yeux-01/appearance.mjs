@@ -5,6 +5,7 @@ import {validateChest, validateChestOrigin} from './chest.mjs';
 import {validatePectorals} from './pectorals.mjs';
 import {validateThoraxDetails} from './thorax-details.mjs';
 import {validateAbdominals} from './abdominals.mjs';
+import {validateNavel} from './belly-details.mjs';
 import {choice, restoreSelection} from './catalogue.mjs';
 import {swatch} from '../bio-col-01/palette.mjs';
 import {controls, model, normalize} from '../preview/bio-vis-p5-i6/model.mjs';
@@ -56,7 +57,8 @@ export const pectoralAppearanceVersion = 17;
 export const pectoralRenderVersion = 'bio-corps-04-b-svg@1';
 export const thoraxDetailsAppearanceVersion = 18;
 export const abdominalAppearanceVersion = 19;
-const renderers = {1:renderVersion, 2:irisRenderVersion, 3:detailsRenderVersion, 4:browRenderVersion, 5:mouthRenderVersion, 6:noseRenderVersion, 7:beardRenderVersion, 8:marksRenderVersion, 9:scarRenderVersion, 10:makeupRenderVersion, 11:bodyRenderVersion, 12:structureRenderVersion, 13:corpulenceRenderVersion, 14:'bio-corps-04-a-svg@1', 15:'bio-corps-04-a-r01-svg@1', 16:chestRenderVersion, 17:pectoralRenderVersion, 18:'bio-corps-04-c-svg@1', 19:'bio-corps-05-b-svg@1'};
+export const navelAppearanceVersion = 20;
+const renderers = {1:renderVersion, 2:irisRenderVersion, 3:detailsRenderVersion, 4:browRenderVersion, 5:mouthRenderVersion, 6:noseRenderVersion, 7:beardRenderVersion, 8:marksRenderVersion, 9:scarRenderVersion, 10:makeupRenderVersion, 11:bodyRenderVersion, 12:structureRenderVersion, 13:corpulenceRenderVersion, 14:'bio-corps-04-a-svg@1', 15:'bio-corps-04-a-r01-svg@1', 16:chestRenderVersion, 17:pectoralRenderVersion, 18:'bio-corps-04-c-svg@1', 19:'bio-corps-05-b-svg@1', 20:'bio-corps-05-c-svg@1'};
 
 export function characterInput(selection, key = selection.key) {
   const {style, arrangement} = choice(key);
@@ -165,7 +167,8 @@ export function appearanceDocument(selection, {eyes, form, draw, colour, flat, i
   const pectorals = input.body === 'adult-h' ? input.pectorals : undefined;
   const thoraxDetails = adult ? input.thoraxDetails : undefined;
   const abdominals = adult ? input.abdominals : undefined;
-  const version = abdominals ? abdominalAppearanceVersion : thoraxDetails ? thoraxDetailsAppearanceVersion : pectorals ? pectoralAppearanceVersion : chest ? chestAppearanceVersion : corpulence !== undefined ? corpulenceAppearanceVersion : structure ? structureAppearanceVersion : adult ? bodyAppearanceVersion : cosmeticAppearance ? makeupAppearanceVersion : healedScars ? scarAppearanceVersion : cutaneousMarks ? marksAppearanceVersion : facialHair ? beardAppearanceVersion : noseAppearance ? noseAppearanceVersion : mouthAppearance ? mouthAppearanceVersion : browAppearance ? browAppearanceVersion :
+  const navel = adult ? input.navel : undefined;
+  const version = navel ? navelAppearanceVersion : abdominals ? abdominalAppearanceVersion : thoraxDetails ? thoraxDetailsAppearanceVersion : pectorals ? pectoralAppearanceVersion : chest ? chestAppearanceVersion : corpulence !== undefined ? corpulenceAppearanceVersion : structure ? structureAppearanceVersion : adult ? bodyAppearanceVersion : cosmeticAppearance ? makeupAppearanceVersion : healedScars ? scarAppearanceVersion : cutaneousMarks ? marksAppearanceVersion : facialHair ? beardAppearanceVersion : noseAppearance ? noseAppearanceVersion : mouthAppearance ? mouthAppearanceVersion : browAppearance ? browAppearanceVersion :
     eyeDetails ? detailsAppearanceVersion :
     ink ? irisAppearanceVersion : appearanceVersion;
   return {
@@ -181,6 +184,7 @@ export function appearanceDocument(selection, {eyes, form, draw, colour, flat, i
       ...(pectorals ? {pectorals:{...pectorals}} : {}),
       ...(thoraxDetails ? {thoraxDetails:{...thoraxDetails}} : {}),
       ...(abdominals ? {abdominals:{...abdominals}} : {}),
+      ...(navel ? {navel:{...navel}} : {}),
       morphology: Object.fromEntries(Object.keys(controls).map(key => [key, applied[key]])),
       options: {accessories: input.accessories, contrast: input.contrast, monochrome: input.monochrome === true},
       effectiveOptions: {accessories: applied.accessories !== false, contrast: applied.contrast !== false,
@@ -229,10 +233,12 @@ export function parseAppearance(text) {
   const hasStructure = data.version === structureAppearanceVersion ||
     (data.version >= corpulenceAppearanceVersion && Object.hasOwn(data.character, 'structure'));
   const structure = hasStructure ? validateStructure(data.character.structure) : undefined;
-  const abdominalFormat = data.version === abdominalAppearanceVersion;
+  const navelFormat = data.version === navelAppearanceVersion;
+  const abdominalFormat = data.version === abdominalAppearanceVersion ||
+    (navelFormat && Object.hasOwn(data.character,'abdominals'));
   const combinedFormat = data.version >= thoraxDetailsAppearanceVersion;
   const thoraxDetailsFormat = data.version === thoraxDetailsAppearanceVersion ||
-    (abdominalFormat && Object.hasOwn(data.character,'thoraxDetails'));
+    (data.version >= abdominalAppearanceVersion && Object.hasOwn(data.character,'thoraxDetails'));
   const chestFormat = (data.version >= previousChestAppearanceVersion && data.version <= chestAppearanceVersion) ||
     (combinedFormat && Object.hasOwn(data.character,'chest'));
   const pectoralFormat = data.version === pectoralAppearanceVersion ||
@@ -255,7 +261,8 @@ export function parseAppearance(text) {
   const pectorals=pectoralFormat ? validatePectorals(data.character.pectorals) : undefined;
   const thoraxDetails=thoraxDetailsFormat ? validateThoraxDetails(data.character.thoraxDetails) : undefined;
   const abdominals=abdominalFormat ? validateAbdominals(data.character.abdominals) : undefined;
-  const selection = restoreSelection(data.historicalSelection, adultBody, structure, corpulence, chest, chestOrigin, pectorals, thoraxDetails, abdominals);
+  const navel=navelFormat ? validateNavel(data.character.navel) : undefined;
+  const selection = restoreSelection(data.historicalSelection, adultBody, structure, corpulence, chest, chestOrigin, pectorals, thoraxDetails, abdominals, navel);
   if (!data.eyes || !['historical', 'custom'].includes(data.eyes.mode) ||
       !data.palette || !['flat', 'historical'].includes(data.palette.mode)) {
     throw new Error('Mode des yeux ou de la palette invalide.');
