@@ -775,8 +775,8 @@
     }
     return value;
   }
-  function hasAdultPelvis(body, lifeStage = "adult") {
-    return (body === "adult-h" || body === "adult-f") && ["adult", "mature", "old"].includes(lifeStage);
+  function hasAdultPelvis(body, age = "adult") {
+    return (body === "adult-h" || body === "adult-f") && ["adult", "mature", "elder"].includes(age);
   }
   var number2 = (value) => Number(value.toFixed(4));
   var mix3 = (a, b, amount) => a + (b - a) * amount;
@@ -7109,7 +7109,7 @@
   function character12(input = {}, options2 = {}) {
     const inheritedSvg = character11(input, options2);
     const adultFace = isAdultBody(input.body) ? model8(input) : null;
-    const pelvicDetails = (options2.pelvicDetails ?? input.pubicHairLength !== void 0) && hasAdultPelvis(input.body, input.lifeStage);
+    const pelvicDetails = (options2.pelvicDetails ?? input.pubicHairLength !== void 0) && hasAdultPelvis(input.body, input.age);
     const pubicHairPigment = pelvicDetails && input.pubicHairLength > 0 ? facialPigment(adultFace, { colourMode: "linked" }, { ...options2, source: inheritedSvg }).fill : void 0;
     const svg2 = adultFace ? inheritedSvg.replace(
       /<g class="body-shape">[^]*?<\/g>/,
