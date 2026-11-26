@@ -8,7 +8,8 @@ const {chromium, webkit, devices} = require('playwright');
 const mission = process.env.PREVIEW_MISSION ?? 'BIO-CORPS-01';
 const chestPreview = mission === 'BIO-CORPS-04-A';
 const chestR02 = mission === 'BIO-CORPS-04-A-R02';
-const thoraxDetailsPreview = mission === 'BIO-CORPS-04-C';
+const boneReliefPreview = mission === 'BIO-CORPS-05-A';
+const thoraxDetailsPreview = mission === 'BIO-CORPS-04-C' || boneReliefPreview;
 const pectoralPreview = mission === 'BIO-CORPS-04-B' || thoraxDetailsPreview;
 const chestCorrection = mission === 'BIO-CORPS-04-A-R01' || chestR02;
 const corpulenceCorrection = mission === 'BIO-CORPS-03-R01' || chestPreview || chestCorrection || pectoralPreview;
@@ -17,7 +18,7 @@ const structurePreview = mission === 'BIO-CORPS-02' || corpulencePreview;
 const pages = 'https://thsethse.github.io/Microcosme/preview/';
 const output = process.env.ARTIFACT_DIR ?? '/tmp/microcosme-' + mission.toLowerCase();
 const published = pages + mission.toLowerCase() + '/';
-const predecessors = {'BIO-CORPS-04-C':'bio-corps-04-b/', 'BIO-CORPS-04-B':'bio-corps-04-a-r02/', 'BIO-CORPS-04-A-R02':'bio-corps-04-a-r01/', 'BIO-CORPS-04-A-R01':'bio-corps-04-a/', 'BIO-CORPS-04-A':'bio-corps-03-r01/', 'BIO-CORPS-03-R01':'bio-corps-03/', 'BIO-CORPS-03':'bio-corps-02/', 'BIO-CORPS-02':'bio-corps-01/'};
+const predecessors = {'BIO-CORPS-05-A':'bio-corps-04-c/', 'BIO-CORPS-04-C':'bio-corps-04-b/', 'BIO-CORPS-04-B':'bio-corps-04-a-r02/', 'BIO-CORPS-04-A-R02':'bio-corps-04-a-r01/', 'BIO-CORPS-04-A-R01':'bio-corps-04-a/', 'BIO-CORPS-04-A':'bio-corps-03-r01/', 'BIO-CORPS-03-R01':'bio-corps-03/', 'BIO-CORPS-03':'bio-corps-02/', 'BIO-CORPS-02':'bio-corps-01/'};
 const referenceURL = process.env.REFERENCE_URL ?? pages + (predecessors[mission] ?? 'bio-yeux-r01/');
 const local = process.env.PREVIEW_DIR;
 const engines = {chromium, webkit};
@@ -50,9 +51,10 @@ async function ready(page, url) {
 }
 
 async function compare(page) {
-  return page.locator(reference).evaluateAll(svgs => Promise.all(svgs.map(async svg => {
+  return page.locator(reference).evaluateAll((svgs,stripBoneReliefs) => Promise.all(svgs.map(async svg => {
     const {width,height} = svg.getBoundingClientRect();
     const clone = svg.cloneNode(true);
+    if (stripBoneReliefs) clone.querySelector('[data-bone-reliefs]')?.remove();
     const serialize = () => new XMLSerializer().serializeToString(clone).replace(/atelier-yeux-\d+/g,'fixed');
     const original = serialize();
     const img = new Image();
@@ -71,7 +73,7 @@ async function compare(page) {
     const body = silhouette.outerHTML;
     silhouette.remove();
     return {width:Math.round(width),height,original,body,outside:serialize(),raster:canvas.toDataURL(),pixels};
-  })));
+  })),boneReliefPreview);
 }
 
 async function exportAppearance(page) {
@@ -890,6 +892,162 @@ async function checkThoraxDetails(page,url,name) {
   return {axesH:7,axesF:7,touch:2,archivesV18:4,pairedAxes:21,pairedCarriers:7,skins:4,scales:3};
 }
 
+async function checkBoneReliefEdition(page,old,url,name) {
+  const {corpulenceStops}=await import('../body-corpulence.mjs');
+  const q=selector=>page.locator(selector);
+  const relief=q('#structure-live [data-bone-reliefs]');
+  const open=async fragment=>{
+    await page.goto('about:blank');
+    await ready(page,url+'#'+fragment);
+  };
+  const strength=()=>relief.locator('g').evaluateAll(families=>
+    families.map(family=>Number(family.querySelector('path').getAttribute('opacity'))));
+  await page.setViewportSize({width:810,height:1080});
+  await open('atelier-thorax');
+  assert(!await q('#corpulence-link').isVisible());
+  const archives=[];
+  for (const body of ['adult-h','adult-f']) {
+    await q(`[data-thorax-body="${body}"]`).tap();
+    await q('#corpulence-link').tap();
+    assert.equal(await page.evaluate(()=>location.hash),'#structure-panel');
+    const slider=q('#corpulence');
+    await slider.scrollIntoViewIfNeeded();
+    const box=await slider.boundingBox();
+    await slider.tap({position:{x:Math.round(box.width*.17),y:Math.round(box.height/2)}});
+    assert(Number(await slider.inputValue())<30);
+    assert.equal(await relief.locator('g').count(),4);
+    let previous=Array(4).fill(1);
+    for (const {value} of corpulenceStops) {
+      await setRange(page,'corpulence',value);
+      if (value===100) assert.equal(await relief.count(),0);
+      else {
+        const current=await strength();
+        assert.equal(current.length,4);
+        assert(current.every((amount,i)=>amount<previous[i]));
+        previous=current;
+      }
+    }
+    await setRange(page,'corpulence',17.125);
+    const positions=()=>relief.locator('g > path:first-child').evaluateAll(paths=>paths.map(path=>path.getAttribute('d')));
+    const neutral=await positions();
+    await setRange(page,'structure-thorax',77);
+    await setRange(page,'structure-pelvis',129);
+    const adjusted=await positions();
+    assert.notEqual(adjusted[1],neutral[1]);
+    assert.notEqual(adjusted[3],neutral[3]);
+    await setRange(page,body==='adult-h' ? 'pectoral-volume' : 'chest-volume',95);
+    await q('#thorax-details-reference').evaluate(button=>button.click());
+    const legacy=await exportAppearance(page), document=JSON.parse(legacy);
+    assert.equal(document.version,18);
+    assert.equal(document.character.corpulence,17.125);
+    assert.equal(document.character.structure.thorax,77);
+    assert(!Object.hasOwn(document.character,'boneReliefs'));
+    const savedLayer=await relief.innerHTML();
+    await open('atelier-thorax');
+    await importAppearance(page,legacy);
+    assert.equal(await relief.innerHTML(),savedLayer);
+    assert.deepEqual(JSON.parse(await exportAppearance(page)),document);
+    archives.push({legacy,signature:await compare(page)});
+    // Begin the next base with independent preferences.
+    await open('atelier-thorax');
+  }
+  await old.setViewportSize(page.viewportSize());
+  await ready(old,referenceURL);
+  for (const {legacy,signature} of archives) {
+    await importAppearance(old,legacy);
+    assert.deepEqual(await compare(old),signature);
+  }
+
+  await open('planche-reliefs-osseux');
+  const panel=q('#planche-reliefs-osseux');
+  await panel.locator('[data-bone-study-level]').first().waitFor({state:'visible'});
+  assert.equal(await panel.locator('[data-bone-study-level]').count(),9);
+  assert.equal(await panel.locator('[data-bone-study-phase="before"] svg').count(),18);
+  assert.equal(await panel.locator('[data-bone-study-phase="after"] svg').count(),18);
+  assert.equal(await panel.locator('[data-bone-study-phase="before"] [data-bone-reliefs]').count(),0);
+  assert.equal(await panel.locator('[data-bone-study-phase="after"] [data-bone-reliefs]').count(),16);
+  const firstPath=q('[data-bone-study-level="0"] [data-bone-family="lateral-ribs"] path').first();
+  const referencePath=await firstPath.getAttribute('d');
+  const structures=q('#bone-relief-structure');
+  assert.equal(await structures.locator('option').count(),7);
+  for (const id of ['fine','wide','min','max']) {
+    await structures.selectOption(id);
+    assert.notEqual(await firstPath.getAttribute('d'),referencePath);
+  }
+  await structures.selectOption('reference');
+  const skin=q('#bone-relief-skin');
+  const colours=await skin.locator('option').evaluateAll(options=>options.map(option=>option.value));
+  assert.equal(colours.length,4);
+  const fills=[];
+  for (const colour of colours) {
+    await skin.selectOption(colour);
+    assert.equal(await panel.locator('.body-shape path').first().getAttribute('fill'),colour);
+    fills.push(await firstPath.getAttribute('fill'));
+  }
+  assert.equal(new Set(fills).size,4);
+  await skin.selectOption(colours[0]);
+
+  for (const [scale,height] of [['tile',178],['head',300],['mini',70]]) {
+    await q('#bone-relief-scale').selectOption(scale);
+    assert.deepEqual(await panel.locator('svg').evaluateAll(nodes=>[...new Set(nodes.map(svg=>svg.getBoundingClientRect().height))]),[height]);
+    assert.equal(await panel.locator('[data-bone-family] path').count(),scale==='mini' ? 160 : 320);
+    await q('[data-bone-study-level="0"]').screenshot({path:path.join(output,`${name}-bone-reliefs-${scale}.png`)});
+  }
+  await q('#bone-relief-scale').selectOption('detail');
+  const coverage=[];
+  for (const body of ['adult-h','adult-f']) {
+    const card=q(`[data-bone-study-coverage="${body}"]`);
+    const result=await card.locator('[data-bone-study-carrier="volume"] svg').evaluate(async(svg,body)=>{
+      const frame=svg.viewBox.baseVal;
+      const bones=[...svg.querySelectorAll('[data-bone-family] path')];
+      const surfaces=[...svg.querySelectorAll(body==='adult-h' ? '[data-pectoral-plane]' : '[data-chest-surface]')];
+      const scale=3;
+      async function raster(withReliefs) {
+        const copy=svg.cloneNode(true);
+        if (!withReliefs) copy.querySelector('[data-bone-reliefs]').remove();
+        const canvas=document.createElement('canvas');
+        canvas.width=frame.width*scale;
+        canvas.height=frame.height*scale;
+        copy.setAttribute('width',canvas.width);
+        copy.setAttribute('height',canvas.height);
+        const image=new Image();
+        image.src='data:image/svg+xml,'+encodeURIComponent(new XMLSerializer().serializeToString(copy));
+        await image.decode();
+        const ctx=canvas.getContext('2d');
+        ctx.drawImage(image,0,0);
+        return ctx.getImageData(0,0,canvas.width,canvas.height).data;
+      }
+      const [withReliefs,withoutReliefs]=await Promise.all([raster(true),raster(false)]);
+      const filled=(paths,x,y)=>paths.some(path=>{
+        const bounds=path.getBBox();
+        return x>=bounds.x && x<=bounds.x+bounds.width && y>=bounds.y && y<=bounds.y+bounds.height &&
+          path.isPointInFill(new DOMPoint(x,y));
+      });
+      let covered=0,changedUnderVolume=0,visible=0;
+      for (let y=123;y<200;y++) for (let x=53;x<107;x++) {
+        if (!filled(bones,x,y)) continue;
+        const index=((y-frame.y)*scale*frame.width*scale+(x-frame.x)*scale)*4;
+        const changed=[0,1,2,3].some(channel=>withReliefs[index+channel]!==withoutReliefs[index+channel]);
+        // Stay one SVG unit away from the anti-aliased edge of the carrier.
+        if ([[0,0],[-1,0],[1,0],[0,-1],[0,1]].every(([dx,dy])=>filled(surfaces,x+dx,y+dy))) {
+          covered++;
+          changedUnderVolume+=Number(changed);
+        } else if (!filled(surfaces,x,y) && changed) visible++;
+      }
+      return {covered,changedUnderVolume,visible};
+    },body);
+    assert(result.covered>=5 && result.visible>=10,JSON.stringify({body,...result}));
+    assert.equal(result.changedUnderVolume,0,JSON.stringify({body,...result}));
+    coverage.push({body,...result});
+    await card.screenshot({path:path.join(output,`${name}-bone-reliefs-coverage-${body}.png`)});
+  }
+  for (const width of [390,810,1180]) {
+    await page.setViewportSize({width,height:920});
+    assert(await page.evaluate(w=>document.documentElement.scrollWidth<=w+1,width));
+  }
+  return {families:4,levels:9,adultBases:2,references:36,coverage,archives:2,skins:4,structures:7,scales:3};
+}
+
 async function exercise(context, url, name, version) {
   const [page, old] = await Promise.all([context.newPage(), context.newPage()]);
   const errors = [];
@@ -994,11 +1152,12 @@ async function exercise(context, url, name, version) {
   const chest = chestCorrection ? await checkChestCorrection(page,old,url,name) : chestPreview ? await checkChest(page,url,name) : undefined;
   const pectorals = pectoralPreview ? await checkPectoralEdition(page,old,url,name) : undefined;
   const thoraxDetails=thoraxDetailsPreview ? await checkThoraxDetails(page,url,name) : undefined;
+  const boneReliefs=boneReliefPreview ? await checkBoneReliefEdition(page,old,url,name) : undefined;
   assert.deepEqual(errors,[]);
   return {name, version, historicalExact:historicalBodies.length*3, rasterBySize:[8,8,8],
     fittings:cases.length*2, coldImports:2, guidedLandmarks:14, ...(structure ? {structure} : {}),
     ...(corpulence ? {corpulence} : {}), ...(chest ? {chest} : {}), ...(pectorals ? {pectorals} : {}),
-    ...(thoraxDetails ? {thoraxDetails} : {})};
+    ...(thoraxDetails ? {thoraxDetails} : {}), ...(boneReliefs ? {boneReliefs} : {})};
 }
 
 async function files(url) {
