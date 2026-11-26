@@ -70,7 +70,7 @@ async function compare(page) {
     for (let index=3; index<rgba.length; index+=4) if (rgba[index]>127) pixels++;
     const silhouette = clone.querySelector('.body-shape');
     if (!silhouette) throw new Error('Calque corporel introuvable.');
-    const body = silhouette.outerHTML;
+    const body = silhouette.outerHTML.replace(/atelier-yeux-\d+/g,'fixed');
     silhouette.remove();
     return {width:Math.round(width),height,original,body,outside:serialize(),raster:canvas.toDataURL(),pixels};
   })),boneReliefPreview);
