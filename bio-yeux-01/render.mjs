@@ -84,7 +84,7 @@ function guides({envelopes, nose, maxWidth, maxHeight}) {
 export function character(input = {}, options = {}) {
   const inheritedSvg = inherited(input, options);
   const adultFace = isAdultBody(input.body) ? model(input) : null;
-  const pelvicDetails = (options.pelvicDetails ?? (input.pubicHairLength !== undefined)) && hasAdultPelvis(input.body,input.age);
+  const pelvicDetails = hasAdultPelvis(input.body,input.age) && (options.pelvicDetails ?? (input.pubicHairLength !== undefined));
   const pubicHairPigment = pelvicDetails && input.pubicHairLength > 0
     ? facialPigment(adultFace,{colourMode:'linked'},{...options,source:inheritedSvg}).fill : undefined;
   const svg = adultFace ? inheritedSvg.replace(/<g class="body-shape">[^]*?<\/g>/,

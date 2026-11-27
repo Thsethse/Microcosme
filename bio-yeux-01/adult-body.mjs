@@ -178,7 +178,7 @@ export function adultBodyMarkup(key, chin, {skin, contour}, structure, corpulenc
     ? thoraxDetailsMarkup(body,key,thoraxDetails,chestStudySkin,smallScale,{chest,pectorals,corpulence},
       bellyFinish==='r01') : '';
   const pelvis=pelvicDetails && !beforeCorrection && !historical
-    ? pelvicDetailsMarkup(body,key,corpulence,chestStudySkin,pubicHairPigment,pubicHairLength,smallScale) : '';
+    ? pelvicDetailsMarkup(body,key,corpulence,chestStudySkin,pubicHairPigment,pubicHairLength,smallScale,pelvicDetails==='before') : '';
   const surface=muscles+belly+bones+pelvis;
   if (key==='adult-h' && pectorals?.volume) return baseline+surface+pectoralMarkup(body,pectorals,corpulence,chestStudySkin)+details;
   if (key!=='adult-f' || !chest?.volume) return baseline+surface+details;

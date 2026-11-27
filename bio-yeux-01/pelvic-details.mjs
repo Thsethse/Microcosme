@@ -32,6 +32,19 @@ export function pelvicDetailFrame(body, corpulence) {
   return {axis:body.ground.x,top,end,reach};
 }
 
+// The reference places the details between the converging creases, with
+// the H form extending farther down. The floor and body path stay independent.
+export function pelvicAnatomyFrame(body, key, corpulence) {
+  const original = pelvicDetailFrame(body,corpulence);
+  const {pelvicBase} = pelvicLandmarks(body);
+  const male = key === 'adult-h';
+  const height = body.height;
+  const top = Math.max(original.top, pelvicBase-height*(male ? .048 : .069));
+  const end = pelvicBase+height*(male ? .069 : .028);
+  const reach = Math.max(original.reach*1.10,Math.min(body.minimumWidth(top,end)*(male ? .35 : .48),height*(male ? .08 : .111)));
+  return {axis:original.axis,top,end,reach};
+}
+
 // Staggered roots with small, fixed offsets. Length cannot move a root or
 // change its pigment. All scales use the same rows and the same root count.
 const roots = [7,7,6,4].flatMap((count,row)=>Array.from({length:count},(_,column)=>{
@@ -95,9 +108,12 @@ function anatomy(frame, body, skin, smallScale) {
     [[-.06,.70],[-.11,.62],[-.12,.46]]));
 }
 
-export function pelvicDetailsMarkup(body, key, corpulence, skin, hair, length = referencePubicHairLength, smallScale = false) {
-  const frame = pelvicDetailFrame(body,corpulence);
-  const geometry = length === 0 ? [] : pubicHairGeometry(frame,length);
+export function pelvicDetailsMarkup(body, key, corpulence, skin, hair, length = referencePubicHairLength, smallScale = false, previous = false) {
+  const original = pelvicDetailFrame(body,corpulence);
+  const frame = previous ? original : pelvicAnatomyFrame(body,key,corpulence);
+  const offset = (frame.top-original.top)*.65+(frame.end-original.end)*.12;
+  const hairFrame = {...original,top:original.top+offset,end:original.end+offset};
+  const geometry = length === 0 ? [] : pubicHairGeometry(hairFrame,length);
   const texture = length === 0 ? '' : `<g data-pubic-hair="">${
     [[.18,.10,.075],[.31,.23,.19],[.86,.77,.65]].map((target,tone)=>{
       const fill = blend(hair,target,smallScale ? .16 : .22);

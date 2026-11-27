@@ -117,3 +117,25 @@ test('v22 restaure les valeurs exactes, y compris zéro, avec les autres réglag
   assert.throws(()=>validatePubicHairLength(Infinity),/longueur/);
   assert.equal(restoreSelection({...raw,pubicHairLength:75}).state.pubicHairLength,undefined);
 });
+
+test('R01 descend et agrandit les deux formes sans modifier les autres calques', async ()=>{
+  const {pelvicAnatomyFrame}=await import('../pelvic-details.mjs');
+  for (const body of bases) for (const [, , structure] of structureCombinations) {
+    for (const corpulence of [0,25,50,75,100]) {
+      const geometry=adultBodyGeometry(body,[80,109],structure,corpulence);
+      const before=pelvicDetailFrame(geometry,corpulence);
+      const after=pelvicAnatomyFrame(geometry,body,corpulence);
+      assert(after.top>=before.top && after.end>before.end && after.reach>before.reach);
+      assert(after.top>abdominalFoldGeometry(geometry,corpulence).bottom);
+      assert(after.end<geometry.ground.y-geometry.height*.25);
+      for (const pubicHairLength of [0,100]) {
+        const input={...raw,body,structure,corpulence,pubicHairLength};
+        const current=character(input,{pelvicDetails:true,bellyFinish:true});
+        const original=character(input,{pelvicDetails:'before',bellyFinish:true});
+        assert.notEqual(layer(current),layer(original));
+        assert.equal(current.replace(layer(current),''),original.replace(layer(original),''));
+        if(pubicHairLength) assert.equal([...hair(current).matchAll(/M/g)].length,24);
+      }
+    }
+  }
+});
