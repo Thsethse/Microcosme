@@ -59,7 +59,10 @@ export function pubicStippleGeometry(body, key, frame, corpulence, growth, small
   const outline='M'+[...boundary(1),...boundary(-1)].join('L')+'Z';
   const count=smallScale ? 85 : 220;
   const spacing=Math.sqrt(1.06*reach*(end-top)/count);
-  const radius=spacing*.99*(growth/100)**1.18;
+  const amount=growth/100;
+  // Keep the gaps visible at 75% and close them towards the end of the range.
+  const midrange=amount**4*(1-amount)/(.75**4*.25);
+  const radius=spacing*.99*amount**1.18*(1-.15*midrange);
   const dots=patterns[key].slice(0,count).map(({x,y,tone,size})=>({...project({x,y}),tone,radius:size*radius}));
   return {outline,dots};
 }
