@@ -17,11 +17,14 @@ Branche `codex/bio-socle-02-r01` issue de `docs/bio-socle-01` à `ee2564f0b87be5
 
 ## Validation sur Safari iPad
 
-1. Ouvrir la preview, puis **Atelier du thorax**. Toucher **Poitrine · F adulte**. Augmenter le volume et vérifier que six commandes sont utilisables. Modifier une largeur, puis ramener le volume à zéro pour mettre la valeur en réserve.
-2. Toucher **Pectoraux · H adulte**, augmenter le volume, vérifier les cinq commandes, puis régler une largeur différente. Passer de H à F puis de F à H et retrouver les réglages. En F, remonter le volume pour réactiver le réglage latent.
-3. Rester en H, ouvrir **Archive H/F**, exporter et copier le JSON dans Notes. Fermer l’onglet, rouvrir la preview dans un nouvel onglet, coller le JSON et importer. Vérifier d’abord H, puis F, y compris la valeur latente. Refaire en exportant depuis F.
-4. Ouvrir **Habitants témoins** et afficher F puis H. Vérifier que les trois représentations correspondent au même habitant et que l’identité change lorsque le témoin change. Sur H, noter l’identité et consulter ses caractéristiques, puis exporter le JSON dans Notes. Fermer, rouvrir, coller et restaurer. Vérifier le retour de l’identité H, des trois vues et du message d’égalité des caractéristiques.
-5. Coller un JSON tronqué dans le panneau habitant et tenter la restauration. Vérifier le diagnostic et la conservation de l’habitant affiché.
+Les réglages modifiables de cette recette se trouvent dans **Atelier du thorax**. Les habitants témoins sont prédéfinis et consultables en lecture seule. Le champ **Archive de l’habitant** sert à copier ou à coller le JSON pour l’export et la restauration.
+
+1. Ouvrir **Atelier du thorax**, puis toucher **Poitrine · F adulte**. Augmenter **Volume**, vérifier les six commandes, modifier **Largeur** et noter sa valeur. Ramener **Volume** à zéro pour mettre la largeur en réserve.
+2. Toucher **Pectoraux · H adulte**, augmenter **Volume musculaire**, vérifier les cinq commandes et donner à **Largeur** une autre valeur. Alterner H et F. En F, remonter **Volume** pour vérifier la largeur mémorisée, puis le remettre à zéro.
+3. Depuis H, ouvrir **Archive H/F**, toucher **Exporter l’apparence**, puis copier le contenu du champ **Archive JSON** dans Notes. Fermer l’onglet, rouvrir la preview, ouvrir **Archive H/F**, coller le JSON dans **Archive JSON** et toucher **Importer l’apparence**. Vérifier H, puis F en remontant **Volume** pour retrouver sa largeur. Refaire le parcours en exportant depuis F.
+4. Ouvrir **Habitants témoins**. Dans le sélecteur **Habitant**, choisir **Témoin F** et toucher **Afficher le témoin**. Vérifier le **Portrait**, le **Corps / pion** et la **Miniature**. Choisir **Témoin H** et toucher à nouveau **Afficher le témoin**. Noter l’**Identité affichée** et ouvrir **Caractéristiques canoniques** pour consulter ses données.
+5. Toucher **Exporter l’habitant** et copier le JSON du champ **Archive de l’habitant** dans Notes. Fermer l’onglet, rouvrir la preview et revenir à **Habitants témoins**. Coller le JSON tel quel dans **Archive de l’habitant** et toucher **Restaurer l’habitant**. Vérifier le retour de l’identité H, des trois vues et du message confirmant l’égalité des caractéristiques.
+6. Pour tester le diagnostic, coller uniquement `{` dans **Archive de l’habitant** et toucher **Restaurer l’habitant**. Vérifier que le diagnostic s’affiche et que l’habitant courant reste visible.
 
 ## Résultats et limites
 
