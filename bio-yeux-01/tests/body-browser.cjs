@@ -1684,7 +1684,11 @@ async function checkPelvicR02(page,old,url,name) {
 }
 
 async function checkPelvicAnatomy(page,old,url,name) {
-  const {pubicHairStops}=await import('../pelvic-details.mjs');
+  // Labels of the frozen BIO-CORPS-06 preview (8930757309c3ff0382e4745a6676ec1c3d42f7bf).
+  const pubicHairStops=[
+    [0, 'Rasé'], [10, 'Début de repousse'], [25, 'Tonte courte'],
+    [50, 'Pilosité courte'], [75, 'Pilosité naturelle'], [100, 'Pilosité longue']
+  ];
   const open=async(target,base,fragment)=>{
     await target.goto('about:blank');
     await ready(target,base+'#'+fragment);
