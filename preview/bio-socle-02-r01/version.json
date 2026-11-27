@@ -1,0 +1,20 @@
+{
+  "mission": "BIO-SOCLE-02-R01",
+  "sourceCommit": "f69167e84dc90ca1b32238e62f1ffbb4021bedbe",
+  "artisticReference": "c18aa4d54873f19186d6c1af7e17aa22e566dda1",
+  "startup": "atelier-3a8c725f830abf21.js",
+  "files": [
+    {
+      "path": "atelier-3a8c725f830abf21.js",
+      "sha256": "3a8c725f830abf21af56fe0e001bed23dbae8514b6f5139956eb29fcd1e86d23"
+    },
+    {
+      "path": "style.css",
+      "sha256": "13073d923f855e632b9dfb4ac5acbd200ca5310dbbc93530cd8b24972f9c25c3"
+    },
+    {
+      "path": "index.html",
+      "sha256": "c0754a13fc2e44c31ef11a739ab6e285d58596bd531e7ad81c1f80017829fa2c"
+    }
+  ]
+}
