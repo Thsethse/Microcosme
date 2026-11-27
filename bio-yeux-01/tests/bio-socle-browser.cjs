@@ -1,5 +1,4 @@
 const assert = require('node:assert/strict');
-const {createHash} = require('node:crypto');
 const {createServer} = require('node:http');
 const {readFile, mkdir, writeFile} = require('node:fs/promises');
 const {join, resolve} = require('node:path');
@@ -32,7 +31,8 @@ async function ready(browser, url, startup) {
 async function verifyBuild(browser, url) {
   const context = await browser.newContext({ignoreHTTPSErrors: process.env.PAGES_TEST_PROXY === '1'});
   try {
-    const manifest = await context.request.get(new URL('version.json', url).href);
+    const page = await context.newPage();
+    const manifest = await page.goto(new URL('version.json', url).href);
     assert.equal(manifest.status(), 200);
     const data = await manifest.json();
     assert.equal(data.mission, 'BIO-SOCLE-02-R02');
@@ -41,9 +41,14 @@ async function verifyBuild(browser, url) {
     assert.match(data.startup, /^atelier-[\da-f]{16}\.js$/);
     assert.deepEqual(data.files.map(({path}) => path).sort(), [data.startup, 'index.html', 'style.css'].sort());
     for (const {path, sha256} of data.files) {
-      const response = await context.request.get(new URL(path, url).href);
-      assert.equal(response.status(), 200, path);
-      assert.equal(createHash('sha256').update(await response.body()).digest('hex'), sha256, path);
+      const result = await page.evaluate(async resource => {
+        const response = await fetch(resource);
+        const digest = await crypto.subtle.digest('SHA-256', await response.arrayBuffer());
+        const hash = Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, '0')).join('');
+        return {status: response.status, hash};
+      }, new URL(path, url).href);
+      assert.equal(result.status, 200, path);
+      assert.equal(result.hash, sha256, path);
     }
     return data;
   } finally {
