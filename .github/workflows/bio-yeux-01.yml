@@ -22,6 +22,8 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      - name: Autoriser les lectures Git du checkout dans le conteneur
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - run: npm ci
       - run: npm test
       - run: node --test bio-col-01/tests/*.test.mjs bio-yeux-01/tests/*.test.mjs
