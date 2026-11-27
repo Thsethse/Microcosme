@@ -6,7 +6,14 @@ const percent=value=>format.format(value)+' %';
 
 export function mountBeardEditor({input,eyes,context,render}) {
   const q=id=>document.getElementById('beard-'+id);
-  const category=()=>q('category').value;
+  const categorySelect=q('category');
+  let selectedCategory='H';
+  function category() {
+    const value=categorySelect.value;
+    if (['H','F','T'].includes(value)) selectedCategory=value;
+    else categorySelect.value=selectedCategory;
+    return selectedCategory;
+  }
   const neutral=normalizeBeard(beardPresets.short.values);
   let current=null,latent=null,origin=null,result=null;
   let previousKey=null;
@@ -101,7 +108,7 @@ export function mountBeardEditor({input,eyes,context,render}) {
     origin=draw;
     render();
   }
-  q('category').addEventListener('change',render);
+  categorySelect.addEventListener('change',render);
   q('active').addEventListener('change',event=>{
     if (event.target.checked) set(latent??neutral,origin);
     else {latent=current;set(null,origin);}
@@ -127,7 +134,8 @@ export function mountBeardEditor({input,eyes,context,render}) {
       current=data.beard??null;
       latent=data.beardLatent??null;
       origin=data.beardDraw??null;
-      q('category').value=data.beardCategory??'H';
+      selectedCategory=data.beardCategory??'H';
+      categorySelect.value=selectedCategory;
       q('seed').value=origin?.seed??q('seed').defaultValue;
     }
   };

@@ -1,3 +1,4 @@
+const activeAppearance = require('./active-appearance.cjs');
 const assert = require('node:assert/strict');
 const {createHash} = require('node:crypto');
 const {mkdir, readFile, writeFile} = require('node:fs/promises');
@@ -134,7 +135,7 @@ async function workstation(page,base) {
   assert.notEqual(await q('#scars-maturity').inputValue(),maturation);
   await q('#appearance-panel summary').press('Enter');
   await q('#appearance-export').click();
-  const saved=JSON.parse(await q('#appearance-json').inputValue());
+  const saved=activeAppearance(await q('#appearance-json').inputValue());
   assert.equal(saved.version,9);
   assert.equal(saved.character.body,'slim');
   assert.equal(saved.palette.mode,'flat');

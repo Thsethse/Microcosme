@@ -1,3 +1,4 @@
+const activeAppearance = require('./active-appearance.cjs');
 const assert = require('node:assert/strict');
 const {createHash} = require('node:crypto');
 const {mkdir, readFile, writeFile} = require('node:fs/promises');
@@ -50,7 +51,9 @@ async function serve(directory) {
 }
 
 async function ready(page, url) {
-  assert.equal((await page.goto(url, {waitUntil:'load'})).status(), 200);
+  const response = await page.goto(url, {waitUntil:'load'});
+  const status = response?.status();
+  assert([200, 304].includes(status), `Navigation vers ${url} · HTTP ${status}`);
   await page.waitForFunction(() => document.querySelector('#atelier').dataset.startup !== 'pending');
   assert.equal(await page.locator('#atelier').getAttribute('data-startup'), 'ready',
     await page.locator('#atelier-startup-detail').textContent());
@@ -88,7 +91,7 @@ async function compare(page) {
 
 async function exportAppearance(page) {
   await page.locator('#appearance-export').evaluate(button => button.click());
-  return page.locator('#appearance-json').inputValue();
+  return JSON.stringify(activeAppearance(await page.locator('#appearance-json').inputValue()));
 }
 
 async function importAppearance(page, document) {
@@ -1683,7 +1686,11 @@ async function checkPelvicR02(page,old,url,name) {
 }
 
 async function checkPelvicAnatomy(page,old,url,name) {
-  const {pubicHairStops}=await import('../pelvic-details.mjs');
+  // Labels of the frozen BIO-CORPS-06 preview (8930757309c3ff0382e4745a6676ec1c3d42f7bf).
+  const pubicHairStops=[
+    [0, 'Rasé'], [10, 'Début de repousse'], [25, 'Tonte courte'],
+    [50, 'Pilosité courte'], [75, 'Pilosité naturelle'], [100, 'Pilosité longue']
+  ];
   const open=async(target,base,fragment)=>{
     await target.goto('about:blank');
     await ready(target,base+'#'+fragment);

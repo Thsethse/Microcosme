@@ -1,3 +1,4 @@
+const activeAppearance = require('./active-appearance.cjs');
 const assert = require('node:assert/strict');
 const {chromium,webkit,devices} = require('playwright');
 
@@ -70,8 +71,8 @@ async function coverage(figure) {
       }
       await page.locator('#appearance-export').evaluate(button=>button.click());
       const saved=await page.locator('#appearance-json').inputValue();
-      assert.equal(JSON.parse(saved).version,22);
-      assert.equal(JSON.parse(saved).character.pubicHairLength,63.375);
+      assert.equal(activeAppearance(saved).version,22);
+      assert.equal(activeAppearance(saved).character.pubicHairLength,63.375);
       const texture=page.locator('#pubic-live-detail [data-pubic-hair]');
       const original=await texture.innerHTML();
       await page.reload();

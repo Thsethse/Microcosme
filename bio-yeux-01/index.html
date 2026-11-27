@@ -260,7 +260,7 @@
     <h2>Pilosité faciale</h2>
     <div class="iris-workspace">
       <div class="card">
-        <label>Catégorie<select id="beard-category"><option>H</option><option>F</option><option>T</option></select></label>
+        <label>Catégorie<select id="beard-category"><option value="H">H</option><option value="F">F</option><option value="T">T</option></select></label>
         <label class="check"><input type="checkbox" id="beard-active"> Personnaliser la pilosité</label>
         <fieldset id="beard-parameters" disabled>
           <legend class="visually-hidden">Réglages de la pilosité</legend>
@@ -710,13 +710,13 @@
         <p id="palette-note" class="hint" hidden>Ce rendu ne contient aucune surface capillaire colorable. La nuance et le mode restent mémorisés.</p>
       </div>
     </div>
-    <details id="appearance-panel"><summary>Exporter ou importer l’apparence complète</summary>
-      <label>Document d’apparence JSON<textarea id="appearance-json" rows="10" spellcheck="false"></textarea></label>
+    <details id="appearance-panel"><summary>Exporter ou importer l’archive de l’atelier</summary>
+      <label>Archive JSON<textarea id="appearance-json" rows="10" spellcheck="false"></textarea></label>
       <div class="actions"><button id="appearance-export" type="button">Exporter l’apparence</button><button id="appearance-import" type="button">Importer l’apparence</button></div>
       <p id="appearance-message" role="status"></p><p id="appearance-error" role="alert"></p>
     </details>
     <details id="json-panel"><summary>Données de la sélection historique</summary>
-      <p id="adult-archive-note" class="hint" hidden>Pour conserver les réglages du corps adulte, exportez l’apparence complète.</p>
+      <p id="adult-archive-note" class="hint" hidden>Pour conserver les réglages du corps adulte, exportez l’archive de l’atelier.</p>
       <label>Sélection JSON<textarea id="selection-json" rows="8" spellcheck="false"></textarea></label>
       <div class="actions"><button id="export" type="button">Afficher les données conservées</button><button id="reload" type="button">Relire ces données</button></div>
       <p id="selection-message" role="status"></p><p id="selection-error" role="alert"></p>
