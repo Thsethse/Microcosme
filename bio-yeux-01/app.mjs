@@ -2,7 +2,7 @@ import {palette, swatch} from '../bio-col-01/palette.mjs';
 import {choices, ordinaryChoices, choice, restoreSelection, selectOrdinary, exportSelection} from './catalogue.mjs';
 import {controls, bodies, model, presets} from '../preview/bio-vis-p5-i6/model.mjs';
 import {priorityCase} from '../preview/bio-vis-p5-i6/i5/i4/i3/i2/i1/base/r1/coverage.mjs';
-import {character} from './render.mjs';
+import {renderView, r02RenderVersion, workshopRenderVersion} from './render-profile.mjs';
 import {adultBodies, isAdultBody} from './adult-body.mjs';
 import {mountBodyStudy, mountStudyPanel, renderBodyStudy} from './body-study.mjs';
 import {referenceStructure, structureControls} from './body-structure.mjs';
@@ -21,7 +21,10 @@ import {pelvicDetailFrame, renderBellyDetailStudy, renderPelvicStudy} from './be
 import {pubicHairStops, referencePubicHairLength} from './pelvic-details.mjs';
 import {pelvicCloseup, pelvicStudyHair, renderPelvicAnatomyStudy} from './pelvic-anatomy-study.mjs';
 import {renderStructureStudy} from './structure-study.mjs';
-import {appearanceDocument, characterInput, parseAppearance} from './appearance.mjs';
+import {characterInput} from './appearance.mjs';
+import {adultSettings} from './adult-settings.mjs';
+import {parseWorkshop, workshopDocument} from './workshop-archive.mjs';
+import {mountResidentPreview} from './resident-preview.mjs';
 import {currentDraw, drawEyes, legacyDraw} from './draw.mjs';
 import {eyeChanges, eyeDomains, eyeProposal} from './eye-domain.mjs';
 import {availableOptions} from './availability.mjs';
@@ -58,6 +61,7 @@ const morphs = {
   max: {name: 'Tous les maxima', values: Object.fromEntries(axes.map(key => [key, controls[key].max]))}
 };
 const bodyPreferences = new Map();
+let historicalSource;
 const variety = ['p5-038:G','p5-048:G','curls:U','waist_waves:U','braids:U','p5-041:G','p5-056:D','p5-061:D',
   'p5-071:G','p5-029:G','p5-034:G','p5-051:G','p5-058:G','p5-068:G','p5-024:D','p5-058:D'];
 let selection = restoreSelection({style: 'p5-038', arrangement: 'G', body: 'standard', accessories: true, contrast: true});
@@ -92,8 +96,7 @@ function inputFor(key) {
   return characterInput(selection, key);
 }
 
-const frames = {head: '-30 -65 220 225', tile: '-40 -85 240 355', mini: '-35 -68 230 245'};
-function svg({key, body, structure, corpulence, chest, pectorals, thoraxDetails, abdominals, pubicHairLength, chestStudySkin, chestRevision, beforeCorpulenceCorrection, boneReliefs = body===undefined, bellyFinish = body===undefined, pelvicDetails = body===undefined, view = 'head', value = eyes, frame = frames[view], guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null, beard = null, beardCategory, marks = null, scars = null, makeup = null} = {}) {
+function svg({key, body, structure, corpulence, chest, pectorals, thoraxDetails, abdominals, pubicHairLength, chestStudySkin, chestRevision, beforeCorpulenceCorrection, boneReliefs = body===undefined, bellyFinish = body===undefined, pelvicDetails = body===undefined, view = 'head', value = eyes, frame, guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null, beard = null, beardCategory, marks = null, scars = null, makeup = null} = {}) {
   const input = inputFor(key);
   if (body !== undefined) {
     input.body = body;
@@ -105,10 +108,11 @@ function svg({key, body, structure, corpulence, chest, pectorals, thoraxDetails,
     input.abdominals = abdominals;
     input.pubicHairLength = pubicHairLength;
   }
-  const result = character(input, {
-    eyes: value, iris:pigment, details, brows, mouth, nose, beard, beardCategory, marks, scars, makeup, eyeEnvelopes: guides, hairColor: hair, rememberedHairColor: colour, headOnly: view !== 'tile',
-    smallScale: view === 'mini', naturalEyes, beforeCorpulenceCorrection, chestRevision, chestStudySkin, boneReliefs, bellyFinish, pelvicDetails, instance: 'atelier-yeux-' + (++serial)
-  }).replace(/viewBox="[^"]*"/, `viewBox="${frame}"`);
+  const result = renderView(input, {
+    view, frame,
+    eyes: value, iris:pigment, details, brows, mouth, nose, beard, beardCategory, marks, scars, makeup, eyeEnvelopes: guides, hairColor: hair, rememberedHairColor: colour,
+    naturalEyes, beforeCorpulenceCorrection, chestRevision, chestStudySkin, boneReliefs, bellyFinish, pelvicDetails, instance: 'atelier-yeux-' + (++serial)
+  });
   return decorative ? result.replace('<svg ', '<svg aria-hidden="true" focusable="false" ') : result;
 }
 
@@ -371,11 +375,10 @@ function renderChart() {
 }
 
 function rememberBody() {
-  const {body, structure, corpulence, chest, chestOrigin, pectorals, thoraxDetails, abdominals, pubicHairLength} = selection.state;
+  const {body} = selection.state;
   if (!isAdultBody(body)) return;
-  if (structure || corpulence !== undefined || chest || pectorals || thoraxDetails || abdominals || pubicHairLength !== undefined) {
-    bodyPreferences.set(body, {structure, corpulence, chest, chestOrigin, pectorals, thoraxDetails, abdominals, pubicHairLength});
-  }
+  const settings = adultSettings(selection.state);
+  if (Object.keys(settings).length) bodyPreferences.set(body, settings);
   else bodyPreferences.delete(body);
 }
 
@@ -770,14 +773,24 @@ q('#reload').addEventListener('click', () => {
 });
 
 q('#appearance-export').addEventListener('click', () => {
-  const document = appearanceDocument(selection, {eyes, form: selectedForm, draw, colour, flat: q('#flat-mode').checked, ...irisEditor.archiveSettings(), ...detailsEditor.archiveSettings(), ...browsEditor.archiveSettings(), ...mouthEditor.archiveSettings(), ...noseEditor.archiveSettings(), ...beardEditor.archiveSettings(), ...marksEditor.archiveSettings(), ...scarsEditor.archiveSettings(), ...makeupEditor.archiveSettings()});
-  q('#appearance-json').value = JSON.stringify(document, null, 2);
-  q('#appearance-error').textContent = '';
-  q('#appearance-message').textContent = 'Apparence complète exportée.';
+  try {
+    const archive = workshopDocument(selection, {
+      eyes, form: selectedForm, draw, colour, flat: q('#flat-mode').checked,
+      ...irisEditor.archiveSettings(), ...detailsEditor.archiveSettings(), ...browsEditor.archiveSettings(),
+      ...mouthEditor.archiveSettings(), ...noseEditor.archiveSettings(), ...beardEditor.archiveSettings(),
+      ...marksEditor.archiveSettings(), ...scarsEditor.archiveSettings(), ...makeupEditor.archiveSettings()
+    }, bodyPreferences, naturalEyes, historicalSource);
+    q('#appearance-json').value = JSON.stringify(archive, null, 2);
+    q('#appearance-error').textContent = '';
+    q('#appearance-message').textContent = 'Archive atelier exportée. Copiez le JSON pour une restauration après réouverture.';
+  } catch (error) {
+    q('#appearance-message').textContent = '';
+    q('#appearance-error').textContent = 'Archive non exportée · ' + error.message;
+  }
 });
 q('#appearance-import').addEventListener('click', () => {
   try {
-    const restored = parseAppearance(q('#appearance-json').value);
+    const restored = parseWorkshop(q('#appearance-json').value);
     clearProposal();
     irisEditor.restore(restored);
     detailsEditor.restore(restored);
@@ -789,6 +802,9 @@ q('#appearance-import').addEventListener('click', () => {
     scarsEditor.restore(restored);
     makeupEditor.restore(restored);
     ({selection, eyes, form: selectedForm, draw, colour} = restored);
+    historicalSource = restored.historicalSource;
+    bodyPreferences.clear();
+    for (const [body, settings] of Object.entries(restored.inactiveBodies)) bodyPreferences.set(body, settings);
     rememberBody();
     q('#flat-mode').checked = restored.flat;
     q('#seed').value = draw?.seed ?? q('#seed').defaultValue;
@@ -799,10 +815,16 @@ q('#appearance-import').addEventListener('click', () => {
     const importedVersion = restored.importedChestVersion;
     q('#appearance-message').textContent = importedVersion
       ? `Apparence v${importedVersion} ouverte avec le rendu R02. Les réglages et les données d’origine sont conservés dans l’export v16.`
-      : restored.importedNavel && restored.importedThorax ? 'Apparence v20 restaurée avec le nombril et les mamelons standards. Le prochain export conserve les réglages aréolaires.'
-      : restored.importedNavel ? 'Apparence v20 restaurée avec le nombril standard. Les anciennes valeurs du nombril sont retirées au prochain export.'
-      : restored.importedThorax ? 'Apparence restaurée avec les mamelons standards et les cinq réglages aréolaires d’origine.'
+      : restored.importedNavel && restored.importedThorax ? 'Apparence v20 restaurée avec le nombril et les mamelons standards. Les anciennes valeurs sont conservées dans la source historique.'
+      : restored.importedNavel ? 'Apparence v20 restaurée avec le nombril standard. Les anciennes valeurs sont conservées dans la source historique.'
+      : restored.importedThorax ? 'Apparence restaurée avec les mamelons standards et les cinq réglages aréolaires d’origine. Les anciennes valeurs sont conservées dans la source historique.'
       : 'Apparence complète restaurée.';
+    if (restored.legacy) q('#appearance-message').textContent += ' L’archive historique contient uniquement les réglages de la base active.';
+    if (restored.ambiguousRender) q('#appearance-message').textContent += ' Le tracé d’origine v22 est indéterminable. La pousse est relue en pointillé R02.';
+    const renderProfile = naturalEyes ? r02RenderVersion : workshopRenderVersion;
+    if (restored.renderProfile && restored.renderProfile !== renderProfile) {
+      q('#appearance-message').textContent += ' Les réglages sont affichés selon le profil graphique de cet atelier.';
+    }
     refreshCharacter();
   } catch (error) {
     q('#appearance-message').textContent = '';
@@ -851,5 +873,7 @@ mountStudyPanel(q('#planche-pli-nombril'),renderComparison);
 mountStudyPanel(q('#diagnostic-pelvien'),renderComparison);
 mountStudyPanel(q('#planche-anatomie-pelvienne'),renderComparison);
 refreshCharacter();
+mountResidentPreview(q('#resident-preview'));
+q('#workshop-archive-link')?.addEventListener('click', () => { q('#appearance-panel').open = true; });
 q('#atelier').dataset.startup = 'ready';
 q('#atelier-startup').hidden = true;

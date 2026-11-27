@@ -302,3 +302,7 @@ button:disabled, input:disabled, select:disabled { opacity: .65; }
 }
 
 .body-structure-heading { margin: 16px 0 5px; }
+
+#resident-preview .resident-views { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); margin: 1rem 0; }
+#resident-preview textarea { width: 100%; }
+#resident-preview pre { white-space: pre-wrap; overflow-wrap: anywhere; }

@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - 'bio-yeux-01/**'
+      - 'preview/bio-socle-02-r01/**'
       - '.github/workflows/bio-yeux-01.yml'
 permissions:
   contents: read
@@ -24,7 +25,12 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: node --test bio-col-01/tests/model.test.mjs bio-yeux-01/tests/model.test.mjs
+      - run: node --test bio-yeux-01/tests/bio-socle.test.mjs
       - run: npx playwright install chromium webkit
+      - name: Recette du socle adulte
+        run: |
+          node preview/bio-socle-02-r01/build.mjs "$ARTIFACT_DIR/bio-socle-pages"
+          PREVIEW_DIR="$ARTIFACT_DIR/bio-socle-pages" ARTIFACT_DIR="$ARTIFACT_DIR/bio-socle" node bio-yeux-01/tests/bio-socle-browser.cjs
       - name: Rejouer l’interface BIO-YEUX-01 publiée avant A/B/C
         run: |
           legacy_preview=$(mktemp -d)

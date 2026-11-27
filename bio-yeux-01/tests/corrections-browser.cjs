@@ -1,3 +1,4 @@
+const activeAppearance = require('./active-appearance.cjs');
 const assert = require('node:assert/strict');
 const {createServer} = require('node:http');
 const {execFileSync} = require('node:child_process');
@@ -69,7 +70,7 @@ async function testArchive(page, base) {
   await page.locator('#appearance-panel summary').tap();
   await page.locator('#appearance-export').tap();
   const text = await page.locator('#appearance-json').inputValue();
-  const saved = JSON.parse(text);
+  const saved = activeAppearance(text);
   assert.deepEqual([saved.character.style, saved.character.arrangement, saved.character.body], ['p5-061', 'G', 'bust']);
   assert.equal(saved.palette.colour, 'bleu-vif');
   assert.equal(saved.palette.mode, 'flat');
@@ -82,7 +83,7 @@ async function testArchive(page, base) {
   assert.equal(await page.locator('#ordinary').inputValue(), 'p5-056:G');
   assert.equal(await page.locator('#seed').inputValue(), 'archive-bio-inv');
   await page.locator('#appearance-export').tap();
-  assert.deepEqual(JSON.parse(await page.locator('#appearance-json').inputValue()), saved);
+  assert.deepEqual(activeAppearance(await page.locator('#appearance-json').inputValue()), saved);
   await page.locator('#appearance-json').fill(text.replace(saved.renderer, 'future-version'));
   await page.locator('#appearance-import').tap();
   assert.match(await page.locator('#appearance-error').textContent(), /version de rendu/i);
@@ -93,7 +94,8 @@ async function testArchive(page, base) {
   await page.evaluate(async ({base, baseline, text}) => {
     const {character} = await import(new URL('render.mjs', baseline));
     const {characterInput, parseAppearance} = await import(new URL('appearance.mjs', base));
-    const restored = parseAppearance(text);
+    const archive = JSON.parse(text);
+    const restored = parseAppearance(archive.schema === 'microcosme.workshop' ? JSON.stringify(archive.active) : text);
     const input = characterInput(restored.selection);
     const modes = [{frame:'-30 -65 220 225', headOnly:true},
       {frame:'-40 -85 240 355', headOnly:false}, {frame:'-35 -68 230 245', headOnly:true, smallScale:true}];
@@ -113,7 +115,7 @@ async function testArchive(page, base) {
   await page.locator('#reset-eyes').tap();
   await page.locator('#flat-mode').uncheck();
   await page.locator('#appearance-export').tap();
-  const historical = JSON.parse(await page.locator('#appearance-json').inputValue());
+  const historical = activeAppearance(await page.locator('#appearance-json').inputValue());
   assert.equal(historical.eyes.mode, 'historical');
   assert.deepEqual(historical.palette, {colour: 'bleu-vif', mode: 'historical'});
   assert.deepEqual(await snapshot(page), await snapshot(page, '[data-side=before]'));
@@ -153,7 +155,7 @@ const openHistory = async (page, key) => {
 const applyProposal = async page => { if (await isProposal(page)) await page.locator('#eye-confirm').tap(); };
 async function captureArchive(page) {
   await page.locator('#appearance-export').tap();
-  return JSON.parse(await page.locator('#appearance-json').inputValue());
+  return activeAppearance(await page.locator('#appearance-json').inputValue());
 }
 
 async function testDomains(page, base, engine) {

@@ -1,3 +1,4 @@
+const activeAppearance = require('./active-appearance.cjs');
 const assert = require('node:assert/strict');
 const {createHash} = require('node:crypto');
 const {mkdir, readFile, writeFile} = require('node:fs/promises');
@@ -259,23 +260,23 @@ async function exercise(context, base, engine, browserVersion, assetReport) {
   await q('#appearance-panel summary').click();
   await q('#appearance-export').click();
   const archive = await q('#appearance-json').inputValue();
-  assert.equal(JSON.parse(archive).version,10);
+  assert.equal(activeAppearance(archive).version,10);
   await q('#makeup-remove-all').click();
   const removed = await snapshot(page);
   assert.deepEqual(removed,natural);
   assert.equal(await q(after+' [data-bio-makeup]').count(),0);
   await q('#appearance-export').click();
-  assert.equal(JSON.parse(await q('#appearance-json').inputValue()).makeup.mode,'historical');
+  assert.equal(activeAppearance(await q('#appearance-json').inputValue()).makeup.mode,'historical');
 
   await q('#body').selectOption('broad');
   await q('#morph').selectOption('broad');
   if (await q('#eye-confirm').isVisible()) await q('#eye-confirm').click();
   await q('#makeup-apply').click();
   await q('#appearance-export').click();
-  const transferred = JSON.parse(await q('#appearance-json').inputValue());
+  const transferred = activeAppearance(await q('#appearance-json').inputValue());
   assert.equal(transferred.character.body,'broad');
-  assert.deepEqual(transferred.makeup.requested,JSON.parse(archive).makeup.requested);
-  assert.notDeepEqual(transferred.makeup.effective,JSON.parse(archive).makeup.effective);
+  assert.deepEqual(transferred.makeup.requested,activeAppearance(archive).makeup.requested);
+  assert.notDeepEqual(transferred.makeup.effective,activeAppearance(archive).makeup.effective);
 
   // Persisted composition is still selectable after loading a fresh document.
   await ready(page,base);

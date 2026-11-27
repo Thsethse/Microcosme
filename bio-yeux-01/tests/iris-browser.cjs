@@ -1,3 +1,4 @@
+const activeAppearance = require('./active-appearance.cjs');
 const assert = require('node:assert/strict');
 const {createServer} = require('node:http');
 const {execFileSync} = require('node:child_process');
@@ -140,7 +141,7 @@ async function verifyWorkshop(page, name) {
   const q=selector=>page.locator(selector);
   const exportAppearance=async ()=>{
     await q('#appearance-export').tap();
-    return JSON.parse(await q('#appearance-json').inputValue());
+    return activeAppearance(await q('#appearance-json').inputValue());
   };
   await q('#eye-preset').selectOption('round');
   if (await q('#eye-confirm').isVisible()) await q('#eye-confirm').tap();

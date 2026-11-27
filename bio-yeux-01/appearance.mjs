@@ -211,7 +211,7 @@ export function appearanceDocument(selection, {eyes, form, draw, colour, flat, i
   };
 }
 
-function identical(a, b) {
+export function identical(a, b) {
   if (a === b) return true;
   if (!a || !b || typeof a !== 'object' || typeof b !== 'object' || Array.isArray(a) !== Array.isArray(b)) return false;
   const keys = Object.keys(a);

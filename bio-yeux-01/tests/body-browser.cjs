@@ -1,3 +1,4 @@
+const activeAppearance = require('./active-appearance.cjs');
 const assert = require('node:assert/strict');
 const {createHash} = require('node:crypto');
 const {mkdir, readFile, writeFile} = require('node:fs/promises');
@@ -88,7 +89,7 @@ async function compare(page) {
 
 async function exportAppearance(page) {
   await page.locator('#appearance-export').evaluate(button => button.click());
-  return page.locator('#appearance-json').inputValue();
+  return JSON.stringify(activeAppearance(await page.locator('#appearance-json').inputValue()));
 }
 
 async function importAppearance(page, document) {
