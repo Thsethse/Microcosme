@@ -41,7 +41,7 @@ async function coverage(figure) {
           values.push(await coverage(fig));
         }
         assert(values.every((value,index)=>index===0 ? value===0 : value>values[index-1]));
-        assert(values[1]<.07 && values[2]<.30 && values[4]>.68 && values[5]>.94, JSON.stringify(values));
+        assert(values[1]<.07 && values[2]<.30 && values[4]>.68 && values[4]<.91 && values[5]>.94, JSON.stringify(values));
         numbers[body]=values.map(value=>Math.round(value*100));
       }
       for(const scale of ['head','tile','mini']){
