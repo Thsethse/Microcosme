@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
 import {test} from 'node:test';
 import {adultSettings, restoreAdultSettings} from '../adult-settings.mjs';
 import {appearanceDocument} from '../appearance.mjs';
@@ -95,6 +96,20 @@ const views = {
   portrait: '-30 -65 220 225', pawn: '-40 -85 240 355', thumbnail: '-35 -68 230 245'
 };
 
+// Matched against the distributed BIO-CORPS-06-R02 SVGs with a stable instance.
+const r02Digests = {
+  'temoin-f-01': {
+    portrait: 'b09a57cf8bfe0de30d0117703b73d40bc85b253ae13c20924083aa31e228e8e8',
+    pawn: '2d94f3c0c61650b76ea42d96d7a8f8ba0ecf63e30c2b5650049b26f08412c4b8',
+    thumbnail: '9607d4baaea82fd587684478c9e9a1a98642da95d641845bd124fe387e6808da'
+  },
+  'temoin-h-01': {
+    portrait: '2a36e850f5d93249d3064bbb8fc15f52f540374dfc39cab0c2d181df75e4f2a5',
+    pawn: 'a14eca6f455602c793cc27766f9db993666028d0f454e77d7ef3774f9cb0bdf2',
+    thumbnail: '8fe8e1bec1bdec9e464a957c9b9743c4b443415bc4c9c76ff4678ce02e9d424d'
+  }
+};
+
 test('les témoins conservent leurs données et leur identité et reproduisent l’appel artistique R02', () => {
   const ids = new Set();
   for (const resident of residentWitnesses()) {
@@ -105,7 +120,7 @@ test('les témoins conservent leurs données et leur identité et reproduisent l
     ids.add(restored.identity.id);
     assert.doesNotMatch(data, /<svg|viewBox|effectiveOptions/);
     for (const [representation, viewBox] of Object.entries(views)) {
-      const opts = {representation, instance:'reference'};
+      const opts = {representation, instance:'snapshot'};
       const svg = renderResident(restored, opts);
       const {beard, ...body} = resident.physical;
       const input = {...resident.voluntary.hairstyle, ...resident.biology.morphology, ...body,
@@ -116,9 +131,10 @@ test('les témoins conservent leurs données et leur identité et reproduisent l
         hairColor: resident.biology.naturalHairColor, rememberedHairColor: resident.biology.naturalHairColor,
         naturalEyes: true, boneReliefs: true, bellyFinish: true, pelvicDetails: true,
         headOnly: representation !== 'pawn', smallScale: representation === 'thumbnail',
-        instance: 'resident-explicit-reference'
+        instance: 'resident-explicit-snapshot'
       }).replace(/viewBox="[^"]*"/, `viewBox="${viewBox}"`);
       assert.equal(svg, reference);
+      assert.equal(createHash('sha256').update(svg).digest('hex'), r02Digests[resident.identity.id][representation]);
       assert.equal(svg, renderResident(resident, opts));
       assert.match(svg, /data-bone-reliefs/);
       assert.match(svg, /data-navel-part/);

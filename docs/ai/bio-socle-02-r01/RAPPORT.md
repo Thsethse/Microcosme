@@ -25,9 +25,10 @@ Branche `codex/bio-socle-02-r01` issue de `docs/bio-socle-01` à `ee2564f0b87be5
 
 ## Résultats et limites
 
-Les vérifications Node couvrent le rejeu historique, l’égalité des documents, les données latentes, la validation, l’absence de mutation, la cohérence des trois échelles, l’isolation SVG et la comparaison des appels au moteur R02. La comparaison porte sur les deux configurations explicites et les régressions couvertes par les suites historiques. Les réserves thoraciques précédemment reportées restent inscrites dans l’audit de convergence.
-
-La vérification sur iPad physique relève de la recette du porteur. Les mesures Safari iPad et l’arbitrage du support de stockage restent ouverts.
+- **Tests automatisés sous Node 24.22.3.** Les huit tests du socle couvrent le rejeu historique, les données latentes, l’égalité des sauvegardes, la validation, l’absence de mutation, les trois échelles et l’isolation SVG. Les 35 tests du jeu v0.9 passent.
+- **Simulations tactiles.** La recette dédiée passe sous Chromium 151 et WebKit 26.5 en profil iPad Mini simulé. Elle ouvre les commandes thoraciques au toucher, réinjecte des valeurs fractionnaires exactes, ferme le contexte puis restaure les deux bases. La sauvegarde de l’habitant H rétablit son identité et ses trois SVG. La suite navigateur du jeu passe avec les deux moteurs.
+- **Contrôle graphique.** Les captures des trois représentations ont été inspectées. La comparaison automatisée avec le bundle statique publié R02 donne six SVG identiques, pour deux habitants et trois échelles, après normalisation des identifiants d’instance. Les réserves thoraciques précédemment reportées restent inscrites dans l’audit de convergence.
+- **Appareil physique.** La vérification et les mesures Safari iPad relèvent de la recette du porteur. L’arbitrage du support de stockage reste ouvert.
 
 ## Prérequis pour BIO-SOCLE-03
 

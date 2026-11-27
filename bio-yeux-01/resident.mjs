@@ -109,7 +109,7 @@ function residentProjection(data) {
     input: characterInput(selection),
     options: {
       ...biology.face, marks, scars: acquired.scars, makeup,
-      beard: shaved ? null : beard, beardCategory: biology.body === 'adult-h' ? 'H' : 'F',
+      beard: shaved ? null : beard,
       hairColor: dye ?? biology.naturalHairColor, rememberedHairColor: dye ?? biology.naturalHairColor
     }
   };
