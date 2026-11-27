@@ -28,7 +28,13 @@ export function mountResidentPreview(panel) {
   }
 
   panel.querySelector('#resident-open').addEventListener('click', () => {
-    show(witnesses[Number(select.value)]);
+    const witness = witnesses.find((_, index) => String(index) === select.value);
+    if (!witness) {
+      status.textContent = '';
+      error.textContent = 'Habitant non chargé · Choisissez un témoin.';
+      return;
+    }
+    show(witness);
     status.textContent = 'Témoin chargé.';
   });
   panel.querySelector('#resident-export').addEventListener('click', () => {

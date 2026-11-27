@@ -24,13 +24,12 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
-      - run: node --test bio-col-01/tests/model.test.mjs bio-yeux-01/tests/model.test.mjs
-      - run: node --test bio-yeux-01/tests/bio-socle.test.mjs
+      - run: node --test bio-col-01/tests/*.test.mjs bio-yeux-01/tests/*.test.mjs
       - run: npx playwright install chromium webkit
       - name: Recette du socle adulte
         run: |
           node preview/bio-socle-02-r01/build.mjs "$ARTIFACT_DIR/bio-socle-pages"
-          PREVIEW_DIR="$ARTIFACT_DIR/bio-socle-pages" ARTIFACT_DIR="$ARTIFACT_DIR/bio-socle" node bio-yeux-01/tests/bio-socle-browser.cjs
+          PREVIEW_SOURCE="$(git rev-parse HEAD)" PREVIEW_DIR="$ARTIFACT_DIR/bio-socle-pages" ARTIFACT_DIR="$ARTIFACT_DIR/bio-socle" node bio-yeux-01/tests/bio-socle-browser.cjs
       - name: Rejouer l’interface BIO-YEUX-01 publiée avant A/B/C
         run: |
           legacy_preview=$(mktemp -d)
@@ -39,33 +38,22 @@ jobs:
             ln -s "$GITHUB_WORKSPACE/$directory" "$legacy_preview/$directory"
           done
           ARTIFACT_DIR="$ARTIFACT_DIR/historique-yeux" node "$legacy_preview/bio-yeux-01/tests/browser.cjs"
-      - run: node --test bio-yeux-01/tests/corrections-*.test.mjs
-      - run: node --test bio-yeux-01/tests/iris.test.mjs
       - run: ARTIFACT_DIR="$ARTIFACT_DIR/iris" node bio-yeux-01/tests/iris-browser.cjs
-      - run: node --test bio-yeux-01/tests/details.test.mjs
       - run: ARTIFACT_DIR="$ARTIFACT_DIR/details" node bio-yeux-01/tests/details-browser.cjs
-      - run: node --test bio-yeux-01/tests/brows.test.mjs
       - run: ARTIFACT_DIR="$ARTIFACT_DIR/brows" node bio-yeux-01/tests/brows-browser.cjs
-      - run: node --test bio-yeux-01/tests/mouth.test.mjs
       - run: ARTIFACT_DIR="$ARTIFACT_DIR/mouth" node bio-yeux-01/tests/mouth-browser.cjs
-      - run: node --test bio-yeux-01/tests/nose.test.mjs
       - run: ARTIFACT_DIR="$ARTIFACT_DIR/nose" node bio-yeux-01/tests/nose-browser.cjs
-      - run: node --test bio-yeux-01/tests/beard.test.mjs
       - run: ARTIFACT_DIR="$ARTIFACT_DIR/pilosite" node bio-yeux-01/tests/beard-browser.cjs
-      - run: node --test bio-yeux-01/tests/marks.test.mjs
       - run: ARTIFACT_DIR="$ARTIFACT_DIR/marques" node bio-yeux-01/tests/marks-browser.cjs
-      - run: node --test bio-yeux-01/tests/scars.test.mjs
       - run: ARTIFACT_DIR="$ARTIFACT_DIR/cicatrices" node bio-yeux-01/tests/scars-browser.cjs
       - name: Démarrage de la distribution Pages des cicatrices
         run: |
           node bio-yeux-01/build-scars-preview.mjs "$ARTIFACT_DIR/cicatrices-pages"
           PREVIEW_DIR="$ARTIFACT_DIR/cicatrices-pages" ARTIFACT_DIR="$ARTIFACT_DIR/cicatrices-demarrage" node bio-yeux-01/tests/scars-startup-browser.cjs
-      - run: node --test bio-yeux-01/tests/makeup.test.mjs
       - name: Recette de la distribution Pages du maquillage
         run: |
           node bio-yeux-01/build-makeup-preview.mjs "$ARTIFACT_DIR/maquillage-pages"
           PREVIEW_DIR="$ARTIFACT_DIR/maquillage-pages" ARTIFACT_DIR="$ARTIFACT_DIR/maquillage" node bio-yeux-01/tests/makeup-browser.cjs
-      - run: node --test bio-yeux-01/tests/eye-contour.test.mjs
       - name: Recette de la distribution Pages des contours naturels
         run: |
           node bio-yeux-01/build-eye-contour-preview.mjs "$ARTIFACT_DIR/contours-pages"

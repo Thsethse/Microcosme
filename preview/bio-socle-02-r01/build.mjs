@@ -25,22 +25,22 @@ const files = {
   [startup]: bundle,
   'style.css': readFileSync(join(root, 'bio-yeux-01/style.css')),
   'index.html': html
-    .replace('BIO-MAQUILLAGE-01 · Maquillage et peintures faciales', 'BIO-SOCLE-02-R01 · Recette du socle adulte')
-    .replace('<span>BIO-MAQUILLAGE-01</span>', '<span>BIO-SOCLE-02-R01</span>')
+    .replace('BIO-MAQUILLAGE-01 · Maquillage et peintures faciales', 'BIO-SOCLE-02-R02 · Recette du socle adulte')
+    .replace('<span>BIO-MAQUILLAGE-01</span>', '<span>BIO-SOCLE-02-R02</span>')
     .replace('<h1>Maquillage et peintures faciales</h1>', '<h1>Recette du socle adulte</h1>')
     .replace('<nav aria-label="Navigation dans l’atelier">', `<nav aria-label="Navigation dans l’atelier">
     <a id="workshop-archive-link" href="#appearance-panel">Archive H/F</a>
     <a href="#resident-preview">Habitants témoins</a>`)
     .replace('id="atelier" aria-label=', 'id="atelier" data-natural-eyes aria-label=')
     .replace('<main class="shell">', '<main class="shell">\n' + panel)
-    .replace(/<footer>.*?<\/footer>/, '<footer><a href="https://github.com/Thsethse/Microcosme/blob/codex/bio-socle-02-r01/docs/ai/bio-socle-02-r01/RAPPORT.md">Rapport de validation</a></footer>')
+    .replace(/<footer>.*?<\/footer>/, '<footer><a href="https://github.com/Thsethse/Microcosme/blob/codex/bio-socle-02-r01/docs/ai/bio-socle-02-r02/RAPPORT.md">Rapport de validation</a></footer>')
     .replace(entry, `<script id="atelier-entry" src="${startup}" defer></script>`)
 };
 const sourceCommit = execFileSync('git', ['rev-parse', 'HEAD'], {cwd: root, encoding: 'utf8'}).trim();
 mkdirSync(output, {recursive: true});
 for (const [name, content] of Object.entries(files)) writeFileSync(join(output, name), content);
 writeFileSync(join(output, 'version.json'), JSON.stringify({
-  mission: 'BIO-SOCLE-02-R01',
+  mission: 'BIO-SOCLE-02-R02',
   sourceCommit,
   artisticReference: 'c18aa4d54873f19186d6c1af7e17aa22e566dda1',
   startup,

@@ -22,16 +22,24 @@ function validateInactiveBodies(data, selection) {
   }
 }
 
+function validateHistoricalSource(source) {
+  const historical = parseAppearance(JSON.stringify(source));
+  if (!historical.importedNavel && !historical.importedThorax) {
+    throw new Error('Source historique inattendue dans l’archive atelier.');
+  }
+}
+
 export function workshopDocument(selection, settings, preferences, naturalEyes, historicalSource) {
   const inactiveBodies = Object.fromEntries([...preferences].filter(([body]) => body !== selection.state.body));
   validateInactiveBodies(inactiveBodies, selection);
+  if (historicalSource !== undefined) validateHistoricalSource(historicalSource);
   return {
     schema: workshopSchema,
     version: workshopVersion,
     renderProfile: naturalEyes ? r02RenderVersion : workshopRenderVersion,
     active: appearanceDocument(selection, settings),
     inactiveBodies: structuredClone(inactiveBodies),
-    ...(historicalSource ? {historicalSource: structuredClone(historicalSource)} : {})
+    ...(historicalSource !== undefined ? {historicalSource: structuredClone(historicalSource)} : {})
   };
 }
 
@@ -55,10 +63,7 @@ export function parseWorkshop(text) {
     throw new Error('Champs de l’archive atelier incompatibles.');
   }
   if (Object.hasOwn(data, 'historicalSource')) {
-    const historical = parseAppearance(JSON.stringify(data.historicalSource));
-    if (!historical.importedNavel && !historical.importedThorax) {
-      throw new Error('Source historique inattendue dans l’archive atelier.');
-    }
+    validateHistoricalSource(data.historicalSource);
   }
   const active = parseAppearance(JSON.stringify(data.active));
   validateInactiveBodies(data.inactiveBodies, active.selection);
