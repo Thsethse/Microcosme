@@ -1,15 +1,16 @@
+import {pubicStippleMarkup} from './pubic-stipple.mjs';
 import {rgb} from '../bio-col-01/palette.mjs';
 import {abdominalFoldGeometry, pelvicLandmarks} from './belly-details.mjs';
 
 export const referencePubicHairLength = 0;
 export const pubicHairStops = Object.freeze([
-  [0, 'Rasé'], [10, 'Début de repousse'], [25, 'Tonte courte'],
-  [50, 'Pilosité courte'], [75, 'Pilosité naturelle'], [100, 'Pilosité longue']
+  [0, 'Rasé'], [10, 'Début de repousse'], [25, 'Texture fine'],
+  [50, 'Texture dense'], [75, 'Points rapprochés'], [100, 'Couverture presque pleine']
 ]);
 
 export function validatePubicHairLength(value) {
   if (!Number.isFinite(value) || value < 0 || value > 100) {
-    throw new RangeError('La longueur de la pilosité pubienne doit être comprise entre 0 et 100 %.');
+    throw new RangeError('L’état de pousse de la pilosité pubienne doit être comprise entre 0 et 100 %.');
   }
   return value;
 }
@@ -89,11 +90,11 @@ function anatomy(frame, body, skin, smallScale) {
   const draw = (id,fill,start,...curves) =>
     `<path data-pelvic-part="${id}" fill="${fill}" d="${path(point(start),curves.map(curve=>curve.map(point)))}"/>`;
   if (body === 'adult-f') {
-    return draw('triangle',warm,[-.65,.36],
+    return [draw('triangle',warm,[-.65,.36],
       [[-.34,.24],[.34,.24],[.65,.36]],[[.52,.55],[.19,.84],[0,.91]],
-      [[-.19,.84],[-.52,.55],[-.65,.36]])+
+      [[-.19,.84],[-.52,.55],[-.65,.36]]),
       draw('median',shadow,[0,.51],[[.07,.57],[.09,.79],[0,.86]],
-        [[-.09,.79],[-.07,.57],[0,.51]]);
+        [[-.09,.79],[-.07,.57],[0,.51]])];
   }
   const sides = [-1,1].map(side=>draw('rounded',warm,[0,.64],
     [[side*.23,.45],[side*.62,.49],[side*.65,.68]],
@@ -103,22 +104,30 @@ function anatomy(frame, body, skin, smallScale) {
     [[-.22,.94],[.22,.94],[.31,.76]],[[.38,.63],[.36,.41],[.29,.30]],
     [[.21,.37],[.25,.55],[.19,.68]],[[.12,.78],[-.12,.78],[-.19,.68]],
     [[-.25,.55],[-.21,.37],[-.29,.30]]);
-  return sides+form+(smallScale ? '' : draw('light',light,[-.12,.46],
+  return [sides+form+(smallScale ? '' : draw('light',light,[-.12,.46],
     [[-.05,.39],[.05,.39],[.12,.46]],[[.11,.62],[.06,.70],[0,.71]],
-    [[-.06,.70],[-.11,.62],[-.12,.46]]));
+    [[-.06,.70],[-.11,.62],[-.12,.46]])),''];
 }
 
-export function pelvicDetailsMarkup(body, key, corpulence, skin, hair, length = referencePubicHairLength, smallScale = false, previous = false) {
+export function pelvicDetailsMarkup(body, key, corpulence, skin, hair, length = referencePubicHairLength, smallScale = false, revision, clipId) {
   const original = pelvicDetailFrame(body,corpulence);
-  const frame = previous ? original : pelvicAnatomyFrame(body,key,corpulence);
-  const offset = (frame.top-original.top)*.65+(frame.end-original.end)*.12;
-  const hairFrame = {...original,top:original.top+offset,end:original.end+offset};
-  const geometry = length === 0 ? [] : pubicHairGeometry(hairFrame,length);
-  const texture = length === 0 ? '' : `<g data-pubic-hair="">${
-    [[.18,.10,.075],[.31,.23,.19],[.86,.77,.65]].map((target,tone)=>{
-      const fill = blend(hair,target,smallScale ? .16 : .22);
-      const strands = geometry.filter(root=>root.tone===tone);
-      return `<path fill="${fill}" d="${strands.map(({root,curves})=>path(root,curves)).join('')}"/>`;
-    }).join('')}</g>`;
-  return `<g data-pelvic-details="${key}" aria-hidden="true" pointer-events="none">${anatomy(frame,key,skin,smallScale)}${texture}</g>`;
+  const frame = revision==='before' ? original : pelvicAnatomyFrame(body,key,corpulence);
+  const [surface,detail]=anatomy(frame,key,skin,smallScale);
+  let content=surface+detail;
+  if (length>0) {
+    validatePubicHairLength(length);
+    if (revision==='before' || revision==='r01') {
+      const offset = (frame.top-original.top)*.65+(frame.end-original.end)*.12;
+      const hairFrame = {...original,top:original.top+offset,end:original.end+offset};
+      const geometry = pubicHairGeometry(hairFrame,length);
+      content += `<g data-pubic-hair="">${[[.18,.10,.075],[.31,.23,.19],[.86,.77,.65]].map((target,tone)=>{
+        const fill = blend(hair,target,smallScale ? .16 : .22);
+        const strands = geometry.filter(root=>root.tone===tone);
+        return `<path fill="${fill}" d="${strands.map(({root,curves})=>path(root,curves)).join('')}"/>`;
+      }).join('')}</g>`;
+    } else {
+      content=surface+pubicStippleMarkup(body,key,frame,corpulence,hair,length,smallScale,clipId)+detail;
+    }
+  }
+  return `<g data-pelvic-details="${key}" aria-hidden="true" pointer-events="none">${content}</g>`;
 }

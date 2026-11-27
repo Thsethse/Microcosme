@@ -24,10 +24,10 @@ export function renderPelvicAnatomyStudy(panel,{render,background}) {
   gallery.innerHTML = pubicHairStops.map(([length,label])=>
     `<article class="card" data-pubic-case="${length}"><h4>${length} % · ${label}</h4><div class="structure-pair">${
       [['adult-h','Base H'],['adult-f','Base F']].map(([body,name])=>{
-        return ['before',true].map((pelvicDetails,index)=>{
+        return ['r01',true].map((pelvicDetails,index)=>{
         const svg = studySkin(render({key:'p5-038:G',body,structure,corpulence,hair,chestStudySkin:skin,
           view,frame,bellyFinish:true,pelvicDetails,pubicHairLength:length}),skin);
-        return `<figure data-pubic-base="${body}"><div class="surface ${display}">${svg}</div><figcaption>${name} · ${index ? 'R01' : 'Avant'}</figcaption></figure>`;
+        return `<figure data-pubic-base="${body}" data-pubic-revision="${index ? 'r02' : 'r01'}"><div class="surface ${display}">${svg}</div><figcaption>${name} · ${index ? 'R02' : 'R01'}</figcaption></figure>`;
         }).join('');
       }).join('')}</div></article>`).join('');
 }

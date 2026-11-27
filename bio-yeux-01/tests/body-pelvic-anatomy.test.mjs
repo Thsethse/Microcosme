@@ -10,13 +10,14 @@ import {referencePectorals} from '../pectorals.mjs';
 import {referenceThoraxDetails} from '../thorax-details.mjs';
 import {pelvicDetailFrame, pubicHairGeometry, pubicHairStops, validatePubicHairLength} from '../pelvic-details.mjs';
 import {character} from '../render.mjs';
+import {pubicStippleGeometry} from '../pubic-stipple.mjs';
 import {structureCombinations} from '../structure-study.mjs';
 
 const bases = ['adult-h','adult-f'];
 const raw = {style:'p5-061',arrangement:'G',body:'standard'};
 const settings = {eyes:null,form:'historical',colour:'chatain-clair',flat:true};
 const layer = svg => svg.match(/<g data-pelvic-details="[^"]+"[^>]*>.*?<\/g>(?:<\/g>)?/)?.[0];
-const hair = svg => svg.match(/<g data-pubic-hair="">.*?<\/g>/)?.[0];
+const hair = svg => svg.match(/<g data-pubic-hair=""[^>]*>.*?<\/g>/)?.[0];
 
 test('24 racines et trois tons immuables, avec une croissance continue des embouts et des courbes',()=>{
   const frame = {axis:80,top:185,end:201,reach:12};
@@ -76,8 +77,9 @@ test('anatomie standardisée H/F, neutralité des mineurs et des bases historiqu
     const adult={...input,pubicHairLength:68};
     const current=character(adult,options);
     assert.equal(current,character(adult,options));
-    assert.equal(current.replace(layer(current),''),legacy);
-    assert.equal([...hair(current).matchAll(/M/g)].length,24);
+    const bare=current.replace(hair(current),'');
+    assert.equal(bare.replace(layer(bare),''),legacy);
+    assert.equal([...hair(current).matchAll(/M/g)].length,smallScale ? 85 : 220);
     const dark=character(adult,{...options,hairColor:'noir-profond'});
     assert.notEqual(hair(current),hair(dark));
     assert.equal(hair(current).replace(/fill="#[a-f0-9]+"/g,''),hair(dark).replace(/fill="#[a-f0-9]+"/g,''));
@@ -108,13 +110,13 @@ test('v22 restaure les valeurs exactes, y compris zéro, avec les autres réglag
     assert.equal(characterInput(previous.selection).pubicHairLength,undefined);
     assert.deepEqual(appearanceDocument(previous.selection,previous),old);
     for (const invalid of [null,-1,101,'25',undefined]) {
-      assert.throws(()=>parseAppearance(JSON.stringify({...current,character:{...current.character,pubicHairLength:invalid}})),/longueur/);
+      assert.throws(()=>parseAppearance(JSON.stringify({...current,character:{...current.character,pubicHairLength:invalid}})),/pousse/);
     }
     assert.throws(()=>parseAppearance(JSON.stringify({...current,character:{...current.character,body:'standard'}})),/Base adulte/);
     assert.throws(()=>parseAppearance(JSON.stringify({...old,character:{...old.character,pubicHairLength:length}})),/incompatibles/);
   }
-  assert.throws(()=>validatePubicHairLength(NaN),/longueur/);
-  assert.throws(()=>validatePubicHairLength(Infinity),/longueur/);
+  assert.throws(()=>validatePubicHairLength(NaN),/pousse/);
+  assert.throws(()=>validatePubicHairLength(Infinity),/pousse/);
   assert.equal(restoreSelection({...raw,pubicHairLength:75}).state.pubicHairLength,undefined);
 });
 
@@ -130,12 +132,37 @@ test('R01 descend et agrandit les deux formes sans modifier les autres calques',
       assert(after.end<geometry.ground.y-geometry.height*.25);
       for (const pubicHairLength of [0,100]) {
         const input={...raw,body,structure,corpulence,pubicHairLength};
-        const current=character(input,{pelvicDetails:true,bellyFinish:true});
+        const current=character(input,{pelvicDetails:'r01',bellyFinish:true});
         const original=character(input,{pelvicDetails:'before',bellyFinish:true});
         assert.notEqual(layer(current),layer(original));
         assert.equal(current.replace(layer(current),''),original.replace(layer(original),''));
         if(pubicHairLength) assert.equal([...hair(current).matchAll(/M/g)].length,24);
       }
+    }
+  }
+});
+
+test('R02 conserve les tracés R01 et répartit les points fixes dès la repousse', async ()=>{
+  const {pelvicAnatomyFrame}=await import('../pelvic-details.mjs');
+  const anatomy=svg=>[...svg.matchAll(/<path data-pelvic-part="[^"]+"[^>]+\/>/g)].map(match=>match[0]);
+  const withoutTexture=svg=>svg.replace(/<defs><clipPath[^>]+><path[^>]+\/><\/clipPath><\/defs>(?=<g data-pubic-hair)/,'').replace(hair(svg),'');
+  for (const body of bases) for (const [, , structure] of structureCombinations) {
+    for (const corpulence of [0,50,100]) for (const smallScale of [false,true]) {
+      const geometry=adultBodyGeometry(body,[80,109],structure,corpulence);
+      const frame=pelvicAnatomyFrame(geometry,body,corpulence);
+      const at=value=>pubicStippleGeometry(geometry,body,frame,corpulence,value,smallScale);
+      const first=at(10), maximum=at(100);
+      assert.equal(first.outline,maximum.outline);
+      assert.deepEqual(first.dots.map(({x,y,tone})=>[x,y,tone]),maximum.dots.map(({x,y,tone})=>[x,y,tone]));
+      assert(first.dots.every((dot,index)=>dot.radius>0 && dot.radius<maximum.dots[index].radius));
+      assert.equal(new Set(first.dots.map(({x,y})=>x+','+y)).size,smallScale ? 85 : 220);
+      const input={...raw,body,structure,corpulence,pubicHairLength:100};
+      const options={pelvicDetails:true,smallScale,bellyFinish:true};
+      const current=character(input,options);
+      const prior=character(input,{...options,pelvicDetails:'r01'});
+      assert.deepEqual(anatomy(current),anatomy(prior));
+      assert.equal(withoutTexture(current),withoutTexture(prior));
+      assert.equal(current,character(input,options));
     }
   }
 });
