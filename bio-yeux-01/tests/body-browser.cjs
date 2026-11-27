@@ -51,7 +51,9 @@ async function serve(directory) {
 }
 
 async function ready(page, url) {
-  assert.equal((await page.goto(url, {waitUntil:'load'})).status(), 200);
+  const response = await page.goto(url, {waitUntil:'load'});
+  const status = response?.status();
+  assert([200, 304].includes(status), `Navigation vers ${url} · HTTP ${status}`);
   await page.waitForFunction(() => document.querySelector('#atelier').dataset.startup !== 'pending');
   assert.equal(await page.locator('#atelier').getAttribute('data-startup'), 'ready',
     await page.locator('#atelier-startup-detail').textContent());
