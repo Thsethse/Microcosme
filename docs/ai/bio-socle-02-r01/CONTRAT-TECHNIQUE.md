@@ -30,7 +30,7 @@ Les réglages facultatifs présents doivent être exprimés dans les formats nor
 import {parseResident, renderResident, r02RenderVersion} from './bio-yeux-01/resident.mjs';
 
 const resident = parseResident(json);
-const portrait = renderResident(resident, {representation: 'portrait'});
+const portrait = renderResident(resident, {representation: 'portrait', renderVersion: r02RenderVersion});
 const pion = renderResident(resident, {representation: 'pawn'});
 const miniature = renderResident(resident, {representation: 'thumbnail'});
 ```
