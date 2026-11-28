@@ -4,7 +4,7 @@ import {beardControls,beardDrawVersion,beardFor,beardPresets,beardZones,drawBear
 const format=new Intl.NumberFormat('fr-FR',{maximumFractionDigits:6});
 const percent=value=>format.format(value)+' %';
 
-export function mountBeardEditor({input,eyes,context,render}) {
+export function mountBeardEditor({commandLayout,input,eyes,context,render}) {
   const q=id=>document.getElementById('beard-'+id);
   const categorySelect=q('category');
   let selectedCategory='H';
@@ -18,6 +18,12 @@ export function mountBeardEditor({input,eyes,context,render}) {
   let current=null,latent=null,origin=null,result=null;
   let previousKey=null;
   const mode=q('colour-mode'), colours=q('colour'), preset=q('preset');
+  const chip = commandLayout ? document.createElement('span') : null;
+  if (chip) {
+    chip.className = 'iris-chip';
+    chip.setAttribute('aria-hidden', 'true');
+    colours.before(chip);
+  }
   preset.append(new Option('Personnalisé','custom'),...Object.entries(beardPresets).map(([key,item])=>new Option(item.label,key)));
   for (const [key,label] of [['natural','Naturelles'],['fantasy','Fantaisie']]) {
     const group=document.createElement('optgroup');
@@ -73,6 +79,13 @@ export function mountBeardEditor({input,eyes,context,render}) {
     preset.value=match?.[0]??'custom';
     mode.value=requested.colourMode;
     colours.value=requested.colour;
+    if (chip) {
+      const colour = palette.find(item => item.id === requested.colour);
+      if (colour) {
+        chip.style.backgroundColor = colour.fill;
+        chip.style.borderColor = colour.stroke;
+      }
+    }
     mode.disabled=!result?.path;
     colours.disabled=mode.disabled||requested.colourMode!=='independent';
     for (const key of Object.keys(beardZones)) q('zone-'+key).checked=requested.zones[key];
@@ -128,6 +141,10 @@ export function mountBeardEditor({input,eyes,context,render}) {
   q('reset').addEventListener('click',()=>{latent=null;set(null);});
   q('before-mode').addEventListener('change',render);
   return {
+    followBody(body) {
+      selectedCategory = body === 'adult-f' ? 'F' : 'H';
+      categorySelect.value = selectedCategory;
+    },
     refresh,category,value:()=>result?.path?current:null,
     archiveSettings:()=>({beard:current,beardLatent:current?null:latent,beardDraw:origin,beardCategory:category()}),
     restore(data){

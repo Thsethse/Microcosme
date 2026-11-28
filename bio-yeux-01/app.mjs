@@ -43,11 +43,15 @@ import {mountMakeupStudy} from './makeup-study.mjs';
 import {mountEyeContourStudy} from './eye-contour-study.mjs';
 import {eyeControls, eyePresets, eyesFor, normalizeEyes} from './eyes.mjs';
 import {mountEditorSpaces} from './editor-spaces.mjs';
+import {initialAdultBody, mountCommandLayout, saveAdultBody, syncConditionalCommands} from './editor-commands.mjs';
 
 const q = selector => document.querySelector(selector);
 const spacesTemplate = q('#editor-spaces');
+const commandLayout = spacesTemplate?.hasAttribute('data-command-layout');
+const inCreation = trigger => commandLayout && trigger?.closest('[data-editor-space=creation]');
 const studyOpen = panel => panel.open && !panel.closest('[data-editor-space][hidden]');
 const naturalEyes = q('#atelier').hasAttribute('data-natural-eyes');
+const eyeFormat = new Intl.NumberFormat('fr-FR', {minimumFractionDigits: 1, maximumFractionDigits: 1});
 const format = new Intl.NumberFormat('fr-FR', {maximumFractionDigits: 2});
 const escape = value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;');
 const neutral = normalizeEyes({});
@@ -67,7 +71,10 @@ const bodyPreferences = new Map();
 let historicalSource;
 const variety = ['p5-038:G','p5-048:G','curls:U','waist_waves:U','braids:U','p5-041:G','p5-056:D','p5-061:D',
   'p5-071:G','p5-029:G','p5-034:G','p5-051:G','p5-058:G','p5-068:G','p5-024:D','p5-058:D'];
-let selection = restoreSelection({style: 'p5-038', arrangement: 'G', body: 'standard', accessories: true, contrast: true});
+let selection = restoreSelection(
+  {style: 'p5-038', arrangement: 'G', body: 'standard', accessories: true, contrast: true},
+  commandLayout ? initialAdultBody() : undefined
+);
 let eyes = null, selectedForm = 'historical', colour = 'chatain-clair', category = 'natural';
 let serial = 0, draw = null, morphForm = 'neutral';
 let pending = null, editingValues, eyePoints = {}, available = {};
@@ -99,7 +106,7 @@ function inputFor(key) {
   return characterInput(selection, key);
 }
 
-function svg({key, body, structure, corpulence, chest, pectorals, thoraxDetails, abdominals, pubicHairLength, chestStudySkin, chestRevision, beforeCorpulenceCorrection, boneReliefs = body===undefined, bellyFinish = body===undefined, pelvicDetails = body===undefined, view = 'head', value = eyes, frame, guides = false, hair = activeColour(), decorative = false, pigment = null, details = null, brows = null, mouth = null, nose = null, beard = null, beardCategory, marks = null, scars = null, makeup = null} = {}) {
+function svg({key, body, structure, corpulence, chest, pectorals, thoraxDetails, abdominals, pubicHairLength, chestStudySkin, chestRevision, beforeCorpulenceCorrection, boneReliefs = body===undefined, bellyFinish = body===undefined, pelvicDetails = body===undefined, view = 'head', value = eyes, frame, guides = false, hair = activeColour(), decorative = false, fixedBase = false, pigment = null, details = null, brows = null, mouth = null, nose = null, beard = null, beardCategory, marks = null, scars = null, makeup = null} = {}) {
   const input = inputFor(key);
   if (body !== undefined) {
     input.body = body;
@@ -111,6 +118,7 @@ function svg({key, body, structure, corpulence, chest, pectorals, thoraxDetails,
     input.abdominals = abdominals;
     input.pubicHairLength = pubicHairLength;
   }
+  if (fixedBase && input.structure) input.structure = {...input.structure, base: referenceStructure.base};
   const result = renderView(input, {
     view, frame,
     eyes: value, iris:pigment, details, brows, mouth, nose, beard, beardCategory, marks, scars, makeup, eyeEnvelopes: guides, hairColor: hair, rememberedHairColor: colour,
@@ -124,7 +132,7 @@ function activeColour() {
 }
 
 function displayValue(key, value) {
-  return format.format(value) + (eyeControls[key].unit === '°' ? '°' : ' %');
+  return (commandLayout ? eyeFormat : format).format(value) + (eyeControls[key].unit === '°' ? '°' : ' %');
 }
 
 function clearProposal() {
@@ -158,11 +166,11 @@ function requestEyes(form, value, trigger, origin = null) {
   const face = eyesFor(inputFor(), null).face;
   const proposal = eyeProposal(face, value);
   const apply = () => setEyes(form, value, origin);
-  if (!proposal.changes.length) {
+  if (!proposal.changes.length || inCreation(trigger)) {
     apply();
     return;
   }
-  q('#eye-preset').value = selectedForm;
+  syncEyePreset();
   showProposal(proposal.changes, apply,
     'La demande dépasse les limites du visage. Voici les écarts entre valeurs demandées et proposées.', trigger);
 }
@@ -172,8 +180,15 @@ function intervalText(intervals, key) {
     `${format.format(min)} à ${displayValue(key, max)}`).join(' ou ');
 }
 
+function syncEyePreset() {
+  const held = commandLayout && ['historical', 'minimum', 'maximum'].includes(selectedForm);
+  const select = q('#eye-preset');
+  if (held) select.querySelector('[value=reference]').textContent = otherLabels[selectedForm] + ' · référence chargée';
+  select.value = held ? 'reference' : selectedForm;
+}
+
 function renderEyes() {
-  q('#eye-preset').value = selectedForm;
+  syncEyePreset();
   const result = eyesFor(inputFor(), eyes);
   editingValues = result.effective ?? eyeProposal(result.face, neutral).effective;
   const domains = eyeDomains(result.face, editingValues);
@@ -182,18 +197,25 @@ function renderEyes() {
     const {intervals, points} = domains[key];
     const current = editingValues[key];
     const slider = q('#eye-' + key);
-    // Range indices skip holes. Keep the exact currently applied value as
-    // a selectable point, without rounding it to a potentially invalid integer.
-    eyePoints[key] = points.includes(current) ? points : [...points, current].sort((a, b) => a - b);
-    slider.min = 0;
-    slider.max = eyePoints[key].length - 1;
-    slider.value = eyePoints[key].indexOf(current);
-    slider.disabled = eyePoints[key].length <= 1;
+    if (commandLayout) {
+      slider.min = range.min;
+      slider.max = range.max;
+      slider.step = 'any';
+      slider.value = result.requested?.[key] ?? current;
+      slider.disabled = false;
+    } else {
+      // Preserve the original indexed slider in the earlier distributions.
+      eyePoints[key] = points.includes(current) ? points : [...points, current].sort((a, b) => a - b);
+      slider.min = 0;
+      slider.max = eyePoints[key].length - 1;
+      slider.value = eyePoints[key].indexOf(current);
+      slider.disabled = eyePoints[key].length <= 1;
+    }
     q('#eye-domain-' + key).textContent = !intervals.length ? 'Aucun pas entier direct · ajustement conjoint possible.' :
       `Admissible en direct · ${intervalText(intervals, key)}${slider.disabled ? ' · valeur unique' : ''}`;
 
-    const shown = key === 'taper' && current === range.min ? 'Arrondi' :
-      key === 'taper' && current === range.max ? 'Pointu' : displayValue(key, current);
+    const taper = key === 'taper' && (current === range.min ? 'Arrondi' : current === range.max ? 'Pointu' : '');
+    const shown = taper ? (commandLayout ? `${taper} · ${displayValue(key, current)}` : taper) : displayValue(key, current);
     const adjusted = result.corrected.includes(key);
     const requested = adjusted ? displayValue(key, result.requested[key]) : null;
     slider.setAttribute('aria-valuetext', adjusted ? `${requested} demandé, ${shown} effectif` : shown);
@@ -210,7 +232,7 @@ function renderEyes() {
   }
   const status = q('#eye-status');
   const text = !eyes ? 'Rendu historique actif. Déplacer un curseur démarre une forme personnalisée.' :
-    result.corrected.length ? 'Les valeurs à droite sont les valeurs appliquées.' : 'Toutes les valeurs demandées sont appliquées.';
+    result.corrected.length ? (commandLayout ? 'Ajustement anatomique appliqué. Les valeurs demandées restent en mémoire.' : 'Les valeurs à droite sont les valeurs appliquées.') : 'Toutes les valeurs demandées sont appliquées.';
   if (status.textContent !== text) status.textContent = text;
   for (const button of document.querySelectorAll('[data-eye-form]')) {
     button.setAttribute('aria-pressed', String(button.dataset.eyeForm === selectedForm));
@@ -283,31 +305,32 @@ function renderComparison() {
   };
   const current = {value:eyes,pigment,details,brows,mouth,nose,beard,beardCategory,marks,scars};
   const referenceSettings = compareMakeup ? current : makeup ? {value:null} : comparisonReference;
-  const after = (withGuides) => `<article data-side="after"><h3>${title}</h3>${sizes({...current,makeup}, withGuides)}</article>`;
+  const after = (withGuides, fixedBase = false) => `<article data-side="after"><h3>${title}</h3>${sizes({...current, makeup, fixedBase}, withGuides)}</article>`;
   if (compare) {
     comparison.innerHTML = `<article data-side="before"><h3>${before}</h3>${sizes(referenceSettings)}</article>${after(guides)}`;
   }
   const currentView = q('#editor-current');
   if (currentView) {
     currentView.className = 'comparison ' + background;
-    currentView.innerHTML = after(false);
+    if (!commandLayout || isAdultBody(selection.state.body)) currentView.innerHTML = after(false, commandLayout);
+    else currentView.replaceChildren();
   }
 
   const renderBody = settings => svg({...current, makeup, ...settings});
   if (isAdultBody(selection.state.body)) {
     const preview = q('#structure-live');
     preview.className = 'surface tile ' + background;
-    preview.innerHTML = renderBody({view:'tile'});
+    preview.innerHTML = renderBody({view:'tile', fixedBase:commandLayout});
     const detailPreview=q('#thorax-live-detail');
     detailPreview.hidden=!selection.state.thoraxDetails;
     detailPreview.className='surface thorax-detail '+background;
-    if (!detailPreview.hidden) detailPreview.innerHTML=renderBody({view:'tile',frame:thoraxDetailFrame});
+    if (!detailPreview.hidden) detailPreview.innerHTML=renderBody({view:'tile',frame:thoraxDetailFrame,fixedBase:commandLayout});
     const abdomen=q('#abdominal-live-detail');
     abdomen.className='surface pelvic-detail '+background;
-    abdomen.innerHTML=renderBody({view:'tile',frame:pelvicDetailFrame});
+    abdomen.innerHTML=renderBody({view:'tile',frame:pelvicDetailFrame,fixedBase:commandLayout});
     const pelvis=q('#pubic-live-detail');
     pelvis.className='surface pubic-detail '+background;
-    pelvis.innerHTML=renderBody({view:'tile',frame:pelvicCloseup});
+    pelvis.innerHTML=renderBody({view:'tile',frame:pelvicCloseup,fixedBase:commandLayout});
   }
   const bodyStudy = q('#planche-corps');
   if (studyOpen(bodyStudy)) {
@@ -379,6 +402,10 @@ function renderComparison() {
   makeupZoom.classList.toggle('dark', q('#background').value === 'dark');
   makeupZoom.classList.toggle('light', q('#background').value === 'light');
   makeupZoom.innerHTML = svg({frame:`${head.cx-markHalf} ${markTop} ${markHalf*2} ${head.ry*2.17}`, ...current, makeup});
+  if (commandLayout) {
+    syncConditionalCommands();
+    renderLatentValues();
+  }
 }
 
 function renderChart() {
@@ -414,6 +441,7 @@ function syncBodyControls() {
   q('#thorax-details-link').hidden=!active;
   q('#corpulence-link').hidden=!active;
   q('#abdominal-link').hidden=!active;
+  if (commandLayout) q('#structure-base').disabled = !active;
   for(const button of document.querySelectorAll('[data-thorax-body],[data-pubic-body]')) {
     button.setAttribute('aria-pressed',String((button.dataset.thoraxBody ?? button.dataset.pubicBody)===body));
   }
@@ -478,13 +506,27 @@ function syncSelection(updateJSON = true) {
   q('#arrangement').value = entry.arrangement;
   const ordinary = selection.visibleKey === selection.key ? '' : ` · Entrée ordinaire ${choice(selection.visibleKey).label}`;
   q('#identity-note').textContent = `Identifiant ouvert · ${entry.label} · ${entry.name}${ordinary}`;
-  q('#body').value = selection.state.body;
+  q('#body').value = commandLayout && !isAdultBody(selection.state.body) ? '' : selection.state.body;
   syncBodyControls();
-  q('#morph').value = morphForm;
+  if (commandLayout) {
+    const legacyBody = !isAdultBody(selection.state.body);
+    q('#espace-creation').toggleAttribute('data-historical-body', legacyBody);
+    q('#historical-body-notice').hidden = !legacyBody;
+    if (legacyBody) q('#historical-body').value = selection.state.body;
+    const historicalMorph = !['neutral', 'custom'].includes(morphForm);
+    q('#morph').value = historicalMorph ? 'custom' : morphForm;
+    const note = historicalMorph ? `Référence chargée depuis le Laboratoire · ${morphs[morphForm].name}` : '';
+    q('#morph-reference-note').textContent = note;
+    q('#morph-reference-note').hidden = !note;
+    q('#historical-morph-current').textContent = note;
+  } else q('#morph').value = morphForm;
   for (const key of ['accessories', 'contrast']) q('#' + key).checked = selection.raw[key] !== false;
   for (const key of axes) {
-    q('#morph-' + key).value = selection.state[key];
-    q(`output[for="morph-${key}"]`).textContent = format.format(selection.state[key]);
+    const value = selection.state[key] * (commandLayout ? 100 : 1);
+    q('#morph-' + key).value = value;
+    const label = format.format(value) + (commandLayout ? ' %' : '');
+    q(`output[for="morph-${key}"]`).textContent = label;
+    if (commandLayout) q('#morph-' + key).setAttribute('aria-valuetext', label);
   }
   q('#adult-archive-note').hidden = !isAdultBody(selection.state.body);
   if (updateJSON) q('#selection-json').value = exportSelection(selection);
@@ -513,7 +555,7 @@ function refreshCharacter() {
 }
 
 function setSelection(raw, form = morphForm, trigger = document.activeElement, {
-  onApply, body = selection.state.body, structure = bodyPreferences.get(body)?.structure,
+  onApply, followBody = false, body = selection.state.body, structure = bodyPreferences.get(body)?.structure,
   corpulence = bodyPreferences.get(body)?.corpulence, chest = bodyPreferences.get(body)?.chest,
   chestOrigin = bodyPreferences.get(body)?.chestOrigin, pectorals = bodyPreferences.get(body)?.pectorals,
   thoraxDetails = bodyPreferences.get(body)?.thoraxDetails, abdominals = bodyPreferences.get(body)?.abdominals,
@@ -523,6 +565,10 @@ function setSelection(raw, form = morphForm, trigger = document.activeElement, {
   const apply = () => {
     clearProposal();
     selection = next;
+    if (followBody) {
+      beardEditor.followBody(body);
+      saveAdultBody(body);
+    }
     rememberBody();
     morphForm = form;
     q('#selection-error').textContent = '';
@@ -532,7 +578,7 @@ function setSelection(raw, form = morphForm, trigger = document.activeElement, {
   const before = eyesFor(inputFor(), eyes).effective;
   const after = eyesFor(characterInput(next), eyes).effective;
   const changes = eyeChanges(before, after);
-  if (!changes.length) {
+  if (!changes.length || inCreation(trigger)) {
     apply();
     return true;
   }
@@ -548,7 +594,7 @@ function renderSwatches() {
     `<button type="button" data-colour="${p.id}" ${available.palette === false ? 'disabled' : ''} aria-pressed="${p.id === colour}" style="--fill:${p.fill};--stroke:${p.stroke}"><span class="chip" aria-hidden="true"></span>${p.name}</button>`).join('');
   for (const tab of document.querySelectorAll('[data-category]')) tab.setAttribute('aria-pressed', String(tab.dataset.category === category));
   const p = swatch(colour);
-  q('#colour-info').textContent = `${p.name} · Aplat ${p.fill} · Contour ${p.stroke}`;
+  q('#colour-info').textContent = commandLayout ? p.name : `${p.name} · Aplat ${p.fill} · Contour ${p.stroke}`;
 }
 
 function chooseColour(id) {
@@ -582,32 +628,53 @@ function renderPaletteStudies() {
   }
 }
 
-options('#eye-preset', [['historical', otherLabels.historical], ...eyeEntries.map(([key, p]) => [key, p.label]),
-  ...['minimum', 'maximum', 'custom'].map(key => [key, otherLabels[key]])]);
+options('#eye-preset', [
+  commandLayout ? ['reference', 'Référence historique ou de laboratoire'] : ['historical', otherLabels.historical],
+  ...eyeEntries.map(([key, p]) => [key, p.label]),
+  ...(commandLayout ? ['custom'] : ['minimum', 'maximum', 'custom']).map(key => [key, otherLabels[key]])
+]);
 q('#eye-preset option[value=custom]').disabled = true;
-options('#morph', [...Object.entries(morphs).map(([key, p]) => [key, p.name]), ['custom', 'Combinaison libre']]);
+if (commandLayout) {
+  const reference = q('#eye-preset option[value=reference]');
+  reference.disabled = true;
+  reference.hidden = true;
+}
+options('#morph', [...Object.entries(morphs).filter(([key]) => !commandLayout || key === 'neutral')
+  .map(([key, p]) => [key, p.name]), ['custom', 'Combinaison libre']]);
 q('#morph option[value=custom]').disabled = true;
 options('#ordinary', ordinaryChoices.map(e => [e.key, e.label + ' · ' + e.name]));
 options('#historical', choices.map(e => [e.key, e.label + ' · ' + e.name]));
-options('#body', Object.entries({...bodies, ...adultBodies}).map(([key, body]) => [key, body.name]));
+if (commandLayout) options('#body', [['', 'Choisir une base adulte']]);
+options('#body', Object.entries(commandLayout ? adultBodies : {...bodies, ...adultBodies}).map(([key, body]) => [key, body.name]));
+if (commandLayout) q('#body option[value=""]').disabled = true;
 
 sliders('#eye-controls', Object.entries(eyeControls), '1', (key, index) => {
+  if (commandLayout) {
+    setEyes('custom', {...(eyes ?? editingValues), [key]: index});
+    return;
+  }
   const value = eyePoints[key]?.[index];
   if (value !== undefined) setEyes('custom', {...editingValues, [key]: value});
 }, 'eye');
-const morphControls = Object.entries(controls).map(([key, range]) => [
-  key, key === 'forehead_height' ? {...range, label: 'Implantation capillaire'} : range
-]);
-sliders('#morph-controls', morphControls, '.01', (key, value) => {
-  setSelection({...selection.raw, [key]: value}, 'custom', q('#morph-' + key));
+const morphControls = Object.entries(controls).map(([key, range]) => [key, {
+  min: commandLayout ? Math.round(range.min * 100) : range.min,
+  max: commandLayout ? Math.round(range.max * 100) : range.max,
+  label: key === 'forehead_height' ? 'Implantation capillaire' : range.label
+}]);
+sliders('#morph-controls', morphControls, commandLayout ? '1' : '.01', (key, value) => {
+  setSelection({...selection.raw, [key]: commandLayout ? value / 100 : value}, 'custom', q('#morph-' + key));
 }, 'morph');
 q('#morph-forehead_height').setAttribute('aria-describedby', 'forehead-note');
 sliders('#structure-controls', Object.entries(structureControls), '1', (key, value) => {
+  if (!isAdultBody(selection.state.body)) return;
   const structure = {...(selection.state.structure ?? referenceStructure), [key]:value};
   setSelection(selection.raw, morphForm, q('#structure-' + key), {structure});
 }, 'structure');
-q('#structure-reset').addEventListener('click', event =>
-  setSelection(selection.raw, morphForm, event.target, {structure:null}));
+q('#structure-reset').addEventListener('click', event => {
+  const base = selection.state.structure?.base ?? referenceStructure.base;
+  const structure = commandLayout && base !== referenceStructure.base ? {...referenceStructure, base} : null;
+  setSelection(selection.raw, morphForm, event.target, {structure});
+});
 q('#structure-study-scale').addEventListener('change', renderComparison);
 q('#corpulence-study-scale').addEventListener('change', renderComparison);
 options('#corpulence-study-structure', corpulenceStudyStructures);
@@ -707,7 +774,9 @@ function chooseForm(form, trigger) {
   const value = form === 'minimum' || form === 'maximum' ? extrema(form === 'minimum' ? 'min' : 'max') : normalizeEyes(form);
   requestEyes(form, value, trigger);
 }
-q('#eye-preset').addEventListener('change', event => chooseForm(event.target.value, event.target));
+q('#eye-preset').addEventListener('change', event => {
+  if (event.target.value !== 'reference') chooseForm(event.target.value, event.target);
+});
 q('#shape-grid').addEventListener('click', event => {
   const button = event.target.closest('[data-eye-form]');
   if (button) {
@@ -752,16 +821,17 @@ q('#arrangement').addEventListener('change', event => openKey(selection.state.st
 q('#body').addEventListener('change', event => {
   const body = event.target.value;
   const raw = isAdultBody(body) ? selection.raw : {...selection.raw, body};
-  setSelection(raw, morphForm, event.target, {body});
+  if (!commandLayout || isAdultBody(body)) setSelection(raw, morphForm, event.target, {body, followBody: commandLayout});
 });
-q('#morph').addEventListener('change', event => {
-  const form = event.target.value;
+function chooseMorphology(form, trigger) {
+  if (!morphs[form]) return;
   const raw = {...selection.raw};
   for (const key of axes) delete raw[key];
-  setSelection({...raw, ...morphs[form].values}, form, event.target);
-});
+  setSelection({...raw, ...morphs[form].values}, form, trigger);
+}
+q('#morph').addEventListener('change', event => chooseMorphology(event.target.value, event.target));
 for (const flag of ['accessories', 'contrast']) {
-  q('#' + flag).addEventListener('change', event => setSelection({...selection.raw, [flag]: event.target.checked}));
+  q('#' + flag).addEventListener('change', event => setSelection({...selection.raw, [flag]: event.target.checked}, morphForm, event.target));
 }
 q('#palette-tabs').addEventListener('click', event => {
   const tab = event.target.closest('[data-category]');
@@ -796,14 +866,28 @@ q('#reload').addEventListener('click', () => {
   }
 });
 
-q('#appearance-export').addEventListener('click', () => {
-  try {
-    const archive = workshopDocument(selection, {
+function editorArchiveSettings() {
+  return {
       eyes, form: selectedForm, draw, colour, flat: q('#flat-mode').checked,
       ...irisEditor.archiveSettings(), ...detailsEditor.archiveSettings(), ...browsEditor.archiveSettings(),
       ...mouthEditor.archiveSettings(), ...noseEditor.archiveSettings(), ...beardEditor.archiveSettings(),
       ...marksEditor.archiveSettings(), ...scarsEditor.archiveSettings(), ...makeupEditor.archiveSettings()
-    }, bodyPreferences, naturalEyes, historicalSource);
+  };
+}
+
+function renderLatentValues() {
+  if (!studyOpen(q('#editor-latent'))) return;
+  q('#editor-latent-json').textContent = JSON.stringify({
+    corps: selection.state.body,
+    réglagesDuCorps: adultSettings(selection.state),
+    mémoires: Object.fromEntries(bodyPreferences),
+    paramètres: editorArchiveSettings()
+  }, null, 2);
+}
+
+q('#appearance-export').addEventListener('click', () => {
+  try {
+    const archive = workshopDocument(selection, editorArchiveSettings(), bodyPreferences, naturalEyes, historicalSource);
     q('#appearance-json').value = JSON.stringify(archive, null, 2);
     q('#appearance-error').textContent = '';
     q('#appearance-message').textContent = 'Archive atelier exportée. Copiez le JSON pour une restauration après réouverture.';
@@ -830,6 +914,7 @@ q('#appearance-import').addEventListener('click', () => {
     bodyPreferences.clear();
     for (const [body, settings] of Object.entries(restored.inactiveBodies)) bodyPreferences.set(body, settings);
     rememberBody();
+    if (commandLayout && isAdultBody(selection.state.body)) saveAdultBody(selection.state.body);
     q('#flat-mode').checked = restored.flat;
     q('#seed').value = draw?.seed ?? q('#seed').defaultValue;
     q('#draw-version').value = draw?.version ?? currentDraw;
@@ -858,10 +943,22 @@ q('#appearance-import').addEventListener('click', () => {
 
 const editorSpaces = spacesTemplate && mountEditorSpaces(spacesTemplate, space => {
   if (space !== 'laboratoire') return;
+  if (commandLayout) renderLatentValues();
   if ([...q('#espace-laboratoire').querySelectorAll('#editor-comparison, #planches-corps details')].some(studyOpen)) renderComparison();
   renderChart();
   renderPaletteStudies();
 });
+if (commandLayout) {
+  mountCommandLayout();
+  options('#historical-body', Object.entries(bodies).map(([key, body]) => [key, body.name]));
+  options('#historical-morph', Object.entries(morphs).filter(([key]) => key !== 'neutral').map(([key, value]) => [key, value.name]));
+  q('#apply-historical-body').addEventListener('click', event => {
+    const body = q('#historical-body').value;
+    setSelection({...selection.raw, body}, morphForm, event.target, {body});
+  });
+  q('#apply-historical-morph').addEventListener('click', event => chooseMorphology(q('#historical-morph').value, event.target));
+  q('#editor-latent').addEventListener('toggle', renderLatentValues);
+}
 q('#editor-comparison')?.addEventListener('toggle', event => { if (studyOpen(event.target)) renderComparison(); });
 q('#planche-panel')?.addEventListener('toggle', event => { if (studyOpen(event.target)) renderChart(); });
 
@@ -873,23 +970,25 @@ const detailsEditor=mountDetailsEditor({input:inputFor,eyes:()=>eyes,render:()=>
 }});
 const browsEditor=mountBrowsEditor({input:inputFor,eyes:()=>eyes,
   colours:()=>({hairColor:activeColour(),rememberedHairColor:colour}),render:renderComparison});
-const mouthEditor=mountMouthEditor({input:inputFor,eyes:()=>eyes,noseBounds:()=>noseEditor.bounds(),
+const mouthEditor=mountMouthEditor({commandLayout,input:inputFor,eyes:()=>eyes,noseBounds:()=>noseEditor.bounds(),
   noseBoundsForDraw:()=>noseEditor.boundsForCustomMouth(),refreshNose:()=>noseEditor.refresh(),render:renderComparison});
-const noseEditor=mountNoseEditor({input:inputFor,eyes:()=>eyes,details:()=>detailsEditor.value(),
+const noseEditor=mountNoseEditor({commandLayout,input:inputFor,eyes:()=>eyes,details:()=>detailsEditor.value(),
   mouth:()=>mouthEditor.intent(),render:()=>{
     mouthEditor.refresh();
     renderComparison();
   }});
-const beardEditor=mountBeardEditor({input:inputFor,eyes:()=>eyes,
+const beardEditor=mountBeardEditor({commandLayout,input:inputFor,eyes:()=>eyes,
   context:()=>({details:detailsEditor.value(),nose:noseEditor.value(),mouth:mouthEditor.value(),
     hairColor:activeColour(),rememberedHairColor:colour}),render:renderComparison});
-const marksEditor=mountMarksEditor({input:inputFor,eyes:()=>eyes,
+const marksEditor=mountMarksEditor({commandLayout,input:inputFor,eyes:()=>eyes,
   context:()=>({details:detailsEditor.value(),nose:noseEditor.value(),mouth:mouthEditor.value()}),
   render:renderComparison});
-const scarsEditor=mountScarsEditor({input:inputFor,eyes:()=>eyes,
+const scarsEditor=mountScarsEditor({commandLayout,input:inputFor,eyes:()=>eyes,
   context:()=>({details:detailsEditor.value(),nose:noseEditor.value(),mouth:mouthEditor.value()}),render:renderComparison});
-const makeupEditor = mountMakeupEditor({input:inputFor,eyes:()=>eyes,
+const makeupEditor = mountMakeupEditor({commandLayout,input:inputFor,eyes:()=>eyes,
+  updateVisibility: commandLayout ? syncConditionalCommands : undefined,
   context:()=>({details:detailsEditor.value(),nose:noseEditor.value(),mouth:mouthEditor.value()}),render:renderComparison});
+if (commandLayout) beardEditor.followBody(selection.state.body);
 mountMakeupStudy(naturalEyes);
 mountFreckleStudy(naturalEyes);
 mountScarStudy(naturalEyes);

@@ -4,7 +4,7 @@ import {sceneCoordinates} from './surface.mjs';
 const format=new Intl.NumberFormat('fr-FR',{maximumFractionDigits:2});
 const unit=(key,value)=>format.format(value)+(key==='angle'?'°':key==='traces'?'':' %');
 
-export function mountScarsEditor({input,eyes,context,render}) {
+export function mountScarsEditor({commandLayout,input,eyes,context,render}) {
   const q=id=>document.getElementById('scars-'+id);
   const presets=q('preset'), list=q('list');
   presets.append(...Object.entries(scarPresets).map(([key,{label}])=>new Option(label,key)));
@@ -46,6 +46,7 @@ export function mountScarsEditor({input,eyes,context,render}) {
     q('remove').disabled=!item;
     q('add').disabled=values.length===16;
     q('draw').disabled=!item&&values.length===16;
+    if (commandLayout) q('apply-seed').disabled = !item;
     q('apply').disabled=!item;
     q('reset').disabled=!values.length;
     q('edit').hidden=!item;
@@ -54,6 +55,7 @@ export function mountScarsEditor({input,eyes,context,render}) {
     q('error').textContent=error;
     if(item){
       q('mode').value=item.mode;
+      if (commandLayout) q('mode').disabled = !item.intensity;
       q('sutures').checked=item.sutures;
       q('sutures').disabled=!fit.domains.sutures;
       q('seed').value=item.seed;
@@ -127,14 +129,18 @@ export function mountScarsEditor({input,eyes,context,render}) {
   q('draw').addEventListener('click',()=>{
     const item=active(), id=item?.id??availableId();
     try{
-      const seed=item?.seed??'Microcosme '+id;
+      const seed=commandLayout ? (q('seed').value || item?.seed || 'Microcosme '+id) : (item?.seed??'Microcosme '+id);
       const sample=drawScar(input(),eyes(),id,seed,context());
       error='';
       if(item) edit(sample);
       else insert(sample);
     }catch(e){error=e.message;render();}
   });
-  q('seed').addEventListener('change',event=>edit({seed:event.target.value}));
+  if (commandLayout) {
+    q('apply-seed').addEventListener('click', () => {
+      if (active()) edit({seed: q('seed').value});
+    });
+  } else q('seed').addEventListener('change',event=>edit({seed:event.target.value}));
   q('sutures').addEventListener('change',event=>edit({sutures:event.target.checked}));
   q('mode').addEventListener('change',event=>edit({mode:event.target.value}));
   list.addEventListener('change',()=>{selected=list.value;stopPlacing();render();});

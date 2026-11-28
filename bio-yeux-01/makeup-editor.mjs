@@ -4,7 +4,9 @@ import {
 } from './makeup.mjs';
 import {makeupCoordinates, makeupFor, makeupPlane} from './makeup-render.mjs';
 import {sceneCoordinates} from './surface.mjs';
+import {makeupColourNames} from './makeup-colour-names.mjs';
 
+const drawSeedKey = 'microcosme.adult-editor.makeup-seed';
 const storageKey = 'microcosme.bio-maquillage-01.compositions';
 const references = {
   shadow: [
@@ -26,13 +28,18 @@ const references = {
   ]
 };
 
-export function mountMakeupEditor({input, eyes, context, render}) {
+export function mountMakeupEditor({commandLayout, input, eyes, context, render, updateVisibility}) {
   const q = id => document.getElementById('makeup-' + id);
   const family = q('family'), show = q('show'), enabled = q('enabled'), zoom = q('zoom');
   const paintPanel = q('paint-panel'), kind = q('paint-kind'), shape = q('paint-shape'), list = q('paint-list');
   const mirror = q('mirror'), presets = q('reference'), saved = q('saved');
   const message = q('message'), json = q('json'), name = q('name');
   const entries = Object.entries(makeupFamilies);
+  const seed = q('seed');
+  if (commandLayout) {
+    try { seed.value = localStorage.getItem(drawSeedKey) ?? seed.defaultValue; }
+    catch { /* A restricted browser session can still draw with its own seed. */ }
+  }
   let values = normalizeMakeup(), selected = 0, shown = true, placing = false, touched = false;
 
   family.append(...entries.map(([key, {label}]) => new Option(label, key)));
@@ -67,7 +74,7 @@ export function mountMakeupEditor({input, eyes, context, render}) {
       for (const [name, colours] of makeupPalette) {
         const options = document.createElement('optgroup');
         options.label = name;
-        options.append(...colours.map(colour => new Option(colour, colour)));
+        options.append(...colours.map(colour => new Option(commandLayout ? makeupColourNames[colour] : colour, colour)));
         element.append(options);
       }
     } else {
@@ -151,7 +158,7 @@ export function mountMakeupEditor({input, eyes, context, render}) {
     presets.replaceChildren(new Option('Personnalisé', ''), ...(references[family.value] ?? [])
       .map(([label], i) => new Option(label, String(i))));
   }
-  family.addEventListener('change', () => { stopPlacing(); updatePresets(); refresh(); });
+  family.addEventListener('change', () => { stopPlacing(); updatePresets(); refresh(); updateVisibility?.(); });
   show.addEventListener('change', () => { shown = show.checked; stopPlacing(); commit(); });
   enabled.addEventListener('change', () => { familyValue().enabled = enabled.checked; stopPlacing(); commit(); });
   presets.addEventListener('change', () => {
@@ -172,7 +179,11 @@ export function mountMakeupEditor({input, eyes, context, render}) {
     commit();
   });
   q('draw').addEventListener('click', () => {
-    values = drawMakeup(q('seed').value);
+    values = drawMakeup(seed.value);
+    if (commandLayout) {
+      try { localStorage.setItem(drawSeedKey, seed.value); }
+      catch { /* The current session retains the input value. */ }
+    }
     shown = true;
     selected = 0;
     stopPlacing();
@@ -195,7 +206,7 @@ export function mountMakeupEditor({input, eyes, context, render}) {
     stopPlacing();
     commit();
   });
-  list.addEventListener('change', () => { selected = Number(list.value); stopPlacing(); refresh(); });
+  list.addEventListener('change', () => { selected = Number(list.value); stopPlacing(); refresh(); updateVisibility?.(); });
   shape.addEventListener('change', () => { edited().shape = shape.value; commit(); });
   mirror.addEventListener('change', () => { edited().mirror = mirror.checked; commit(); });
   for (const [button, step] of [['down', -1], ['up', 1]]) {

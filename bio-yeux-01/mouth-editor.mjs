@@ -6,7 +6,7 @@ import {auditHistoricalMouth, drawMouth, mouthControls, mouthDrawVersion, mouthP
 const format=new Intl.NumberFormat('fr-FR',{maximumFractionDigits:2});
 const pretty=value=>format.format(value)+' %';
 
-export function mountMouthEditor({input,eyes,noseBounds,noseBoundsForDraw,refreshNose,render}) {
+export function mountMouthEditor({commandLayout,input,eyes,noseBounds,noseBoundsForDraw,refreshNose,render}) {
   const q=id=>document.getElementById(id);
   const neutral=normalizeMouth({});
   let current=null, latent=null, origin=null, blocked=false;
@@ -69,7 +69,10 @@ export function mountMouthEditor({input,eyes,noseBounds,noseBoundsForDraw,refres
     for (const field of fields) {
       const {key,input,output,domain}=field;
       const request=requested[key], applied=result?.effective[key]??null;
-      const options=result?.domains[key]?.points??[];
+      // A zero-intensity, zero-volume mouth needs an intensity control to make
+      // the two volume controls editable again.
+      const recover = commandLayout && result && key === 'intensity' && !requested.intensity && !requested.upper && !requested.lower;
+      const options = recover ? Array.from({length: 101}, (_, n) => n) : (result?.domains[key]?.points ?? []);
       const value=applied??request;
       const matching=options.findIndex(n=>Math.abs(n-value)<1e-7);
       field.points=matching>=0?options:[...options,value].sort((a,b)=>a-b);
@@ -80,7 +83,7 @@ export function mountMouthEditor({input,eyes,noseBounds,noseBoundsForDraw,refres
       adjusted ||= change;
       output.textContent=change?`${pretty(request)} → ${pretty(value)}`:pretty(value);
       input.setAttribute('aria-valuetext',change?`${pretty(request)} demandé, ${pretty(value)} effectif`:pretty(value));
-      const ranges=result?.domains[key]?.intervals??[];
+      const ranges=recover ? [[0,100]] : (result?.domains[key]?.intervals??[]);
       domain.textContent=!result?'':!ranges.length?'Valeur conservée en mémoire.':
         ranges.map(([a,b])=>a===b?pretty(a):`${format.format(a)} à ${pretty(b)}`).join(' ou ');
     }

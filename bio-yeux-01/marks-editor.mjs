@@ -4,7 +4,7 @@ import {groupMarkAxes,individualMarkAxes,marksFor,markShapes,markTones,markTypes
 const format=new Intl.NumberFormat('fr-FR',{maximumFractionDigits:3});
 const percent=(value,key)=>format.format(value)+(key==='angle'?'°':' %');
 
-export function mountMarksEditor({input,eyes,context,render}) {
+export function mountMarksEditor({commandLayout,input,eyes,context,render}) {
   const q=id=>document.getElementById('marks-'+id);
   const add=q('type'), list=q('list'), shape=q('shape'), tone=q('tone');
   const fields=new Map();
@@ -65,6 +65,10 @@ export function mountMarksEditor({input,eyes,context,render}) {
     q('edit').hidden=!item;
     q('place').disabled=!shown||!item||grouped||!item.intensity;
     q('seed-label').hidden=!grouped;
+    if (commandLayout) {
+      q('redistribute').disabled = !grouped;
+      shape.disabled = tone.disabled = !item?.intensity;
+    }
     q('zones-wrap').hidden=!grouped;
     if (item) {
       shape.value=item.shape;
@@ -85,7 +89,10 @@ export function mountMarksEditor({input,eyes,context,render}) {
       const domain=solved.domains[name];
       const indexed=['x','y','density','intensity'].includes(name);
       const fallback=domain===null;
-      const allowed=fallback?Array.from({length:101},(_,i)=>i):domain??[];
+      // A group with both intensity and density at zero needs a way to make
+      // density editable again once a zone has been selected.
+      const recover = commandLayout && grouped && !item.intensity && !item.density && item.zones.length && name === 'intensity';
+      const allowed=fallback||recover?Array.from({length:101},(_,i)=>i):domain??[];
       const [min,max]=allowed;
       const steps=indexed?allowed:allowed.length?[min,max,...Array.from({length:Math.floor(max)-Math.ceil(min)+1},
         (_,i)=>Math.ceil(min)+i)]:[];
@@ -163,7 +170,11 @@ export function mountMarksEditor({input,eyes,context,render}) {
   q('show').addEventListener('change',event=>{shown=event.target.checked;stopPlacing();render();});
   shape.addEventListener('change',()=>edit({shape:shape.value}));
   tone.addEventListener('change',()=>edit({tone:tone.value}));
-  q('seed').addEventListener('change',event=>edit({seed:event.target.value}));
+  if (commandLayout) {
+    q('redistribute').addEventListener('click', () => {
+      if (active() && markTypes[active().type].form === 'group') edit({seed: q('seed').value});
+    });
+  } else q('seed').addEventListener('change',event=>edit({seed:event.target.value}));
   q('before-mode').addEventListener('change',render);
 
   return {
