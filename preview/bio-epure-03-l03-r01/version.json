@@ -1,0 +1,10 @@
+{
+  "mission": "BIO-EPURE-03-L03-R01",
+  "sourceCommit": "2e5ff87b2cea2bb69c513094d87a77ab486bc381",
+  "startup": "study-149e87a31a28069e.js",
+  "files": {
+    "index.html": "4aa6b90823d5e015a8c8000f9f99c256e91f5b8604512892ef3f29dde77ffc31",
+    "style.css": "ff81c70222b8e2cf0f7552545eb7788f8307b229a2500e8fc8c800b99ed1fbe8",
+    "study-149e87a31a28069e.js": "149e87a31a28069e5c5931ec70dabde77d13d34c69debd5f5c87b8e16e53ef16"
+  }
+}
