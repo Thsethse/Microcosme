@@ -1,0 +1,20 @@
+{
+  "mission": "BIO-EPURE-03-L01-R01",
+  "sourceCommit": "3bbac606c824761db7f37daa6edc2088fd7ac307",
+  "artisticReference": "c18aa4d54873f19186d6c1af7e17aa22e566dda1",
+  "startup": "atelier-fa2ac506a9869ae3.js",
+  "files": [
+    {
+      "path": "atelier-fa2ac506a9869ae3.js",
+      "sha256": "fa2ac506a9869ae3e32a59a1ff23dbac0c78203d18ffa5397f1dedd3ddc4ba16"
+    },
+    {
+      "path": "style.css",
+      "sha256": "cfc5279d3843d964f8130bb3ee083ed7746fae0ead65b3d23815a3bbccdf6de2"
+    },
+    {
+      "path": "index.html",
+      "sha256": "60d2a3a4d37920395aab8bd059de4ab337a33f18562e7a5f8881fa978a03224d"
+    }
+  ]
+}
