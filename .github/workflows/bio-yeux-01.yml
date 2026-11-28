@@ -6,6 +6,7 @@ on:
       - 'preview/bio-socle-02-r01/**'
       - 'preview/bio-epure-03-l01-r01/**'
       - 'preview/bio-epure-03-l02-r01/**'
+      - 'preview/bio-epure-03-l03-r02/**'
       - 'docs/ai/bio-epure-03/l02/**'
       - '.github/workflows/bio-yeux-01.yml'
 permissions:
@@ -30,6 +31,7 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: node --test bio-col-01/tests/*.test.mjs bio-yeux-01/tests/*.test.mjs
+      - run: node --test preview/bio-epure-03-l03-r01/study.test.mjs
       - run: npx playwright install chromium webkit
       - name: Recette du socle adulte
         run: |
@@ -54,6 +56,10 @@ jobs:
           node "$before/source/preview/bio-epure-03-l01-r01/build.mjs" "$ARTIFACT_DIR/l01"
           node preview/bio-epure-03-l02-r01/build.mjs "$ARTIFACT_DIR/l02"
           PREVIEW_DIR="$ARTIFACT_DIR/l02" REFERENCE_DIR="$ARTIFACT_DIR/l01" node bio-yeux-01/tests/editor-lot02-browser.cjs
+      - name: Recette du recalibrage et des activations du lot 03 R02
+        run: |
+          node preview/bio-epure-03-l03-r02/build.mjs "$ARTIFACT_DIR/l03-r02"
+          PREVIEW_MISSION=BIO-EPURE-03-L03-R02 PREVIEW_SOURCE="$(git rev-parse HEAD)" PREVIEW_DIR="$ARTIFACT_DIR/l03-r02" REFERENCE_DIR="$ARTIFACT_DIR/l02" node bio-yeux-01/tests/editor-lot02-browser.cjs
       - name: Rejouer l’interface BIO-YEUX-01 publiée avant A/B/C
         run: |
           legacy_preview=$(mktemp -d)

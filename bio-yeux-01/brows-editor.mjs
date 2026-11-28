@@ -1,11 +1,42 @@
 import {palette} from '../bio-col-01/palette.mjs';
+import {browHeightEquivalent, browHeightRange, historicalBrowHeight} from './brow-height-control.mjs';
 import {browColourModes, browControls, browDrawVersion, browPresets, browsFor, drawBrows, normalizeBrows} from './brows.mjs';
 import {intervalsOf} from './iris.mjs';
 
 const format = new Intl.NumberFormat('fr-FR',{maximumFractionDigits:2});
+const historicalFormat = new Intl.NumberFormat('fr-FR',{maximumFractionDigits:20});
 const features = ['absent','monobrow','slit'];
 
-export function mountBrowsEditor({input, eyes, colours, render}) {
+function formatHeight(level) {
+  const shown = format.format(level);
+  if (shown === '50' && level !== 50) return level < 50 ? '< 50 %' : '> 50 %';
+  return shown + ' %';
+}
+
+function refreshHeight(field, range, request, effective, editedLevel) {
+  field.heightRange = range;
+  field.input.disabled = !range;
+  const equivalent = range ? browHeightEquivalent(effective, range) : null;
+  const shown = range ? editedLevel ?? equivalent : null;
+  const label = !range ? 'En mémoire' : shown === null ? 'Hors plage' : formatHeight(shown);
+  field.input.value = shown ?? (range && effective > range.high ? 100 : 0);
+  field.output.textContent = label;
+  field.input.setAttribute('aria-valuetext', label);
+  const notes = [];
+  if (range) {
+    if (equivalent === null) notes.push('Position hors plage. Déplacez le curseur pour modifier la hauteur.');
+    if (range.low === range.anchor) notes.push('Plateau bas. De 0 à 50 %, la position est identique.');
+    if (range.high === range.anchor) notes.push('Plateau haut. De 50 à 100 %, la position est identique.');
+    if (request !== effective) notes.push('Demande historique saturée.');
+  }
+  const raw = historicalFormat.format(request) + ' %';
+  notes.push(effective === null ? `Demande historique conservée à ${raw}.` :
+    `Échelle historique. ${raw} demandé, ${historicalFormat.format(effective)} % effectif.`);
+  const message = notes.join(' ');
+  if (field.domain.textContent !== message) field.domain.textContent = message;
+}
+
+export function mountBrowsEditor({input, eyes, colours, render, recalibratedHeight}) {
   const q=id=>document.getElementById(id);
   let current=null, latent=null, origin=null;
   const neutral=normalizeBrows({});
@@ -28,22 +59,38 @@ export function mountBrowsEditor({input, eyes, colours, render}) {
     q('brow-axes').append(label);
     const field={key,control,input:q(id),output:q(id+'-value'),domain:q(id+'-domain')};
     fields.push(field);
+    if (recalibratedHeight && key === 'height') {
+      field.input.max=100;
+      field.input.step='any';
+      field.domain.setAttribute('aria-live','polite');
+      field.input.addEventListener('input',()=>{
+        if (!field.heightRange) return;
+        const level = Math.round(field.input.valueAsNumber);
+        const height = historicalBrowHeight(level, field.heightRange);
+        set({...current,height}, null, level);
+      });
+      field.input.addEventListener('blur', () => {
+        if (field.heightRange) refresh();
+      });
+      continue;
+    }
     field.input.addEventListener('input',()=>{
       const v=field.points[field.input.valueAsNumber];
       if (current&&v!==undefined) set({...current,[key]:v});
     });
   }
 
-  function set(value, draw=null) {
+  function set(value, draw=null, editedHeight) {
     current=value;
     origin=draw;
     q('brows-error').textContent='';
-    refresh();
+    refresh(editedHeight);
     render();
   }
 
-  function refresh() {
-    const result=current?browsFor(input(),eyes(),current,colours(),true):null;
+  function refresh(editedHeight) {
+    const character=input(), eyeRequest=eyes(), pigments=colours();
+    const result=current?browsFor(character,eyeRequest,current,pigments,true):null;
     const requested=result?.requested??latent??neutral;
     q('brows-active').checked=!!current;
     q('brows-parameters').disabled=!current;
@@ -72,6 +119,13 @@ export function mountBrowsEditor({input, eyes, colours, render}) {
     for (const field of fields) {
       const {key,control,input,output,domain}=field;
       const request=requested[key], applied=result?.effective[key]??null;
+      if (recalibratedHeight && key === 'height') {
+        const range = applied === null ? null : browHeightRange(height =>
+          browsFor(character,eyeRequest,{...current,height},pigments).effective.height);
+        refreshHeight(field, range, request, applied, editedHeight);
+        adjusted ||= applied !== null && request !== applied;
+        continue;
+      }
       const options=result?.domains[key]??[];
       const value=applied??request;
       field.points=options.includes(value)?options:[...options,value].sort((a,b)=>a-b);

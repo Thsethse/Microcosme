@@ -44,10 +44,12 @@ import {mountEyeContourStudy} from './eye-contour-study.mjs';
 import {eyeControls, eyePresets, eyesFor, normalizeEyes} from './eyes.mjs';
 import {mountEditorSpaces} from './editor-spaces.mjs';
 import {initialAdultBody, mountCommandLayout, saveAdultBody, syncConditionalCommands} from './editor-commands.mjs';
+import {initialProceduralFace} from './procedural-face.mjs';
 
 const q = selector => document.querySelector(selector);
 const spacesTemplate = q('#editor-spaces');
 const commandLayout = spacesTemplate?.hasAttribute('data-command-layout');
+const proceduralFace = commandLayout && spacesTemplate.hasAttribute('data-procedural-face');
 const inCreation = trigger => commandLayout && trigger?.closest('[data-editor-space=creation]');
 const studyOpen = panel => panel.open && !panel.closest('[data-editor-space][hidden]');
 const naturalEyes = q('#atelier').hasAttribute('data-natural-eyes');
@@ -949,7 +951,7 @@ const editorSpaces = spacesTemplate && mountEditorSpaces(spacesTemplate, space =
   renderPaletteStudies();
 });
 if (commandLayout) {
-  mountCommandLayout();
+  mountCommandLayout({proceduralFace});
   options('#historical-body', Object.entries(bodies).map(([key, body]) => [key, body.name]));
   options('#historical-morph', Object.entries(morphs).filter(([key]) => key !== 'neutral').map(([key, value]) => [key, value.name]));
   q('#apply-historical-body').addEventListener('click', event => {
@@ -968,7 +970,7 @@ const detailsEditor=mountDetailsEditor({input:inputFor,eyes:()=>eyes,render:()=>
   mouthEditor.refresh();
   renderComparison();
 }});
-const browsEditor=mountBrowsEditor({input:inputFor,eyes:()=>eyes,
+const browsEditor=mountBrowsEditor({recalibratedHeight:proceduralFace,input:inputFor,eyes:()=>eyes,
   colours:()=>({hairColor:activeColour(),rememberedHairColor:colour}),render:renderComparison});
 const mouthEditor=mountMouthEditor({commandLayout,input:inputFor,eyes:()=>eyes,noseBounds:()=>noseEditor.bounds(),
   noseBoundsForDraw:()=>noseEditor.boundsForCustomMouth(),refreshNose:()=>noseEditor.refresh(),render:renderComparison});
@@ -1004,6 +1006,14 @@ mountStudyPanel(q('#planche-abdominaux'),renderComparison);
 mountStudyPanel(q('#planche-pli-nombril'),renderComparison);
 mountStudyPanel(q('#diagnostic-pelvien'),renderComparison);
 mountStudyPanel(q('#planche-anatomie-pelvienne'),renderComparison);
+if (proceduralFace) {
+  const initial = initialProceduralFace();
+  selectedForm = 'round';
+  eyes = initial.eyes;
+  browsEditor.restore(initial);
+  noseEditor.restore(initial);
+  mouthEditor.restore(initial);
+}
 refreshCharacter();
 mountResidentPreview(q('#resident-preview'));
 q('#workshop-archive-link')?.addEventListener('click', () => { q('#appearance-panel').open = true; });

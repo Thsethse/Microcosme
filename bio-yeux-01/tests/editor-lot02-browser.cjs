@@ -82,7 +82,7 @@ async function verifyManifest(context, url) {
   const response = await context.request.get(new URL('version.json', url).href);
   assert.equal(response.status(), 200);
   const data = await response.json();
-  assert.equal(data.mission, 'BIO-EPURE-03-L02-R01');
+  assert.equal(data.mission, process.env.PREVIEW_MISSION ?? 'BIO-EPURE-03-L02-R01');
   if (process.env.PREVIEW_SOURCE) assert.equal(data.sourceCommit, process.env.PREVIEW_SOURCE);
   assert.deepEqual(data.files.map(file => file.path).sort(), [data.startup, 'index.html', 'style.css'].sort());
   for (const {path, sha256} of data.files) {
@@ -93,7 +93,7 @@ async function verifyManifest(context, url) {
   return data;
 }
 
-async function anatomy(page, old, url, oldURL, browser) {
+async function anatomy(page, old, url, oldURL, browser, proceduralFace) {
   await ready(old, oldURL);
   const choices = await q(page, 'body').locator('option:enabled').evaluateAll(options => options.map(option => option.value));
   assert.deepEqual(choices, ['adult-h', 'adult-f']);
@@ -135,13 +135,19 @@ async function anatomy(page, old, url, oldURL, browser) {
   await space(old, 'creation');
   await restore(old, archive);
   await space(old, 'creation');
-  await range(old, 'structure-base', 100);
+  if (!proceduralFace) await range(old, 'structure-base', 100);
   assert.deepEqual(await svg(old), width100);
-  await range(old, 'structure-base', 130);
+  if (proceduralFace) {
+    await space(old, 'laboratoire');
+    await open(old, 'editor-comparison');
+  } else {
+    await range(old, 'structure-base', 130);
+  }
   await space(page, 'laboratoire');
   const compare = await open(page, 'editor-comparison');
   await compare.locator('#comparison svg').first().waitFor();
-  assert.deepEqual(await svg(page, '#comparison [data-side=after] svg'), await svg(old));
+  const referenceSVG = proceduralFace ? await svg(old, '#comparison [data-side=after] svg') : await svg(old);
+  assert.deepEqual(await svg(page, '#comparison [data-side=after] svg'), referenceSVG);
 
   const cold = await browser.newContext(devices['iPad Mini']);
   try {
@@ -158,6 +164,7 @@ async function anatomy(page, old, url, oldURL, browser) {
   } finally { await cold.close(); }
   await ready(page, url);
   assert.equal(await q(page, 'body').inputValue(), 'adult-f');
+  if (proceduralFace) await historicalFace(page);
   await space(page, 'laboratoire');
   await open(page, 'historical-settings');
   await select(page, 'historical-body', 'slim');
@@ -176,6 +183,139 @@ async function anatomy(page, old, url, oldURL, browser) {
   await space(page, 'creation');
   assert.match(await q(page, 'morph-reference-note').textContent(), /iPad combiné/);
   await select(page, 'morph', 'neutral');
+}
+
+async function historicalFace(page) {
+  await space(page, 'laboratoire');
+  await open(page, 'historical-settings');
+  for (const reset of ['reset-eyes', 'brows-reset', 'nose-reset', 'mouth-reset']) await tap(page, reset);
+  await space(page, 'creation');
+}
+
+async function proceduralFaceChecks(page, old, browser, url, referenceURL) {
+  const {initialProceduralFace} = await import('../procedural-face.mjs');
+  const {browPresets, browsFor} = await import('../brows.mjs');
+  const {characterInput} = await import('../appearance.mjs');
+  const {parseWorkshop, workshopDocument} = await import('../workshop-archive.mjs');
+  const {browHeightRange, historicalBrowHeight} = await import('../brow-height-control.mjs');
+  async function fresh(target, body) {
+    assert.equal(await q(target, 'body').inputValue(), body);
+    assert.equal(await q(target, 'eye-preset').inputValue(), 'round');
+    assert.equal(await q(target, 'brow-height-value').textContent(), '50 %');
+    for (const [module, control] of [['brows','brow-height'], ['nose','nose-length'], ['mouth','mouth-width']]) {
+      assert(await q(target, module + '-active').isChecked());
+      await visible(target, control);
+      assert(await q(target, control).isEnabled(), control);
+    }
+    const archive = await workshop(target);
+    for (const [key, value] of Object.entries(initialProceduralFace())) assert.deepEqual(archive.active[key].requested, value, key);
+    assert.equal(archive.active.eyes.form, 'round');
+    for (const optional of ['iris', 'details', 'marks', 'scars', 'makeup']) assert.equal(archive.active[optional], undefined, optional);
+    assert.deepEqual(archive.active.facialHair, body === 'adult-f' ? {category: 'F', mode: 'historical'} : undefined);
+    return archive;
+  }
+  const initial = await fresh(page, 'adult-h');
+  await ready(old, referenceURL);
+  const historical = await workshop(old);
+  for (const key of ['brows', 'nose', 'mouth']) assert.equal(historical.active[key], undefined);
+  await space(old, 'creation');
+  const oldSVG = await svg(old);
+  await space(page, 'creation');
+  const currentSVG = await svg(page);
+  assert.notDeepEqual(currentSVG, oldSVG);
+  await restore(old, initial);
+  await space(old, 'creation');
+  assert.deepEqual(await svg(old), currentSVG, 'mêmes demandes dans les deux distributions');
+  await space(page, 'technique');
+  await page.locator('#resident-preview select').selectOption('1');
+  await tap(page, 'resident-open');
+  assert.deepEqual(await workshop(page), initial, 'la sélection d’un témoin ne touche pas à l’atelier');
+  await restore(page, historical);
+  assert.deepEqual(await workshop(page), historical);
+  await space(page, 'creation');
+  assert.deepEqual(await svg(page), oldSVG, 'une restauration historique reconstruit le dessin initial du lot 02');
+
+  const cold = await browser.newContext(devices['iPad Mini']);
+  try {
+    await cold.addInitScript(() => localStorage.setItem('microcosme.adult-editor.last-body', 'adult-f'));
+    const f = await cold.newPage();
+    await ready(f, url);
+    await fresh(f, 'adult-f');
+  } finally { await cold.close(); }
+
+  const base = parseWorkshop(JSON.stringify(initial));
+  const memories = new Map([['adult-f', {corpulence: 62.125}]]);
+  const archiveFor = overrides => workshopDocument(base.selection, {...base, ...overrides}, memories, true);
+  const excess = archiveFor({brows: {...base.brows, height: 94.875}});
+  await restore(page, excess);
+  await space(page, 'creation');
+  assert.equal(await q(page, 'brow-height-value').textContent(), 'Hors plage');
+  assert.match(await q(page, 'brow-height-domain').textContent(), /94,875 % demandé/);
+  await open(page, 'morph-panel');
+  await range(page, 'morph-skull_width', 118);
+  await select(page, 'eye-preset', 'narrow');
+  await select(page, 'body', 'adult-f');
+  assert.equal(await q(page, 'corpulence').inputValue(), '62.125');
+  await select(page, 'body', 'adult-h');
+  const changed = await workshop(page);
+  assert.equal(changed.active.brows.requested.height, 94.875);
+  assert.deepEqual(changed.inactiveBodies, excess.inactiveBodies);
+  await restore(old, changed);
+  await space(old, 'creation');
+  await space(page, 'creation');
+  assert.deepEqual(await svg(page), await svg(old));
+  await range(page, 'brow-height', 50);
+  const middle = await workshop(page);
+  assert.deepEqual(middle.active.brows.requested, {...changed.active.brows.requested, height: 6});
+  const state = parseWorkshop(JSON.stringify(middle));
+  const bound = browHeightRange(height => browsFor(characterInput(state.selection), state.eyes,
+    {...state.brows, height}).effective.height);
+  await space(page, 'creation');
+  await q(page, 'brow-height').press('End');
+  const highest = await workshop(page);
+  assert.equal(highest.active.brows.requested.height, historicalBrowHeight(100, bound));
+  await open(page, 'json-panel');
+  await tap(page, 'export');
+  await tap(page, 'reload');
+  assert.match(await q(page, 'selection-message').textContent(), /relue/);
+  assert.deepEqual((await workshop(page)).active.brows, highest.active.brows, 'la sélection brute relit le catalogue sans réinitialiser la hauteur');
+
+  const saturated = archiveFor({brows: {...browPresets.thick.values, height: 3.125}});
+  await restore(page, saturated);
+  await space(page, 'creation');
+  assert.equal(await q(page, 'brow-height-value').textContent(), '50 %');
+  assert.match(await q(page, 'brow-height-domain').textContent(), /Plateau bas.*historique saturée.*3,125 % demandé/);
+  assert.deepEqual(await workshop(page), saturated);
+  await space(page, 'creation');
+  const lowSVG = await svg(page);
+  await q(page, 'brow-height').press('Home');
+  assert.deepEqual(await svg(page), lowSVG);
+  assert.equal((await workshop(page)).active.brows.requested.height, saturated.active.brows.effective.height);
+  await space(page, 'creation');
+  await range(page, 'brow-height', 50);
+  assert.equal((await workshop(page)).active.brows.requested.height, 6);
+
+  for (const setting of [{brows: {...base.brows, height: 94.875, absent: true}},
+    {brows: null, browsLatent: {...base.brows, height: 94.875}}]) {
+    const inactive = archiveFor(setting);
+    const isolated = await browser.newContext(devices['iPad Mini']);
+    try {
+      const restored = await isolated.newPage();
+      await ready(restored, url);
+      await restore(restored, inactive);
+      assert.deepEqual(await workshop(restored), inactive);
+      await space(restored, 'creation');
+      await visible(restored, 'brow-height', false);
+      if (setting.brows) await q(restored, 'brows-absent').uncheck();
+      else await q(restored, 'brows-active').check();
+      assert.equal(await q(restored, 'brow-height-value').textContent(), 'Hors plage');
+      assert.equal((await workshop(restored)).active.brows.requested.height, 94.875);
+    } finally { await isolated.close(); }
+  }
+  await ready(page, url);
+  await space(page, 'creation');
+  await historicalFace(page);
+  return {freshBodies: 2, comparedViews: 9, maskedRoundTrips: 2, editedHeights: 4};
 }
 
 async function eyeAndVisibility(page) {
@@ -348,7 +488,7 @@ async function drawsAndStudies(page) {
   return {studies: labs.length, svg: labs.reduce((sum, count) => sum + count, 0), draws: draws.length};
 }
 
-async function legacyArchives(page) {
+async function legacyArchives(page, reference) {
   const {historicalDocuments} = await import('./legacy-appearance-fixtures.mjs');
   const {parseWorkshop, workshopDocument} = await import('../workshop-archive.mjs');
   const fixtures = historicalDocuments();
@@ -358,6 +498,12 @@ async function legacyArchives(page) {
     const expected = workshopDocument(state.selection, state, new Map(), true, state.historicalSource);
     await restore(page, document);
     assert.deepEqual(await workshop(page), expected, 'apparence v' + document.version);
+    if (reference) {
+      await restore(reference, document);
+      await space(reference, 'creation');
+      await space(page, 'creation');
+      assert.deepEqual(await svg(page), await svg(reference), 'rendu de l’apparence v' + document.version);
+    }
   }
   return fixtures.length;
 }
@@ -428,12 +574,14 @@ async function run(engine, url, referenceURL) {
     await observeStudies(page);
     await ready(page, url);
     assert.deepEqual(await page.evaluate(() => window.studyWrites), []);
-    await anatomy(page, old, url, referenceURL, browser);
+    const procedural = manifest.mission === 'BIO-EPURE-03-L03-R02';
+    const faces = procedural ? await proceduralFaceChecks(page, old, browser, url, referenceURL) : {};
+    await anatomy(page, old, url, referenceURL, browser, procedural);
     await space(page, 'creation');
     await eyeAndVisibility(page);
     await faceAndPalette(page);
     const coverage = await drawsAndStudies(page);
-    const archiveVersions = await legacyArchives(page);
+    const archiveVersions = await legacyArchives(page, procedural ? old : null);
     await space(page, 'technique');
     for (const id of ['resident-preview', 'json-panel', 'makeup-exchange']) await visible(page, id);
     await activationAndArchives(page, browser, url);
@@ -444,7 +592,7 @@ async function run(engine, url, referenceURL) {
     await space(page, 'creation');
     assert.match(await q(page, 'editor-alerts').textContent(), /non chargée/);
     assert.deepEqual(errors, []);
-    return {engine:engine.name(), version:browser.version(), source:manifest.sourceCommit, archiveVersions, residentColdRestores: 2, ...coverage};
+    return {engine:engine.name(), version:browser.version(), source:manifest.sourceCommit, archiveVersions, residentColdRestores: 2, ...coverage, ...faces};
   } finally { await browser.close(); }
 }
 
