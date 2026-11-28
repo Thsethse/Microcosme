@@ -5,6 +5,8 @@ on:
       - 'bio-yeux-01/**'
       - 'preview/bio-socle-02-r01/**'
       - 'preview/bio-epure-03-l01-r01/**'
+      - 'preview/bio-epure-03-l02-r01/**'
+      - 'docs/ai/bio-epure-03/l02/**'
       - '.github/workflows/bio-yeux-01.yml'
 permissions:
   contents: read
@@ -43,6 +45,15 @@ jobs:
           node preview/bio-epure-03-l01-r01/build.mjs "$ARTIFACT_DIR/epure-pages"
           PREVIEW_MISSION=BIO-EPURE-03-L01-R01 PREVIEW_DIR="$ARTIFACT_DIR/epure-pages" ARTIFACT_DIR="$ARTIFACT_DIR/epure-socle" node bio-yeux-01/tests/bio-socle-browser.cjs
           PREVIEW_DIR="$ARTIFACT_DIR/epure-pages" REFERENCE_DIR="$ARTIFACT_DIR/reference" node bio-yeux-01/tests/editor-spaces-browser.cjs
+      - name: Recette du lot 02 et comparaison avec le lot 01 validé
+        run: |
+          before=$(mktemp -d)
+          git worktree add --detach "$before/source" e64c07efb5b50f1b7366dba3e503b5d29240fc01
+          git config --global --add safe.directory "$before/source"
+          ln -s "$GITHUB_WORKSPACE/node_modules" "$before/source/node_modules"
+          node "$before/source/preview/bio-epure-03-l01-r01/build.mjs" "$ARTIFACT_DIR/l01"
+          node preview/bio-epure-03-l02-r01/build.mjs "$ARTIFACT_DIR/l02"
+          PREVIEW_DIR="$ARTIFACT_DIR/l02" REFERENCE_DIR="$ARTIFACT_DIR/l01" node bio-yeux-01/tests/editor-lot02-browser.cjs
       - name: Rejouer l’interface BIO-YEUX-01 publiée avant A/B/C
         run: |
           legacy_preview=$(mktemp -d)

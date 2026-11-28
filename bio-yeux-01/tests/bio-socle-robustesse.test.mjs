@@ -1,42 +1,26 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {adultSettings, restoreAdultSettings} from '../adult-settings.mjs';
-import {appearanceDocument, characterInput} from '../appearance.mjs';
+import {characterInput} from '../appearance.mjs';
 import {abdominalControls, referenceAbdominals} from '../abdominals.mjs';
 import {beardDrawVersion, beardPresets, normalizeBeard} from '../beard.mjs';
-import {normalizeBrows} from '../brows.mjs';
 import {structureControls, referenceStructure} from '../body-structure.mjs';
 import {chestControls, referenceChest} from '../chest.mjs';
-import {normalizeDetails} from '../details.mjs';
 import {currentDraw, drawEyes, seededIndex} from '../draw.mjs';
-import {normalizeIris} from '../iris.mjs';
-import {drawMakeup, normalizeMakeup} from '../makeup.mjs';
-import {normalizeMarks} from '../marks.mjs';
-import {mouthPresets, normalizeMouth} from '../mouth.mjs';
-import {nosePresets, normalizeNose} from '../nose.mjs';
+import {drawMakeup} from '../makeup.mjs';
 import {pectoralControls, referencePectorals} from '../pectorals.mjs';
 import {parseResident, renderResident, serializeResident} from '../resident.mjs';
 import {residentWitnesses} from '../resident-witnesses.mjs';
-import {normalizeScars} from '../scars.mjs';
 import {renderView, workshopRenderVersion} from '../render-profile.mjs';
 import {referenceThoraxDetails, thoraxDetailControls} from '../thorax-details.mjs';
 import {workshopDocument, parseWorkshop} from '../workshop-archive.mjs';
+import {historicalDocuments, legacyAppearanceDefaults} from './legacy-appearance-fixtures.mjs';
 
 const bodies = ['adult-f', 'adult-h'];
 const categories = ['H', 'F', 'T'];
 const views = {portrait:'head', pawn:'tile', thumbnail:'mini'};
-const raw = {style:'p5-061', arrangement:'G', body:'standard'};
-const colour = 'chatain-clair';
-const basic = {eyes:null, form:'historical', colour, flat:true};
+const {raw, basic, iris, details, brows, mouth, nose, marks, scars, makeup} = legacyAppearanceDefaults;
 const beard = normalizeBeard(beardPresets.short.values);
-const iris = normalizeIris({heterochromia:'complete'});
-const details = normalizeDetails({});
-const brows = normalizeBrows({arc:0});
-const mouth = normalizeMouth(mouthPresets.fine.values);
-const nose = normalizeNose(nosePresets.short.values);
-const marks = normalizeMarks([{id:'m1',type:'freckles',seed:'marque'}]);
-const scars = normalizeScars([{id:'s1',seed:'cicatrice'}]);
-const makeup = normalizeMakeup({lips:{enabled:true}});
 
 function allFields(controls, pick) {
   return Object.fromEntries(Object.entries(controls).map(([key, {min, max}]) => [key, pick(min, max)]));
@@ -156,34 +140,6 @@ test('atelier · 48 configurations à graine fixe, changements H/F et réexports
     }
   }
 });
-
-function historicalDocuments() {
-  const plain = restoreAdultSettings(raw,'standard',{});
-  const adult = (body, values) => appearanceDocument(restoreAdultSettings(raw,body,values),basic);
-  const facial = [{},{irisLatent:iris},{detailsLatent:details},{browsLatent:brows},{mouthLatent:mouth},
-    {noseLatent:nose},{beardCategory:'T'},{marks},{scars},{makeup}]
-    .map(settings => appearanceDocument(plain,{...basic,...settings}));
-  const chest = adult('adult-f',{chest:referenceChest});
-  const oldChest = {...chest,version:14,renderer:'bio-corps-04-a-svg@1',
-    character:{...chest.character,chest:{...chest.character.chest,divergence:-9,position:37.125}}};
-  const oldAreola = {thoraxDetails:{...referenceThoraxDetails['adult-h'],nippleSize:22.5,relief:14.125}};
-  const details18 = adult('adult-h',{thoraxDetails:referenceThoraxDetails['adult-h']});
-  const abs = adult('adult-h',{abdominals:referenceAbdominals});
-  return [
-    ...facial,
-    adult('adult-h',{}),
-    adult('adult-h',{structure:referenceStructure}),
-    adult('adult-f',{corpulence:37.125}),
-    oldChest,{...chest,version:15,renderer:'bio-corps-04-a-r01-svg@1'},chest,
-    adult('adult-h',{pectorals:referencePectorals}),
-    {...details18,version:18,renderer:'bio-corps-04-c-svg@1',character:{...details18.character,...oldAreola}},
-    {...abs,character:{...abs.character,...oldAreola}},
-    {...abs,version:20,renderer:'bio-corps-05-c-svg@1',
-      character:{...abs.character,...oldAreola,navel:{size:38,shape:36,relief:28}}},
-    details18,
-    adult('adult-f',{pubicHairLength:36.125})
-  ];
-}
 
 test('atelier · 22 archives historiques, migration puis rejeu et contrôle de provenance', () => {
   const fixtures = historicalDocuments();

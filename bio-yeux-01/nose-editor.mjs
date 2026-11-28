@@ -6,17 +6,27 @@ import {auditHistoricalNose,drawNose,normalizeNose,noseControls,noseDetailPreset
 const format=new Intl.NumberFormat('fr-FR',{maximumFractionDigits:2});
 const pretty=value=>format.format(value)+' %';
 
-export function mountNoseEditor({input,eyes,details,mouth,render}) {
+export function mountNoseEditor({commandLayout,input,eyes,details,mouth,render}) {
   const q=id=>document.getElementById(id);
   const neutral=normalizeNose({});
   let current=null,latent=null,origin=null,result=null;
   const fields=[];
+  const detail = commandLayout ? document.createElement('select') : null;
+  if (detail) {
+    detail.id = 'nose-detail-preset';
+    const label = document.createElement('label');
+    label.append('Détail graphique', detail);
+    const morphology = q('nose-preset').closest('label');
+    morphology.firstChild.textContent = 'Morphologie';
+    morphology.after(label);
+    detail.add(new Option('Personnalisé', 'custom'));
+  }
   q('nose-preset').append(new Option('Personnalisé','custom'));
   for(const [label,items] of [['Morphologies',nosePresets],['Degrés de détail',noseDetailPresets]]) {
     const group=document.createElement('optgroup');
     group.label=label;
     group.append(...Object.entries(items).map(([key,v])=>new Option(v.label,key)));
-    q('nose-preset').append(group);
+    (detail && items === noseDetailPresets ? detail : q('nose-preset')).append(group);
   }
   for(const [key,control] of Object.entries(noseControls)) {
     const id='nose-'+key;
@@ -57,9 +67,14 @@ export function mountNoseEditor({input,eyes,details,mouth,render}) {
     q('nose-before-wrap').hidden=!result;
     const preset=Object.entries(nosePresets).find(([,example])=>{
       const values=normalizeNose(example.values);
-      return fields.every(({key})=>values[key]===requested[key]);
+      return fields.every(({key}) => (detail && ['fills', 'lines'].includes(key)) || values[key] === requested[key]);
     });
     q('nose-preset').value=preset?.[0]??'custom';
+    if (detail) {
+      const match = Object.entries(noseDetailPresets).find(([, {values}]) =>
+        requested.fills === values.fills && requested.lines === values.lines);
+      detail.value = match?.[0] ?? 'custom';
+    }
 
     let adjusted=false;
     for(const field of fields){
@@ -98,8 +113,18 @@ export function mountNoseEditor({input,eyes,details,mouth,render}) {
 
   q('nose-preset').addEventListener('change',event=>{
     const key=event.target.value;
-    if(nosePresets[key]) set(normalizeNose(nosePresets[key].values));
-    else if(noseDetailPresets[key]) set({...current,...noseDetailPresets[key].values});
+    if(nosePresets[key]) {
+      const values = nosePresets[key].values;
+      set(normalizeNose(detail ? {...values, fills: current.fills, lines: current.lines} : values));
+    } else if(noseDetailPresets[key]) set({...current,...noseDetailPresets[key].values});
+  });
+  detail?.addEventListener('change', () => {
+    const choice = noseDetailPresets[detail.value];
+    if (choice) set({...current, ...choice.values});
+  });
+  q('historical-nose')?.addEventListener('click', () => {
+    set(normalizeNose(nosePresets.distinctNostrils.values));
+    q('historical-nose-status').textContent = 'Référence historique appliquée avec ses aplats et traits.';
   });
   q('nose-active').addEventListener('change',event=>{
     if(event.target.checked) set(latent??neutral,origin);

@@ -332,3 +332,18 @@ button:disabled, input:disabled, select:disabled { opacity: .65; }
 .editor-table { overflow-x: auto; }
 .editor-table table { width: 100%; border-collapse: collapse; }
 .editor-table th, .editor-table td { padding: 8px; text-align: left; border-bottom: 1px solid var(--line); }
+
+.editor-commands [data-inactive-command],
+.editor-commands #espace-creation[data-historical-body] > section:not(#adult-base),
+.editor-commands #espace-creation[data-historical-body] > nav { display: none; }
+.editor-commands #adult-base { padding-block: 4px; }
+.editor-commands #adult-base label { max-width: 24rem; }
+.editor-commands #editor-latent pre {
+  max-height: 55vh; overflow: auto; padding: 12px;
+  background: var(--paper); border: 1px solid var(--line); border-radius: 7px;
+}
+.editor-commands #historical-settings,
+.editor-commands #editor-draws,
+.editor-commands #editor-latent { padding-inline: 12px; border: 1px solid var(--line); border-radius: 7px; }
+.editor-commands [data-draw-module] { padding-bottom: 12px; }
+.editor-commands #historical-settings > button { margin: 4px 0; }
