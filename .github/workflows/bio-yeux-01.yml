@@ -4,6 +4,7 @@ on:
     paths:
       - 'bio-yeux-01/**'
       - 'preview/bio-socle-02-r01/**'
+      - 'preview/bio-epure-03-l01-r01/**'
       - '.github/workflows/bio-yeux-01.yml'
 permissions:
   contents: read
@@ -32,6 +33,16 @@ jobs:
         run: |
           node preview/bio-socle-02-r01/build.mjs "$ARTIFACT_DIR/bio-socle-pages"
           PREVIEW_SOURCE="$(git rev-parse HEAD)" PREVIEW_DIR="$ARTIFACT_DIR/bio-socle-pages" ARTIFACT_DIR="$ARTIFACT_DIR/bio-socle" node bio-yeux-01/tests/bio-socle-browser.cjs
+      - name: Recette des trois espaces et comparaison graphique R02
+        run: |
+          before=$(mktemp -d)
+          git worktree add --detach "$before/source" 6d5484d9350b05cf1de3eee1a4173853685008f9
+          git config --global --add safe.directory "$before/source"
+          ln -s "$GITHUB_WORKSPACE/node_modules" "$before/source/node_modules"
+          node "$before/source/preview/bio-socle-02-r01/build.mjs" "$ARTIFACT_DIR/reference"
+          node preview/bio-epure-03-l01-r01/build.mjs "$ARTIFACT_DIR/epure-pages"
+          PREVIEW_MISSION=BIO-EPURE-03-L01-R01 PREVIEW_DIR="$ARTIFACT_DIR/epure-pages" ARTIFACT_DIR="$ARTIFACT_DIR/epure-socle" node bio-yeux-01/tests/bio-socle-browser.cjs
+          PREVIEW_DIR="$ARTIFACT_DIR/epure-pages" REFERENCE_DIR="$ARTIFACT_DIR/reference" node bio-yeux-01/tests/editor-spaces-browser.cjs
       - name: Rejouer l’interface BIO-YEUX-01 publiée avant A/B/C
         run: |
           legacy_preview=$(mktemp -d)

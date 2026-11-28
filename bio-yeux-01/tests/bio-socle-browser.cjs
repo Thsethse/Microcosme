@@ -6,7 +6,9 @@ const {chromium, devices, webkit} = require('playwright');
 
 const engines = {chromium, webkit};
 const files = {'index.html': 'text/html', 'style.css': 'text/css', 'version.json': 'application/json'};
-const prefix = '/preview/bio-socle-02-r01/';
+const mission = process.env.PREVIEW_MISSION ?? 'BIO-SOCLE-02-R02';
+const hasSpaces = mission === 'BIO-EPURE-03-L01-R01';
+const prefix = hasSpaces ? '/preview/bio-epure-03-l01-r01/' : '/preview/bio-socle-02-r01/';
 const viewBoxes = ['-30 -65 220 225', '-40 -85 240 355', '-35 -68 230 245'];
 
 async function ready(browser, url, startup) {
@@ -35,7 +37,7 @@ async function verifyBuild(browser, url) {
     const manifest = await page.goto(new URL('version.json', url).href);
     assert.equal(manifest.status(), 200);
     const data = await manifest.json();
-    assert.equal(data.mission, 'BIO-SOCLE-02-R02');
+    assert.equal(data.mission, mission);
     assert.match(data.sourceCommit, /^[\da-f]{40}$/);
     if (process.env.PREVIEW_SOURCE) assert.equal(data.sourceCommit, process.env.PREVIEW_SOURCE);
     assert.match(data.startup, /^atelier-[\da-f]{16}\.js$/);
@@ -57,8 +59,20 @@ async function verifyBuild(browser, url) {
 }
 
 const control = (page, id) => page.locator('#' + id);
-const nav = (page, hash) => page.locator(`nav a[href="#${hash}"]`).tap();
-const base = (page, body) => page.locator(`[data-thorax-body="adult-${body}"]`).tap();
+async function space(page, name) {
+  if (!hasSpaces) return;
+  const tab = control(page, 'open-' + name);
+  if (await tab.getAttribute('aria-pressed') !== 'true') await tab.tap();
+}
+const nav = async (page, hash) => {
+  await space(page, hash === 'resident-preview' ? 'technique' : 'creation');
+  await page.locator(`nav a[href="#${hash}"]`).tap();
+};
+const base = async (page, body) => {
+  await space(page, 'creation');
+  await page.locator(`[data-thorax-body="adult-${body}"]`).tap();
+};
+const workshopViews = page => page.locator(`${hasSpaces ? '#editor-current' : '#comparison'} [data-side=after] svg`);
 const snapshots = locator => locator.evaluateAll(svgs => svgs.map(svg => ({
   viewBox: svg.getAttribute('viewBox'),
   markup: svg.outerHTML.replaceAll(/(?:resident|atelier-yeux)-\d+/g, 'stable')
@@ -81,6 +95,7 @@ async function intermediate(page, id, fraction) {
 }
 
 async function exportWorkshop(page) {
+  await space(page, 'technique');
   await control(page, 'workshop-archive-link').tap();
   await control(page, 'appearance-export').tap();
   assert.equal(await control(page, 'appearance-error').textContent(), '');
@@ -89,6 +104,7 @@ async function exportWorkshop(page) {
 }
 
 async function importWorkshop(page, data) {
+  await space(page, 'technique');
   await control(page, 'workshop-archive-link').tap();
   await control(page, 'appearance-json').fill(JSON.stringify(data));
   await control(page, 'appearance-import').tap();
@@ -143,7 +159,7 @@ async function thorax(page) {
     assert.equal(h.pectorals.volume, 100);
     assert.equal(f.chest.width, fWidth);
     assert.equal(f.chest.volume, 0);
-    archives.push({body, document, views: await threeViews(page.locator('#comparison [data-side=after] svg'))});
+    archives.push({body, document, views: await threeViews(workshopViews(page))});
   }
   return {archives, fWidth, hWidth, fVolume, hVolume};
 }
@@ -154,7 +170,7 @@ async function restoreThorax(browser, url, startup, thoraxState) {
     try {
       await importWorkshop(page, document);
       assert.equal(await control(page, 'body').inputValue(), 'adult-' + body);
-      assert.deepEqual(await threeViews(page.locator('#comparison [data-side=after] svg')), views);
+      assert.deepEqual(await threeViews(workshopViews(page)), views);
       assert.deepEqual(await exportWorkshop(page), document);
       await base(page, 'f');
       assert.equal(await control(page, 'chest-width').isDisabled(), true);
@@ -197,6 +213,7 @@ async function beardArchives(page) {
   for (const body of ['h', 'f']) {
     await base(page, body);
     for (const category of ['H', 'F', 'T']) {
+      await space(page, 'creation');
       await control(page, 'beard-category').selectOption(category);
       const document = await exportWorkshop(page);
       const hair = document.active.facialHair;
@@ -212,6 +229,7 @@ async function beardArchives(page) {
   }
 
   const category = control(page, 'beard-category');
+  await space(page, 'creation');
   await category.selectOption('F');
   const intact = await exportWorkshop(page);
   // Reproduce the two observed failure paths at the DOM boundary.
@@ -223,6 +241,7 @@ async function beardArchives(page) {
   assert.deepEqual(await exportWorkshop(page), intact);
   assert.equal(await category.inputValue(), 'F');
 
+  await space(page, 'creation');
   await category.selectOption('T');
   await control(page, 'beard-active').uncheck();
   const latent = await exportWorkshop(page);
@@ -240,6 +259,7 @@ async function restoreBeards(browser, url, startup, archives) {
       assert.equal(await control(page, 'beard-category').inputValue(), archive.active.facialHair.category);
       assert.deepEqual(await exportWorkshop(page), archive);
     }
+    await space(page, 'creation');
     await control(page, 'beard-active').check();
     const active = (await exportWorkshop(page)).active.facialHair;
     assert.deepEqual(active.requested, archives.at(-1).active.facialHair.latent);
