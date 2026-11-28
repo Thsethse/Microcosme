@@ -45,7 +45,7 @@ const versions = {
 
 const q = id => document.getElementById(id);
 
-export function mountCommandLayout() {
+export function mountCommandLayout({proceduralFace} = {}) {
   document.body.classList.add('editor-commands');
   const creation = q('espace-creation');
   const body = document.createElement('section');
@@ -78,6 +78,17 @@ export function mountCommandLayout() {
     <p id="historical-nose-status" class="hint" role="status"></p>`;
   const baseWidth = q('structure-base').closest('label');
   lab.append(q('beard-category').closest('label'), baseWidth, q('reset-eyes'));
+  if (proceduralFace) {
+    const actions = document.createElement('div');
+    actions.className = 'actions';
+    for (const id of ['brows-reset', 'nose-reset', 'mouth-reset']) {
+      const button = q(id);
+      const previous = button.parentElement;
+      actions.append(button);
+      if (!previous.childElementCount) previous.remove();
+    }
+    lab.append(actions);
+  }
   experiments.append(lab);
 
   const drawPanel = document.createElement('details');
