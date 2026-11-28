@@ -306,3 +306,29 @@ button:disabled, input:disabled, select:disabled { opacity: .65; }
 #resident-preview .resident-views { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); margin: 1rem 0; }
 #resident-preview textarea { width: 100%; }
 #resident-preview pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+.editor-spaces [data-editor-space] > section,
+.editor-spaces [data-editor-space] > section > section { margin-bottom: 32px; }
+.editor-spaces :is(section, details, #atelier-thorax, #atelier-bassin) { scroll-margin-top: 116px; }
+#editor-navigation {
+  position: sticky; top: 0; z-index: 3;
+  padding: 8px 0;
+  background: #f6f2e8;
+}
+#editor-navigation nav { gap: 8px; }
+#editor-navigation button { flex: 1; min-width: min-content; }
+#editor-navigation button[aria-pressed=true] { color: white; background: var(--green); }
+#editor-alerts:not(:empty) {
+  max-height: 25vh; overflow-y: auto; padding: 8px 10px; margin-top: 8px;
+  border: 1px solid currentColor; border-radius: 7px; background: var(--paper);
+}
+.editor-spaces [role=alert] { color: #893b2b; }
+.editor-spaces [role=alert]:not(#editor-alerts):empty { display: none; }
+.editor-spaces [data-editor-space] > nav { margin: 8px 0 18px; gap: 0 16px; scroll-margin-top: 60px; }
+#editor-current { grid-template-columns: minmax(0, 1fr); }
+#eye-experiments, #historical-choices, #makeup-experiments { padding-inline: 12px; border: 1px solid var(--line); border-radius: 7px; }
+#makeup-exchange .makeup-actions { margin-bottom: 8px; }
+#formats-habitant pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+.editor-table { overflow-x: auto; }
+.editor-table table { width: 100%; border-collapse: collapse; }
+.editor-table th, .editor-table td { padding: 8px; text-align: left; border-bottom: 1px solid var(--line); }

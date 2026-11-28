@@ -40,8 +40,10 @@ export function studySkin(svg,skin) {
 
 export function mountFreckleStudy(naturalEyes=false) {
   const list=document.getElementById('freckle-case'), gallery=document.getElementById('freckle-study');
+  const panel = gallery.closest('details');
   list.append(...freckleCases.map((study,i)=>new Option(study.label,String(i))));
   function refresh(){
+    if (panel && !panel.open) return;
     const study=freckleCases[Number(list.value)];
     gallery.innerHTML=freckleDensities.map(([density,label])=>
       `<article class="freckle-row" data-density="${density}"><h3>Densité ${label.toLowerCase()}</h3><div class="freckle-scales">`+
@@ -49,5 +51,8 @@ export function mountFreckleStudy(naturalEyes=false) {
         `<figcaption>${view[1]}</figcaption></figure>`).join('')+'</div></article>').join('');
   }
   list.addEventListener('change',refresh);
+  panel?.addEventListener('toggle', () => {
+    if (!gallery.firstElementChild) refresh();
+  });
   refresh();
 }

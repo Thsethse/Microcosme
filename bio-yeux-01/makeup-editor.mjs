@@ -236,20 +236,23 @@ export function mountMakeupEditor({input, eyes, context, render}) {
     if (library.has(selection)) saved.value = selection;
     q('apply').disabled = !saved.value;
   }
-  function perform(action) {
+  const exchangeStatus = q('exchange-message') ?? message;
+  const exchangeError = q('exchange-error') ?? message;
+  function perform(action, errorTarget = q('error') ?? message) {
+    if (errorTarget !== message) errorTarget.textContent = '';
     try {
       action();
     } catch (error) {
-      message.textContent = error.message;
+      errorTarget.textContent = error.message;
     }
   }
-  function apply(composition, feedback) {
+  function apply(composition, feedback, status = message) {
     values = composition;
     shown = true;
     selected = 0;
     stopPlacing();
     updatePresets();
-    message.textContent = feedback;
+    status.textContent = feedback;
     commit();
   }
   q('save').addEventListener('click', () => perform(() => {
@@ -268,10 +271,13 @@ export function mountMakeupEditor({input, eyes, context, render}) {
   }));
   q('export').addEventListener('click', () => {
     json.value = JSON.stringify(makeupDocument(values), null, 2);
-    message.textContent = 'Composition exportée en JSON.';
+    if (exchangeError !== message) exchangeError.textContent = '';
+    exchangeStatus.textContent = 'Composition exportée en JSON.';
   });
-  q('import').addEventListener('click', () => perform(() =>
-    apply(parseMakeup(json.value), 'Composition importée et appliquée au visage actuel.')));
+  q('import').addEventListener('click', () => {
+    exchangeStatus.textContent = '';
+    perform(() => apply(parseMakeup(json.value), 'Composition importée et appliquée au visage actuel.', exchangeStatus), exchangeError);
+  });
 
   updatePresets();
   perform(() => refreshLibrary());

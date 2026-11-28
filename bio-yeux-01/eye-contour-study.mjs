@@ -41,7 +41,8 @@ export function mountEyeContourStudy() {
   const panel = document.getElementById('eye-contour-panel');
   const gallery = document.getElementById('eye-contour-study');
   section.hidden = false;
-  document.querySelector('a[href="#planche-contours"]').hidden = false;
+  const link = document.querySelector('a[href="#planche-contours"]');
+  if (link) link.hidden = false;
 
   function refresh() {
     if (gallery.firstElementChild || !panel.open) return;

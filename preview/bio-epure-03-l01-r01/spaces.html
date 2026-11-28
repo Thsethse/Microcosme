@@ -1,0 +1,56 @@
+<template id="editor-spaces">
+  <div id="editor-navigation">
+    <nav aria-label="Espaces de l’atelier">
+      <button type="button" id="open-creation" aria-controls="espace-creation" aria-pressed="true">Création</button>
+      <button type="button" id="open-laboratoire" aria-controls="espace-laboratoire" aria-pressed="false">Laboratoire</button>
+      <button type="button" id="open-technique" aria-controls="espace-technique" aria-pressed="false">Technique</button>
+    </nav>
+    <div id="editor-alerts" role="alert" aria-atomic="true"></div>
+  </div>
+  <div id="editor-feedback"></div>
+  <div id="espace-creation" data-editor-space="creation">
+    <nav aria-label="Dans Création"></nav>
+  </div>
+  <div id="espace-laboratoire" data-editor-space="laboratoire" hidden>
+    <nav aria-label="Dans Laboratoire"></nav>
+    <section id="comparaisons">
+      <h2>Comparaisons du personnage</h2>
+      <details id="editor-comparison">
+        <summary>Avant / après et enveloppes</summary>
+        <div class="toolbar"></div>
+      </details>
+    </section>
+    <section id="experiences">
+      <h2>Expérimentations</h2>
+      <details id="eye-experiments"><summary>Tirage et ajustement manuel des yeux</summary></details>
+      <details id="historical-choices"><summary>Coiffures historiques</summary></details>
+      <details id="makeup-experiments"><summary>Tirage de maquillage</summary></details>
+    </section>
+    <section id="planches-visage"><h2>Études du visage</h2></section>
+    <section id="planches-corps"><h2>Études anatomiques</h2></section>
+    <section id="planches-cheveux"><h2>Études chromatiques des cheveux</h2></section>
+  </div>
+  <div id="espace-technique" data-editor-space="technique" hidden>
+    <nav aria-label="Dans Technique"></nav>
+    <section id="formats-atelier"><h2>Archive de l’atelier H/F</h2></section>
+    <section id="formats-habitant"><h2>Fiche habitant</h2></section>
+    <section id="formats-historique"><h2>Sélection historique</h2></section>
+    <section id="makeup-exchange">
+      <h2>Échange JSON de maquillage</h2>
+      <p id="makeup-exchange-message" class="hint" role="status"></p>
+      <p id="makeup-exchange-error" role="alert"></p>
+    </section>
+    <section id="diagnostics">
+      <h2>Diagnostics</h2>
+      <details>
+        <summary>Ouverture des yeux · précision du solveur</summary>
+        <div class="editor-table">
+          <table>
+            <thead><tr><th scope="col">Paramètre</th><th scope="col">Demande</th><th scope="col">Valeur effective</th><th scope="col">Domaine direct</th></tr></thead>
+            <tbody id="eye-precision"></tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+  </div>
+</template>

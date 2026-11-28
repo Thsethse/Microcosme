@@ -42,8 +42,11 @@ import {mountMakeupEditor} from './makeup-editor.mjs';
 import {mountMakeupStudy} from './makeup-study.mjs';
 import {mountEyeContourStudy} from './eye-contour-study.mjs';
 import {eyeControls, eyePresets, eyesFor, normalizeEyes} from './eyes.mjs';
+import {mountEditorSpaces} from './editor-spaces.mjs';
 
 const q = selector => document.querySelector(selector);
+const spacesTemplate = q('#editor-spaces');
+const studyOpen = panel => panel.open && !panel.closest('[data-editor-space][hidden]');
 const naturalEyes = q('#atelier').hasAttribute('data-natural-eyes');
 const format = new Intl.NumberFormat('fr-FR', {maximumFractionDigits: 2});
 const escape = value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;');
@@ -196,6 +199,15 @@ function renderEyes() {
     slider.setAttribute('aria-valuetext', adjusted ? `${requested} demandé, ${shown} effectif` : shown);
     q(`output[for="eye-${key}"]`).textContent = adjusted ? `${requested} → ${shown}` : shown;
   }
+  if (spacesTemplate) {
+    q('#eye-precision').innerHTML = Object.entries(eyeControls).map(([key, {label}]) => {
+      const unit = eyeControls[key].unit === '°' ? '°' : ' %';
+      const exact = value => fullPrecision.format(value) + unit;
+      const requested = result.requested ? exact(result.requested[key]) : 'Historique';
+      return `<tr><th scope="row">${escape(label)}</th><td>${requested}</td><td>${exact(editingValues[key])}</td>
+        <td>${escape(q('#eye-domain-' + key).textContent)}</td></tr>`;
+    }).join('');
+  }
   const status = q('#eye-status');
   const text = !eyes ? 'Rendu historique actif. Déplacer un curseur démarre une forme personnalisée.' :
     result.corrected.length ? 'Les valeurs à droite sont les valeurs appliquées.' : 'Toutes les valeurs demandées sont appliquées.';
@@ -214,9 +226,12 @@ function renderEyes() {
 
 function renderComparison() {
   const guides = q('#eye-guides').checked;
+  const background = q('#background').value;
+  const comparisonPanel = q('#editor-comparison');
+  const compare = !comparisonPanel || studyOpen(comparisonPanel);
   const comparison = q('#comparison');
   comparison.dataset.eyes = selectedForm;
-  comparison.className = 'comparison ' + q('#background').value;
+  comparison.className = 'comparison ' + background;
   q('#guide-note').hidden = !guides;
   const pigment=irisEditor.value();
   const details = detailsEditor.value();
@@ -249,8 +264,8 @@ function renderComparison() {
   q('#brows-before-wrap').hidden = !brows || !!mouth || !!nose || !!beard || !!marks || !!scars;
   q('#details-before-wrap').hidden = !details || !!brows || !!mouth || !!nose || !!beard || !!marks || !!scars;
   q('#iris-before-mode').parentElement.hidden = !!details || !!brows || !!mouth || !!nose || !!beard || !!marks || !!scars;
-  const sizes = settings => [['head', 'Tête · 300 px'], ['tile', 'Corps · 178 px'], ['mini', 'Miniature · 70 × 70 px']]
-    .map(([view, caption]) => `<figure><div class="surface ${view}">${svg({view, guides, ...settings})}</div><figcaption>${caption}</figcaption></figure>`).join('');
+  const sizes = (settings, withGuides = guides) => [['head', 'Tête · 300 px'], ['tile', 'Corps · 178 px'], ['mini', 'Miniature · 70 × 70 px']]
+    .map(([view, caption]) => `<figure><div class="surface ${view}">${svg({view, guides: withGuides, ...settings})}</div><figcaption>${caption}</figcaption></figure>`).join('');
   const title = makeup ? 'Visage maquillé' : scars ? 'Cicatrices' : marks ? 'Marques cutanées' : beard ? 'Pilosité personnalisée' : nose ? 'Nez personnalisé' : mouth ? 'Bouche personnalisée' : brows ? 'Sourcils personnalisés' :
     details ? 'Détails personnalisés' : pigment ? 'Iris personnalisés' : eyePresets[selectedForm]?.label ?? otherLabels[selectedForm];
   const before = compareMakeup ? 'Visage actuel sans maquillage' : makeup ? 'Historique' : compareScars ? 'Visage actuel sans cicatrices' : compareMarks ? 'Visage actuel sans marques' : compareBeard ? 'Visage actuel, imberbe' : compareNose ? 'Nez historique' : compareMouth ? 'Bouche historique' : compareBrows ? 'Sourcils historiques' :
@@ -268,10 +283,17 @@ function renderComparison() {
   };
   const current = {value:eyes,pigment,details,brows,mouth,nose,beard,beardCategory,marks,scars};
   const referenceSettings = compareMakeup ? current : makeup ? {value:null} : comparisonReference;
-  comparison.innerHTML = `<article data-side="before"><h3>${before}</h3>${sizes(referenceSettings)}</article><article data-side="after"><h3>${title}</h3>${sizes({...current,makeup})}</article>`;
+  const after = (withGuides) => `<article data-side="after"><h3>${title}</h3>${sizes({...current,makeup}, withGuides)}</article>`;
+  if (compare) {
+    comparison.innerHTML = `<article data-side="before"><h3>${before}</h3>${sizes(referenceSettings)}</article>${after(guides)}`;
+  }
+  const currentView = q('#editor-current');
+  if (currentView) {
+    currentView.className = 'comparison ' + background;
+    currentView.innerHTML = after(false);
+  }
 
   const renderBody = settings => svg({...current, makeup, ...settings});
-  const background = q('#background').value;
   if (isAdultBody(selection.state.body)) {
     const preview = q('#structure-live');
     preview.className = 'surface tile ' + background;
@@ -288,29 +310,29 @@ function renderComparison() {
     pelvis.innerHTML=renderBody({view:'tile',frame:pelvicCloseup});
   }
   const bodyStudy = q('#planche-corps');
-  if (bodyStudy.open) {
+  if (studyOpen(bodyStudy)) {
     renderBodyStudy(bodyStudy, {render:renderBody, chin:model(inputFor()).anchors.chin, bodies, background});
   }
   const structureStudy = q('#planche-ossature');
-  if (structureStudy.open) renderStructureStudy(structureStudy, {render:renderBody, background});
+  if (studyOpen(structureStudy)) renderStructureStudy(structureStudy, {render:renderBody, background});
   const corpulenceStudy = q('#planche-corpulence');
-  if (corpulenceStudy.open) renderCorpulenceStudy(corpulenceStudy, {render:renderBody, background});
+  if (studyOpen(corpulenceStudy)) renderCorpulenceStudy(corpulenceStudy, {render:renderBody, background});
   const chestStudy = q('#planche-poitrine');
-  if (chestStudy.open) renderChestStudy(chestStudy, {render:renderBody, background});
+  if (studyOpen(chestStudy)) renderChestStudy(chestStudy, {render:renderBody, background});
   const pectoralStudy=q('#planche-pectoraux');
-  if (pectoralStudy.open) renderPectoralStudy(pectoralStudy,{render:renderBody,background});
+  if (studyOpen(pectoralStudy)) renderPectoralStudy(pectoralStudy,{render:renderBody,background});
   const thoraxDetailsStudy=q('#planche-details-thorax');
-  if (thoraxDetailsStudy.open) renderThoraxDetailsStudy(thoraxDetailsStudy,{render:renderBody,background});
+  if (studyOpen(thoraxDetailsStudy)) renderThoraxDetailsStudy(thoraxDetailsStudy,{render:renderBody,background});
   const boneReliefStudy=q('#planche-reliefs-osseux');
-  if (boneReliefStudy.open) renderBoneReliefStudy(boneReliefStudy,{render:renderBody,background});
+  if (studyOpen(boneReliefStudy)) renderBoneReliefStudy(boneReliefStudy,{render:renderBody,background});
   const abdominalStudy=q('#planche-abdominaux');
-  if (abdominalStudy.open) renderAbdominalStudy(abdominalStudy,{render:renderBody,background});
+  if (studyOpen(abdominalStudy)) renderAbdominalStudy(abdominalStudy,{render:renderBody,background});
   const bellyDetailStudy=q('#planche-pli-nombril');
-  if (bellyDetailStudy.open) renderBellyDetailStudy(bellyDetailStudy,{render:renderBody,background});
+  if (studyOpen(bellyDetailStudy)) renderBellyDetailStudy(bellyDetailStudy,{render:renderBody,background});
   const pelvicStudy=q('#diagnostic-pelvien');
-  if (pelvicStudy.open) renderPelvicStudy(pelvicStudy,{render:renderBody,chin:model(inputFor('shaved:U')).anchors.chin,background});
+  if (studyOpen(pelvicStudy)) renderPelvicStudy(pelvicStudy,{render:renderBody,chin:model(inputFor('shaved:U')).anchors.chin,background});
   const pubicStudy=q('#planche-anatomie-pelvienne');
-  if (pubicStudy.open) renderPelvicAnatomyStudy(pubicStudy,{render:renderBody,background});
+  if (studyOpen(pubicStudy)) renderPelvicAnatomyStudy(pubicStudy,{render:renderBody,background});
 
   const {envelopes:[left,right],maxWidth,reference}=eyesFor(inputFor(),null).face;
   const x=left.x-maxWidth/2-2, width=right.x+maxWidth/2+2-x;
@@ -360,6 +382,8 @@ function renderComparison() {
 }
 
 function renderChart() {
+  const panel = q('#planche-panel');
+  if (panel && !studyOpen(panel)) return;
   const {envelopes: [left, right], maxWidth} = eyesFor(inputFor(), null).face;
   const x = left.x - maxWidth / 2 - 3;
   const width = right.x + maxWidth / 2 + 3 - x;
@@ -544,13 +568,13 @@ function surface(view, settings, background = q('#background').value) {
 }
 
 function renderPaletteStudies() {
-  if (q('#series-panel').open) {
+  if (studyOpen(q('#series-panel'))) {
     q('#series-grid').innerHTML = palette.map(p => {
       const settings = {hair: p.id};
       return `<article class="card"><h3>${p.name}</h3><p class="hint">${p.fill} · ${p.stroke}</p>${surface('tile', settings)}<div class="twins">${surface('mini', settings, 'light')}${surface('mini', settings, 'dark')}</div><button type="button" data-pick="${p.id}" ${available.palette ? '' : 'disabled'}>Choisir ${p.name}</button></article>`;
     }).join('');
   }
-  if (q('#variety-panel').open) {
+  if (studyOpen(q('#variety-panel'))) {
     q('#variety-grid').innerHTML = variety.map(key => {
       const entry = choice(key);
       return `<article class="card"><h3>${entry.label}</h3><p class="hint">${escape(entry.name)}</p>${surface('tile', {key})}${surface('mini', {key})}<button type="button" data-key="${key}">Inspecter ${entry.label}</button></article>`;
@@ -832,6 +856,15 @@ q('#appearance-import').addEventListener('click', () => {
   }
 });
 
+const editorSpaces = spacesTemplate && mountEditorSpaces(spacesTemplate, space => {
+  if (space !== 'laboratoire') return;
+  if ([...q('#espace-laboratoire').querySelectorAll('#editor-comparison, #planches-corps details')].some(studyOpen)) renderComparison();
+  renderChart();
+  renderPaletteStudies();
+});
+q('#editor-comparison')?.addEventListener('toggle', event => { if (studyOpen(event.target)) renderComparison(); });
+q('#planche-panel')?.addEventListener('toggle', event => { if (studyOpen(event.target)) renderChart(); });
+
 const irisEditor=mountIrisEditor({input:inputFor,eyes:()=>eyes,render:renderComparison});
 const detailsEditor=mountDetailsEditor({input:inputFor,eyes:()=>eyes,render:()=>{
   noseEditor.refresh();
@@ -877,3 +910,4 @@ mountResidentPreview(q('#resident-preview'));
 q('#workshop-archive-link')?.addEventListener('click', () => { q('#appearance-panel').open = true; });
 q('#atelier').dataset.startup = 'ready';
 q('#atelier-startup').hidden = true;
+editorSpaces?.showFragment();
